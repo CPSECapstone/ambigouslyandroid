@@ -33,11 +33,12 @@ class VerticalSliceNetworkCalls {
                     url,
                     null,
                     Response.Listener { response ->
-                        val strList = response.getJSONArray("strings")
+                        //TODO: this shouldn't crash the entire app when a network request fails
+                        /*val strList = response.getJSONArray("strings")
                         val returnList = ArrayList<String>()
                         for (i in 0..strList.length()) {
                             returnList[i] = strList.getString(i)
-                        }
+                        }*/
                         cont.resume(listOf("HI!", "HELLO!", "SUP!"))
                     },
                     Response.ErrorListener {
