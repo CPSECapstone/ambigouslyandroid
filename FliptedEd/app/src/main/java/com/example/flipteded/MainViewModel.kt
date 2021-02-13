@@ -30,6 +30,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun save(str : String) {
         viewModelScope.launch {
             VerticalSliceNetworkCalls.sendStringToAWS(getApplication(), str)
+            _data.value = VerticalSliceNetworkCalls.getStringsFromAWS(getApplication())
         }
     }
 }
