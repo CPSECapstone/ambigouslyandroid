@@ -18,7 +18,7 @@ class StringViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 }
 
 class StringViewAdapter : RecyclerView.Adapter<StringViewHolder>() {
-    private var data : List<String> = listOf("TEST 1", "TEST 2", "test 3")
+    private var data : List<String> = listOf("No data yet")
 
     fun updateData(newData : List<String>) {
         data = newData

@@ -43,7 +43,6 @@ class ItemListActivity : AppCompatActivity() {
                 .commitNow()
         }
 
-        viewModel.refresh();
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
