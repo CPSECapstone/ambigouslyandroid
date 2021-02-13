@@ -11,7 +11,7 @@ import kotlin.coroutines.suspendCoroutine
 class VerticalSliceNetworkCalls {
     companion object {
 
-        suspend fun sendStringToAWS(applicationContext: Context, str: String) =
+        suspend fun sendStringToAWS(context: Context, str: String) =
             suspendCoroutine<Unit> { cont ->
 
                 val url = "https://reqres.in/api/users"
@@ -21,10 +21,10 @@ class VerticalSliceNetworkCalls {
                     },
                     Response.ErrorListener { cont.resume(Unit) })
 
-                RequestHandler.getInstance(applicationContext).addToRequestQueue(stringRequest)
+                RequestHandler.getInstance(context).addToRequestQueue(stringRequest)
             }
 
-        suspend fun getStringsFromAWS(applicationContext: Context) =
+        suspend fun getStringsFromAWS(context: Context) =
             suspendCoroutine<List<String>> { cont ->
                 val url = "https://reqres.in/api/users?page=2"
 
@@ -44,7 +44,7 @@ class VerticalSliceNetworkCalls {
                         cont.resume(listOf<String>())
                     }
                 )
-                RequestHandler.getInstance(applicationContext).addToRequestQueue(jsonArrayRequest)
+                RequestHandler.getInstance(context).addToRequestQueue(jsonArrayRequest)
             }
     }
 }
