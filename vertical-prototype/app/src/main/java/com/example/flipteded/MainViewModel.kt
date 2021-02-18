@@ -16,8 +16,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         viewModelScope.launch {
-            _data.value = VerticalSliceNetworkCalls.getStringsFromAWS(getApplication())
-            delay(REFRESH_PERIOD)
+            while(true) {
+                _data.value = VerticalSliceNetworkCalls.getStringsFromAWS(getApplication())
+                delay(REFRESH_PERIOD)
+            }
         }
     }
 
