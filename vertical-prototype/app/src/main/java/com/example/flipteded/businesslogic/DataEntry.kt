@@ -1,3 +1,3 @@
 package com.example.flipteded.businesslogic
 
-class DataEntry(val item : String)
+data class DataEntry(val item : String)
