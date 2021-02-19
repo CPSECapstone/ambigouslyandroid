@@ -1,10 +1,11 @@
-package com.example.flipteded
+package com.example.flipteded.ui
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.flipteded.R
 
 
 class StringViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -27,7 +28,13 @@ class StringViewAdapter : RecyclerView.Adapter<StringViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StringViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return StringViewHolder(inflater.inflate(R.layout.item_list_content, parent, false))
+        return StringViewHolder(
+            inflater.inflate(
+                R.layout.item_list_content,
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount() = data.size

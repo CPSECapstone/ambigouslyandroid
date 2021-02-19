@@ -1,4 +1,4 @@
-package com.example.flipteded
+package com.example.flipteded.ui
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -14,7 +14,8 @@ class RequestHandler constructor(context: Context) {
         private var INSTANCE: RequestHandler? = null
         fun getInstance(context: Context) =
             INSTANCE ?: synchronized(this) {
-                INSTANCE ?: RequestHandler(context).also {
+                INSTANCE
+                    ?: RequestHandler(context).also {
                     INSTANCE = it
                 }
             }
