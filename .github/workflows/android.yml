@@ -2,14 +2,14 @@ name: Android CI
 
 on: [push, pull_request]
 
+defaults:
+  run:
+    working-directory: vertical-prototype
+        
 jobs:
   test:
     runs-on: macos-latest
-    
-    defaults:
-      run:
-        working-directory: vertical-prototype
-        
+
     steps:
     - name: checkout
       uses: actions/checkout@v2
