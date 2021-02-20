@@ -1,13 +1,27 @@
 name: Android CI
 
-on: [push, pull_request]
-
-defaults:
-  run:
-    working-directory: vertical-prototype
-        
+on: [push, pull_request]        
 jobs:
-  test:
+  non-instrumented:
+
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: vertical-prototype
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      run: ./gradlew test
+
+  instrumented:
     runs-on: macos-latest
 
     steps:
