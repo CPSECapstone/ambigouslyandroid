@@ -2,25 +2,15 @@ name: Android CI
 
 on: [push, pull_request]
 
-env:
-  ANDROID_COMPILE_SDK: "29"
-  ANDROID_BUILD_TOOLS: "29.0.3"
-  SDK_TOOLS: "6200805" # from https://developer.android.com/studio/#command-tools
-  EMULATOR_VERSION: "24"
-  
-
 jobs:
-  build:
-
-    runs-on: macOS-latest
+  test:
+    runs-on: macos-latest
     steps:
     - name: checkout
-      uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
+      uses: actions/checkout@v2
 
     - name: run tests
-      uses: reactivecircus/android-emulator-runner@v1
+      uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
         script: ./gradlew connectedCheck
