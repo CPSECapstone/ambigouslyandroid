@@ -1,20 +1,15 @@
 name: Android CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]     
 
+defaults:
+    run:
+      working-directory: vertical-prototype
 jobs:
-  build:
+  non-instrumented:
 
     runs-on: ubuntu-latest
     
-    defaults:
-      run:
-        working-directory: vertical-prototype
-
     steps:
     - uses: actions/checkout@v2
     - name: set up JDK 1.8
@@ -24,4 +19,21 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew test
+
+  instrumented:
+    runs-on: macos-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+      
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: run tests
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 29
+        script: ./gradlew connectedAndroidTest
+        working-directory: vertical-prototype
