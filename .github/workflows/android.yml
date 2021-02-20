@@ -1,6 +1,12 @@
 name: Android CI
 
 on: [push, pull_request]
+
+env:
+  ANDROID_COMPILE_SDK: "29"
+  ANDROID_BUILD_TOOLS: "29.0.3"
+  SDK_TOOLS: "6200805" # from https://developer.android.com/studio/#command-tools
+  EMULATOR_VERSION: "24"
   
 jobs:
   build:
