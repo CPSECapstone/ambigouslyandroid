@@ -1,23 +1,20 @@
 package com.example.flipteded.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.amplifyframework.auth.AuthProvider
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
 import com.example.flipteded.R
 
 import kotlinx.android.synthetic.main.activity_item_list.*
 import kotlinx.android.synthetic.main.item_list.*
 
-/**
- * An activity representing a list of Pings. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a [ItemDetailActivity] representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
 class ItemListActivity : AppCompatActivity() {
 
     private lateinit var viewModel : MainViewModel
@@ -25,6 +22,13 @@ class ItemListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
+
+        Amplify.Auth.signInWithSocialWebUI(
+            AuthProvider.google(),
+            this,
+            { result -> Log.i("AuthQuickstart", result.toString()) },
+            { error -> Log.e("AuthQuickstart", error.toString()) }
+        )
 
         setSupportActionBar(toolbar)
         toolbar.title = title
@@ -39,6 +43,19 @@ class ItemListActivity : AppCompatActivity() {
                 .commitNow()
         }
 
+        Amplify.Auth.fetchAuthSession(
+            { result -> Log.i("AmplifyQuickstart", result.toString()) },
+            { error -> Log.e("AmplifyQuickstart", error.toString()) }
+        )
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE) {
+            Amplify.Auth.handleWebUISignInResponse(data)
+        }
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {

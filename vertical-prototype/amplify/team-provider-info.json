@@ -10,6 +10,11 @@
       "StackName": "amplify-verticalprototype-dev-121300",
       "StackId": "arn:aws:cloudformation:us-west-2:995147756903:stack/amplify-verticalprototype-dev-121300/098c2bd0-73b8-11eb-a270-0a55fd8456ab",
       "AmplifyAppId": "d2jxcvroi0awn7"
+    },
+    "categories": {
+      "auth": {
+        "verticalprototypee0471754": {}
+      }
     }
   }
 }

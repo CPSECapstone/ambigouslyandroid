@@ -1,1 +1,10 @@
-{}
+{
+  "auth": {
+    "verticalprototypee0471754": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
