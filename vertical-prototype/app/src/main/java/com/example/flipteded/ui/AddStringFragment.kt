@@ -1,4 +1,4 @@
-package com.example.flipteded
+package com.example.flipteded.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
+import com.example.flipteded.R
 
 
 /**

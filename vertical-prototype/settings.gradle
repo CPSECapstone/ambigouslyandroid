@@ -1,3 +1,2 @@
-include ':BusinessLogic'
 rootProject.name='Flipted(ed)'
 include ':app'
