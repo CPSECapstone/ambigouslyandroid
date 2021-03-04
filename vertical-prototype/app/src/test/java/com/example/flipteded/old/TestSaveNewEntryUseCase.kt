@@ -1,4 +1,4 @@
-package com.example.flipteded
+package com.example.flipteded.old
 
 import com.example.flipteded.businesslogic.old.DataEntry
 import com.example.flipteded.businesslogic.old.DataRepo

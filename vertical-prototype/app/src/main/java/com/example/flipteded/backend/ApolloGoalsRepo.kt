@@ -9,7 +9,7 @@ class ApolloGoalsRepo : GoalsRepo {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getGoalById(id: Int): Goal {
+    override suspend fun getGoalById(id: Int): Goal? {
         TODO("Not yet implemented")
     }
 
