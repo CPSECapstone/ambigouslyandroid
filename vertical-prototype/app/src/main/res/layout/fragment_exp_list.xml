@@ -29,6 +29,12 @@
 
         <include layout="@layout/item_list" />
     </FrameLayout>
+    <ExpandableListView
+        android:id="@+id/expandableList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:color/background_light"
+        android:dividerHeight="0.5dp" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
