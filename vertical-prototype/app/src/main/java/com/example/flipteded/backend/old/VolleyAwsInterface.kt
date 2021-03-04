@@ -1,8 +1,8 @@
-package com.example.flipteded.backend
+package com.example.flipteded.backend.old
 
 import android.app.Application
-import com.example.flipteded.businesslogic.DataEntry
-import com.example.flipteded.businesslogic.DataRepo
+import com.example.flipteded.businesslogic.old.DataEntry
+import com.example.flipteded.businesslogic.old.DataRepo
 import java.util.function.Supplier
 
 class VolleyAwsInterface(private val contextSupplier : Supplier<Application>) : DataRepo {

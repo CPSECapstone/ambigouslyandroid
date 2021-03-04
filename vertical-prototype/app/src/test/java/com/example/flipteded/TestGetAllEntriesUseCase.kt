@@ -1,8 +1,8 @@
 package com.example.flipteded
 
-import com.example.flipteded.businesslogic.DataEntry
-import com.example.flipteded.businesslogic.DataRepo
-import com.example.flipteded.businesslogic.GetAllEntriesUseCase
+import com.example.flipteded.businesslogic.old.DataEntry
+import com.example.flipteded.businesslogic.old.DataRepo
+import com.example.flipteded.businesslogic.old.GetAllEntriesUseCase
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import org.junit.Assert.*

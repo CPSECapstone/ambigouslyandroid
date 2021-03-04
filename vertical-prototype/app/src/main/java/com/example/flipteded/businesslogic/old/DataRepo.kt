@@ -1,4 +1,4 @@
-package com.example.flipteded.businesslogic
+package com.example.flipteded.businesslogic.old
 
 interface DataRepo {
     suspend fun getAllEntries() : List<DataEntry>
