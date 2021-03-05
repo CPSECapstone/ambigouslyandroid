@@ -14,11 +14,9 @@ class SaveNewCompletion(private val repo : GoalsRepo) {
         return true
     }
 
-    suspend fun execute(completion : GoalCompletion) : Boolean {
-        if(!validateCompletion(completion))
-            return false; // We might want more granular error reporting in the future
-        repo.saveNewCompletion(completion)
-        return true
-    }
+    suspend fun execute(completion : GoalCompletion) : Goal? =
+        if (validateCompletion(completion))
+            repo.saveNewCompletion(completion)
+        else null
 
 }

@@ -1,0 +1,13 @@
+query AllGoals {
+  goals {
+    id
+    title
+    dueDate
+    target
+    unit
+    completions {
+      name
+      date
+    }
+  }
+}

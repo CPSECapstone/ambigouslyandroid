@@ -13,8 +13,10 @@ class TestGoals {
 
         override suspend fun getGoalById(id: Int) = data.find {it.uid == id}
 
-        override suspend fun saveNewCompletion(completion: GoalCompletion) {
-            data.find{it.uid == completion.parentId}?.completions?.add(completion)
+        override suspend fun saveNewCompletion(completion: GoalCompletion): Goal? {
+            val goal = data.find{it.uid == completion.parentId}
+            goal?.completions?.add(completion)
+            return goal
         }
 
     }
@@ -28,25 +30,25 @@ class TestGoals {
         val date2 = Date(1600000000)
 
         assertEquals(listOf<Goal>(), useCase.execute())
-        repo.data.add(Goal("Test", 2, date, 5, mutableListOf()))
+        repo.data.add(Goal("Test", 2, date, 5, "testunit", mutableListOf()))
         assertEquals(
-            listOf(Goal("Test", 2, date, 5, mutableListOf())),
+            listOf(Goal("Test", 2, date, 5, "testunit", mutableListOf())),
             useCase.execute())
         repo.data[0].completions.add(GoalCompletion("Test Completion", 2, date2))
         assertEquals(
             listOf(
-                Goal("Test", 2, date, 5, mutableListOf(
+                Goal("Test", 2, date, 5, "testunit", mutableListOf(
                 GoalCompletion("Test Completion", 2, date2)
                 ))
             ),
             useCase.execute())
-        repo.data.add(Goal("Test 2", 4, date, 8, mutableListOf()))
+        repo.data.add(Goal("Test 2", 4, date, 8, "testunit", mutableListOf()))
         assertEquals(
             listOf(
-                Goal("Test", 2, date, 5, mutableListOf(
+                Goal("Test", 2, date, 5, "testunit", mutableListOf(
                     GoalCompletion("Test Completion", 2, date2)
                 )),
-                Goal("Test 2", 4, date, 8, mutableListOf())
+                Goal("Test 2", 4, date, 8, "testunit", mutableListOf())
             ),
             useCase.execute())
     }
@@ -64,30 +66,30 @@ class TestGoals {
 
         val futureDate = calendar.time
 
-        repo.data.add(Goal("Test", 2, date, 5, mutableListOf()))
-        repo.data.add(Goal("Test 2", 4, date, 8, mutableListOf()))
+        repo.data.add(Goal("Test", 2, date, 5, "testunit", mutableListOf()))
+        repo.data.add(Goal("Test 2", 4, date, 8, "testunit", mutableListOf()))
 
         assertEquals(
             listOf(
-                Goal("Test", 2, date, 5, mutableListOf()),
-                Goal("Test 2", 4, date, 8, mutableListOf())
+                Goal("Test", 2, date, 5, "testunit", mutableListOf()),
+                Goal("Test 2", 4, date, 8, "testunit", mutableListOf())
             ),
             repo.data)
 
-        assertTrue(useCase.execute(GoalCompletion("Test Completion", 2, date2)))
+        assertNotNull(useCase.execute(GoalCompletion("Test Completion", 2, date2)))
         assertEquals(
             listOf(
-                Goal("Test", 2, date, 5, mutableListOf(
+                Goal("Test", 2, date, 5, "testunit", mutableListOf(
                     GoalCompletion("Test Completion", 2, date2)
                 )),
-                Goal("Test 2", 4, date, 8, mutableListOf())
+                Goal("Test 2", 4, date, 8, "testunit", mutableListOf())
             ),
             repo.data)
 
-        assertFalse(useCase.execute(GoalCompletion("  ", 2, date2)))
-        assertFalse(useCase.execute(
+        assertNull(useCase.execute(GoalCompletion("  ", 2, date2)))
+        assertNull(useCase.execute(
             GoalCompletion("Test Completion", -1, date2)))
-        assertFalse(useCase.execute(
+        assertNull(useCase.execute(
             GoalCompletion("Test Completion", 2, futureDate)))
     }
 }

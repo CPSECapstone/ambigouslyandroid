@@ -7,6 +7,7 @@ data class Goal(
     val uid : Int,
     val dueDate : Date,
     val targetCompletionCount : Int,
+    val unitOfMeasurement : String,
     val completions: MutableList<GoalCompletion>
 )
 
