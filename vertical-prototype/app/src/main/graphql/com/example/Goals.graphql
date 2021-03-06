@@ -11,3 +11,17 @@ query AllGoals {
     }
   }
 }
+
+mutation SaveCompletion($goalId: Int!, $name: String!, $date: String!) {
+  addGoalCompletion(goalId: $goalId, name: $name, date: $date){
+    id,
+    title,
+    dueDate,
+    target,
+    unit,
+    completions {
+      name,
+      date
+    }
+  }
+}

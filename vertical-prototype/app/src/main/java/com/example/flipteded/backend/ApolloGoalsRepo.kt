@@ -5,6 +5,7 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import com.example.AllGoalsQuery
+import com.example.SaveCompletionMutation
 import com.example.flipteded.businesslogic.goals.Goal
 import com.example.flipteded.businesslogic.goals.GoalCompletion
 import com.example.flipteded.businesslogic.goals.GoalsRepo
@@ -52,6 +53,28 @@ class ApolloGoalsRepo : GoalsRepo {
     }
 
     override suspend fun saveNewCompletion(completion: GoalCompletion): Goal? {
-        TODO("Not yet implemented")
+        val response = try {
+            apolloClient.mutate(SaveCompletionMutation(completion.parentId, completion.description, completion.completedDate.time.toString())).await()
+        } catch(e: ApolloException) {
+            Log.e("ApolloGoalsRepo", "Error when mutating backend: ${e.message}")
+            return null
+        }
+
+        if(response.hasErrors() || response.data == null) {
+            Log.e("ApolloGoalsRepo", "Error when mutating backend: bad response")
+            return null
+        }
+
+        return try {
+            response.data!!.addGoalCompletion!!.let {
+                Goal(it.title, it.id!!, Date(it.dueDate.toLong()), it.target!!, it.unit,
+                    it.completions!!.map {comp ->
+                        GoalCompletion(comp!!.name, it.id, Date(comp.date.toLong()))
+                    }.toMutableList())
+            }
+        } catch(e : NullPointerException) {
+            Log.e("ApolloGoalsRepo", "Failed null check when processing received data")
+            null
+        }
     }
 }
