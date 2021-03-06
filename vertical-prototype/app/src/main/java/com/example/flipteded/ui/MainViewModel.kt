@@ -1,43 +1,53 @@
 package com.example.flipteded.ui
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.coroutines.await
-import com.apollographql.apollo.exception.ApolloException
-import com.example.flipteded.backend.old.VolleyAwsInterface
+import com.example.flipteded.backend.ApolloGoalsRepo
+import com.example.flipteded.businesslogic.goals.GetAllGoals
+import com.example.flipteded.businesslogic.goals.Goal
+import com.example.flipteded.businesslogic.goals.GoalCompletion
+import com.example.flipteded.businesslogic.goals.SaveNewCompletion
 import com.example.flipteded.businesslogic.old.DataEntry
-import com.example.flipteded.businesslogic.old.GetAllEntriesUseCase
-import com.example.flipteded.businesslogic.old.SaveNewEntryUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.function.Supplier
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    companion object {
-        const val REFRESH_PERIOD : Long = 1000
-    }
-    private val _data : MutableLiveData<List<String>> = MutableLiveData()
-    val data : LiveData<List<String>>
-        get() = _data
+    private val _goals : MutableLiveData<List<Goal>> = MutableLiveData()
+    val goals : LiveData<List<Goal>>
+        get() = _goals
 
-    private val repo = VolleyAwsInterface( Supplier<Application> { getApplication() })
-    private val getAllEntriesUseCase = GetAllEntriesUseCase(repo)
-    private val setEntryUseCase = SaveNewEntryUseCase(repo)
+    private val repo = ApolloGoalsRepo()
+    private val getAllGoals = GetAllGoals(repo)
+    private val saveCompletion = SaveNewCompletion(repo)
 
-    init {
+    val data : LiveData<List<String>> = MutableLiveData<List<String>>()
+
+    fun reload() {
         viewModelScope.launch {
-            while(true) {
-                _data.value = getAllEntriesUseCase.invoke().map{ it.item }
-                delay(REFRESH_PERIOD)
-            }
+            _goals.value = getAllGoals.execute()
         }
     }
 
-    fun save(str : String) {
+    fun save(completion : GoalCompletion) {
         viewModelScope.launch {
-            setEntryUseCase.invoke(DataEntry(str))
-            _data.value = getAllEntriesUseCase.invoke().map{ it.item }
+            val updatedGoal = saveCompletion.execute(completion)
+            if(updatedGoal == null) {
+                Log.e("MainViewModel", "Error saving updated goal!")
+                //TODO: We need better error handling
+                return@launch
+            }
+            if(_goals.value == null)
+                reload()
+            val idx = _goals.value!!.indexOfFirst{it.uid == updatedGoal.uid}
+            if(idx == -1) {
+                Log.e("MainViewModel", "Saved completion to unknown goal!")
+                _goals.value = _goals.value!! + updatedGoal
+            } else {
+                _goals.value = _goals.value!!.map {
+                    if(it.uid == updatedGoal.uid) updatedGoal else it
+                }
+            }
         }
     }
 }
