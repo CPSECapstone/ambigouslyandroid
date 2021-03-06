@@ -118,8 +118,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
 
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="40dp">
+        android:layout_marginBottom="60dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginLeft="40dp"
+        android:background="@drawable/grey_goal_box"
+        android:layout_marginRight="40dp">
 
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
