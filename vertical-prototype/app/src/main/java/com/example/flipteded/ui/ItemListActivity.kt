@@ -1,17 +1,24 @@
 package com.example.flipteded.ui
 
+
+import android.app.AlertDialog
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
-import androidx.lifecycle.Observer
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import android.widget.EditText;
 import android.widget.ExpandableListAdapter
 import android.widget.ExpandableListView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.flipteded.R
-
 import kotlinx.android.synthetic.main.activity_item_list.*
-import kotlinx.android.synthetic.main.item_list.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.List
+import kotlin.collections.MutableList
+import kotlin.collections.set
+
 
 /**
  * An activity representing a list of Pings. This activity
@@ -27,6 +34,7 @@ class ItemListActivity : AppCompatActivity() {
     private var expandableListView: ExpandableListView? = null
     private var adapter: ExpandableListAdapter? = null
     private var titleList: List<String>? = null
+    private var titleValue: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +44,11 @@ class ItemListActivity : AppCompatActivity() {
         toolbar.title = title
 
         expandableListView = findViewById(R.id.expandableList)
+
+        //Ref for switching group indicator: https://stackoverflow.com/questions/5800426/expandable-list-view-move-group-icon-indicator-to-right
+        val newDisplay = windowManager.defaultDisplay
+        val width = newDisplay.getWidth()
+        expandableListView!!.setIndicatorBoundsRelative(width - 50, width)
 
         val expandableListDetail =
             HashMap<String, List<String>>()
@@ -81,19 +94,44 @@ class ItemListActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            expandableListView!!.setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
-                Toast.makeText(
-                    applicationContext,
-                    "Clicked: " + (titleList as ArrayList<String>)[groupPosition] + " -> " + listData[(
-                            titleList as
-                                    ArrayList<String>
-                            )
-                            [groupPosition]]!!.get(
-                        childPosition
-                    ),
-                    Toast.LENGTH_SHORT
-                ).show()
-                false
+            expandableListView!!.setOnChildClickListener { _, v, groupPosition, childPosition, _ ->
+                titleList = ArrayList(listData.keys)
+                if (v.id == R.id.fragment_mark_progress) {
+                    val mAlertDialog = AlertDialog.Builder(this)
+                    val inflater = this.layoutInflater;
+
+                    //mAlertDialog.setIcon(R.mipmap.ic_launcher_round) //set alertdialog icon
+                    mAlertDialog.setTitle("Mark Progress") //set alertdialog title
+                    //mAlertDialog.setMessage("Your message here") //set alertdialog message
+                    mAlertDialog.setPositiveButton("Save") { dialog, id ->
+                        //perform some tasks here
+                        titleValue = findViewById(R.id.Progress_Title)
+                        //GetValue.getText().toString()
+                        Toast.makeText(this, "Yes", Toast.LENGTH_SHORT).show()
+
+                    }
+                    mAlertDialog.setNegativeButton("Cancel") { dialog, id ->
+                        //perform som tasks here
+                        Toast.makeText(this, "No", Toast.LENGTH_SHORT).show()
+                    }
+                    mAlertDialog.setView(inflater.inflate(R.layout.mark_progress_form, null))
+                    mAlertDialog.show()
+                    false
+                }
+                else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Clicked: " + (titleList as ArrayList<String>)[groupPosition] + " -> " + listData[(
+                                titleList as
+                                        ArrayList<String>
+                                )
+                                [groupPosition]]!!.get(
+                            childPosition
+                        ),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    false
+                }
             }
         }
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application))[MainViewModel::class.java]
