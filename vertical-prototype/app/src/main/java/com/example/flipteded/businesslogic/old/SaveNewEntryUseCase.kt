@@ -1,4 +1,4 @@
-package com.example.flipteded.businesslogic
+package com.example.flipteded.businesslogic.old
 
 
 class SaveNewEntryUseCase (private val repo : DataRepo) {
