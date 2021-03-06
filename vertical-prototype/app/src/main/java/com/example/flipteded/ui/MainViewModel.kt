@@ -8,8 +8,6 @@ import com.example.flipteded.businesslogic.goals.GetAllGoals
 import com.example.flipteded.businesslogic.goals.Goal
 import com.example.flipteded.businesslogic.goals.GoalCompletion
 import com.example.flipteded.businesslogic.goals.SaveNewCompletion
-import com.example.flipteded.businesslogic.old.DataEntry
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -20,8 +18,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val repo = ApolloGoalsRepo()
     private val getAllGoals = GetAllGoals(repo)
     private val saveCompletion = SaveNewCompletion(repo)
-
-    val data : LiveData<List<String>> = MutableLiveData<List<String>>()
 
     fun reload() {
         viewModelScope.launch {

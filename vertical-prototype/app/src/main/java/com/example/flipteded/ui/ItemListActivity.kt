@@ -147,7 +147,7 @@ class ItemListActivity : AppCompatActivity() {
         }
 
     }
-
+/*
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         val adapter = StringViewAdapter()
         recyclerView.adapter = adapter
@@ -156,4 +156,6 @@ class ItemListActivity : AppCompatActivity() {
             adapter.updateData(it);
         })
     }
+    */
+
 }
