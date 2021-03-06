@@ -1,14 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.GoalsFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="40dp"
+        android:textAllCaps="false"
+        android:letterSpacing="50dp"
+        android:text="Goals"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@android:color/black"
+
+        android:textSize="50dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="800dp"
+        android:background="@drawable/rounded_corner"
+        android:textAllCaps="false"
+        android:text="Add New Goal"
+        android:fontFamily="sans-serif-black"
+        android:textSize="20dp"
+        android:textColor="@android:color/white" />
+
+
+    <Button
+        android:id="@+id/button2"
+        android:background="@drawable/one_side_rounded"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="150dp"
+        android:textAllCaps="false"
+        android:text="Individual Goals"
+        android:fontFamily="sans-serif-black"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"/>
+
+
+    <Button
+        android:id="@+id/button3"
+        android:background="@drawable/one_side_rounded"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="240dp"
+        android:textAllCaps="false"
+        android:text="Team Goals"
+        android:fontFamily="sans-serif-black"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"/>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="165dp"
+        android:layout_marginLeft="250dp"
+        android:elevation="2dp"
+        android:minWidth="42dp"
+        android:minHeight="42dp"
+        android:src="@drawable/baseline_keyboard_arrow_right_black_24dp" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="255dp"
+        android:layout_marginLeft="250dp"
+        android:elevation="2dp"
+        android:minWidth="42dp"
+        android:minHeight="42dp"
+        android:src="@drawable/baseline_keyboard_arrow_right_black_24dp" />
+
+
 
 </FrameLayout>
