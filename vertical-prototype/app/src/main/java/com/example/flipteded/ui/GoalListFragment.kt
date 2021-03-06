@@ -2,54 +2,65 @@ package com.example.flipteded.ui
 
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
-import android.widget.EditText;
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.widget.EditText
 import android.widget.ExpandableListAdapter
 import android.widget.ExpandableListView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import com.example.flipteded.R
-import kotlinx.android.synthetic.main.activity_item_list.*
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.List
-import kotlin.collections.MutableList
 import kotlin.collections.set
 
 
 /**
- * An activity representing a list of Pings. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a [ItemDetailActivity] representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
+ * A simple [Fragment] subclass.
+ * Use the [AddStringFragment.newInstance] factory method to
+ * create an instance of this fragment.
  */
-class ItemListActivity : AppCompatActivity() {
+class GoalListFragment : Fragment() {
 
     private lateinit var viewModel : MainViewModel
     private var expandableListView: ExpandableListView? = null
     private var adapter: ExpandableListAdapter? = null
     private var titleList: List<String>? = null
     private var titleValue: EditText? = null
+    private var thiscontext: Context? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_item_list)
+    }
 
-        setSupportActionBar(toolbar)
-        toolbar.title = title
-/*
-        expandableListView = findViewById(R.id.expandableList)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        thiscontext = container!!.getContext();
+        return inflater.inflate(R.layout.fragment_exp_list, container, false)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application))[MainViewModel::class.java]
+
+        expandableListView = view.findViewById(R.id.expandableList)
         //Ref for switching group indicator: https://stackoverflow.com/questions/5800426/expandable-list-view-move-group-icon-indicator-to-right
-        val newDisplay = windowManager.defaultDisplay
-        val width = newDisplay.getWidth()
-        expandableListView!!.setIndicatorBoundsRelative(width - 50, width)
-*/
+        val newDisplay = expandableListView!!.getViewTreeObserver()
+        newDisplay.addOnGlobalLayoutListener(OnGlobalLayoutListener {
+            expandableListView!!.setIndicatorBoundsRelative(
+                expandableListView!!.getRight() - 40,
+                expandableListView!!.getWidth()
+            )
+        })
+
         val expandableListDetail =
             HashMap<String, List<String>>()
         val myFavCricketPlayers: MutableList<String> =
@@ -74,12 +85,13 @@ class ItemListActivity : AppCompatActivity() {
         expandableListDetail["CRICKET PLAYERS"] = myFavCricketPlayers
         expandableListDetail["FOOTBALL PLAYERS"] = myFavFootballPlayers
         expandableListDetail["TENNIS PLAYERS"] = myFavTennisPlayers
-/*
+
         if (expandableListView != null) {
             val listData = expandableListDetail
             titleList = ArrayList(listData.keys)
-            adapter = CustomExpandableListAdapter(this, titleList as ArrayList<String>, listData)
+            adapter = CustomExpandableListAdapter(thiscontext!!, titleList as ArrayList<String>, listData)
             expandableListView!!.setAdapter(adapter)
+            /*
             expandableListView!!.setOnGroupExpandListener { groupPosition ->
                 Toast.makeText(
                     applicationContext,
@@ -87,6 +99,8 @@ class ItemListActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            */
+             /*
             expandableListView!!.setOnGroupCollapseListener { groupPosition ->
                 Toast.makeText(
                     applicationContext,
@@ -94,10 +108,12 @@ class ItemListActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            */
+
             expandableListView!!.setOnChildClickListener { _, v, groupPosition, childPosition, _ ->
                 titleList = ArrayList(listData.keys)
                 if (v.id == R.id.fragment_mark_progress) {
-                    val mAlertDialog = AlertDialog.Builder(this)
+                    val mAlertDialog = AlertDialog.Builder(thiscontext!!)
                     val inflater = this.layoutInflater;
 
                     //mAlertDialog.setIcon(R.mipmap.ic_launcher_round) //set alertdialog icon
@@ -105,22 +121,23 @@ class ItemListActivity : AppCompatActivity() {
                     //mAlertDialog.setMessage("Your message here") //set alertdialog message
                     mAlertDialog.setPositiveButton("Save") { dialog, id ->
                         //perform some tasks here
-                        titleValue = findViewById(R.id.Progress_Title)
+                        titleValue = v.findViewById(R.id.Progress_Title)
                         //GetValue.getText().toString()
-                        Toast.makeText(this, "Yes", Toast.LENGTH_SHORT).show()
+
 
                     }
                     mAlertDialog.setNegativeButton("Cancel") { dialog, id ->
                         //perform som tasks here
-                        Toast.makeText(this, "No", Toast.LENGTH_SHORT).show()
+
                     }
                     mAlertDialog.setView(inflater.inflate(R.layout.mark_progress_form, null))
                     mAlertDialog.show()
                     false
                 }
+
                 else {
                     Toast.makeText(
-                        applicationContext,
+                        thiscontext!!,
                         "Clicked: " + (titleList as ArrayList<String>)[groupPosition] + " -> " + listData[(
                                 titleList as
                                         ArrayList<String>
@@ -132,28 +149,23 @@ class ItemListActivity : AppCompatActivity() {
                     ).show()
                     false
                 }
+
+
             }
         }
-        */
-
-        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application))[MainViewModel::class.java]
-
-        //setupRecyclerView(item_list)
-
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, GoalListFragment.newInstance())
-                .commitNow()
-        }
-
     }
 
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
-        val adapter = StringViewAdapter()
-        recyclerView.adapter = adapter
-
-        viewModel.data.observe(this, Observer {
-            adapter.updateData(it);
-        })
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment AddStringFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance() = GoalListFragment()
     }
 }

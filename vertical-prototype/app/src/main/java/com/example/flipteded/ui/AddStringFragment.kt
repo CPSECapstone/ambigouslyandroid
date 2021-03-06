@@ -20,6 +20,7 @@ class AddStringFragment : Fragment() {
 
     private lateinit var viewModel : MainViewModel
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -40,7 +41,7 @@ class AddStringFragment : Fragment() {
         inputButton.setOnClickListener {
             var text = inputBox.text.toString()
             inputBox.setText("")
-            viewModel.save(text)
+            //viewModel.save(text)
         }
     }
 
