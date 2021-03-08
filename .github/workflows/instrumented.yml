@@ -1,0 +1,30 @@
+name: Instrumented Android CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+defaults:
+  run:
+    working-directory: vertical-prototype
+jobs:
+  instrumented:
+    runs-on: macos-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+      
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: run tests
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 29
+        script: ./gradlew connectedAndroidTest
+        working-directory: vertical-prototype

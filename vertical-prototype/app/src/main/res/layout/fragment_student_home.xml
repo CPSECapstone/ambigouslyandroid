@@ -10,7 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Student Home"
-        android:layout_gravity="center_horizontal"></TextView>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"></TextView>
 
     <Button
         android:id="@+id/goals_button"
