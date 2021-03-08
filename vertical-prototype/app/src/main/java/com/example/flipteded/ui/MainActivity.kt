@@ -3,7 +3,7 @@ package com.example.flipteded.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.flipteded.R
-import com.google.android.material.tabs.TabItem
+import com.example.flipteded.ui.home.StudentHomeFragment
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {

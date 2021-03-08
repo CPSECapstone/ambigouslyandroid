@@ -1,4 +1,4 @@
-package com.example.flipteded.ui
+package com.example.flipteded.ui.goals
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -44,15 +44,15 @@ class CustomExpandableListAdapter public constructor(
         val goal = goalData[listPosition]
 
         if(expandedListPosition >= goal.completions.size)
-            return if(convertView != null && convertView.id == R.layout.fragment_mark_progress )
+            return if(convertView != null && convertView.id == R.layout.goals_item_mark_progress )
                 convertView
             else
-                layoutInflater.inflate(R.layout.fragment_mark_progress, parent, false)
+                layoutInflater.inflate(R.layout.goals_item_mark_progress, parent, false)
 
-        val fillinView = if (convertView != null && convertView.id == R.layout.sub_goal_bar)
+        val fillinView = if (convertView != null && convertView.id == R.layout.goals_item_sub)
             convertView
         else
-            layoutInflater.inflate(R.layout.sub_goal_bar, parent, false)
+            layoutInflater.inflate(R.layout.goals_item_sub, parent, false)
 
         // TODO: fill in fillinView child
 
@@ -74,7 +74,7 @@ class CustomExpandableListAdapter public constructor(
     ): View {
         val currGoal = goalData[listPosition]
 
-        val convertView = convertView ?: LayoutInflater.from(context).inflate(R.layout.top_goal_bar, parent, false)
+        val convertView = convertView ?: LayoutInflater.from(context).inflate(R.layout.goals_item_top, parent, false)
 
         val titleText : TextView = convertView.findViewById(R.id.Goal_Title_Text)
         val subtitle : TextView = convertView.findViewById(R.id.Goal_Subtitle)

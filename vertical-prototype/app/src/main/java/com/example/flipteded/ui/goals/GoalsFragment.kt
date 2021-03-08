@@ -1,4 +1,4 @@
-package com.example.flipteded.ui
+package com.example.flipteded.ui.goals
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -23,7 +23,7 @@ class GoalsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_goals, container, false)
+        return inflater.inflate(R.layout.goals_fragment_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
