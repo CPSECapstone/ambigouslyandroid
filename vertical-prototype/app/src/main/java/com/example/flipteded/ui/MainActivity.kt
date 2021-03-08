@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.flipteded.R
 import com.example.flipteded.ui.home.StudentHomeFragment
-import com.example.flipteded.ui.goals.GoalListFragment
-import com.example.flipteded.ui.goals.GoalsFragment
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
@@ -15,7 +13,6 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().replace(R.id.main_view, StudentHomeFragment.newInstance()).commitNow()
-            //supportFragmentManager.beginTransaction().replace(R.id.container, GoalListFragment.newInstance()).commitNow()
         }
 
         val tabLayout = findViewById<TabLayout>(R.id.navbar)
