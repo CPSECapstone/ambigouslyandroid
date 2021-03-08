@@ -2,29 +2,20 @@ package com.example.flipteded.ui
 
 
 import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.EditText
-import android.widget.ExpandableListAdapter
 import android.widget.ExpandableListView
-import android.widget.Toast
-import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import com.example.flipteded.R
-import com.example.flipteded.businesslogic.goals.Goal
+import com.example.flipteded.businesslogic.goals.GoalCompletion
 
-import kotlin.collections.ArrayList
-import kotlin.collections.set
-import com.example.flipteded.ui.CustomExpandableListAdapter
+import java.util.*
 
 
 /**
@@ -67,6 +58,7 @@ class GoalListFragment : Fragment() {
 
         expandableListView.setOnChildClickListener { _, v, groupPosition, childPosition, _ ->
             if (v.id == R.id.fragment_mark_progress) {
+                val goal = viewModel.goals.value!![groupPosition]
 
                 val mAlertDialog = AlertDialog.Builder(requireActivity())
                 val inflater = this.layoutInflater
@@ -75,18 +67,12 @@ class GoalListFragment : Fragment() {
                 //mAlertDialog.setIcon(R.mipmap.ic_launcher_round) //set alertdialog icon
                 mAlertDialog.setTitle("Mark Progress") //set alertdialog title
                 //mAlertDialog.setMessage("Your message here") //set alertdialog message
-                mAlertDialog.setPositiveButton("Save") { dialog, id ->
-                    //perform some tasks here
-                    // titleValue = v.findViewById(R.id.Progress_Title)
-                    //GetValue.getText().toString()
-
-                    // TODO: Save the new completion to the DB
-
+                mAlertDialog.setPositiveButton("Save") { _, _ ->
                     val newTitle = progressFormView.findViewById<EditText>(R.id.Progress_Title).text
-                    Log.i("GoalListFragment", "Saving completion ${newTitle}")
-
+                    val newCompletion = GoalCompletion(newTitle.toString(), goal.uid, Date())
+                    viewModel.save(newCompletion)
                 }
-                mAlertDialog.setNegativeButton("Cancel") { dialog, id ->
+                mAlertDialog.setNegativeButton("Cancel") { _, _ ->
                     Log.i("GoalListFragment", "Not saving completion...");
                 }
                 mAlertDialog.setView(progressFormView)
@@ -100,7 +86,7 @@ class GoalListFragment : Fragment() {
             adapter.setGoals(newGoals)
         })
 
-        viewModel.reload()
+        viewModel.fetchGoals()
     }
 
     companion object {
