@@ -1,98 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFEE93"
-    android:visibility="visible">
-
-
-
+    android:background="#FFEE93">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="80dp"
-        android:minWidth="120dp"
-        android:minHeight="50dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="15dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/Goal_Subtitle"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_menu_book_black_24dp" />
 
-    <TextView
-        android:id="@+id/Goal_Title_Text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="80dp"
-        android:fontFamily="sans-serif-medium"
-        tools:text="Read 10 books by the end of the School year"
-        android:textColor="@android:color/black"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/Goal_Subtitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
 
-    <TextView
-        android:id="@+id/Goal_Subtitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:paddingLeft="80dp"
-        tools:text="Target: 10 books by June 9, 2021 (in 5 months)"
-        android:textColor="@android:color/black"
-        android:textSize="14dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+
+        android:orientation="vertical"
+
+        app:layout_constraintStart_toEndOf="@id/imageView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.642" />
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:id="@+id/goals_item_top_text_container">
+
+        <TextView
+            android:id="@+id/Goal_Title_Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            tools:text="Read 10 books by the end of the School year" />
+
+        <TextView
+            android:id="@+id/Goal_Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            tools:text="Target: 10 books by June 9, 2021 (in 5 months)" />
+    </LinearLayout>
 
 
     <ProgressBar
         android:id="@+id/mf_progress_bar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="340dp"
+        android:layout_width="0dp"
         android:layout_height="25dp"
-        android:layout_gravity="center_horizontal"
-        android:max="100"
-        tools:progress="50"
+        app:layout_constraintWidth_max="300dp"
         android:progressDrawable="@drawable/green_progress_drawable"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toEndOf="@id/goals_item_top_text_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.91"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.444"
- />
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        tools:progress="50" />
 
     <TextView
         android:id="@+id/Goal_Count"
-        android:layout_width="340dp"
-        android:layout_height="25dp"
-        android:layout_alignLeft="@id/mf_progress_bar"
-        android:layout_alignTop="@id/mf_progress_bar"
-        android:layout_alignRight="@id/mf_progress_bar"
-        android:layout_alignBottom="@id/mf_progress_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:background="#00000000"
         android:textColor="@android:color/black"
-        android:textSize="14dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.971"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.583"
-        tools:text="5 Books" />
+        android:textSize="14sp"
 
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/mf_progress_bar"
+        app:layout_constraintEnd_toEndOf="@id/mf_progress_bar"
+
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+
+        tools:text="5 Books" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
