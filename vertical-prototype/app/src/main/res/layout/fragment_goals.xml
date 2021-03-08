@@ -110,7 +110,7 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toEndOf="@id/goals_buttons_container"
@@ -124,5 +124,24 @@
         android:background="@drawable/grey_goal_box"
         android:layout_marginRight="40dp">
 
-    </FrameLayout>
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            android:layout_margin="40dp"
+
+            android:id="@+id/goals_list_fragment_container"
+            >
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

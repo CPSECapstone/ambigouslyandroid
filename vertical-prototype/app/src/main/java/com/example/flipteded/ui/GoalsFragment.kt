@@ -26,6 +26,14 @@ class GoalsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_goals, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        childFragmentManager.beginTransaction()
+            .replace(R.id.goals_list_fragment_container, GoalListFragment.newInstance())
+            .commitNow()
+    }
+
     companion object {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
