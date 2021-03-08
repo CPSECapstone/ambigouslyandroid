@@ -11,6 +11,9 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().replace(R.id.main_view, StudentHomeFragment.newInstance()).commitNow()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, GoalListFragment.newInstance())
+                .commitNow()
         }
     }
 }

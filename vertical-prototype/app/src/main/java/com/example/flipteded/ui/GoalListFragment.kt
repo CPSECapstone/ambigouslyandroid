@@ -12,12 +12,18 @@ import android.widget.EditText
 import android.widget.ExpandableListAdapter
 import android.widget.ExpandableListView
 import android.widget.Toast
+import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.example.flipteded.R
-import java.util.*
+import com.example.flipteded.businesslogic.goals.Goal
+
 import kotlin.collections.ArrayList
 import kotlin.collections.set
+import com.example.flipteded.ui.CustomExpandableListAdapter
 
 
 /**
@@ -28,11 +34,12 @@ import kotlin.collections.set
 class GoalListFragment : Fragment() {
 
     private lateinit var viewModel : MainViewModel
-    private var expandableListView: ExpandableListView? = null
-    private var adapter: ExpandableListAdapter? = null
+    private lateinit var expandableListView: ExpandableListView
+    private lateinit var adapter: CustomExpandableListAdapter
     private var titleList: List<String>? = null
     private var titleValue: EditText? = null
     private var thiscontext: Context? = null
+    //private lateinit var goalData: List<Goal>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,8 +95,9 @@ class GoalListFragment : Fragment() {
 
         if (expandableListView != null) {
             val listData = expandableListDetail
+
             titleList = ArrayList(listData.keys)
-            adapter = CustomExpandableListAdapter(thiscontext!!, titleList as ArrayList<String>, listData)
+            adapter = CustomExpandableListAdapter(viewModel, thiscontext!!, titleList as ArrayList<String>, listData)
             expandableListView!!.setAdapter(adapter)
             /*
             expandableListView!!.setOnGroupExpandListener { groupPosition ->
@@ -153,8 +161,23 @@ class GoalListFragment : Fragment() {
 
             }
         }
+        viewModel.goals.observe(viewLifecycleOwner, Observer { newGoals ->
+            adapter.setGoals(newGoals)
+            //viewModel.reload()
+            //goalData = viewModel.goals
+        })
     }
 
+
+
+    /*
+    viewModel.goals.observe(this, new Observer<List<Goal>>() {
+        @Override
+        public void onChanged(@Nullable List<Goal> goals) {
+            adapter.setGoals(goals);
+        }
+    });
+*/
     companion object {
         /**
          * Use this factory method to create a new instance of

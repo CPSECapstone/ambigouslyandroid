@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,6 +7,8 @@
     android:layout_height="wrap_content"
     android:background="#FFEE93"
     android:visibility="visible">
+
+
 
 
     <ImageView
@@ -17,13 +20,13 @@
         android:minHeight="50dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintEnd_toStartOf="@+id/Goal_Subtitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_menu_book_black_24dp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/Goal_Title_Text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="80dp"
@@ -31,7 +34,7 @@
         tools:text="Read 10 books by the end of the School year"
         android:textColor="@android:color/black"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintBottom_toTopOf="@+id/Goal_Subtitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +42,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/Goal_Subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
@@ -73,7 +76,7 @@
  />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/Goal_Count"
         android:layout_width="340dp"
         android:layout_height="25dp"
         android:layout_alignLeft="@id/mf_progress_bar"

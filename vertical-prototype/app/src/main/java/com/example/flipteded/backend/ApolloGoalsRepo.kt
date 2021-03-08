@@ -14,7 +14,7 @@ import java.util.*
 class ApolloGoalsRepo : GoalsRepo {
 
     val apolloClient = ApolloClient.builder()
-        .serverUrl("https://your.domain/graphql/endpoint")
+        .serverUrl("https://f6t0mvy5y0.execute-api.us-east-1.amazonaws.com/dev/graphql")
         .build()
 
     override suspend fun getAllGoals(): List<Goal> {
