@@ -1,4 +1,4 @@
-package com.example.flipteded.ui
+package com.example.flipteded.ui.goals
 
 
 import android.app.AlertDialog
@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.flipteded.R
 import com.example.flipteded.businesslogic.goals.GoalCompletion
+import com.example.flipteded.ui.MainViewModel
 
 import java.util.*
 
@@ -36,7 +37,7 @@ class GoalListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = inflater.inflate(R.layout.fragment_exp_list, container, false)
+    ) = inflater.inflate(R.layout.goals_fragment_exp_list, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,7 +63,7 @@ class GoalListFragment : Fragment() {
 
                 val mAlertDialog = AlertDialog.Builder(requireActivity())
                 val inflater = this.layoutInflater
-                val progressFormView = inflater.inflate(R.layout.mark_progress_form, null)
+                val progressFormView = inflater.inflate(R.layout.goals_mark_progress_form, null)
 
                 //mAlertDialog.setIcon(R.mipmap.ic_launcher_round) //set alertdialog icon
                 mAlertDialog.setTitle("Mark Progress") //set alertdialog title

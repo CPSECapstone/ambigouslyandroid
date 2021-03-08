@@ -13,7 +13,7 @@ import java.util.*
 
 class ApolloGoalsRepo : GoalsRepo {
 
-    val apolloClient = ApolloClient.builder()
+    private val apolloClient = ApolloClient.builder()
         .serverUrl("https://f6t0mvy5y0.execute-api.us-east-1.amazonaws.com/dev/graphql")
         .build()
 
@@ -21,7 +21,7 @@ class ApolloGoalsRepo : GoalsRepo {
         val response = try {
             apolloClient.query(AllGoalsQuery()).await()
         } catch(e: ApolloException) {
-            Log.e("ApolloGoalsRepo", "Error when querying backend: ${e.message}")
+            Log.e("ApolloGoalsRepo", "Error when querying backend", e)
             return listOf()
         }
 

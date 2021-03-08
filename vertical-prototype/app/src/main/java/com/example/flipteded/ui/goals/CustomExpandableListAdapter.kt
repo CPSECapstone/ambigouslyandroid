@@ -5,10 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.util.Log
 import android.widget.BaseExpandableListAdapter
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.flipteded.R
 import com.example.flipteded.businesslogic.goals.Goal
 import java.util.*
+import java.time.*
+import kotlin.math.*
 
 class CustomExpandableListAdapter public constructor(
     private val context: Context
@@ -43,6 +46,7 @@ class CustomExpandableListAdapter public constructor(
         val layoutInflater = LayoutInflater.from(context)
         val goal = goalData[listPosition]
 
+
         if(expandedListPosition >= goal.completions.size)
             return if(convertView != null && convertView.id == R.layout.goals_item_mark_progress )
                 convertView
@@ -54,7 +58,16 @@ class CustomExpandableListAdapter public constructor(
         else
             layoutInflater.inflate(R.layout.goals_item_sub, parent, false)
 
-        // TODO: fill in fillinView child
+        val currComp = goal.completions[expandedListPosition]
+        val compDate = currComp.completedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        val month = compDate.month.toString().get(0)  + compDate.month.toString().substring(1).toLowerCase()
+
+        val titleText = fillinView.findViewById(R.id.Comp_Title) as TextView
+        val subtitle = fillinView.findViewById(R.id.Comp_Subtitle) as TextView
+
+        titleText.text = currComp.description
+        subtitle.text = "Completed on ${month} ${compDate.dayOfMonth}, ${compDate.year}"
+
 
         return fillinView
     }
@@ -78,13 +91,16 @@ class CustomExpandableListAdapter public constructor(
 
         val titleText : TextView = convertView.findViewById(R.id.Goal_Title_Text)
         val subtitle : TextView = convertView.findViewById(R.id.Goal_Subtitle)
-
-        // TODO: Update count text
         val countText : TextView = convertView.findViewById(R.id.Goal_Count)
-
+        val topProgress : ProgressBar = convertView.findViewById(R.id.mf_progress_bar)
+        val goalDate = currGoal.dueDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        val month = goalDate.month.toString().get(0)  + goalDate.month.toString().substring(1).toLowerCase()
+        val percentDone = ((currGoal.completions.size.toDouble()/currGoal.targetCompletionCount)*100).roundToInt()
 
         titleText.text = currGoal.title
-        subtitle.text = "Target: ${currGoal.title}"
+        subtitle.text = "Target: ${currGoal.title} by ${month} ${goalDate.dayOfMonth}, ${goalDate.year}"
+        countText.text = "${currGoal.completions.size} ${currGoal.unitOfMeasurement}"
+        topProgress.progress = percentDone
         return convertView
 
     }
