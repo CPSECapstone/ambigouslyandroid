@@ -19,7 +19,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val getAllGoals = GetAllGoals(repo)
     private val saveCompletion = SaveNewCompletion(repo)
 
-    fun reload() {
+    fun fetchGoals() {
         viewModelScope.launch {
             _goals.value = getAllGoals.execute()
         }
@@ -34,7 +34,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 return@launch
             }
             if(_goals.value == null)
-                reload()
+                _goals.value = getAllGoals.execute()
             val idx = _goals.value!!.indexOfFirst{it.uid == updatedGoal.uid}
             if(idx == -1) {
                 Log.e("MainViewModel", "Saved completion to unknown goal!")

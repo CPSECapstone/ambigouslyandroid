@@ -1,4 +1,4 @@
-package com.example.flipteded.ui
+package com.example.flipteded.ui.goals
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -11,20 +11,24 @@ import com.example.flipteded.businesslogic.goals.Goal
 import java.util.*
 
 class CustomExpandableListAdapter public constructor(
-    private val viewModel: MainViewModel,
-    private val context: Context,
-    private val titleList: List<String>,
-    private val dataList: HashMap<String, List<String>>,
+    private val context: Context
+) : BaseExpandableListAdapter() {
+
     private var goalData: List<Goal> = listOf()
 
-) : BaseExpandableListAdapter() {
     fun setGoals(goals: List<Goal>) {
         this.goalData = goals
         notifyDataSetChanged();
     }
 
-    override fun getChild(listPosition: Int, expandedListPosition: Int): Any {
-        return this.dataList[this.titleList[listPosition]]!![expandedListPosition]
+    override fun getChild(listPosition: Int, expandedListPosition: Int) : Any {
+        val goal = goalData[listPosition]
+
+        return if (expandedListPosition >= goal.completions.size)
+        // No data for the "Add completion" button
+            Object()
+        else
+            goal.completions[expandedListPosition]
     }
     override fun getChildId(listPosition: Int, expandedListPosition: Int): Long {
         return expandedListPosition.toLong()
@@ -36,80 +40,52 @@ class CustomExpandableListAdapter public constructor(
         convertView: View?,
         parent: ViewGroup
     ): View {
-        var convertView = convertView
-        val titleText = convertView!!.findViewById(R.id.Goal_Title_Text) as TextView
-        val subtitle = convertView.findViewById(R.id.Goal_Subtitle) as TextView
-        val countText = convertView.findViewById(R.id.Goal_Count) as TextView
+        val layoutInflater = LayoutInflater.from(context)
+        val goal = goalData[listPosition]
 
-        //listTitleTextView.setTypeface(null, Typeface.BOLD)
-        currGoal = goalData[listPosition].completions[expandedListPosition]
+        if(expandedListPosition >= goal.completions.size)
+            return if(convertView != null && convertView.id == R.layout.goals_item_mark_progress )
+                convertView
+            else
+                layoutInflater.inflate(R.layout.goals_item_mark_progress, parent, false)
 
-        titleText.text = currGoal.title
-        subtitle.text = "Target: ${currGoal.title} by ${currGoal.dueDate}"
-        countText.text = "${currGoal.completions.size} ${currGoal.unitOfMeasurement}"
-        val expandedListText = getChild(listPosition, expandedListPosition) as String
-        if (convertView == null) {
-            val layoutInflater =
-                this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            if (isLastChild) {
-                convertView = layoutInflater.inflate(R.layout.fragment_mark_progress, null)
-            }
-            else {
-                //convertView = layoutInflater.inflate(R.layout.item_list, null)
-                convertView = layoutInflater.inflate(R.layout.sub_goal_bar, null)
-            }
-        }
-        //val expandedListTextView = convertView!!.findViewById<TextView>(R.id.info_text)
-        //expandedListTextView.text = expandedListText
-        return convertView!!
+        val fillinView = if (convertView != null && convertView.id == R.layout.goals_item_sub)
+            convertView
+        else
+            layoutInflater.inflate(R.layout.goals_item_sub, parent, false)
+
+        // TODO: fill in fillinView child
+
+        return fillinView
     }
-    override fun getChildrenCount(listPosition: Int): Int {
-        return this.dataList[this.titleList[listPosition]]!!.size
-    }
-    override fun getGroup(listPosition: Int): Any {
-        return this.titleList[listPosition]
-    }
-    override fun getGroupCount(): Int {
-        return this.titleList.size
-    }
-    override fun getGroupId(listPosition: Int): Long {
-        return listPosition.toLong()
-    }
+    override fun getChildrenCount(listPosition: Int) =
+        (this.goalData[listPosition].completions.size + 1)
+
+    override fun getGroup(listPosition: Int) = this.goalData[listPosition]
+    override fun getGroupCount() = this.goalData.size
+
+    override fun getGroupId(listPosition: Int) = this.goalData[listPosition].uid.toLong()
+
     override fun getGroupView(
         listPosition: Int,
         isExpanded: Boolean,
         convertView: View?,
         parent: ViewGroup
     ): View {
+        val currGoal = goalData[listPosition]
 
-        var convertView = convertView
-        viewModel.reload()
-        val goals : List<Goal>? = viewModel.goals.value
-        //Log.d("TAG", goals!!.size.toString())
-        var currGoal : Goal? = null
+        val convertView = convertView ?: LayoutInflater.from(context).inflate(R.layout.goals_item_top, parent, false)
 
-        currGoal = goalData[listPosition]
-        //check not null
-        val listTitle = getGroup(listPosition) as String
-        if (convertView == null) {
-            val layoutInflater =
-                this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = layoutInflater.inflate(R.layout.top_goal_bar, null)
-        }
+        val titleText : TextView = convertView.findViewById(R.id.Goal_Title_Text)
+        val subtitle : TextView = convertView.findViewById(R.id.Goal_Subtitle)
+
+        // TODO: Update count text
+        val countText : TextView = convertView.findViewById(R.id.Goal_Count)
 
 
-            //.d("TAG", currGoal!.title)
-            val titleText = convertView!!.findViewById(R.id.Goal_Title_Text) as TextView
-            val subtitle = convertView.findViewById(R.id.Goal_Subtitle) as TextView
-            val countText = convertView.findViewById(R.id.Goal_Count) as TextView
-
-            //listTitleTextView.setTypeface(null, Typeface.BOLD)
-
-
-            titleText.text = currGoal.title
-            subtitle.text = "Target: ${currGoal.title} by ${currGoal.dueDate}"
-            countText.text = "${currGoal.completions.size} ${currGoal.unitOfMeasurement}"
-            return convertView
+        titleText.text = currGoal.title
+        subtitle.text = "Target: ${currGoal.title}"
+        return convertView
 
     }
     override fun hasStableIds(): Boolean {
