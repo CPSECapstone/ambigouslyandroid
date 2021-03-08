@@ -37,6 +37,16 @@ class CustomExpandableListAdapter public constructor(
         parent: ViewGroup
     ): View {
         var convertView = convertView
+        val titleText = convertView!!.findViewById(R.id.Goal_Title_Text) as TextView
+        val subtitle = convertView.findViewById(R.id.Goal_Subtitle) as TextView
+        val countText = convertView.findViewById(R.id.Goal_Count) as TextView
+
+        //listTitleTextView.setTypeface(null, Typeface.BOLD)
+        currGoal = goalData[listPosition].completions[expandedListPosition]
+
+        titleText.text = currGoal.title
+        subtitle.text = "Target: ${currGoal.title} by ${currGoal.dueDate}"
+        countText.text = "${currGoal.completions.size} ${currGoal.unitOfMeasurement}"
         val expandedListText = getChild(listPosition, expandedListPosition) as String
         if (convertView == null) {
             val layoutInflater =
@@ -92,11 +102,13 @@ class CustomExpandableListAdapter public constructor(
             val titleText = convertView!!.findViewById(R.id.Goal_Title_Text) as TextView
             val subtitle = convertView.findViewById(R.id.Goal_Subtitle) as TextView
             val countText = convertView.findViewById(R.id.Goal_Count) as TextView
+
             //listTitleTextView.setTypeface(null, Typeface.BOLD)
 
 
             titleText.text = currGoal.title
-            subtitle.text = "Target: " + currGoal.title
+            subtitle.text = "Target: ${currGoal.title} by ${currGoal.dueDate}"
+            countText.text = "${currGoal.completions.size} ${currGoal.unitOfMeasurement}"
             return convertView
 
     }

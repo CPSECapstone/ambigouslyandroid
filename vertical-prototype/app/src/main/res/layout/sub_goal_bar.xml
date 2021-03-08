@@ -16,21 +16,21 @@
         android:paddingLeft="80dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintEnd_toStartOf="@+id/Comp_Subtitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_menu_book_black_24dp" />
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/Comp_Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:paddingLeft="80dp"
         android:textColor="@android:color/black"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintBottom_toTopOf="@+id/Comp_Subtitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
         tools:text="Read 10 books by the end of the School year" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/Comp_Subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
@@ -72,7 +72,7 @@
         tools:progress="50" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/Comp_Count"
         android:layout_width="340dp"
         android:layout_height="25dp"
         android:layout_alignLeft="@id/mf_progress_bar"
