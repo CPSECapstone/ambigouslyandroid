@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Flipt(ed)</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="prog_text">Mark Progress</string>
+    <string name="check_circle_desc">check_circle</string>
+</resources>

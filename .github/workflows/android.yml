@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 defaults:
     run:
-      working-directory: vertical-prototype
+      working-directory: flipted
 jobs:
   non-instrumented:
     runs-on: ubuntu-latest

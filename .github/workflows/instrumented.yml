@@ -10,7 +10,7 @@ on:
 
 defaults:
   run:
-    working-directory: vertical-prototype
+    working-directory: flipted
 jobs:
   instrumented:
     runs-on: macos-latest
@@ -27,4 +27,4 @@ jobs:
       with:
         api-level: 29
         script: ./gradlew connectedAndroidTest
-        working-directory: vertical-prototype
+        working-directory: flipted
