@@ -1,11 +1,11 @@
-package com.example.flipted.ui.goals
+package edu.calpoly.flipted.ui.goals
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.flipted.R
+import edu.calpoly.flipted.R
 
 /**
  * A simple [Fragment] subclass.

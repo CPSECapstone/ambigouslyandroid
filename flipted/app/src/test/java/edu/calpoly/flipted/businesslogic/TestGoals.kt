@@ -1,6 +1,6 @@
-package com.example.flipted.businesslogic
+package edu.calpoly.flipted.businesslogic
 
-import com.example.flipted.businesslogic.goals.*
+import edu.calpoly.flipted.businesslogic.goals.*
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import org.junit.Assert.*
@@ -88,8 +88,10 @@ class TestGoals {
 
         assertNull(useCase.execute(GoalCompletion("  ", 2, date2)))
         assertNull(useCase.execute(
-            GoalCompletion("Test Completion", -1, date2)))
+            GoalCompletion("Test Completion", -1, date2)
+        ))
         assertNull(useCase.execute(
-            GoalCompletion("Test Completion", 2, futureDate)))
+            GoalCompletion("Test Completion", 2, futureDate)
+        ))
     }
 }

@@ -1,4 +1,4 @@
-package com.example.flipted.backend
+package edu.calpoly.flipted.backend
 
 import android.util.Log
 import com.apollographql.apollo.ApolloClient
@@ -6,9 +6,9 @@ import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import edu.calpoly.flipted.AllGoalsQuery
 import edu.calpoly.flipted.SaveCompletionMutation
-import com.example.flipted.businesslogic.goals.Goal
-import com.example.flipted.businesslogic.goals.GoalCompletion
-import com.example.flipted.businesslogic.goals.GoalsRepo
+import edu.calpoly.flipted.businesslogic.goals.Goal
+import edu.calpoly.flipted.businesslogic.goals.GoalCompletion
+import edu.calpoly.flipted.businesslogic.goals.GoalsRepo
 import java.util.*
 
 class ApolloGoalsRepo : GoalsRepo {

@@ -1,4 +1,4 @@
-package com.example.flipted.ui.goals
+package edu.calpoly.flipted.ui.goals
 
 
 import android.app.AlertDialog
@@ -12,9 +12,9 @@ import android.widget.ExpandableListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.flipted.R
-import com.example.flipted.businesslogic.goals.GoalCompletion
-import com.example.flipted.ui.MainViewModel
+import edu.calpoly.flipted.R
+import edu.calpoly.flipted.businesslogic.goals.GoalCompletion
+import edu.calpoly.flipted.ui.MainViewModel
 
 import java.util.*
 

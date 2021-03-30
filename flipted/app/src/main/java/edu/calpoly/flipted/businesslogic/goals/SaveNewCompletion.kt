@@ -1,4 +1,4 @@
-package com.example.flipted.businesslogic.goals
+package edu.calpoly.flipted.businesslogic.goals
 
 import java.util.*
 

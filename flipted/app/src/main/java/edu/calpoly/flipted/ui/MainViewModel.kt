@@ -1,13 +1,13 @@
-package com.example.flipted.ui
+package edu.calpoly.flipted.ui
 
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.flipted.backend.ApolloGoalsRepo
-import com.example.flipted.businesslogic.goals.GetAllGoals
-import com.example.flipted.businesslogic.goals.Goal
-import com.example.flipted.businesslogic.goals.GoalCompletion
-import com.example.flipted.businesslogic.goals.SaveNewCompletion
+import edu.calpoly.flipted.backend.ApolloGoalsRepo
+import edu.calpoly.flipted.businesslogic.goals.GetAllGoals
+import edu.calpoly.flipted.businesslogic.goals.Goal
+import edu.calpoly.flipted.businesslogic.goals.GoalCompletion
+import edu.calpoly.flipted.businesslogic.goals.SaveNewCompletion
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {

@@ -1,4 +1,4 @@
-package com.example.flipted.ui.goals
+package edu.calpoly.flipted.ui.goals
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.example.flipted.R
-import com.example.flipted.businesslogic.goals.Goal
+import edu.calpoly.flipted.R
+import edu.calpoly.flipted.businesslogic.goals.Goal
 import java.time.*
 import kotlin.math.*
 
