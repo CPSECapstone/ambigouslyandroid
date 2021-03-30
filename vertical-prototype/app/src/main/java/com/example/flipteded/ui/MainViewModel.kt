@@ -1,70 +1,49 @@
 package com.example.flipteded.ui
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.coroutines.await
-import com.apollographql.apollo.coroutines.toDeferred
-import com.apollographql.apollo.exception.ApolloException
-import com.example.LaunchDetailsQuery
-import com.example.flipteded.backend.VerticalSliceNetworkCalls
-import com.example.flipteded.backend.VolleyAwsInterface
-import com.example.flipteded.businesslogic.DataEntry
-import com.example.flipteded.businesslogic.GetAllEntriesUseCase
-import com.example.flipteded.businesslogic.SaveNewEntryUseCase
-import kotlinx.coroutines.delay
+import com.example.flipteded.backend.ApolloGoalsRepo
+import com.example.flipteded.businesslogic.goals.GetAllGoals
+import com.example.flipteded.businesslogic.goals.Goal
+import com.example.flipteded.businesslogic.goals.GoalCompletion
+import com.example.flipteded.businesslogic.goals.SaveNewCompletion
 import kotlinx.coroutines.launch
-import java.util.function.Supplier
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    companion object {
-        const val REFRESH_PERIOD : Long = 1000
-    }
-    private val _data : MutableLiveData<List<String>> = MutableLiveData()
-    val data : LiveData<List<String>>
-        get() = _data
+    private val _goals : MutableLiveData<List<Goal>> = MutableLiveData()
+    val goals : LiveData<List<Goal>>
+        get() = _goals
 
-    private val repo = VolleyAwsInterface( Supplier<Application> { getApplication() })
-    private val getAllEntriesUseCase = GetAllEntriesUseCase(repo)
-    private val setEntryUseCase = SaveNewEntryUseCase(repo)
+    private val repo = ApolloGoalsRepo()
+    private val getAllGoals = GetAllGoals(repo)
+    private val saveCompletion = SaveNewCompletion(repo)
 
-    val apolloClient = ApolloClient.builder()
-        .serverUrl("https://apollo-fullstack-tutorial.herokuapp.com/graphql")
-        .build()
-
-    init {
+    fun fetchGoals() {
         viewModelScope.launch {
-            while(true) {
-                _data.value = getAllEntriesUseCase.invoke().map{ it.item }
-                delay(REFRESH_PERIOD)
-            }
+            _goals.value = getAllGoals.execute()
         }
     }
 
-    fun save(str : String) {
+    fun save(completion : GoalCompletion) {
         viewModelScope.launch {
-            setEntryUseCase.invoke(DataEntry(str))
-            _data.value = getAllEntriesUseCase.invoke().map{ it.item }
-        }
-    }
-
-    fun apolloTest()
-    {
-        viewModelScope.launch {  val response = try {
-            apolloClient.query(LaunchDetailsQuery(id = "83")).await()
-        } catch (e: ApolloException) {
-            // handle protocol errors
-            return@launch
-        }
-
-            val launch = response.data?.launch
-            if (launch == null || response.hasErrors()) {
-                // handle application errors
+            val updatedGoal = saveCompletion.execute(completion)
+            if(updatedGoal == null) {
+                Log.e("MainViewModel", "Error saving updated goal!")
+                //TODO: We need better error handling
                 return@launch
             }
-
-            // launch now contains a typesafe model of your data
-            println("Launch site: ${launch!!.site}")
+            if(_goals.value == null)
+                _goals.value = getAllGoals.execute()
+            val idx = _goals.value!!.indexOfFirst{it.uid == updatedGoal.uid}
+            if(idx == -1) {
+                Log.e("MainViewModel", "Saved completion to unknown goal!")
+                _goals.value = _goals.value!! + updatedGoal
+            } else {
+                _goals.value = _goals.value!!.map {
+                    if(it.uid == updatedGoal.uid) updatedGoal else it
+                }
+            }
         }
     }
 }
