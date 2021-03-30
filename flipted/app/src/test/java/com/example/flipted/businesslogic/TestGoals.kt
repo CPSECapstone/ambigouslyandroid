@@ -1,6 +1,6 @@
-package com.example.flipteded.businesslogic
+package com.example.flipted.businesslogic
 
-import com.example.flipteded.businesslogic.goals.*
+import com.example.flipted.businesslogic.goals.*
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import org.junit.Assert.*

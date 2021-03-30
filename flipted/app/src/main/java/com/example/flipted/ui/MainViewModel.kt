@@ -1,13 +1,13 @@
-package com.example.flipteded.ui
+package com.example.flipted.ui
 
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.flipteded.backend.ApolloGoalsRepo
-import com.example.flipteded.businesslogic.goals.GetAllGoals
-import com.example.flipteded.businesslogic.goals.Goal
-import com.example.flipteded.businesslogic.goals.GoalCompletion
-import com.example.flipteded.businesslogic.goals.SaveNewCompletion
+import com.example.flipted.backend.ApolloGoalsRepo
+import com.example.flipted.businesslogic.goals.GetAllGoals
+import com.example.flipted.businesslogic.goals.Goal
+import com.example.flipted.businesslogic.goals.GoalCompletion
+import com.example.flipted.businesslogic.goals.SaveNewCompletion
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {

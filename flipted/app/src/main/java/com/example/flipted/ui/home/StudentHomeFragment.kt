@@ -1,4 +1,4 @@
-package com.example.flipteded.ui.home
+package com.example.flipted.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import com.example.flipteded.R
-import com.example.flipteded.ui.goals.GoalsFragment
+import com.example.flipted.R
+import com.example.flipted.ui.goals.GoalsFragment
 
 /**
  * A simple [Fragment] subclass.

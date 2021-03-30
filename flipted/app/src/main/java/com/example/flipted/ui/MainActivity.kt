@@ -1,9 +1,9 @@
-package com.example.flipteded.ui
+package com.example.flipted.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.flipteded.R
-import com.example.flipteded.ui.home.StudentHomeFragment
+import com.example.flipted.R
+import com.example.flipted.ui.home.StudentHomeFragment
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {

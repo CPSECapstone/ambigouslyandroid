@@ -1,15 +1,13 @@
-package com.example.flipteded.ui.goals
+package com.example.flipted.ui.goals
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.util.Log
 import android.widget.BaseExpandableListAdapter
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.example.flipteded.R
-import com.example.flipteded.businesslogic.goals.Goal
-import java.util.*
+import com.example.flipted.R
+import com.example.flipted.businesslogic.goals.Goal
 import java.time.*
 import kotlin.math.*
 

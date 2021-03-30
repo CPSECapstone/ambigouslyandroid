@@ -1,4 +1,4 @@
-package com.example.flipteded.businesslogic.goals
+package com.example.flipted.businesslogic.goals
 
 import java.util.Date
 

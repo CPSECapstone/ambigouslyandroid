@@ -1,4 +1,4 @@
-package com.example.flipteded.businesslogic.goals
+package com.example.flipted.businesslogic.goals
 
 class GetAllGoals (private val repo : GoalsRepo) {
     suspend fun execute() : List<Goal> {
