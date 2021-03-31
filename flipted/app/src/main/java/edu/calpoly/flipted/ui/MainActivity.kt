@@ -5,6 +5,7 @@ import android.os.Bundle
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.home.StudentHomeFragment
 import com.google.android.material.tabs.TabLayout
+import edu.calpoly.flipted.ui.login.LoginFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.main_view, StudentHomeFragment.newInstance()).commitNow()
+            supportFragmentManager.beginTransaction().replace(R.id.main_view, LoginFragment.newInstance()).commitNow()
         }
 
         val tabLayout = findViewById<TabLayout>(R.id.navbar)
