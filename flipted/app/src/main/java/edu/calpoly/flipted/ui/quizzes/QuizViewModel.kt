@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.flipteded.businesslogic.mc_question.GetAllQuestions
-import com.example.flipteded.businesslogic.mc_question.Question
+import edu.calpoly.flipted.businesslogic.mc_question.GetAllQuestions
+import edu.calpoly.flipted.businesslogic.mc_question.Question
 import kotlinx.coroutines.launch
 
 class QuizViewModel : ViewModel() {
