@@ -1,7 +1,10 @@
 package edu.calpoly.flipted.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.home.StudentHomeFragment
 import com.google.android.material.tabs.TabLayout
@@ -31,6 +34,14 @@ class MainActivity : AppCompatActivity() {
                 // Handle tab unselect
             }
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE) {
+            Amplify.Auth.handleWebUISignInResponse(data)
+        }
     }
 
 
