@@ -1,4 +1,4 @@
-package com.example.flipteded.businesslogic.mc_question
+package edu.calpoly.flipted.businesslogic.mc_question
 
 data class Question(
     val title : String,

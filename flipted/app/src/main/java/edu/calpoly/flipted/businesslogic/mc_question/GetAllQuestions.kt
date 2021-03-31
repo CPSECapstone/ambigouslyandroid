@@ -1,6 +1,4 @@
-package com.example.flipteded.businesslogic.mc_question
-
-import edu.calpoly.flipted.businesslogic.goals.Goal
+package edu.calpoly.flipted.businesslogic.mc_question
 
 class GetAllQuestions {
     fun getAllQuestions(): List<Question> {
