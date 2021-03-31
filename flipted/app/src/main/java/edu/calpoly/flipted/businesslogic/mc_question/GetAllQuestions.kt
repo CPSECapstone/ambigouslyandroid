@@ -1,7 +1,7 @@
 package edu.calpoly.flipted.businesslogic.mc_question
 
 class GetAllQuestions {
-    fun getAllQuestions(): List<Question> {
+    suspend fun getAllQuestions(): List<Question> {
         val answerOne = Answer("atomos", 1, isCorrect = false, isChecked = false)
         val answerTwo = Answer("neutron", 1, isCorrect = false, isChecked = false)
         val answerThree = Answer("nucleus", 1, isCorrect = true, isChecked = false)

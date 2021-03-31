@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,14 +10,15 @@
     android:paddingBottom="16dp">
 
     <TextView
+        android:id="@+id/mc_question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Question?"
+        tools:text="Question?"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
         android:paddingBottom="5dp"/>
 
-    <LinearLayout
+    <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -25,24 +27,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Answer 1" />
+            tools:text="Answer 1" />
         <RadioButton
             android:id="@+id/answer2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Answer 2" />
+            tools:text="Answer 2" />
         <RadioButton
             android:id="@+id/answer3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Answer 3" />
+            tools:text="Answer 3" />
         <RadioButton
             android:id="@+id/answer4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Answer 4" />
-    </LinearLayout>
+            tools:text="Answer 4" />
+    </RadioGroup >
 </LinearLayout>
