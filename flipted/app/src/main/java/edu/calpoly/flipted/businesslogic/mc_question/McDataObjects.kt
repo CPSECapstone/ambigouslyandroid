@@ -3,6 +3,7 @@ package edu.calpoly.flipted.businesslogic.mc_question
 data class Question(
     val title : String,
     val uid : Int,
+    val taskId : Int,
     val answers: MutableList<Answer>
 )
 

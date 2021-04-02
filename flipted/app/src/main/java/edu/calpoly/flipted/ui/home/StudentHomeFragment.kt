@@ -29,10 +29,12 @@ class StudentHomeFragment : Fragment() {
                 }
             }
 
+        // mock task id
+        val taskId = 1
         val quizButton = view.findViewById<Button>(R.id.quiz_button)
         quizButton.setOnClickListener{
             parentFragmentManager.beginTransaction().apply {
-                replace(R.id.main_view, McFragment.newInstance())
+                replace(R.id.main_view, McFragment.newInstance(taskId))
                 addToBackStack(null)
                 commit()
             }

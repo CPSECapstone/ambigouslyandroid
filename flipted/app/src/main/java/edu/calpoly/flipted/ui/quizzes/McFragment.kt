@@ -12,6 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 
+private const val ARG_PARAM1 = "taskId"
+
 /**
  * A simple [Fragment] subclass.
  * Use the [McFragment.newInstance] factory method to
@@ -27,11 +29,16 @@ class McFragment : Fragment() {
     private lateinit var answer3 : RadioButton
     private lateinit var answer4 : RadioButton
 
+    private var taskId: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        arguments?.let {
+            taskId = it.getInt(ARG_PARAM1)
+        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mc, container, false)
     }
@@ -60,12 +67,16 @@ class McFragment : Fragment() {
             answer3.text = questionData.answers[2].description
             answer4.text = questionData.answers[3].description
         })
-        viewModel.fetchQuestions()
+        viewModel.fetchQuestions(taskId)
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() =
-            McFragment()
+        fun newInstance(param1: Int) =
+            McFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_PARAM1, param1)
+                }
+            }
     }
 }
