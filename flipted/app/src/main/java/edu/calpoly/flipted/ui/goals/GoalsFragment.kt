@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import edu.calpoly.flipted.R
+import edu.calpoly.flipted.ui.quizzes.McFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -32,6 +34,15 @@ class GoalsFragment : Fragment() {
         childFragmentManager.beginTransaction()
             .replace(R.id.goals_list_fragment_container, GoalListFragment.newInstance())
             .commitNow()
+
+        val newGoalButton = view.findViewById<Button>(R.id.newGoalButton)
+        newGoalButton.setOnClickListener{
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.main_view, GoalNewFragment.newInstance())
+                addToBackStack(null)
+                commit()
+            }
+        }
     }
 
     companion object {
