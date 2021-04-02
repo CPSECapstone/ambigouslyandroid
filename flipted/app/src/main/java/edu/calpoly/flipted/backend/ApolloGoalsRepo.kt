@@ -14,7 +14,7 @@ class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
 
     override suspend fun getAllGoals(): List<Goal> {
         val response = try {
-            unauthenticatedApolloClient().query(AllGoalsQuery()).await()
+            apolloClient().query(AllGoalsQuery()).await()
         } catch(e: ApolloException) {
             Log.e("ApolloGoalsRepo", "Error when querying backend", e)
             return listOf()
@@ -49,7 +49,7 @@ class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
 
     override suspend fun saveNewCompletion(completion: GoalCompletion): Goal? {
         val response = try {
-            unauthenticatedApolloClient().mutate(SaveCompletionMutation(completion.parentId, completion.description, completion.completedDate.time.toString())).await()
+            apolloClient().mutate(SaveCompletionMutation(completion.parentId, completion.description, completion.completedDate.time.toString())).await()
         } catch(e: ApolloException) {
             Log.e("ApolloGoalsRepo", "Error when mutating backend: ${e.message}")
             return null

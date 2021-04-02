@@ -2,15 +2,14 @@ package edu.calpoly.flipted.ui.login
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.Fragment
 import com.amplifyframework.auth.AuthProvider
 import com.amplifyframework.core.Amplify
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.ui.home.StudentHomeFragment
 
 
 class LoginFragment : Fragment() {
@@ -32,6 +31,7 @@ class LoginFragment : Fragment() {
             Amplify.Auth.signInWithSocialWebUI(AuthProvider.google(), requireActivity(),
                 {
                     Log.i("LoginFragment", "Sign in OK: $it")
+
                     //parentFragmentManager.beginTransaction().replace(R.id.main_view, StudentHomeFragment.newInstance()).commitNow()
                 },
                 { Log.e("LoginFragment", "Sign in failed", it) }
