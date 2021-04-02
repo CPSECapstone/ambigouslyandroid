@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ExpandableListView
+import android.widget.ListView
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -20,13 +22,8 @@ import edu.calpoly.flipted.R
 class McFragment : Fragment() {
 
     private lateinit var viewModel : QuizViewModel
-
-    private lateinit var question : TextView
-    private lateinit var answer1 : RadioButton
-    private lateinit var answer2 : RadioButton
-    private lateinit var answer3 : RadioButton
-    private lateinit var answer4 : RadioButton
-
+    private lateinit var listView: ListView
+    private lateinit var listAdapter: QuestionListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,26 +36,13 @@ class McFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        question = view.findViewById(R.id.mc_question)
-        answer1 = view.findViewById(R.id.answer1)
-        answer2 = view.findViewById(R.id.answer2)
-        answer3 = view.findViewById(R.id.answer3)
-        answer4 = view.findViewById(R.id.answer4)
-
         viewModel = ViewModelProvider(requireActivity())[QuizViewModel::class.java]
+        listView = view.findViewById(R.id.question_list)
+        listAdapter = QuestionListAdapter(requireActivity())
+        listView.adapter = listAdapter
         viewModel.quizData.observe(viewLifecycleOwner, Observer {
-            if(it.size != 1)
-                Log.w("McFragment", "Expected 1 question, received ${it.size}")
-            val questionData = it[0]
-            question.text = questionData.title
-
-            if(questionData.answers.size != 4)
-                Log.w("McFragment", "Expected 4 answers, received ${questionData.answers.size}")
-
-            answer1.text = questionData.answers[0].description
-            answer2.text = questionData.answers[1].description
-            answer3.text = questionData.answers[2].description
-            answer4.text = questionData.answers[3].description
+            listAdapter.questionsData = it
+            listAdapter.notifyDataSetChanged()
         })
         viewModel.fetchQuestions()
     }
