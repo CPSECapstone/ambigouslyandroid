@@ -32,7 +32,7 @@ class LoginFragment : Fragment() {
             Amplify.Auth.signInWithSocialWebUI(AuthProvider.google(), requireActivity(),
                 {
                     Log.i("LoginFragment", "Sign in OK: $it")
-                    parentFragmentManager.beginTransaction().replace(R.id.main_view, StudentHomeFragment.newInstance()).commitNow()
+                    //parentFragmentManager.beginTransaction().replace(R.id.main_view, StudentHomeFragment.newInstance()).commitNow()
                 },
                 { Log.e("LoginFragment", "Sign in failed", it) }
             )

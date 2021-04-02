@@ -1,0 +1,48 @@
+{
+    "UserAgent": "aws-amplify-cli/2.0",
+    "Version": "1.0",
+    "auth": {
+        "plugins": {
+            "awsCognitoAuthPlugin": {
+                "UserAgent": "aws-amplify-cli/0.1.0",
+                "Version": "0.1.0",
+                "IdentityManager": {
+                    "Default": {}
+                },
+                "CredentialsProvider": {
+                    "CognitoIdentity": {
+                        "Default": {
+                            "PoolId": "us-east-1:07057d76-612a-4045-8522-f38a759cf216",
+                            "Region": "us-east-1"
+                        }
+                    }
+                },
+                "CognitoUserPool": {
+                    "Default": {
+                        "PoolId": "us-east-1_POfbbYTKF",
+                        "AppClientId": "589ks8b89qdappsllqdtu78ga1",
+                        "Region": "us-east-1"
+                    }
+                },
+                "Auth": {
+                    "Default": {
+                     "OAuth": {
+                        "WebDomain": "flipted-ios-test.auth.us-east-1.amazoncognito.com",
+                        "AppClientId": "589ks8b89qdappsllqdtu78ga1",
+                        "SignInRedirectURI": "flipted://callback/", 
+                        "SignOutRedirectURI": "",
+                        "Scopes": [
+                            "phone",
+                            "email",
+                            "openid",
+                            "profile",
+                            "aws.cognito.signin.user.admin"
+                        ]
+                    },
+                        "authenticationFlowType": "USER_SRP_AUTH"
+                    }
+                }
+            }
+        }
+    }
+}
