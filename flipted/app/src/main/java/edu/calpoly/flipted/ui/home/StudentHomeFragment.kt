@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.goals.GoalsFragment
-import edu.calpoly.flipted.ui.quizzes.McFragment
+import edu.calpoly.flipted.ui.quizzes.QuizFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -32,7 +32,7 @@ class StudentHomeFragment : Fragment() {
         val quizButton = view.findViewById<Button>(R.id.quiz_button)
         quizButton.setOnClickListener{
             parentFragmentManager.beginTransaction().apply {
-                replace(R.id.main_view, McFragment.newInstance())
+                replace(R.id.main_view, QuizFragment.newInstance())
                 addToBackStack(null)
                 commit()
             }
