@@ -1,6 +1,5 @@
 package edu.calpoly.flipted.ui.goals
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import edu.calpoly.flipted.backend.ApolloGoalsRepo
@@ -10,7 +9,7 @@ import edu.calpoly.flipted.businesslogic.goals.GoalCompletion
 import edu.calpoly.flipted.businesslogic.goals.SaveNewCompletion
 import kotlinx.coroutines.launch
 
-class GoalsViewModel(application: Application) : AndroidViewModel(application) {
+class GoalsViewModel : ViewModel() {
     private val _goals : MutableLiveData<List<Goal>> = MutableLiveData()
     val goals : LiveData<List<Goal>>
         get() = _goals

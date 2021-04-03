@@ -28,22 +28,31 @@ class GoalListFragment : Fragment() {
     private lateinit var viewModel : GoalsViewModel
     private lateinit var expandableListView: ExpandableListView
     private lateinit var adapter: CustomExpandableListAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var noGoalsMessage : ViewGroup
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = inflater.inflate(R.layout.goals_fragment_exp_list, container, false)
+    ): View = inflater.inflate(R.layout.goals_fragment_exp_list, container, false)
+
+    private fun checkIfNoItems() {
+        val goals = viewModel.goals.value
+        if(goals == null || goals.isEmpty()) {
+            expandableListView.visibility = View.GONE
+            noGoalsMessage.visibility = View.VISIBLE
+        } else {
+            expandableListView.visibility = View.VISIBLE
+            noGoalsMessage.visibility = View.GONE
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-        viewModel = ViewModelProvider(requireActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application))[GoalsViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[GoalsViewModel::class.java]
 
         expandableListView = view.findViewById(R.id.expandableList)
+        noGoalsMessage = view.findViewById(R.id.goals_list_no_goals_msg)
+
         //Ref for switching group indicator: https://stackoverflow.com/questions/5800426/expandable-list-view-move-group-icon-indicator-to-right
         val newDisplay = expandableListView.viewTreeObserver
         newDisplay.addOnGlobalLayoutListener {
@@ -56,7 +65,7 @@ class GoalListFragment : Fragment() {
         adapter = CustomExpandableListAdapter(requireActivity())
         expandableListView.setAdapter(adapter)
 
-        expandableListView.setOnChildClickListener { _, v, groupPosition, childPosition, _ ->
+        expandableListView.setOnChildClickListener { _, v, groupPosition, _, _ ->
             if (v.id == R.id.fragment_mark_progress) {
                 val goal = viewModel.goals.value!![groupPosition]
 
@@ -84,21 +93,15 @@ class GoalListFragment : Fragment() {
         }
         viewModel.goals.observe(viewLifecycleOwner, Observer { newGoals ->
             adapter.setGoals(newGoals)
+            checkIfNoItems()
         })
+
+        checkIfNoItems()
 
         viewModel.fetchGoals()
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddStringFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() = GoalListFragment()
     }

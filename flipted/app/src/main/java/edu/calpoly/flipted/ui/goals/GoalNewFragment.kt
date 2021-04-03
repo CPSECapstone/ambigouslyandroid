@@ -19,7 +19,7 @@ class GoalNewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.new_goal, container, false)
+        return inflater.inflate(R.layout.goals_fragment_create, container, false)
     }
 
     companion object {
