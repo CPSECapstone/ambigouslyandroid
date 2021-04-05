@@ -12,6 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 
+private const val ARG_PARAM1 = "taskId"
+
 /**
  * A simple [Fragment] subclass.
  * Use the [QuizFragment.newInstance] factory method to
@@ -24,10 +26,17 @@ class QuizFragment : Fragment() {
     private lateinit var listFooter : View
     private lateinit var listAdapter: QuestionListAdapter
 
+    private var taskId: Int? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        arguments?.let {
+            taskId = it.getInt(ARG_PARAM1)
+        }
+
         val view = inflater.inflate(R.layout.quiz_fragment, container, false)
         listView = view.findViewById(R.id.question_list)
 
@@ -60,11 +69,15 @@ class QuizFragment : Fragment() {
             listAdapter.questionsData = it
             listAdapter.notifyDataSetChanged()
         })
-        viewModel.fetchQuestions()
+        viewModel.fetchQuestions(taskId)
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = QuizFragment()
+        fun newInstance(param1: Int) = QuizFragment().apply {
+            arguments = Bundle().apply {
+                putInt(ARG_PARAM1, param1)
+            }
+        }
     }
 }
