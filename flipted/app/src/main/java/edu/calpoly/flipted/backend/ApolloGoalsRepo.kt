@@ -1,7 +1,6 @@
 package edu.calpoly.flipted.backend
 
 import android.util.Log
-import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import edu.calpoly.flipted.AllGoalsQuery
@@ -11,15 +10,11 @@ import edu.calpoly.flipted.businesslogic.goals.GoalCompletion
 import edu.calpoly.flipted.businesslogic.goals.GoalsRepo
 import java.util.*
 
-class ApolloGoalsRepo : GoalsRepo {
-
-    private val apolloClient = ApolloClient.builder()
-        .serverUrl("https://f6t0mvy5y0.execute-api.us-east-1.amazonaws.com/dev/graphql")
-        .build()
+class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
 
     override suspend fun getAllGoals(): List<Goal> {
         val response = try {
-            apolloClient.query(AllGoalsQuery()).await()
+            apolloClient().query(AllGoalsQuery()).await()
         } catch(e: ApolloException) {
             Log.e("ApolloGoalsRepo", "Error when querying backend", e)
             return listOf()
@@ -54,7 +49,7 @@ class ApolloGoalsRepo : GoalsRepo {
 
     override suspend fun saveNewCompletion(completion: GoalCompletion): Goal? {
         val response = try {
-            apolloClient.mutate(SaveCompletionMutation(completion.parentId, completion.description, completion.completedDate.time.toString())).await()
+            apolloClient().mutate(SaveCompletionMutation(completion.parentId, completion.description, completion.completedDate.time.toString())).await()
         } catch(e: ApolloException) {
             Log.e("ApolloGoalsRepo", "Error when mutating backend: ${e.message}")
             return null
