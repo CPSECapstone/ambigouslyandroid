@@ -9,7 +9,7 @@
 
     <TextView
 
-        android:id="@+id/textView"
+        android:id="@+id/newGoalTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Goal"
@@ -22,10 +22,10 @@
         android:layout_marginBottom="700dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
- />
+        />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/goalNameText"
         android:layout_marginRight="370dp"
         android:layout_marginBottom="650dp"
         android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
         />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/goalDescText"
         android:layout_marginRight="330dp"
         android:layout_marginBottom="530dp"
         android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
         />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/compAmountText"
         android:layout_marginRight="320dp"
         android:layout_marginBottom="371dp"
         android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
 
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/compUnitText"
         android:layout_marginRight="340dp"
         android:layout_marginBottom="235dp"
         android:layout_width="wrap_content"
@@ -79,7 +79,7 @@
         />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/goalDateText"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="80dp"
         android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
         />
 
     <EditText
-        android:id="@+id/plain_text_input1"
+        android:id="@+id/goalNameInput"
         android:layout_width="410dp"
         android:layout_height="35dp"
         android:layout_marginRight="30dp"
@@ -107,21 +107,21 @@
         />
 
     <EditText
-        android:id="@+id/plain_text_input2"
+        android:id="@+id/targetDescInput"
         android:layout_width="410dp"
         android:layout_height="35dp"
-        android:layout_marginTop="41dp"
+        android:layout_marginBottom="465dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="600dp"
         android:background="@drawable/grey_goal_box"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/plain_text_input1" />
+        app:layout_constraintTop_toTopOf="parent"
+         />
 
     <EditText
-        android:id="@+id/plain_text_input3"
+        android:id="@+id/compAmountInput"
         android:layout_width="410dp"
         android:layout_height="35dp"
         android:layout_marginRight="30dp"
@@ -133,10 +133,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
-        />
+         />
 
     <EditText
-        android:id="@+id/plain_text_input4"
+        android:id="@+id/compUnitInput"
         android:layout_width="410dp"
         android:layout_height="35dp"
         android:layout_marginRight="30dp"
@@ -148,28 +148,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
-        app:layout_constraintVertical_bias="0.495" />
+      />
+
 
     <DatePicker
-        android:id="@+id/datePicker1"
+        android:id="@+id/dateInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="368dp"
-        android:layout_marginBottom="380dp"
+        android:layout_marginTop="168dp"
+        android:layout_marginRight="30dp"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/plain_text_input2" />
-
+        app:layout_constraintTop_toTopOf="parent"
+       />
 
     <Button
-        android:id="@+id/Submit"
+        android:id="@+id/SubmitNewGoalButton"
         android:layout_width="250dp"
         android:layout_height="70dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="500dp"
+        android:layout_marginRight="30dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="sans-serif-black"
         android:text="Save New Goal"
@@ -178,9 +179,9 @@
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
+
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/datePicker1"
-        app:layout_constraintVertical_bias="0.273" />
+        app:layout_constraintTop_toTopOf="parent"
+         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
