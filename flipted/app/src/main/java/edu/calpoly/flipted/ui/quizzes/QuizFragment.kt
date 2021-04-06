@@ -69,7 +69,7 @@ class QuizFragment : Fragment() {
             listAdapter.questionsData = it
             listAdapter.notifyDataSetChanged()
         })
-        viewModel.fetchQuestions(taskId)
+        viewModel.fetchQuestions(taskId!!)
     }
 
     companion object {

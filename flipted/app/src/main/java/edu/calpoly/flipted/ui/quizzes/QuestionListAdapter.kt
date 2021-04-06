@@ -9,7 +9,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.businesslogic.mc_question.Question
+import edu.calpoly.flipted.businesslogic.quizzes.Question
 
 class QuestionListAdapter(private val context: Context) : BaseAdapter() {
 

@@ -1,4 +1,4 @@
-package edu.calpoly.flipted.businesslogic.mc_question
+package edu.calpoly.flipted.businesslogic.quizzes
 
 data class Question(
     val title : String,
