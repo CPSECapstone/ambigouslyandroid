@@ -1,0 +1,20 @@
+query GetQuiz {
+  quiz(quizId: "1") {
+    id
+    name
+    course
+    instructions
+    due
+    questions {
+      id
+      quizId
+      description
+      options {
+        id
+        description
+      }
+      answers
+      points
+    }
+  }
+}
