@@ -7,7 +7,7 @@ import edu.calpoly.flipted.businesslogic.mc_question.QuestionsRepo
 
 class ApolloQuestionsRepo : QuestionsRepo {
     private val apolloClient = ApolloClient.builder()
-        .serverUrl("https://f6t0mvy5y0.execute-api.us-east-1.amazonaws.com/dev/graphql")
+        .serverUrl("https://bz4ubl4t4e.execute-api.us-east-1.amazonaws.com/dev/graphql")
         .build()
 
     override suspend fun getAllQuestions(): List<Question> {
