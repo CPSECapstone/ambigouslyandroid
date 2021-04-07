@@ -38,7 +38,6 @@ class StudentHomeFragment : Fragment() {
     }
 
     companion object {
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
             StudentHomeFragment()
