@@ -17,12 +17,17 @@ import edu.calpoly.flipted.R
  * Use the [QuizFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+private const val ARG_PARAM1 = "taskId"
+
 class QuizFragment : Fragment() {
 
     private lateinit var viewModel : QuizViewModel
     private lateinit var listView: ListView
     private lateinit var listFooter : View
     private lateinit var listAdapter: QuestionListAdapter
+
+    private var taskId: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +38,10 @@ class QuizFragment : Fragment() {
 
         listFooter = inflater.inflate(R.layout.quiz_footer, listView, false)
         listView.addFooterView(listFooter)
+
+        arguments?.let {
+            taskId = it.getString(ARG_PARAM1)
+        }
 
         return view
     }
@@ -60,11 +69,16 @@ class QuizFragment : Fragment() {
             listAdapter.questionsData = it
             listAdapter.notifyDataSetChanged()
         })
-        viewModel.fetchQuestions()
+        viewModel.fetchQuestions(taskId)
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = QuizFragment()
+        fun newInstance(param1: String) =
+            QuizFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                }
+            }
     }
 }

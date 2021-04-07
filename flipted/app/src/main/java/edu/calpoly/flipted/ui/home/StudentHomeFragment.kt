@@ -34,7 +34,7 @@ class StudentHomeFragment : Fragment() {
         val quizButton = view.findViewById<Button>(R.id.quiz_button)
         quizButton.setOnClickListener{
             parentFragmentManager.beginTransaction().apply {
-                replace(R.id.main_view, QuizFragment.newInstance())
+                replace(R.id.main_view, QuizFragment.newInstance(taskId))
                 addToBackStack(null)
                 commit()
             }

@@ -9,11 +9,11 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.businesslogic.mc_question.Question
+import edu.calpoly.flipted.businesslogic.mc_question.McQuestion
 
 class QuestionListAdapter(private val context: Context) : BaseAdapter() {
 
-    var questionsData: List<Question> = listOf()
+    var questionsData: List<McQuestion> = listOf()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val inflater = LayoutInflater.from(context)
@@ -23,9 +23,9 @@ class QuestionListAdapter(private val context: Context) : BaseAdapter() {
 
         val data = getItem(position)
 
-        question.text = "${position+1}. ${data.title}"
+        question.text = "${position+1}. ${data.description}"
         answers.removeAllViews()
-        data.answers.forEach {
+        data.options.forEach {
             val fillInAnswerView = inflater.inflate(R.layout.mc_quiz_answer_option, answers, false) as RadioButton
             fillInAnswerView.text = it.description
             answers.addView(fillInAnswerView)
@@ -33,12 +33,12 @@ class QuestionListAdapter(private val context: Context) : BaseAdapter() {
         return fillInView
     }
 
-    override fun getItem(position: Int): Question {
+    override fun getItem(position: Int): McQuestion {
         return questionsData[position]
     }
 
     override fun getItemId(position: Int): Long {
-        return questionsData[position].uid.toLong()
+        return position.toLong()
     }
 
     override fun getCount(): Int {
