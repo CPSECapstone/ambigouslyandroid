@@ -4,6 +4,4 @@ class GetAllQuestions (private val repo : QuestionsRepo) {
     suspend fun execute(id : String): List<McQuestion> {
         return repo.getAllQuestions(id);
     }
-
-
 }
