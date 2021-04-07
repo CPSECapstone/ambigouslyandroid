@@ -13,7 +13,7 @@ data class ValidationResponse(
         val subResponses : List<ValidationResponse>? = null
 )
 
-class ValidateQuizInput {
+object ValidateQuizInput {
     fun execute(filledInQuestions : List<Question>,
                 ignoreWarnings : List<ValidationResponse> = listOf())
     : List<ValidationResponse> {

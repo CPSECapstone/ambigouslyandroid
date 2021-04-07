@@ -11,6 +11,8 @@ import android.widget.ListView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
+import edu.calpoly.flipted.businesslogic.quizzes.Quiz
+import edu.calpoly.flipted.businesslogic.quizzes.ValidateQuizInput
 
 private const val ARG_PARAM1 = "taskId"
 
@@ -53,8 +55,12 @@ class QuizFragment : Fragment() {
 
         listFooter.findViewById<Button>(R.id.quiz_submit_button).setOnClickListener {
             Log.i("QuizFragment", "Submitting quiz...")
-            //TODO: validate quiz data. Make sure all questions have answers
-            //TODO: Submit quiz data to backend
+
+            val validationResults = ValidateQuizInput.execute(listAdapter.questionsData)
+            if(validationResults.isNotEmpty()) {
+                TODO()
+            }
+            viewModel.saveQuizCompletion(Quiz(viewModel.quizData.value!!.uid, listAdapter.questionsData))
             parentFragmentManager.beginTransaction().apply {
                 // TODO: pass quizId
                 replace(R.id.main_view, QuizResultsFragment.newInstance(0))
@@ -66,7 +72,7 @@ class QuizFragment : Fragment() {
         listView.adapter = listAdapter
 
         viewModel.quizData.observe(viewLifecycleOwner, Observer {
-            listAdapter.questionsData = it
+            listAdapter.questionsData = it.questions
             listAdapter.notifyDataSetChanged()
         })
         viewModel.fetchQuestions(taskId!!)

@@ -10,6 +10,10 @@ data class Question(
 data class Answer(
     val description : String,
     val parentId : Int,
-    val isCorrect : Boolean,
     var isChecked : Boolean
+)
+
+data class Quiz(
+    val uid : Int,
+    val questions: List<Question>
 )

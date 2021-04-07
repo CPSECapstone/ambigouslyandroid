@@ -28,6 +28,9 @@ class QuestionListAdapter(private val context: Context) : BaseAdapter() {
         data.answers.forEach {
             val fillInAnswerView = inflater.inflate(R.layout.mc_quiz_answer_option, answers, false) as RadioButton
             fillInAnswerView.text = it.description
+            fillInAnswerView.setOnCheckedChangeListener { _, b ->
+                it.isChecked = b
+            }
             answers.addView(fillInAnswerView)
         }
         return fillInView
