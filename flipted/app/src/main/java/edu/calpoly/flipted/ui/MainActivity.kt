@@ -1,17 +1,15 @@
 package edu.calpoly.flipted.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.renderscript.RSInvalidStateException
-import edu.calpoly.flipted.R
-import edu.calpoly.flipted.ui.home.StudentHomeFragment
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
+import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.classes.ClassesFragment
+import edu.calpoly.flipted.ui.home.StudentHomeFragment
 import edu.calpoly.flipted.ui.leaderboard.LeaderboardFragment
 import edu.calpoly.flipted.ui.marketplace.MarketplaceFragment
 import edu.calpoly.flipted.ui.myProgress.MyProgressFragment
 import edu.calpoly.flipted.ui.myTeam.MyTeamFragment
-import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
