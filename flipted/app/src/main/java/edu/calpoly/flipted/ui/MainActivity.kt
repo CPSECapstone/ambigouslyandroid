@@ -1,15 +1,21 @@
 package edu.calpoly.flipted.ui
 
+
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
 import com.google.android.material.tabs.TabLayout
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.classes.ClassesFragment
 import edu.calpoly.flipted.ui.home.StudentHomeFragment
 import edu.calpoly.flipted.ui.leaderboard.LeaderboardFragment
+import edu.calpoly.flipted.ui.login.LoginFragment
 import edu.calpoly.flipted.ui.marketplace.MarketplaceFragment
 import edu.calpoly.flipted.ui.myProgress.MyProgressFragment
 import edu.calpoly.flipted.ui.myTeam.MyTeamFragment
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.main_view, StudentHomeFragment.newInstance()).commitNow()
+            supportFragmentManager.beginTransaction().replace(R.id.main_view, LoginFragment.newInstance()).commitNow()
         }
 
         val tabLayout = findViewById<TabLayout>(R.id.navbar)
@@ -45,6 +51,14 @@ class MainActivity : AppCompatActivity() {
                 // Handle tab unselect
             }
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE) {
+            Amplify.Auth.handleWebUISignInResponse(data)
+        }
     }
 
 
