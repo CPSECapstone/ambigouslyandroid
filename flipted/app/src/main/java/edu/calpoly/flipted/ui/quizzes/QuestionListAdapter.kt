@@ -32,6 +32,8 @@ class QuestionListAdapter(private val context: Context) : BaseAdapter() {
                 it.isChecked = b
             }
             answers.addView(fillInAnswerView)
+            if(it.isChecked)
+                answers.check(fillInAnswerView.id)
         }
         return fillInView
     }

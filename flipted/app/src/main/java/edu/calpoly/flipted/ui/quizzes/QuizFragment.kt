@@ -1,5 +1,7 @@
 package edu.calpoly.flipted.ui.quizzes
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,11 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ListView
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.quizzes.Quiz
 import edu.calpoly.flipted.businesslogic.quizzes.ValidateQuizInput
+import edu.calpoly.flipted.businesslogic.quizzes.ValidationResponseType
 
 private const val ARG_PARAM1 = "taskId"
 
@@ -27,6 +31,7 @@ class QuizFragment : Fragment() {
     private lateinit var listView: ListView
     private lateinit var listFooter : View
     private lateinit var listAdapter: QuestionListAdapter
+    private lateinit var submitErrorMessageText : TextView
 
     private var taskId: Int? = null
 
@@ -43,6 +48,7 @@ class QuizFragment : Fragment() {
         listView = view.findViewById(R.id.question_list)
 
         listFooter = inflater.inflate(R.layout.quiz_footer, listView, false)
+        submitErrorMessageText = listFooter.findViewById(R.id.quiz_submit_error_msg)
         listView.addFooterView(listFooter)
 
         return view
@@ -56,16 +62,30 @@ class QuizFragment : Fragment() {
         listFooter.findViewById<Button>(R.id.quiz_submit_button).setOnClickListener {
             Log.i("QuizFragment", "Submitting quiz...")
 
-            val validationResults = ValidateQuizInput.execute(listAdapter.questionsData)
+            val filledInQuiz = Quiz(viewModel.quizData.value!!.uid, listAdapter.questionsData)
+
+            val validationResults = ValidateQuizInput.execute(filledInQuiz.questions)
             if(validationResults.isNotEmpty()) {
-                TODO()
+                //TODO: This is a quick hack. There should be better UI to indicate the failure
+                submitErrorMessageText.text = validationResults.joinToString(separator="\n") {
+                    if(it.subject != null)
+                        "Question ${listAdapter.questionsData.indexOf(it.subject)}: ${it.message}"
+                    else
+                        "${it.message}"
+                }
+                submitErrorMessageText.visibility = View.VISIBLE
+                return@setOnClickListener
             }
-            viewModel.saveQuizCompletion(Quiz(viewModel.quizData.value!!.uid, listAdapter.questionsData))
-            parentFragmentManager.beginTransaction().apply {
-                // TODO: pass quizId
-                replace(R.id.main_view, QuizResultsFragment.newInstance(0))
-                commit()
-            }
+
+            viewModel.quizResult.observe(viewLifecycleOwner, Observer {
+                parentFragmentManager.beginTransaction().apply {
+                    replace(R.id.main_view, QuizResultsFragment.newInstance(it.uid))
+                    commit()
+                }
+            })
+
+            viewModel.submitQuizForGrading(filledInQuiz)
+
         }
 
         listAdapter = QuestionListAdapter(requireActivity())

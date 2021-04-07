@@ -9,8 +9,7 @@ enum class ValidationResponseType {
 data class ValidationResponse(
         val type : ValidationResponseType,
         val message : String = "",
-        val subject : Question? = null,
-        val subResponses : List<ValidationResponse>? = null
+        val subject : Question? = null
 )
 
 object ValidateQuizInput {

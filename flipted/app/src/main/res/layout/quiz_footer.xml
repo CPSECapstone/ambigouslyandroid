@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <Button
         android:id="@+id/quiz_submit_button"
@@ -16,5 +17,22 @@
         android:text="Submit"
         android:textSize="24sp"
         />
+    <TextView
+        android:id="@+id/quiz_submit_error_msg"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/quiz_submit_button"
+
+        tools:text="Some error message"
+        android:textSize="24sp"
+        android:textColor="#FF0000"
+
+        android:visibility="gone"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

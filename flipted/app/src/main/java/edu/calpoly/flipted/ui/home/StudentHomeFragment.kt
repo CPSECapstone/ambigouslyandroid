@@ -35,7 +35,6 @@ class StudentHomeFragment : Fragment() {
         quizButton.setOnClickListener{
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.main_view, QuizFragment.newInstance(1))
-                addToBackStack(null)
                 commit()
             }
         }
