@@ -18,3 +18,7 @@ query GetQuiz($quizId: String!) {
     }
   }
 }
+
+mutation AddSubmission($submission: QuizSubmissionInput!) {
+  addSubmission(submission : $submission)
+}
