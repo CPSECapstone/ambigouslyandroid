@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.goals.GoalCompletion
-import edu.calpoly.flipted.ui.MainViewModel
 
 import java.util.*
 
@@ -26,7 +25,7 @@ import java.util.*
  */
 class GoalListFragment : Fragment() {
 
-    private lateinit var viewModel : MainViewModel
+    private lateinit var viewModel : GoalsViewModel
     private lateinit var expandableListView: ExpandableListView
     private lateinit var adapter: CustomExpandableListAdapter
 
@@ -42,7 +41,7 @@ class GoalListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-        viewModel = ViewModelProvider(requireActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application))[MainViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application))[GoalsViewModel::class.java]
 
         expandableListView = view.findViewById(R.id.expandableList)
         //Ref for switching group indicator: https://stackoverflow.com/questions/5800426/expandable-list-view-move-group-icon-indicator-to-right

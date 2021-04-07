@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.goals.GoalsFragment
+import edu.calpoly.flipted.ui.quizzes.QuizFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -19,15 +20,25 @@ class StudentHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val button = view.findViewById<Button>(R.id.goals_button)
-            button.setOnClickListener{
+        val goalsButton = view.findViewById<Button>(R.id.goals_button)
+            goalsButton.setOnClickListener{
                 parentFragmentManager.beginTransaction().apply {
                     replace(R.id.main_view, GoalsFragment.newInstance())
                     addToBackStack(null)
                     commit()
                 }
             }
+
+        // mock task id
+        val taskId = 1
+        val quizButton = view.findViewById<Button>(R.id.quiz_button)
+        quizButton.setOnClickListener{
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.main_view, QuizFragment.newInstance(1))
+                commit()
+            }
         }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
