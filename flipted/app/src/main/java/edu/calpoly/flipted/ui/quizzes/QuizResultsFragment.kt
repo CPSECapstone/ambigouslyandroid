@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.home.StudentHomeFragment
 
-private const val QUIZ_ID_PARAM_NAME = "quizId"
+private const val RESULTS_ID_PARAM_NAME = "resultId"
 
 /**
  * A simple [Fragment] subclass.
@@ -22,7 +22,7 @@ private const val QUIZ_ID_PARAM_NAME = "quizId"
  * create an instance of this fragment.
  */
 class QuizResultsFragment : Fragment() {
-    private var quizId: Int = -1
+    private var resultsId: Int = -1
 
     private lateinit var viewModel: QuizViewModel
 
@@ -33,7 +33,7 @@ class QuizResultsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            quizId = it.getInt(QUIZ_ID_PARAM_NAME)
+            resultsId = it.getInt(RESULTS_ID_PARAM_NAME)
         }
     }
 
@@ -44,7 +44,7 @@ class QuizResultsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(quizId == -1) {
+        if(resultsId == -1) {
             throw IllegalStateException("No quizId provided")
         }
 
@@ -64,7 +64,7 @@ class QuizResultsFragment : Fragment() {
             resultsProgressBar.progress = it.numCorrect
             Log.i("QuizResultsFragment", "Displaying results with id ${it.uid}")
         })
-        viewModel.fetchResult(quizId)
+        viewModel.fetchResult(resultsId)
 
     }
 
@@ -73,14 +73,14 @@ class QuizResultsFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param quizId The quiz for which results should be shown
+         * @param resultsId The quiz for which results should be shown
          * @return A new instance of fragment QuizResultsFragment.
          */
         @JvmStatic
-        fun newInstance(quizId: Int) =
+        fun newInstance(resultsId: Int) =
                 QuizResultsFragment().apply {
                     arguments = Bundle().apply {
-                        putInt(QUIZ_ID_PARAM_NAME, quizId)
+                        putInt(RESULTS_ID_PARAM_NAME, resultsId)
                     }
                 }
     }
