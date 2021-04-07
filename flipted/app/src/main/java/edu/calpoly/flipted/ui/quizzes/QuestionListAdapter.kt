@@ -10,18 +10,38 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.quizzes.Question
+import edu.calpoly.flipted.businesslogic.quizzes.ValidationResponse
 
 class QuestionListAdapter(private val context: Context) : BaseAdapter() {
 
     var questionsData: List<Question> = listOf()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    var validationIssues : List<ValidationResponse> = listOf()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val inflater = LayoutInflater.from(context)
         val fillInView = convertView?:inflater.inflate(R.layout.mc_quiz_question, parent, false)
         val question = fillInView.findViewById<TextView>(R.id.mc_question)
         val answers = fillInView.findViewById<RadioGroup>(R.id.answers)
+        val issueText = fillInView.findViewById<TextView>(R.id.question_issue_text)
 
         val data = getItem(position)
+
+        val issue = validationIssues.find{issue -> issue.subject == data}
+        if(issue != null) {
+            issueText.text = issue.message
+            issueText.visibility = View.VISIBLE
+        } else {
+            issueText.visibility = View.GONE
+        }
 
         question.text = "${position+1}. ${data.title}"
         answers.removeAllViews()

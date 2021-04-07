@@ -31,7 +31,8 @@ class QuizFragment : Fragment() {
     private lateinit var listView: ListView
     private lateinit var listFooter : View
     private lateinit var listAdapter: QuestionListAdapter
-    private lateinit var submitErrorMessageText : TextView
+
+    private lateinit var footerErrorWarnMsg : TextView
 
     private var taskId: Int? = null
 
@@ -48,7 +49,7 @@ class QuizFragment : Fragment() {
         listView = view.findViewById(R.id.question_list)
 
         listFooter = inflater.inflate(R.layout.quiz_footer, listView, false)
-        submitErrorMessageText = listFooter.findViewById(R.id.quiz_submit_error_msg)
+        footerErrorWarnMsg = listFooter.findViewById(R.id.quiz_errors_exist_msg)
         listView.addFooterView(listFooter)
 
         return view
@@ -64,16 +65,10 @@ class QuizFragment : Fragment() {
 
             val filledInQuiz = Quiz(viewModel.quizData.value!!.uid, listAdapter.questionsData)
 
-            val validationResults = ValidateQuizInput.execute(filledInQuiz.questions)
+            val validationResults = ValidateQuizInput.execute(filledInQuiz.questions, listAdapter.validationIssues)
             if(validationResults.isNotEmpty()) {
-                //TODO: This is a quick hack. There should be better UI to indicate the failure
-                submitErrorMessageText.text = validationResults.joinToString(separator="\n") {
-                    if(it.subject != null)
-                        "Question ${listAdapter.questionsData.indexOf(it.subject)}: ${it.message}"
-                    else
-                        "${it.message}"
-                }
-                submitErrorMessageText.visibility = View.VISIBLE
+                footerErrorWarnMsg.visibility = View.VISIBLE
+                listAdapter.validationIssues = validationResults
                 return@setOnClickListener
             }
 
@@ -93,7 +88,6 @@ class QuizFragment : Fragment() {
 
         viewModel.quizData.observe(viewLifecycleOwner, Observer {
             listAdapter.questionsData = it.questions
-            listAdapter.notifyDataSetChanged()
         })
         viewModel.fetchQuestions(taskId!!)
     }
