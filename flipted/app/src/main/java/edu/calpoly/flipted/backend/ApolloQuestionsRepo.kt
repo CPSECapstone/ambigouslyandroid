@@ -1,23 +1,58 @@
 package edu.calpoly.flipted.backend
 
-import com.apollographql.apollo.ApolloClient
-import edu.calpoly.flipted.businesslogic.mc_question.Question
-import edu.calpoly.flipted.businesslogic.mc_question.Answer
+import android.util.Log
+import com.apollographql.apollo.coroutines.await
+import com.apollographql.apollo.exception.ApolloException
+import edu.calpoly.flipted.GetQuizQuery
+import edu.calpoly.flipted.GetQuizQuestionsQuery
+import edu.calpoly.flipted.businesslogic.mc_question.McQuestion
+import edu.calpoly.flipted.businesslogic.mc_question.Option
 import edu.calpoly.flipted.businesslogic.mc_question.QuestionsRepo
+import java.util.*
 
-class ApolloQuestionsRepo : QuestionsRepo {
-    private val apolloClient = ApolloClient.builder()
-        .serverUrl("https://bz4ubl4t4e.execute-api.us-east-1.amazonaws.com/dev/graphql")
-        .build()
+class ApolloQuestionsRepo : ApolloRepo(), QuestionsRepo {
 
-    override suspend fun getAllQuestions(): List<Question> {
-        val answerOne = Answer("atomos", 1, isCorrect = false, isChecked = false)
-        val answerTwo = Answer("neutron", 1, isCorrect = false, isChecked = false)
-        val answerThree = Answer("nucleus", 1, isCorrect = true, isChecked = false)
-        val answerFour = Answer("nucleon", 1, isCorrect = false, isChecked = false)
-        val answerList = mutableListOf<Answer>(answerOne, answerTwo, answerThree, answerFour)
+    override suspend fun getAllQuestions(id : String): List<McQuestion> {
+        val response = try {
+            apolloClient().query(GetQuizQuestionsQuery(id)).await()
+        } catch(e: ApolloException) {
+            e.printStackTrace()
+            Log.e("ApolloQuestionsRepo", "Error when querying backend", e)
+            return listOf()
+        }
 
-        return listOf(Question("The center of an atom is called the ______.", 1, 1, answerList))
+        if(response.hasErrors() || response.data == null) {
+            Log.e("ApolloQuestionsRepo", "Error when querying backend: bad response")
+            return listOf()
+        }
+/*
+        return try {
+            response.data!!.quiz!!.questions!!.map {
+                McQuestion(it!!.description, it.id!!, it.quizId!!,
+                    it.options!!.map { opt ->
+                        Option(
+                            opt!!.id,
+                            opt!!.description)
+                    },
+                    it.answers!!, it.points!!
+                        .toMutableList())
+            }
+            */
+        return try {
+            response.data!!.questions!!.map {
+                McQuestion("What kind of information can be deducted from the rings of a tree? Select all that apply", it!!.id, id,
+                    it.options!!.map { opt ->
+                        Option(
+                            opt!!.id,
+                            opt.description)
+                    },
+                    it.answers as List<String>?, it.points
+                        )
+            }
+        } catch(e : NullPointerException) {
+            Log.e("ApolloQuestionsRepo", "Failed null check when processing received data")
+            listOf()
+        }
     }
 
 

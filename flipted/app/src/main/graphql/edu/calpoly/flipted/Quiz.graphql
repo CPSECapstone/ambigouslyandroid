@@ -19,6 +19,18 @@ query GetQuiz($quizId: String!) {
   }
 }
 
+query GetQuizQuestions($quizId: String!) {
+  questions(quizId: $quizId) {
+    id
+    answers
+    points
+  options{
+    id
+    description
+  }
+  }
+}
+
 mutation AddSubmission($submission: QuizSubmissionInput!) {
   addSubmission(submission : $submission)
 }

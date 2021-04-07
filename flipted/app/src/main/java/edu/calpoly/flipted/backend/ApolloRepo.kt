@@ -11,7 +11,7 @@ import okhttp3.Response
 
 abstract class ApolloRepo {
     companion object {
-        const val BACKEND_URL = "https://bvt1ftio71.execute-api.us-east-1.amazonaws.com/dev/graphql"
+        const val BACKEND_URL = "https://bz4ubl4t4e.execute-api.us-east-1.amazonaws.com/dev/graphql"
     }
 
     private class AuthorizationInterceptor(val key: String) : Interceptor {

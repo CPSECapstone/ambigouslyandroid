@@ -1,15 +1,37 @@
 package edu.calpoly.flipted.businesslogic.mc_question
 
-data class Question(
-    val title : String,
-    val uid : Int,
-    val taskId : Int,
-    val answers: MutableList<Answer>
+import java.util.Date
+
+data class Quiz(
+    val uid : String,
+    val name : String,
+    val course : String,
+    val instructions : String,
+    val due : Date,
+    val questions : McQuestion
 )
 
-data class Answer(
+data class McQuestion(
     val description : String,
-    val parentId : Int,
-    val isCorrect : Boolean,
-    var isChecked : Boolean
+    val uid : String,
+    val taskId : String,
+    val options: List<Option>,
+    val answers: List<String>?,
+    val points: Int
+)
+
+data class Option(
+    val parentId : String,
+    val description : String
+)
+
+data class QuizSubmissionInput(
+    val student: String,
+    val quizId: String,
+    val answers: MutableList<AnswerInput>
+)
+
+data class AnswerInput(
+    val questionId: String,
+    val choices: MutableList<String>
 )

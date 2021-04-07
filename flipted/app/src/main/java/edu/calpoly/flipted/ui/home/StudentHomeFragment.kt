@@ -30,7 +30,7 @@ class StudentHomeFragment : Fragment() {
             }
 
         // mock task id
-        val taskId = 1
+        val taskId = "3f1e9fe5b43"
         val quizButton = view.findViewById<Button>(R.id.quiz_button)
         quizButton.setOnClickListener{
             parentFragmentManager.beginTransaction().apply {

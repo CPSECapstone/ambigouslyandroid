@@ -29,7 +29,7 @@ class McFragment : Fragment() {
     private lateinit var answer3 : RadioButton
     private lateinit var answer4 : RadioButton
 
-    private var taskId: Int? = null
+    private var taskId: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +37,7 @@ class McFragment : Fragment() {
     ): View? {
 
         arguments?.let {
-            taskId = it.getInt(ARG_PARAM1)
+            taskId = it.getString(ARG_PARAM1)
         }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mc, container, false)
@@ -57,25 +57,25 @@ class McFragment : Fragment() {
             if(it.size != 1)
                 Log.w("McFragment", "Expected 1 question, received ${it.size}")
             val questionData = it[0]
-            question.text = questionData.title
+            question.text = questionData.description
 
-            if(questionData.answers.size != 4)
-                Log.w("McFragment", "Expected 4 answers, received ${questionData.answers.size}")
+            if(questionData.options.size != 4)
+                Log.w("McFragment", "Expected 4 answers, received ${questionData.options.size}")
 
-            answer1.text = questionData.answers[0].description
-            answer2.text = questionData.answers[1].description
-            answer3.text = questionData.answers[2].description
-            answer4.text = questionData.answers[3].description
+            answer1.text = questionData.options[0].description
+            answer2.text = questionData.options[1].description
+            answer3.text = questionData.options[2].description
+            answer4.text = questionData.options[3].description
         })
         viewModel.fetchQuestions(taskId)
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: Int) =
+        fun newInstance(param1: String) =
             McFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_PARAM1, param1)
+                    putString(ARG_PARAM1, param1)
                 }
             }
     }
