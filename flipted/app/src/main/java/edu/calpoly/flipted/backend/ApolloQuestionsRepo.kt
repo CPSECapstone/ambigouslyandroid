@@ -40,7 +40,7 @@ class ApolloQuestionsRepo : ApolloRepo(), QuestionsRepo {
             */
         return try {
             response.data!!.questions!!.map {
-                McQuestion("What kind of information can be deducted from the rings of a tree? Select all that apply", it!!.id, id,
+                McQuestion(it!!.description, it!!.id, id,
                     it.options!!.map { opt ->
                         Option(
                             opt!!.id,
