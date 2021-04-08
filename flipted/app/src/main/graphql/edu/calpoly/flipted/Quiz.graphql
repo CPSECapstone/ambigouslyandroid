@@ -1,26 +1,5 @@
-query GetQuiz($quizId: String!) {
-  quiz(quizId: $quizId) {
-    id
-    name
-    course
-    instructions
-    due
-    questions {
-      id
-      quizId
-      description
-      options {
-        id
-        description
-      }
-      answers
-      points
-    }
-  }
-}
-
-query GetQuizQuestions($quizId: String!) {
-  questions(quizId: $quizId) {
+query GetQuizQuestions($taskId: String!) {
+  questions(taskId: $taskId) {
     id
     answers
     points
@@ -30,8 +9,4 @@ query GetQuizQuestions($quizId: String!) {
     description
   }
   }
-}
-
-mutation AddSubmission($submission: QuizSubmissionInput!) {
-  addSubmission(submission : $submission)
 }

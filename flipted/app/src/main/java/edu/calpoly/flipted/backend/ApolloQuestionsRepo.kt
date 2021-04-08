@@ -3,7 +3,7 @@ package edu.calpoly.flipted.backend
 import android.util.Log
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
-import edu.calpoly.flipted.GetQuizQuery
+//import edu.calpoly.flipted.GetQuizQuery
 import edu.calpoly.flipted.GetQuizQuestionsQuery
 import edu.calpoly.flipted.businesslogic.mc_question.McQuestion
 import edu.calpoly.flipted.businesslogic.mc_question.Option

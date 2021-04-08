@@ -21,7 +21,7 @@ data class McQuestion(
 )
 
 data class Option(
-    val parentId : String,
+    val parentId : Int,
     val description : String
 )
 
