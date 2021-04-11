@@ -1,25 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.calpoly.flipted.ui.home.StudentHomeFragment">
+    tools:context="edu.calpoly.flipted.ui.home.StudentHomeFragment"
+
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Student Home"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"></TextView>
+
+        android:layout_marginTop="100dp"
+        android:textSize="36sp"
+        />
+
+    <TextView
+        android:id="@+id/student_home_welcome_msg"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        tools:text="Welcome Student!"
+
+        android:layout_marginTop="40dp"
+        android:textSize="24sp"
+        />
+
+    <Button
+        android:id="@+id/student_home_logout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Log Out"
+        android:layout_marginTop="20dp"
+        />
 
     <Button
         android:id="@+id/goals_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="-30dp"
-        android:text="Goals"></Button>
+        android:layout_marginTop="80dp"
+        android:text="Goals"/>
 
     <Button
         android:id="@+id/quiz_button"
@@ -27,6 +55,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:text="Take Quiz"></Button>
+        android:text="Take Quiz"/>
 
-</FrameLayout>
+</LinearLayout>

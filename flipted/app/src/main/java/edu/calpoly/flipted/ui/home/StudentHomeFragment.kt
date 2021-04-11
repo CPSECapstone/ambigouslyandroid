@@ -1,13 +1,20 @@
 package edu.calpoly.flipted.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.amplifyframework.auth.AuthUserAttributeKey
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.goals.GoalsFragment
+import edu.calpoly.flipted.ui.login.LoginFragment
+import edu.calpoly.flipted.ui.login.LoginViewModel
 import edu.calpoly.flipted.ui.quizzes.QuizFragment
 
 /**
@@ -16,6 +23,8 @@ import edu.calpoly.flipted.ui.quizzes.QuizFragment
  * create an instance of this fragment.
  */
 class StudentHomeFragment : Fragment() {
+
+    private lateinit var loginViewModel : LoginViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,6 +47,29 @@ class StudentHomeFragment : Fragment() {
                 commit()
             }
         }
+
+        loginViewModel = ViewModelProvider(requireActivity())[LoginViewModel::class.java]
+
+        val welcomeMsg = view.findViewById<TextView>(R.id.student_home_welcome_msg)
+        val logoutButton = view.findViewById<Button>(R.id.student_home_logout_button)
+        loginViewModel.userAttributes.observe(viewLifecycleOwner, Observer { attributes ->
+            val email = attributes.find{it.key.equals(AuthUserAttributeKey.email())}?.value ?: "Student"
+            welcomeMsg.text = "Welcome $email!"
+        })
+        loginViewModel.fetchUserAttributes()
+
+        loginViewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
+            if(!it)
+                parentFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_view, LoginFragment.newInstance())
+                        .commitNow()
+        })
+
+        logoutButton.setOnClickListener {
+            loginViewModel.logOut()
+        }
+
     }
 
     override fun onCreateView(
