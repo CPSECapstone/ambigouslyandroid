@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.goals.GoalsFragment
-import edu.calpoly.flipted.ui.quizzes.McFragment
+import edu.calpoly.flipted.ui.quizzes.QuizFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -29,11 +29,12 @@ class StudentHomeFragment : Fragment() {
                 }
             }
 
+        // mock task id
+        val taskId = 1
         val quizButton = view.findViewById<Button>(R.id.quiz_button)
         quizButton.setOnClickListener{
             parentFragmentManager.beginTransaction().apply {
-                replace(R.id.main_view, McFragment.newInstance())
-                addToBackStack(null)
+                replace(R.id.main_view, QuizFragment.newInstance(1))
                 commit()
             }
         }
@@ -48,7 +49,6 @@ class StudentHomeFragment : Fragment() {
     }
 
     companion object {
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
             StudentHomeFragment()

@@ -4,20 +4,41 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import edu.calpoly.flipted.businesslogic.mc_question.GetAllQuestions
-import edu.calpoly.flipted.businesslogic.mc_question.Question
+import edu.calpoly.flipted.backend.MockQuestionsRepo
+import edu.calpoly.flipted.businesslogic.quizzes.*
 import kotlinx.coroutines.launch
 
 class QuizViewModel : ViewModel() {
-    val quizData : LiveData<List<Question>>
+    val quizData : LiveData<Quiz>
         get() = _quizData
 
-    private val _quizData = MutableLiveData<List<Question>>()
-    private val getAllQuestions = GetAllQuestions()
+    val quizResult : LiveData<QuizResult>
+        get() = _quizResult
 
-    fun fetchQuestions() {
+    private val _quizData = MutableLiveData<Quiz>()
+    private val _quizResult = MutableLiveData<QuizResult>()
+
+    private val repo = MockQuestionsRepo()
+    private val getAllQuestions = GetQuiz(repo)
+    private val getQuizResult = GetQuizResult(repo)
+    private val saveQuizCompletion = SaveNewQuizCompletion(repo)
+
+    fun fetchQuestions(id : Int) {
         viewModelScope.launch {
-            _quizData.value = getAllQuestions.getAllQuestions()
+            _quizData.value = getAllQuestions.execute(id)
+        }
+    }
+
+    fun fetchResult(resultId : Int) {
+        viewModelScope.launch {
+            _quizResult.value = getQuizResult.execute(resultId)
+        }
+    }
+
+
+    fun submitQuizForGrading(quiz : Quiz) {
+        viewModelScope.launch {
+            _quizResult.value = saveQuizCompletion.execute(quiz)
         }
     }
 }

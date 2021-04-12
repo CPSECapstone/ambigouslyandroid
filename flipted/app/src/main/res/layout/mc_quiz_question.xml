@@ -13,10 +13,22 @@
         android:id="@+id/mc_question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Question?"
+        tools:text="1. Some question here"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
         android:paddingBottom="5dp"/>
+    <TextView
+        android:id="@+id/question_issue_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        tools:text="Missing answer"
+
+        android:textSize="18sp"
+        android:textColor="#CF0000"
+        android:layout_marginStart="20dp"
+
+        android:visibility="gone"/>
 
     <RadioGroup
         android:id="@+id/answers"
