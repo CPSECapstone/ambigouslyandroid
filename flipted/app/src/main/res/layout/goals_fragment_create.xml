@@ -1,187 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+
+    android:gravity="center">
+<LinearLayout
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
 
     <TextView
-
-        android:id="@+id/newGoalTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Goal"
         android:fontFamily="sans-serif-medium"
         android:textColor="@android:color/black"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="700dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        android:textSize="25sp" />
 
     <TextView
-        android:id="@+id/goalNameText"
-        android:layout_marginRight="370dp"
-        android:layout_marginBottom="650dp"
+        android:layout_marginTop="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="Goal Name"
-        />
-
-    <TextView
-        android:id="@+id/goalDescText"
-        android:layout_marginRight="330dp"
-        android:layout_marginBottom="530dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="Target Description"
-        />
-
-    <TextView
-        android:id="@+id/compAmountText"
-        android:layout_marginRight="320dp"
-        android:layout_marginBottom="371dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="Completion Amount"
-        />
-
-
-
-    <TextView
-        android:id="@+id/compUnitText"
-        android:layout_marginRight="340dp"
-        android:layout_marginBottom="235dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="Completion Unit"
-        />
-
-    <TextView
-        android:id="@+id/goalDateText"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="80dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="Goal Due Date"
-        />
+        android:text="Goal Name" />
 
     <EditText
         android:id="@+id/goalNameInput"
         android:layout_width="410dp"
         android:layout_height="35dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="600dp"
         android:background="@drawable/grey_goal_box"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="text" />
 
-        />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Target Description" />
 
     <EditText
         android:id="@+id/targetDescInput"
         android:layout_width="410dp"
         android:layout_height="35dp"
-        android:layout_marginBottom="465dp"
-        android:layout_marginRight="30dp"
         android:background="@drawable/grey_goal_box"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-         />
+        android:inputType="text" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Completion Amount" />
 
     <EditText
         android:id="@+id/compAmountInput"
         android:layout_width="410dp"
         android:layout_height="35dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="320dp"
         android:background="@drawable/grey_goal_box"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="text" />
 
-         />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Completion Unit"
+        />
 
     <EditText
         android:id="@+id/compUnitInput"
         android:layout_width="410dp"
         android:layout_height="35dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="180dp"
         android:background="@drawable/grey_goal_box"
         android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        />
 
-      />
-
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Goal Due Date"
+        />
 
     <DatePicker
         android:id="@+id/dateInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="168dp"
-        android:layout_marginRight="30dp"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
        />
 
     <Button
+        android:layout_marginTop="20dp"
         android:id="@+id/SubmitNewGoalButton"
         android:layout_width="250dp"
         android:layout_height="70dp"
-        android:layout_marginTop="500dp"
-        android:layout_marginRight="30dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="sans-serif-black"
         android:text="Save New Goal"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
          />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+</RelativeLayout>
