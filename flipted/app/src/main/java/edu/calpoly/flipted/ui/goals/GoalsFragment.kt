@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.goals.Goal
-import edu.calpoly.flipted.ui.quizzes.McFragment
 
 /**
  * A simple [Fragment] subclass.
