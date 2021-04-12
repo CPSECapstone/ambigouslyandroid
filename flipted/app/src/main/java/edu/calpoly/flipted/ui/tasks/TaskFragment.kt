@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.quizzes.Quiz
 import edu.calpoly.flipted.businesslogic.quizzes.ValidateQuizInput
@@ -38,11 +41,7 @@ class TaskFragment : Fragment() {
         }
 
         val view = inflater.inflate(R.layout.task_tabs, container, false)
-        viewPager = view.findViewById(R.id.task_pager)
 
-        val adapterViewPager = TaskPagerAdapter(getChildFragmentManager())
-
-        viewModel = ViewModelProvider(requireActivity())[TaskViewModel::class.java]
 /*
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
 
@@ -55,22 +54,34 @@ class TaskFragment : Fragment() {
 
 */
 
-        adapterViewPager.setBlocks(listOf())
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        //super.onViewCreated(view, savedInstanceState)
+
+        viewPager = view.findViewById(R.id.task_pager)
+
+        val adapterViewPager = TaskPagerAdapter(this)
+
+        viewModel = ViewModelProvider(requireActivity())[TaskViewModel::class.java]
+        viewPager.adapter = adapterViewPager
+
         viewModel.blocks.observe(viewLifecycleOwner, Observer { newBlocks ->
             adapterViewPager.setBlocks(newBlocks)
         })
 
         viewModel.fetchBlocks()
 
-        return view
-    }
-/*
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val tabLayout = view.findViewById(R.id.task_tab_layout) as TabLayout
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = "${(position + 1)}"
+        }.attach()
 
 
     }
-*/
+
     companion object {
         @JvmStatic
         fun newInstance(param1: Int) = TaskFragment().apply {

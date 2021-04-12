@@ -19,7 +19,8 @@ class TaskViewModel : ViewModel(){
     fun fetchBlocks() {
         //viewModelScope.launch {
             _blocks.value = listOf<Block>(QuizBlock(null, listOf<Question>(
-                FreeResponseQuestion("What is your name?", 1, 1)), 0, 1))
+                FreeResponseQuestion("What is your name?", 1, 1),
+                FreeResponseQuestion("What is your favorite class?", 1, 2)), 0, 1))
         //}
     }
 }

@@ -14,7 +14,7 @@ import edu.calpoly.flipted.businesslogic.goals.Goal
 import edu.calpoly.flipted.businesslogic.tasks.Block
 import edu.calpoly.flipted.businesslogic.tasks.QuizBlock
 
-class TaskPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class TaskPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     private var blockData: List<Block> = listOf()
 
@@ -23,8 +23,8 @@ class TaskPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(
         notifyDataSetChanged()
     }
 
-    override fun getItem(position: Int): Fragment {
-        var block = blockData.get(position)
+    override fun createFragment(position: Int): Fragment {
+        var block = blockData.get(0)
         /*
         if (block is QuizBlock) {
             block = block as QuizBlock
@@ -33,12 +33,12 @@ class TaskPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(
         */
 
         block = block as QuizBlock
-        return FreeResponseFragment.newInstance(block.questions.get(0).question)
+        return FreeResponseFragment.newInstance(block.questions[position].question)
     }
 
-    override fun getCount(): Int {
+    override fun getItemCount(): Int {
         Log.e("tag", blockData.size.toString())
-        return 1
+        return 2
         //blockData.size
     }
 }
