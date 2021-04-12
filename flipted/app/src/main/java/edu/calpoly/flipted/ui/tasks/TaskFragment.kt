@@ -40,7 +40,7 @@ class TaskFragment : Fragment() {
         val view = inflater.inflate(R.layout.task_tabs, container, false)
         viewPager = view.findViewById(R.id.task_pager)
 
-        val adapterViewPager = TaskPagerAdapter(getParentFragmentManager())
+        val adapterViewPager = TaskPagerAdapter(getChildFragmentManager())
 
         viewModel = ViewModelProvider(requireActivity())[TaskViewModel::class.java]
 /*
@@ -51,7 +51,11 @@ class TaskFragment : Fragment() {
                 val currBlock = inflater.inflate(R.layout.goals_mark_progress_form, null)
             }
         });
+
+
 */
+
+        adapterViewPager.setBlocks(listOf())
         viewModel.blocks.observe(viewLifecycleOwner, Observer { newBlocks ->
             adapterViewPager.setBlocks(newBlocks)
         })

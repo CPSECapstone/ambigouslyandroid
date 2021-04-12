@@ -1,14 +1,20 @@
 package edu.calpoly.flipted.ui.tasks
 
+import android.content.Context
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.adapter.FragmentViewHolder
 import edu.calpoly.flipted.businesslogic.goals.Goal
 import edu.calpoly.flipted.businesslogic.tasks.Block
 import edu.calpoly.flipted.businesslogic.tasks.QuizBlock
 
-class TaskPagerAdapter(fragmentManger: FragmentManager) : FragmentPagerAdapter(fragmentManger, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class TaskPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private var blockData: List<Block> = listOf()
 
@@ -32,6 +38,7 @@ class TaskPagerAdapter(fragmentManger: FragmentManager) : FragmentPagerAdapter(f
 
     override fun getCount(): Int {
         Log.e("tag", blockData.size.toString())
-        return blockData.size
+        return 1
+        //blockData.size
     }
 }
