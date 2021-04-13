@@ -9,6 +9,7 @@ import android.widget.Button
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.goals.GoalsFragment
 import edu.calpoly.flipted.ui.quizzes.QuizFragment
+import edu.calpoly.flipted.ui.task.TaskBlockVideoFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -38,7 +39,23 @@ class StudentHomeFragment : Fragment() {
                 commit()
             }
         }
+
+        //can be removed after implemented in the task list block
+        val videoButton = view.findViewById<Button>(R.id.video_button)
+        videoButton.setOnClickListener{
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.main_view, TaskBlockVideoFragment.newInstance())
+                addToBackStack(null)
+                commit()
+            }
+        }
+
+
+
+
     }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
