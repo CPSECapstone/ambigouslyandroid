@@ -75,7 +75,7 @@ class MockTasksRepo : TasksRepo {
         if(taskId != mockedTask.uid)
             throw IllegalArgumentException("No task with $taskId exists")
         return Task(
-            mockedTask.blocks.map { page ->
+            mockedTask.pages.map { page ->
                 Page(page.blocks.map { block ->
                     if(savedProgress.contains(block.requirement?.uid))
                         block.completed

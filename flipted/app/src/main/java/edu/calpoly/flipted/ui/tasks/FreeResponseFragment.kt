@@ -24,9 +24,9 @@ class FreeResponseFragment: Fragment() {
         }
 
         val view = inflater.inflate(R.layout.task_free_response, container, false)
-        val questionText = view.findViewById(R.id.fr_question) as TextView
+        //val questionText = view.findViewById(R.id.fr_question) as TextView
 
-        questionText.text = question
+        //questionText.text = question
 
         return view
     }
