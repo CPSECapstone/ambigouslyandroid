@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:gravity="center">
+<LinearLayout
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Goal"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@android:color/black"
+        android:textSize="25sp" />
+
+    <TextView
+        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Goal Name" />
+
+    <EditText
+        android:id="@+id/goalNameInput"
+        android:layout_width="410dp"
+        android:layout_height="35dp"
+        android:background="@drawable/grey_goal_box"
+        android:inputType="text" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Target Description" />
+
+    <EditText
+        android:id="@+id/targetDescInput"
+        android:layout_width="410dp"
+        android:layout_height="35dp"
+        android:background="@drawable/grey_goal_box"
+        android:inputType="text" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Completion Amount" />
+
+    <EditText
+        android:id="@+id/compAmountInput"
+        android:layout_width="410dp"
+        android:layout_height="35dp"
+        android:background="@drawable/grey_goal_box"
+        android:inputType="text" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Completion Unit"
+        />
+
+    <EditText
+        android:id="@+id/compUnitInput"
+        android:layout_width="410dp"
+        android:layout_height="35dp"
+        android:background="@drawable/grey_goal_box"
+        android:inputType="text"
+        />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Goal Due Date"
+        />
+
+    <DatePicker
+        android:id="@+id/dateInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+       />
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/SubmitNewGoalButton"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:background="@drawable/rounded_corner"
+        android:fontFamily="sans-serif-black"
+        android:text="Save New Goal"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"
+         />
+
+</LinearLayout>
+</RelativeLayout>
