@@ -5,4 +5,19 @@ data class RubricRequirement(
         val isComplete: Boolean,
         val pointValue: Int,
         val uid: Int
-)
+) {
+        val completed : RubricRequirement
+                get() = RubricRequirement(
+                        description,
+                        true,
+                        pointValue,
+                        uid
+                )
+        val incompleted : RubricRequirement
+                get() = RubricRequirement(
+                        description,
+                        false,
+                        pointValue,
+                        uid
+                )
+}

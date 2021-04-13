@@ -7,4 +7,9 @@ class TextBlock(
         val fontSize: Int,
         title: String? = null,
         requirement: RubricRequirement? = null
-) : TaskBlock(requirement, title)
+) : TaskBlock(requirement, title) {
+        override val completed: TaskBlock
+                get() = TextBlock(contents, fontSize, title, requirement?.completed)
+        override val incompleted: TaskBlock
+                get() = TextBlock(contents, fontSize, title, requirement?.incompleted)
+}

@@ -6,4 +6,9 @@ class ImageBlock(
         val imageUrl: String,
         title: String? = null,
         requirement: RubricRequirement? = null
-) : TaskBlock(requirement, title)
+) : TaskBlock(requirement, title) {
+        override val completed: TaskBlock
+                get() = ImageBlock(imageUrl, title, requirement?.completed)
+        override val incompleted: TaskBlock
+                get() = ImageBlock(imageUrl, title, requirement?.incompleted)
+}
