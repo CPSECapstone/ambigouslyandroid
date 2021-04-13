@@ -4,23 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import edu.calpoly.flipted.businesslogic.tasks.Block
-import edu.calpoly.flipted.businesslogic.tasks.FreeResponseQuestion
-import edu.calpoly.flipted.businesslogic.tasks.Question
-import edu.calpoly.flipted.businesslogic.tasks.QuizBlock
+import edu.calpoly.flipted.backend.MockTasksRepo
+import edu.calpoly.flipted.businesslogic.tasks.GetTask
+import edu.calpoly.flipted.businesslogic.tasks.data.Task
 import kotlinx.coroutines.launch
 
 class TaskViewModel : ViewModel(){
+    private val _currTask : MutableLiveData<Task> = MutableLiveData()
 
-    private val _blocks : MutableLiveData<List<Block>> = MutableLiveData()
-    val blocks : LiveData<List<Block>>
-        get() = _blocks
+    private val mockRepo = MockTasksRepo()
+    private val getTaskUseCase = GetTask(mockRepo)
 
-    fun fetchBlocks() {
-        //viewModelScope.launch {
-            _blocks.value = listOf<Block>(QuizBlock(null, listOf<Question>(
-                FreeResponseQuestion("What is your name?", 1, 1),
-                FreeResponseQuestion("What is your favorite class?", 1, 2)), 0, 1))
-        //}
+    val currTask : LiveData<Task>
+        get() = _currTask
+
+    fun fetchTask(taskId : Int) {
+        viewModelScope.launch {
+            _currTask.value = getTaskUseCase.execute(taskId)
+        }
     }
 }
