@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.tasks.data.Page
+import edu.calpoly.flipted.ui.tasks.viewholders.TaskRecyclerViewAdapter
 import java.lang.IllegalArgumentException
 
 private const val PAGENO_ARG_PARAM = "pageNo"
@@ -20,6 +23,8 @@ private const val PAGENO_ARG_PARAM = "pageNo"
  */
 class TaskPageFragment : Fragment() {
     private var pageNo: Int? = null
+
+    private lateinit var recyclerView : RecyclerView
 
     private lateinit var viewModel : TaskViewModel
     private lateinit var data : Page
@@ -54,7 +59,15 @@ class TaskPageFragment : Fragment() {
 
         data = task.pages[page]
 
-        view.findViewById<TextView>(R.id.task_page_test).text = "Page $page"
+        recyclerView = view.findViewById(R.id.task_page_recyclerview)
+
+        val adapter = TaskRecyclerViewAdapter(LayoutInflater.from(requireActivity()))
+
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+
+        adapter.taskBlocks = data.blocks
+
     }
 
     companion object {
