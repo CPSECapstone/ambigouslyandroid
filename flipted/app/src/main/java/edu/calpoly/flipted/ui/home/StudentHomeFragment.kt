@@ -9,6 +9,7 @@ import android.widget.Button
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.goals.GoalsFragment
 import edu.calpoly.flipted.ui.quizzes.QuizFragment
+import edu.calpoly.flipted.ui.tasks.TaskFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -34,7 +35,7 @@ class StudentHomeFragment : Fragment() {
         val quizButton = view.findViewById<Button>(R.id.quiz_button)
         quizButton.setOnClickListener{
             parentFragmentManager.beginTransaction().apply {
-                replace(R.id.main_view, QuizFragment.newInstance(1))
+                replace(R.id.main_view, TaskFragment.newInstance(1))
                 commit()
             }
         }
