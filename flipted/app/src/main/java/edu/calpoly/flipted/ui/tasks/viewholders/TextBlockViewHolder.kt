@@ -19,5 +19,8 @@ class TextBlockViewHolder(view : View) : TaskBlockViewHolder(view) {
         } else {
             title.visibility = View.GONE
         }
+
+        text.text = textBlock.contents
+        text.textSize = textBlock.fontSize.toFloat()
     }
 }

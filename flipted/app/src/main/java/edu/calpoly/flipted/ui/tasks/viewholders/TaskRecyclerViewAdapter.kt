@@ -2,13 +2,16 @@ package edu.calpoly.flipted.ui.tasks.viewholders
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.*
 
 class TaskRecyclerViewAdapter(
-    private val inflater: LayoutInflater
+    private val fragment: Fragment
 ) : RecyclerView.Adapter<TaskBlockViewHolder>() {
+
+    private val inflater = fragment.layoutInflater
 
     var taskBlocks : List<TaskBlock> = listOf()
         set(value) {
@@ -22,7 +25,7 @@ class TaskRecyclerViewAdapter(
             R.layout.task_block_image -> ImageBlockViewHolder(inflatedView)
             R.layout.task_block_quiz -> QuizBlockViewHolder(inflatedView)
             R.layout.task_block_text -> TextBlockViewHolder(inflatedView)
-            R.layout.task_block_video -> VideoBlockViewHolder(inflatedView)
+            R.layout.task_block_video -> VideoBlockViewHolder(inflatedView, fragment.viewLifecycleOwner.lifecycle)
             else -> throw IllegalArgumentException("Unknown viewType")
         }
     }
