@@ -61,7 +61,7 @@ class TaskPageFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.task_page_recyclerview)
 
-        val adapter = TaskRecyclerViewAdapter(LayoutInflater.from(requireActivity()))
+        val adapter = TaskRecyclerViewAdapter(this)
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
