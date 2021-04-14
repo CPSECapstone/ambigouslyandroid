@@ -11,5 +11,7 @@
         android:layout_height="wrap_content"
         android:text="Some Rubric Item"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        tools:layout_editor_absoluteY="16dp"
+
+        android:clickable="false"/>
 </LinearLayout>

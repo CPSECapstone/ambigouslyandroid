@@ -7,13 +7,15 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    android:paddingBottom="16dp">
+    android:paddingBottom="16dp"
+
+    android:background="@color/colorAccent">
 
     <TextView
         android:id="@+id/mc_question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="TASK RUBRIC"
+        android:text="TASK RUBRIC"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="22sp"
         android:paddingBottom="10dp"/>
