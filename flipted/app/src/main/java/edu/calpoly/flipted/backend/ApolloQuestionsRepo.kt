@@ -46,7 +46,7 @@ class ApolloQuestionsRepo : ApolloRepo(), QuestionsRepo {
                             opt!!.id,
                             opt.description)
                     },
-                    it.answers as List<String>?, it.points
+                    it.answers as List<Int>?, it.points
                         )
             }
         } catch(e : NullPointerException) {

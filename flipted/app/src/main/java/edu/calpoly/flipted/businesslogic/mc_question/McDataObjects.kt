@@ -16,12 +16,12 @@ data class McQuestion(
     val uid : String,
     val taskId : String,
     val options: List<Option>,
-    val answers: List<String>?,
+    val answers: List<Int>?,
     val points: Int
 )
 
 data class Option(
-    val parentId : Int,
+    val uid : Int,
     val description : String
 )
 
