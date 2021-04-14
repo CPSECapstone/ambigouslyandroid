@@ -12,7 +12,7 @@ class TaskBlockVideo : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.task_video_block)
+        setContentView(R.layout.task_block_video)
         youTubePlayerView = findViewById(R.id.youtubePlayerViewTask)
         lifecycle.addObserver(youTubePlayerView)
     }

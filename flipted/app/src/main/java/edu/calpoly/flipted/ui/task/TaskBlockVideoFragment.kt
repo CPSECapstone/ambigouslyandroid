@@ -18,7 +18,7 @@ class TaskBlockVideoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.task_video_block, container, false)
+        return inflater.inflate(R.layout.task_block_video, container, false)
     }
 
     companion object {
