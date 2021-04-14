@@ -1,16 +1,15 @@
 package edu.calpoly.flipted.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.Fragment
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.goals.GoalsFragment
-import edu.calpoly.flipted.ui.quizzes.QuizFragment
-import edu.calpoly.flipted.ui.task.TaskBlockVideoFragment
 import edu.calpoly.flipted.ui.tasks.TaskFragment
+
 /**
  * A simple [Fragment] subclass.
  * Use the [StudentHomeFragment.newInstance] factory method to
@@ -39,19 +38,6 @@ class StudentHomeFragment : Fragment() {
                 commit()
             }
         }
-
-        //can be removed after implemented in the task list block
-        val videoButton = view.findViewById<Button>(R.id.video_button)
-        videoButton.setOnClickListener{
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.main_view, TaskBlockVideoFragment.newInstance())
-                addToBackStack(null)
-                commit()
-            }
-        }
-
-
-
 
     }
 
