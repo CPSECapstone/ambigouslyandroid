@@ -5,11 +5,9 @@ import java.util.regex.Pattern
 
 object GetId {
     fun getYouTubeId(youTubeUrl: String): String? {
-        val pattern = "(?<=youtu.be/|watch\\?v=|/videos/|embed/)[^#&?]*"
-        val compiledPattern = Pattern.compile(pattern)
-        val matcher = compiledPattern.matcher(youTubeUrl)
-        return if (matcher.find()) {
-            matcher.group()
+        val matchResult = "(?:v=|\\/|^)([A-Za-z0-9_-]{11,})".toRegex().find(youTubeUrl)
+        return if (matchResult != null) {
+            matchResult.groupValues[1]
         } else {
             "Not YouTube Video"
         }

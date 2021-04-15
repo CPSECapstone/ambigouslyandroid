@@ -65,6 +65,8 @@ fun urlWatchAnd() {
 
     val url4 = "https://www.youtube.com/watch?v=fsM-rOZI3TY&list=RDfsM-rOZI3TY&start_radio=1"
     assertEquals("fsM-rOZI3TY", GetId.getYouTubeId(url4))
+
+    assertEquals("fsM-rOZI3TY", GetId.getYouTubeId("https://www.youtube.com/watch?list=RDfsM-rOZI3TY&v=fsM-rOZI3TY&start_radio=1"))
 }
 
 
@@ -84,13 +86,13 @@ fun urlNonYoutube() {
 fun JustId() {
 
     val url1 = "1FJHYqE0RDg"
-    assertEquals("Not YouTube Video", GetId.getYouTubeId(url1))
+    assertEquals("1FJHYqE0RDg", GetId.getYouTubeId(url1))
 
     val url2 = "gdevNBJZYgI"
-    assertEquals("Not YouTube Video", GetId.getYouTubeId(url2))
+    assertEquals("gdevNBJZYgI", GetId.getYouTubeId(url2))
 
     val url3 = "BwtQZO0vi24"
-    assertEquals("Not YouTube Video", GetId.getYouTubeId(url3))
+    assertEquals("BwtQZO0vi24", GetId.getYouTubeId(url3))
 
 }
 
