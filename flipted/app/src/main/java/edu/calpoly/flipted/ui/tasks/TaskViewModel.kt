@@ -9,6 +9,7 @@ import edu.calpoly.flipted.businesslogic.tasks.GetTask
 import edu.calpoly.flipted.businesslogic.tasks.data.Task
 import kotlinx.coroutines.launch
 
+
 class TaskViewModel : ViewModel(){
     private val _currTask : MutableLiveData<Task> = MutableLiveData()
 
