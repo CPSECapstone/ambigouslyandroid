@@ -81,6 +81,24 @@ fun urlNonYoutube() {
 
 }
 
+@Test
+fun urlNoID() {
+
+    val url1 = "https://www.youtube.com/"
+    assertEquals("Not YouTube Video", GetId.getYouTubeId(url1))
+
+    val url2 = "youtube.com/watch?v=47s"
+    assertEquals("Not YouTube Video", GetId.getYouTubeId(url2))
+
+    val url3 = "www.youtube.com/watc"
+    assertEquals("Not YouTube Video", GetId.getYouTubeId(url3))
+
+    val url4 = "https://www.youtube.com/watch?v=f"
+    assertEquals("Not YouTube Video", GetId.getYouTubeId(url4))
+
+    assertEquals("Not YouTube Video", GetId.getYouTubeId("https://www.youtube.com/watch?list=RDfdio=1"))
+}
+
 
 @Test
 fun JustId() {
