@@ -1,20 +1,21 @@
 package edu.calpoly.flipted.backend
 
 import android.util.Log
+import com.apollographql.apollo.api.Input
+import edu.calpoly.flipted.type.TaskProgressInput
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import edu.calpoly.flipted.SubmitTaskProgressMutation
-import edu.calpoly.flipted.businesslogic.goals.Goal
-import edu.calpoly.flipted.businesslogic.goals.GoalCompletion
 import java.util.*
 import edu.calpoly.flipted.businesslogic.tasks.TasksTempRepo
 import edu.calpoly.flipted.businesslogic.tasks.data.TaskProgress
 
 class ApolloTasksRepo : ApolloRepo(), TasksTempRepo {
     override suspend fun submitTaskProgress(taskProgress: TaskProgress): String? {
-        //val ProgressInput = taskProgressInput(
+        val ProgressInput = TaskProgressInput(taskId = taskProgress.taskId,
+                finishedRequirementIds = taskProgress.finishedRequirements)
         val response = try {
-            apolloClient().mutate((SubmitTaskProgressMutation(taskProgress))).await()
+            apolloClient().mutate((SubmitTaskProgressMutation(ProgressInput))).await()
         } catch(e: ApolloException) {
             e.printStackTrace()
             Log.e("ApolloTasksRepo", "Error when querying backend", e)

@@ -3,6 +3,16 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="$PROJECT_DIR$/app/build/generated/source/apollo/debug/service/edu/calpoly/flipted/SubmitTaskProgressMutation.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/build/generated/source/apollo/debug/service/edu/calpoly/flipted/type/TaskProgressInput.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/edu/calpoly/flipted/backend/ApolloGoalsRepo.kt">
           <value>
             <set />
