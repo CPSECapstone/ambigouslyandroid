@@ -1,0 +1,6 @@
+mutation SubmitTaskProgress($taskProgress: TaskProgressInput) {
+  submitTaskProgress(taskProgress: $taskProgress) {
+
+}
+	
+}

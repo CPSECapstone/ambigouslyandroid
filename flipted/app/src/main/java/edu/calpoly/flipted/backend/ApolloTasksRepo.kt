@@ -1,0 +1,38 @@
+package edu.calpoly.flipted.backend
+
+import android.util.Log
+import com.apollographql.apollo.coroutines.await
+import com.apollographql.apollo.exception.ApolloException
+import edu.calpoly.flipted.SubmitTaskProgressMutation
+import edu.calpoly.flipted.businesslogic.goals.Goal
+import edu.calpoly.flipted.businesslogic.goals.GoalCompletion
+import java.util.*
+import edu.calpoly.flipted.businesslogic.tasks.TasksTempRepo
+import edu.calpoly.flipted.businesslogic.tasks.data.TaskProgress
+
+class ApolloTasksRepo : ApolloRepo(), TasksTempRepo {
+    override suspend fun submitTaskProgress(taskProgress: TaskProgress): String? {
+        //val ProgressInput = taskProgressInput(
+        val response = try {
+            apolloClient().mutate((SubmitTaskProgressMutation(taskProgress))).await()
+        } catch(e: ApolloException) {
+            e.printStackTrace()
+            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            return null
+        }
+
+        if(response.hasErrors() || response.data == null) {
+            Log.e("ApolloTasksRepo", "Error when querying backend: bad response")
+            return null
+        }
+
+        return try {
+            response.data!!.submitTaskProgress
+
+        } catch(e : NullPointerException) {
+            Log.e("ApolloTasksRepo", "Failed null check when processing received data")
+            null
+        }
+    }
+
+}

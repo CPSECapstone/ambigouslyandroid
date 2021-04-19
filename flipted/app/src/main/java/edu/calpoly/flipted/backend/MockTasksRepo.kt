@@ -47,7 +47,7 @@ class MockTasksRepo : TasksRepo {
                                 MultipleChoiceAnswerOption("the operating system and running application", uid)
                             ), "The test bus exists between...", 2, uid)
                         ), 2,
-                    RubricRequirement("Check your knowledge: What is a Test Bus?", false, 4, uid))
+                    RubricRequirement("Check your knowledge: What is a Test Bus?", false, uid))
             )), Page(listOf(
                 TextBlock("Why are they useful?", 36),
                 TextBlock("""
@@ -66,7 +66,7 @@ class MockTasksRepo : TasksRepo {
                             what is a Test Bus and why they are useful.
                         """.trimIndent(), 6, uid)),
                     0,
-                    RubricRequirement("Summarize the reading", false, 6, uid))
+                    RubricRequirement("Summarize the reading", false, uid))
             ))
         ), dateFormat.parse("4-25-2021")!!, "Learn about the Test Bus", 10, 1)
 
