@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.amplifyframework.auth.AuthUserAttributeKey
 import edu.calpoly.flipted.R
+import edu.calpoly.flipted.ui.goals.GoalNewFragment
 import edu.calpoly.flipted.ui.goals.GoalsFragment
 import edu.calpoly.flipted.ui.login.LoginFragment
 import edu.calpoly.flipted.ui.login.LoginViewModel
@@ -30,10 +32,10 @@ class StudentHomeFragment : Fragment() {
 
         val goalsButton = view.findViewById<Button>(R.id.goals_button)
             goalsButton.setOnClickListener{
-                parentFragmentManager.beginTransaction().apply {
+                parentFragmentManager.commit {
                     replace(R.id.main_view, GoalsFragment.newInstance())
+                    setReorderingAllowed(true)
                     addToBackStack(null)
-                    commit()
                 }
             }
 
@@ -41,9 +43,10 @@ class StudentHomeFragment : Fragment() {
         val taskId = 1
         val quizButton = view.findViewById<Button>(R.id.quiz_button)
         quizButton.setOnClickListener{
-            parentFragmentManager.beginTransaction().apply {
+            parentFragmentManager.commit {
                 replace(R.id.main_view, TaskFragment.newInstance(1))
-                commit()
+                setReorderingAllowed(true)
+                addToBackStack(null)
             }
         }
 
@@ -59,10 +62,10 @@ class StudentHomeFragment : Fragment() {
 
         loginViewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
             if(!it)
-                parentFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.main_view, LoginFragment.newInstance())
-                        .commitNow()
+                parentFragmentManager.commit {
+                    replace(R.id.main_view, LoginFragment.newInstance())
+                    setReorderingAllowed(true)
+                }
         })
 
         logoutButton.setOnClickListener {
