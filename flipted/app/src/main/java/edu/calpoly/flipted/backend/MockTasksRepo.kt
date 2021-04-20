@@ -45,8 +45,7 @@ class MockTasksRepo : TasksRepo {
                                 MultipleChoiceAnswerOption("the client device and server", uid),
                                 MultipleChoiceAnswerOption("the operating system and running application", uid)
                             ), "The test bus exists between...", 2, uid)
-                        ), 2,
-                    RubricRequirement("Check your knowledge: What is a Test Bus?", false, 4, uid))
+                        ), 2)
             )), Page(listOf(
                 TextBlock("Why are they useful?", 36),
                 TextBlock("""
@@ -64,25 +63,23 @@ class MockTasksRepo : TasksRepo {
                             In your own words, summarize
                             what is a Test Bus and why they are useful.
                         """.trimIndent(), 6, uid)),
-                    0,
-                    RubricRequirement("Summarize the reading", false, 6, uid))
+                    0)
             ))
-        ), dateFormat.parse("4-25-2021")!!, "Learn about the Test Bus", 10, 1)
+        ), dateFormat.parse("4-25-2021")!!, "Learn about the Test Bus", 10, 1, listOf())
 
     private var savedProgress: MutableSet<Int> = mutableSetOf()
 
     override suspend fun getTask(taskId: Int) : Task {
         if(taskId != mockedTask.uid)
             throw IllegalArgumentException("No task with $taskId exists")
-        return Task(
-            mockedTask.pages.map { page ->
-                Page(page.blocks.map { block ->
-                    if(savedProgress.contains(block.requirement?.uid))
-                        block.completed
-                    else
-                        block.incompleted
-                })
-            }, mockedTask.dueDate, mockedTask.title, mockedTask.points, mockedTask.uid)
+        return Task(mockedTask.pages,
+            mockedTask.dueDate,
+            mockedTask.title,
+            mockedTask.points,
+            mockedTask.uid,
+            mockedTask.requirements.map {
+                it.completed
+        })
     }
 
     override suspend fun saveProgress(progress: TaskProgress) {
