@@ -70,7 +70,7 @@ class MockTasksRepo : TasksRepo {
             ))
         ), dateFormat.parse("4-25-2021")!!, "Learn about the Test Bus", 10, 1)
 
-    private var savedProgress: MutableSet<Int> = mutableSetOf()
+    private var savedProgress: MutableSet<String> = mutableSetOf()
 
     override suspend fun getTask(taskId: Int) : Task {
         if(taskId != mockedTask.uid)
@@ -78,7 +78,7 @@ class MockTasksRepo : TasksRepo {
         return Task(
             mockedTask.pages.map { page ->
                 Page(page.blocks.map { block ->
-                    if(savedProgress.contains(block.requirement?.uid))
+                    if(savedProgress.contains(block.requirement?.uid.toString()))
                         block.completed
                     else
                         block.incompleted
@@ -87,10 +87,10 @@ class MockTasksRepo : TasksRepo {
     }
 
     override suspend fun saveProgress(progress: TaskProgress) {
-        if(progress.task.uid != mockedTask.uid)
-            throw IllegalArgumentException("No task with ${progress.task.uid} exists")
+        if(progress.taskId != mockedTask.uid.toString())
+            throw IllegalArgumentException("No task with ${progress.taskId} exists")
         progress.finishedRequirements.forEach{
-            savedProgress.add(it.uid)
+            savedProgress.add(it)
         }
     }
 }
