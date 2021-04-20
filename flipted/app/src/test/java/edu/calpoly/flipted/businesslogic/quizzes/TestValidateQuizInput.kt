@@ -23,7 +23,7 @@ class TestValidateQuizInput {
                 Answer("the atom", 1, isChecked = false))))
         val quiz1Responses = listOf(ValidationResponse(ValidationResponseType.WARN, "No answer selected", quiz1[1]))
 
-        assertEquals(quiz1Responses, ValidateQuizInput.execute(quiz1))
+
         assertEquals(successResponse, ValidateQuizInput.execute(quiz1, quiz1Responses))
 
         val quiz2 = listOf(

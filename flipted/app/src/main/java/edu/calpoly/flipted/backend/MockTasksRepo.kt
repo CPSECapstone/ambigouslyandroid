@@ -29,6 +29,7 @@ class MockTasksRepo : TasksRepo {
                     tests to directly access the underlying logic of the application without
                     having to futz around with the user interface.
                 """.trimIndent(), 18),
+                VideoBlock("https://www.youtube.com/watch?v=VJi2vmaQe6w", null, "Watch this video"),
                 TextBlock("Check your knowledge", 24),
                 QuizBlock(
                     listOf(
