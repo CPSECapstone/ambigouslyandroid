@@ -28,7 +28,7 @@ class QuestionListAdapter(private val context: Context) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val inflater = LayoutInflater.from(context)
-        val fillInView = convertView?:inflater.inflate(R.layout.mc_quiz_question, parent, false)
+        val fillInView = convertView?:inflater.inflate(R.layout.task_question_mc, parent, false)
         val question = fillInView.findViewById<TextView>(R.id.mc_question)
         val answers = fillInView.findViewById<RadioGroup>(R.id.answers)
         val issueText = fillInView.findViewById<TextView>(R.id.question_issue_text)
@@ -46,7 +46,7 @@ class QuestionListAdapter(private val context: Context) : BaseAdapter() {
         question.text = "${position+1}. ${data.title}"
         answers.removeAllViews()
         data.answers.forEach {
-            val fillInAnswerView = inflater.inflate(R.layout.mc_quiz_answer_option, answers, false) as RadioButton
+            val fillInAnswerView = inflater.inflate(R.layout.task_question_mc_answer_option, answers, false) as RadioButton
             fillInAnswerView.text = it.description
             fillInAnswerView.setOnCheckedChangeListener { _, b ->
                 it.isChecked = b
