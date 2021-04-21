@@ -22,13 +22,7 @@ class ImageBlockViewHolder(view : View) : TaskBlockViewHolder(view) {
             title.visibility = View.GONE
         }
 
-        //block.imageUrl
-        // Use picasso or glide to populate the image with the block.imageUrl
-        // image.setData( picasso.loadImageFromUrl(block.imageUrl))
-        Picasso.get().load("http://i.imgur.com/DvpvklR.png")
-            .placeholder(R.drawable.ic_launcher_background).into(image)
-
-
+        Picasso.get().load(block.imageUrl).into(image)
     }
 
 

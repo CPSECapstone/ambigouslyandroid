@@ -30,6 +30,8 @@ class MockTasksRepo : TasksRepo {
                     having to futz around with the user interface.
                 """.trimIndent(), 18),
                 VideoBlock("https://www.youtube.com/watch?v=VJi2vmaQe6w", "Watch this video"),
+                TextBlock("Look at This!", 36),
+                ImageBlock("https://www.digitalhrtech.com/wp-content/uploads/2020/01/Learning-and-development-manager.png"),
                 TextBlock("Check your knowledge", 24),
                 QuizBlock(
                     listOf(
