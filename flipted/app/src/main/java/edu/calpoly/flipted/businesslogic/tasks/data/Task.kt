@@ -7,5 +7,6 @@ data class Task(
         val dueDate: Date,
         val title: String,
         val points: Int,
-        val uid: Int
+        val uid: Int,
+        val requirements: List<RubricRequirement>
 )
