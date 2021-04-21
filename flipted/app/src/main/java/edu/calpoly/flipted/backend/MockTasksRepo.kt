@@ -1,12 +1,18 @@
 package edu.calpoly.flipted.backend
 
+import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQuestion
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceAnswerOption
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceQuestion
 import edu.calpoly.flipted.businesslogic.tasks.TasksRepo
-import edu.calpoly.flipted.businesslogic.tasks.data.*
-import edu.calpoly.flipted.businesslogic.tasks.data.blocks.*
-import java.lang.IllegalArgumentException
+import edu.calpoly.flipted.businesslogic.tasks.data.Page
+import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
+import edu.calpoly.flipted.businesslogic.tasks.data.Task
+import edu.calpoly.flipted.businesslogic.tasks.data.TaskProgress
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.ImageBlock
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TextBlock
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.VideoBlock
 import java.text.SimpleDateFormat
 
 class MockTasksRepo : TasksRepo {
@@ -74,6 +80,7 @@ class MockTasksRepo : TasksRepo {
         ))
 
     private var savedProgress: MutableSet<Int> = mutableSetOf()
+    private var savedQuestionAnswers: MutableMap<Int, StudentAnswerInput> = mutableMapOf()
 
     override suspend fun getTask(taskId: Int) : Task {
         if(taskId != mockedTask.uid)
@@ -93,6 +100,9 @@ class MockTasksRepo : TasksRepo {
             throw IllegalArgumentException("No task with ${progress.task.uid} exists")
         progress.finishedRequirements.forEach{
             savedProgress.add(it.uid)
+        }
+        progress.answeredQuestions.forEach {
+            savedQuestionAnswers[it.questionId] = it
         }
     }
 }
