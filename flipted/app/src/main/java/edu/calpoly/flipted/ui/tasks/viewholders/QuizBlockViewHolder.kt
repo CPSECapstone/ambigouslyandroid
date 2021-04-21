@@ -18,6 +18,8 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater) : TaskBlock
     override fun bind(block: TaskBlock) {
         val quizBlock = block as QuizBlock
 
+        rootLayout.removeAllViews()
+
         quizBlock.questions.forEach { question ->
             when(question) {
                 is MultipleChoiceQuestion -> {
