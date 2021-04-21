@@ -90,4 +90,14 @@ class MockTasksRepo : TasksRepo {
             savedProgress.add(it.uid)
         }
     }
+/*
+    override suspend fun submitQuestion(progress: TaskProgress) {
+        TODO("Not yet implemented")
+    }
+*/
+    override suspend fun submitTask(taskId : String) : TaskSubmissionResult {
+        return TaskSubmissionResult(taskId, true, 8)
+    }
+
+
 }
