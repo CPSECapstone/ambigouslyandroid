@@ -24,4 +24,6 @@ class TaskViewModel : ViewModel(){
             _currTask.value = getTaskUseCase.execute(taskId)
         }
     }
+
+
 }
