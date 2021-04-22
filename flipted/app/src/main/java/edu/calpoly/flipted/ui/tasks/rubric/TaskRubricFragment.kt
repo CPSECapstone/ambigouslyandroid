@@ -88,7 +88,6 @@ class TaskRubricFragment : Fragment() {
             val data = getItem(position)
 
             checkBox.text = data.description
-            checkBox.isChecked = data.isComplete
 
             return fillInView
         }
