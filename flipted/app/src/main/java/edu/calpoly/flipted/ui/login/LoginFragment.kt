@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.amplifyframework.auth.AuthProvider
@@ -31,10 +32,10 @@ class LoginFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[LoginViewModel::class.java]
         viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
             if(it)
-                parentFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.main_view, StudentHomeFragment.newInstance())
-                    .commitNow()
+                parentFragmentManager.commit {
+                    replace(R.id.main_view, StudentHomeFragment.newInstance())
+                    setReorderingAllowed(true)
+                }
         })
 
         loginWithGoogleButton = view.findViewById(R.id.login_google_button)

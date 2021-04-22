@@ -48,6 +48,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/edu/calpoly/flipted/businesslogic/tasks/data/TaskRubricProgress.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/edu/calpoly/flipted/ui/tasks/TaskViewModel.kt">
           <value>
             <set />

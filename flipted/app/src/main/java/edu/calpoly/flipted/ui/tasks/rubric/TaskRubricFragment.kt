@@ -35,9 +35,7 @@ class TaskRubricFragment : Fragment() {
         // TODO: get task ID from current task for saving progress
         val task = viewModel.currTask.value ?: throw IllegalArgumentException("Null task")
 
-        val rubricRequiments = task.pages.flatMap { page ->
-            page.blocks.map { block -> block.requirement }
-        }.filterNotNull()
+        val rubricRequiments = task.requirements
 
         adapter = RubricListAdapter()
 

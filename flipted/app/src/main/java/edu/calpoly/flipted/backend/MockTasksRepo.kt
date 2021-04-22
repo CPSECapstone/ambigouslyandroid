@@ -1,12 +1,18 @@
 package edu.calpoly.flipted.backend
 
+import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQuestion
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceAnswerOption
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceQuestion
 import edu.calpoly.flipted.businesslogic.tasks.TasksRepo
-import edu.calpoly.flipted.businesslogic.tasks.data.*
-import edu.calpoly.flipted.businesslogic.tasks.data.blocks.*
-import java.lang.IllegalArgumentException
+import edu.calpoly.flipted.businesslogic.tasks.data.Page
+import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
+import edu.calpoly.flipted.businesslogic.tasks.data.Task
+import edu.calpoly.flipted.businesslogic.tasks.data.TaskProgress
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.ImageBlock
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TextBlock
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.VideoBlock
 import java.text.SimpleDateFormat
 
 class MockTasksRepo : TasksRepo {
@@ -29,7 +35,9 @@ class MockTasksRepo : TasksRepo {
                     tests to directly access the underlying logic of the application without
                     having to futz around with the user interface.
                 """.trimIndent(), 18),
-                VideoBlock("https://www.youtube.com/watch?v=VJi2vmaQe6w", null, "Watch this video"),
+                VideoBlock("https://www.youtube.com/watch?v=VJi2vmaQe6w", "Watch this video"),
+                TextBlock("Look at This!", 36),
+                ImageBlock("https://www.digitalhrtech.com/wp-content/uploads/2020/01/Learning-and-development-manager.png"),
                 TextBlock("Check your knowledge", 24),
                 QuizBlock(
                     listOf(
@@ -46,8 +54,8 @@ class MockTasksRepo : TasksRepo {
                                 MultipleChoiceAnswerOption("the client device and server", uid),
                                 MultipleChoiceAnswerOption("the operating system and running application", uid)
                             ), "The test bus exists between...", 2, uid)
-                        ), 2,
-                    RubricRequirement("Check your knowledge: What is a Test Bus?", false, uid))
+
+                        ), 2)
             )), Page(listOf(
                 TextBlock("Why are they useful?", 36),
                 TextBlock("""
@@ -65,32 +73,40 @@ class MockTasksRepo : TasksRepo {
                             In your own words, summarize
                             what is a Test Bus and why they are useful.
                         """.trimIndent(), 6, uid)),
-                    0,
-                    RubricRequirement("Summarize the reading", false, uid))
+                        0)
             ))
-        ), dateFormat.parse("4-25-2021")!!, "Learn about the Test Bus", 10, 1)
+        ), dateFormat.parse("4-25-2021")!!, "Learn about the Test Bus", 10, 1, listOf(
+            RubricRequirement("Read about the Test Bus", false, uid),
+            RubricRequirement("Complete the summary task", false, uid)
+        ))
+
 
     private var savedProgress: MutableSet<String> = mutableSetOf()
+
+    private var savedQuestionAnswers: MutableMap<Int, StudentAnswerInput> = mutableMapOf()
+
 
     override suspend fun getTask(taskId: Int) : Task {
         if(taskId != mockedTask.uid)
             throw IllegalArgumentException("No task with $taskId exists")
-        return Task(
-            mockedTask.pages.map { page ->
-                Page(page.blocks.map { block ->
-                    if(savedProgress.contains(block.requirement?.uid.toString()))
-                        block.completed
-                    else
-                        block.incompleted
-                })
-            }, mockedTask.dueDate, mockedTask.title, mockedTask.points, mockedTask.uid)
+        return Task(mockedTask.pages,
+            mockedTask.dueDate,
+            mockedTask.title,
+            mockedTask.points,
+            mockedTask.uid,
+            mockedTask.requirements.map {
+                it.completed
+        })
     }
 
     override suspend fun saveProgress(progress: TaskProgress) {
-        if(progress.taskId != mockedTask.uid.toString())
-            throw IllegalArgumentException("No task with ${progress.taskId} exists")
+        if(progress.task.uid != mockedTask.uid)
+            throw IllegalArgumentException("No task with ${progress.task.uid} exists")
         progress.finishedRequirements.forEach{
-            savedProgress.add(it)
+            savedProgress.add(it.uid.toString())
+        }
+        progress.answeredQuestions.forEach {
+            savedQuestionAnswers[it.questionId] = it
         }
     }
 }

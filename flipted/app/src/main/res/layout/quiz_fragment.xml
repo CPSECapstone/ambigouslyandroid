@@ -7,5 +7,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:listitem="@layout/mc_quiz_question"
+    tools:listitem="@layout/task_question_mc"
     tools:listfooter="@layout/quiz_footer"/>
