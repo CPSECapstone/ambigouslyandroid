@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.goals.Goal
+import edu.calpoly.flipted.ui.login.LoginFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -33,9 +35,10 @@ class GoalsFragment : Fragment() {
 
         val showGoalsList : () -> Unit = {
             goalsListFragmentContainer.removeAllViews()
-            childFragmentManager.beginTransaction()
-                .replace(R.id.goals_list_fragment_container, GoalListFragment.newInstance())
-                .commitNow()
+            childFragmentManager.commit {
+                replace(R.id.goals_list_fragment_container, GoalListFragment.newInstance())
+                setReorderingAllowed(true)
+            }
         }
 
         if(viewModel.goals.value == null) {
@@ -59,10 +62,10 @@ class GoalsFragment : Fragment() {
 
         val newGoalButton = view.findViewById<Button>(R.id.newGoalButton)
         newGoalButton.setOnClickListener{
-            parentFragmentManager.beginTransaction().apply {
+            parentFragmentManager.commit {
                 replace(R.id.main_view, GoalNewFragment.newInstance())
+                setReorderingAllowed(true)
                 addToBackStack(null)
-                commit()
             }
         }
     }

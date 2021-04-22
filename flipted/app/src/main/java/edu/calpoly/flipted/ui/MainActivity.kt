@@ -3,7 +3,11 @@ package edu.calpoly.flipted.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
 import com.google.android.material.tabs.TabLayout
@@ -12,6 +16,7 @@ import edu.calpoly.flipted.ui.classes.ClassesFragment
 import edu.calpoly.flipted.ui.home.StudentHomeFragment
 import edu.calpoly.flipted.ui.leaderboard.LeaderboardFragment
 import edu.calpoly.flipted.ui.login.LoginFragment
+import edu.calpoly.flipted.ui.login.LoginViewModel
 import edu.calpoly.flipted.ui.marketplace.MarketplaceFragment
 import edu.calpoly.flipted.ui.myProgress.MyProgressFragment
 import edu.calpoly.flipted.ui.myTeam.MyTeamFragment
@@ -23,7 +28,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.main_view, LoginFragment.newInstance()).commitNow()
+            supportFragmentManager.commit {
+                replace(R.id.main_view, LoginFragment.newInstance())
+                setReorderingAllowed(true)
+            }
         }
 
         val tabLayout = findViewById<TabLayout>(R.id.navbar)
@@ -40,7 +48,10 @@ class MainActivity : AppCompatActivity() {
                     "My Progress" -> MyProgressFragment.newInstance()
                     else -> throw IllegalStateException()
                 }
-                supportFragmentManager.beginTransaction().replace(R.id.main_view, targetFragment).commitNow()
+                supportFragmentManager.commit {
+                    replace(R.id.main_view, targetFragment)
+                    setReorderingAllowed(true)
+                }
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -50,6 +61,11 @@ class MainActivity : AppCompatActivity() {
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 // Handle tab unselect
             }
+        })
+
+        val loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+        loginViewModel.isLoggedIn.observe(this, Observer {
+            tabLayout.visibility = if(it) View.VISIBLE else View.GONE
         })
     }
 

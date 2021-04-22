@@ -1,12 +1,15 @@
 package edu.calpoly.flipted.backend
 
+import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQuestion
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceAnswerOption
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceQuestion
 import edu.calpoly.flipted.businesslogic.tasks.TasksRepo
 import edu.calpoly.flipted.businesslogic.tasks.data.*
-import edu.calpoly.flipted.businesslogic.tasks.data.blocks.*
-import java.lang.IllegalArgumentException
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.ImageBlock
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TextBlock
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.VideoBlock
 import java.text.SimpleDateFormat
 
 class MockTasksRepo : TasksRepo {
@@ -30,6 +33,8 @@ class MockTasksRepo : TasksRepo {
                     having to futz around with the user interface.
                 """.trimIndent(), 18),
                 VideoBlock("https://www.youtube.com/watch?v=VJi2vmaQe6w", "Watch this video"),
+                TextBlock("Look at This!", 36),
+                ImageBlock(uid.toString(), "https://www.digitalhrtech.com/wp-content/uploads/2020/01/Learning-and-development-manager.png"),
                 TextBlock("Check your knowledge", 24),
                 QuizBlock(
                     listOf(
@@ -67,11 +72,12 @@ class MockTasksRepo : TasksRepo {
                     0)
             ))
         ), dateFormat.parse("4-25-2021")!!, "Learn about the Test Bus", 10, 1, listOf(
-            RubricRequirement("Check this box", false, 10, uid),
-            RubricRequirement("And this box too", false, 5, uid)
-    ))
+            RubricRequirement("Read about the Test Bus", false, 20, uid),
+            RubricRequirement("Complete the summary task", false, 20, uid)
+        ))
 
     private var savedProgress: MutableSet<Int> = mutableSetOf()
+    private var savedQuestionAnswers: MutableMap<Int, StudentAnswerInput> = mutableMapOf()
 
     override suspend fun getTask(taskId: Int) : Task {
         if(taskId != mockedTask.uid)
@@ -91,6 +97,9 @@ class MockTasksRepo : TasksRepo {
             throw IllegalArgumentException("No task with ${progress.task.uid} exists")
         progress.finishedRequirements.forEach{
             savedProgress.add(it.uid)
+        }
+        progress.answeredQuestions.forEach {
+            savedQuestionAnswers[it.questionId] = it
         }
     }
 
