@@ -5,10 +5,7 @@ import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQues
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceAnswerOption
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceQuestion
 import edu.calpoly.flipted.businesslogic.tasks.TasksRepo
-import edu.calpoly.flipted.businesslogic.tasks.data.Page
-import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
-import edu.calpoly.flipted.businesslogic.tasks.data.Task
-import edu.calpoly.flipted.businesslogic.tasks.data.TaskProgress
+import edu.calpoly.flipted.businesslogic.tasks.data.*
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.ImageBlock
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TextBlock
@@ -37,7 +34,7 @@ class MockTasksRepo : TasksRepo {
                 """.trimIndent(), 18),
                 VideoBlock("https://www.youtube.com/watch?v=VJi2vmaQe6w", "Watch this video"),
                 TextBlock("Look at This!", 36),
-                ImageBlock("https://www.digitalhrtech.com/wp-content/uploads/2020/01/Learning-and-development-manager.png"),
+                ImageBlock(uid.toString(), "https://www.digitalhrtech.com/wp-content/uploads/2020/01/Learning-and-development-manager.png"),
                 TextBlock("Check your knowledge", 24),
                 QuizBlock(
                     listOf(
@@ -109,4 +106,10 @@ class MockTasksRepo : TasksRepo {
             savedQuestionAnswers[it.questionId] = it
         }
     }
+
+    override suspend fun submitTask(taskId : String) : TaskSubmissionResult {
+        return TaskSubmissionResult(taskId, true, 8)
+    }
+
+
 }
