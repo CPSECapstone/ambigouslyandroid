@@ -20,6 +20,11 @@ class MockTasksRepo : TasksRepo {
                 field += 1
                 return field
             }
+
+        private val uids : String
+            get() {
+                return uid.toString()
+            }
     }
 
     private val mockedTask = Task(
@@ -72,9 +77,9 @@ class MockTasksRepo : TasksRepo {
                         """.trimIndent(), 6, uid)),
                         0)
             ))
-        ), dateFormat.parse("4-25-2021")!!, "Learn about the Test Bus", 10, 1, listOf(
-            RubricRequirement("Read about the Test Bus", false, uid),
-            RubricRequirement("Complete the summary task", false, uid)
+        ), dateFormat.parse("4-25-2021")!!, "Learn about the Test Bus", 10, "1", listOf(
+            RubricRequirement("Read about the Test Bus", false, uids),
+            RubricRequirement("Complete the summary task", false, uids)
         ))
 
 
@@ -83,7 +88,7 @@ class MockTasksRepo : TasksRepo {
     private var savedQuestionAnswers: MutableMap<Int, StudentAnswerInput> = mutableMapOf()
 
 
-    override suspend fun getTask(taskId: Int) : Task {
+    override suspend fun getTask(taskId: String) : Task {
         if(taskId != mockedTask.uid)
             throw IllegalArgumentException("No task with $taskId exists")
         return Task(mockedTask.pages,
@@ -96,15 +101,18 @@ class MockTasksRepo : TasksRepo {
         })
     }
 
-    override suspend fun saveProgress(progress: TaskProgress) {
+    override suspend fun saveRubricProgress(progress: TaskRubricProgress) {
         if(progress.task.uid != mockedTask.uid)
             throw IllegalArgumentException("No task with ${progress.task.uid} exists")
         progress.finishedRequirements.forEach{
             savedProgress.add(it.uid.toString())
         }
-        progress.answeredQuestions.forEach {
-            savedQuestionAnswers[it.questionId] = it
-        }
+    }
+
+    override suspend fun saveQuizAnswer(answer: TaskQuizAnswer) {
+        if(answer.task.uid != mockedTask.uid)
+            throw IllegalArgumentException("No task with ${answer.task.uid} exists")
+        savedQuestionAnswers[answer.answer.questionId] = answer.answer
     }
 
     override suspend fun submitTask(taskId : String) : TaskSubmissionResult {

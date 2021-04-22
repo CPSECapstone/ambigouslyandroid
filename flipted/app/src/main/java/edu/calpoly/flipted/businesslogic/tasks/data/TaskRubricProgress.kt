@@ -1,6 +1,7 @@
 package edu.calpoly.flipted.businesslogic.tasks.data
 
+
 data class TaskRubricProgress(
-    val taskId: String,
-    val finishedRequirements: List<String>
-    )
+    val finishedRequirements: List<RubricRequirement>,
+    val task: Task
+)

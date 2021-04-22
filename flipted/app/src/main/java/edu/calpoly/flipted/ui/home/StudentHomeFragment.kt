@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.amplifyframework.auth.AuthUserAttributeKey
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.ui.goals.GoalNewFragment
 import edu.calpoly.flipted.ui.goals.GoalsFragment
 import edu.calpoly.flipted.ui.login.LoginFragment
 import edu.calpoly.flipted.ui.login.LoginViewModel
@@ -39,14 +38,12 @@ class StudentHomeFragment : Fragment() {
                 }
             }
 
-        // mock task id
-        val taskId = 1
-        val quizButton = view.findViewById<Button>(R.id.quiz_button)
-        quizButton.setOnClickListener{
+        val taskButton = view.findViewById<Button>(R.id.task_button)
+        taskButton.setOnClickListener{
             parentFragmentManager.commit {
-                replace(R.id.main_view, TaskFragment.newInstance(1))
+                replace(R.id.main_view, TaskFragment.newInstance("1"))
                 setReorderingAllowed(true)
-                addToBackStack(null)
+                addToBackStack("Start Task")
             }
         }
 

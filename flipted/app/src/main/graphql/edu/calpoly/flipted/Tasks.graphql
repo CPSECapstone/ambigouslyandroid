@@ -1,4 +1,4 @@
-mutation SubmitTaskProgress($taskProgress: TaskProgressInput) {
+mutation SubmitTaskProgress($taskProgress: TaskProgressInput!) {
   submitTaskProgress(taskProgress: $taskProgress) {
 	
 }

@@ -5,16 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import edu.calpoly.flipted.backend.MockTasksRepo
-import edu.calpoly.flipted.businesslogic.tasks.data.TaskRubricProgress
 import edu.calpoly.flipted.backend.ApolloTasksRepo
-import edu.calpoly.flipted.businesslogic.tasks.SubmitTaskProgress
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.tasks.GetTask
 import edu.calpoly.flipted.businesslogic.tasks.SaveTaskProgress
 import edu.calpoly.flipted.businesslogic.tasks.SubmitTask
-import edu.calpoly.flipted.businesslogic.tasks.data.Task
-import edu.calpoly.flipted.businesslogic.tasks.data.TaskProgress
-import edu.calpoly.flipted.businesslogic.tasks.data.TaskSubmissionResult
+import edu.calpoly.flipted.businesslogic.tasks.data.*
 import kotlinx.coroutines.launch
 
 
@@ -25,7 +21,6 @@ class TaskViewModel : ViewModel(){
     private val mockRepo = MockTasksRepo()
     private val repo = ApolloTasksRepo()
     private val getTaskUseCase = GetTask(mockRepo)
-    private val submitTaskProgress = SubmitTaskProgress(repo)
     private val submitTaskUseCase = SubmitTask(mockRepo)
     private val saveTaskProgressUseCase = SaveTaskProgress(mockRepo)
 
@@ -35,25 +30,23 @@ class TaskViewModel : ViewModel(){
     val currResponse : LiveData<TaskSubmissionResult>
         get() = _currResponse
 
-    fun fetchTask(taskId : Int) {
+    fun fetchTask(taskId : String) {
         viewModelScope.launch {
             _currTask.value = getTaskUseCase.execute(taskId)
         }
     }
 
+    private val requirements : MutableMap<String, RubricRequirement> = mutableMapOf()
 
-    fun submitProgress(taskProgress: TaskRubricProgress) {
+    fun saveRubricRequirement(requirement: RubricRequirement) {
+        val task = currTask.value ?: throw IllegalStateException("No task")
+        requirements[requirement.uid] = requirement
+
+        val requirementProgress = TaskRubricProgress(requirements.values.toList(), task)
         viewModelScope.launch {
-            submitTaskProgress.execute(taskProgress)
+            saveTaskProgressUseCase.saveRubricProgress(requirementProgress)
         }
     }
-
-    fun submitTask(taskId : String) {
-        viewModelScope.launch {
-            _currResponse.value = submitTaskUseCase.execute(taskId)
-        }
-    }
-
     private val questionAnswers = mutableMapOf<Int, StudentAnswerInput>()
 
     fun saveQuizAnswer(answer: StudentAnswerInput) {
@@ -61,12 +54,20 @@ class TaskViewModel : ViewModel(){
 
         questionAnswers[answer.questionId] = answer
 
-        val progress = TaskProgress(listOf(), listOf(answer), task)
+        val answerProgress = TaskQuizAnswer(answer, task)
+
         viewModelScope.launch {
-            saveTaskProgressUseCase.execute(progress)
+            saveTaskProgressUseCase.saveQuizAnswer(answerProgress)
         }
     }
 
     fun getQuizAnswers() : Collection<StudentAnswerInput> = questionAnswers.values
+
+
+    fun submitTask(taskId : String) {
+        viewModelScope.launch {
+            _currResponse.value = submitTaskUseCase.execute(taskId)
+        }
+    }
 
 }

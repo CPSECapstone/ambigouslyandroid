@@ -1,11 +1,16 @@
 package edu.calpoly.flipted.businesslogic.tasks
 
-import edu.calpoly.flipted.businesslogic.tasks.data.TaskProgress
+import edu.calpoly.flipted.businesslogic.tasks.data.TaskQuizAnswer
+import edu.calpoly.flipted.businesslogic.tasks.data.TaskRubricProgress
 
 class SaveTaskProgress(
         private val repo : TasksRepo
 ) {
-    suspend fun execute(progress: TaskProgress) {
-        repo.saveProgress(progress)
+    suspend fun saveRubricProgress(progress: TaskRubricProgress) {
+        repo.saveRubricProgress(progress)
+    }
+
+    suspend fun saveQuizAnswer(answer: TaskQuizAnswer) {
+        repo.saveQuizAnswer(answer)
     }
 }

@@ -9,6 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ListView
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -49,8 +50,10 @@ class TaskRubricFragment : Fragment() {
         adapter.data = rubricRequiments
 
         viewModel.currResponse.observe(viewLifecycleOwner, Observer {
+            parentFragment?.parentFragmentManager?.popBackStack("Start Task", FragmentManager.POP_BACK_STACK_INCLUSIVE)
             parentFragment?.parentFragmentManager?.commit {
                 replace(R.id.main_view, TaskResultsFragment.newInstance())
+                addToBackStack("Task Result")
                 setReorderingAllowed(true)
             }
         })

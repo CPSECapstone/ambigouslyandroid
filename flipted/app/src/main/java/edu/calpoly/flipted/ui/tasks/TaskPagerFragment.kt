@@ -22,7 +22,7 @@ private const val TASKID_ARG_PARAM = "taskId"
  * create an instance of this fragment.
  */
 class TaskFragment : Fragment() {
-    private var taskId: Int? = null
+    private var taskId: String? = null
 
     private lateinit var progressBar : ProgressBar
     private lateinit var tabLayout: TabLayout
@@ -33,7 +33,7 @@ class TaskFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            taskId = it.getInt(TASKID_ARG_PARAM)
+            taskId = it.getString(TASKID_ARG_PARAM)
         }
     }
 
@@ -74,9 +74,9 @@ class TaskFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(taskId: Int) = TaskFragment().apply {
+        fun newInstance(taskId: String) = TaskFragment().apply {
             arguments = Bundle().apply {
-                putInt(TASKID_ARG_PARAM, taskId)
+                putString(TASKID_ARG_PARAM, taskId)
             }
         }
     }
