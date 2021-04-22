@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
+import java.lang.IllegalStateException
 
 /**
  * A simple [Fragment] subclass.
@@ -31,6 +33,20 @@ class TaskResultsFragment : Fragment() {
         val pointsAwarded : TextView = view.findViewById(R.id.total_awarded_points)
         val hasBeenGraded : TextView = view.findViewById(R.id.has_been_graded)
 
+        val viewModel = ViewModelProvider(requireActivity())[TaskViewModel::class.java]
+
+        val currResponse = viewModel.currResponse.value
+                ?: throw IllegalStateException("No response found")
+        val currTask = viewModel.currTask.value
+                ?: throw IllegalStateException("No task found")
+        pointsAwarded.text = "${currResponse.pointsAwarded} out of ${currTask.points} points"
+
+        if (currResponse.graded) {
+            hasBeenGraded.text = "This is your final score."
+        }
+        else {
+            hasBeenGraded.text = "Some of the questions have not been graded yet."
+        }
     }
 
     companion object {

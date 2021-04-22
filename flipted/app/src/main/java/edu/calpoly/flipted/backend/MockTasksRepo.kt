@@ -66,7 +66,10 @@ class MockTasksRepo : TasksRepo {
                         """.trimIndent(), 6, uid)),
                     0)
             ))
-        ), dateFormat.parse("4-25-2021")!!, "Learn about the Test Bus", 10, 1, listOf())
+        ), dateFormat.parse("4-25-2021")!!, "Learn about the Test Bus", 10, 1, listOf(
+            RubricRequirement("Check this box", false, 10, uid),
+            RubricRequirement("And this box too", false, 5, uid)
+    ))
 
     private var savedProgress: MutableSet<Int> = mutableSetOf()
 
