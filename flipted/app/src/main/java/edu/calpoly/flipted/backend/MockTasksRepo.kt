@@ -51,6 +51,7 @@ class MockTasksRepo : TasksRepo {
                                 MultipleChoiceAnswerOption("the client device and server", uid),
                                 MultipleChoiceAnswerOption("the operating system and running application", uid)
                             ), "The test bus exists between...", 2, uid)
+
                         ), 2)
             )), Page(listOf(
                 TextBlock("Why are they useful?", 36),
@@ -69,15 +70,18 @@ class MockTasksRepo : TasksRepo {
                             In your own words, summarize
                             what is a Test Bus and why they are useful.
                         """.trimIndent(), 6, uid)),
-                    0)
+                        0)
             ))
         ), dateFormat.parse("4-25-2021")!!, "Learn about the Test Bus", 10, 1, listOf(
-            RubricRequirement("Read about the Test Bus", false, 20, uid),
-            RubricRequirement("Complete the summary task", false, 20, uid)
+            RubricRequirement("Read about the Test Bus", false, uid),
+            RubricRequirement("Complete the summary task", false, uid)
         ))
 
-    private var savedProgress: MutableSet<Int> = mutableSetOf()
+
+    private var savedProgress: MutableSet<String> = mutableSetOf()
+
     private var savedQuestionAnswers: MutableMap<Int, StudentAnswerInput> = mutableMapOf()
+
 
     override suspend fun getTask(taskId: Int) : Task {
         if(taskId != mockedTask.uid)
@@ -96,7 +100,7 @@ class MockTasksRepo : TasksRepo {
         if(progress.task.uid != mockedTask.uid)
             throw IllegalArgumentException("No task with ${progress.task.uid} exists")
         progress.finishedRequirements.forEach{
-            savedProgress.add(it.uid)
+            savedProgress.add(it.uid.toString())
         }
         progress.answeredQuestions.forEach {
             savedQuestionAnswers[it.questionId] = it
