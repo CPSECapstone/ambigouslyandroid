@@ -9,3 +9,53 @@ mutation SaveMcProgress($mcInput:MultipleChoiceAnswerInput!) {
 mutation SaveFreeResponseProgress($freeResponseInput:FreeResponseAnswerInput!) {
   saveFreeResponseProgress(frBlockInput:$freeResponseInput)
 }
+
+query GetTasks($taskId:String!) {
+  task(taskId:$taskId) {
+    id,
+    name,
+    instructions,
+    points,
+    startAt,
+    endAt,
+    dueDate,
+    subMissionId,
+    objectiveId,
+    pages {
+      blocks {
+        title
+        ...on TextBlock {
+          contents,
+          fontSize
+        },
+        ...on ImageBlock {
+          imageUrl
+        },
+        ...on VideoBlock {
+          videoUrl
+        },
+        ...on QuizBlock {
+          blockId,
+          requiredScore,
+          points,
+          questions {
+            id,
+            description,
+            points,
+            ...on MCQuestion {
+              options {
+                id,
+                description
+              }
+            }
+          }
+        }
+      },
+      skippable
+    },
+    requirements {
+      id,
+      description
+    }
+  }
+}
