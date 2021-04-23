@@ -11,6 +11,7 @@ import edu.calpoly.flipted.businesslogic.tasks.GetTask
 import edu.calpoly.flipted.businesslogic.tasks.SaveTaskProgress
 import edu.calpoly.flipted.businesslogic.tasks.SubmitTask
 import edu.calpoly.flipted.businesslogic.tasks.data.*
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
 import kotlinx.coroutines.launch
 
 
@@ -47,14 +48,14 @@ class TaskViewModel : ViewModel(){
             saveTaskProgressUseCase.saveRubricProgress(requirementProgress)
         }
     }
-    private val questionAnswers = mutableMapOf<Int, StudentAnswerInput>()
+    private val questionAnswers = mutableMapOf<String, StudentAnswerInput>()
 
-    fun saveQuizAnswer(answer: StudentAnswerInput) {
+    fun saveQuizAnswer(answer: StudentAnswerInput, block: QuizBlock) {
         val task = currTask.value ?: throw IllegalStateException("No task")
 
         questionAnswers[answer.questionId] = answer
 
-        val answerProgress = TaskQuizAnswer(answer, task)
+        val answerProgress = TaskQuizAnswer(answer, task, block)
 
         viewModelScope.launch {
             saveTaskProgressUseCase.saveQuizAnswer(answerProgress)
