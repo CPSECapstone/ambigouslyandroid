@@ -80,7 +80,7 @@ class MockTasksRepo : TasksRepo {
         ), listOf(
             RubricRequirement("Read about the Test Bus", false, uids),
             RubricRequirement("Complete the summary task", false, uids)
-        ), "1", "Learn about the Test Bus", "Complete this task",
+        ), "c5110abd8c4", "Learn about the Test Bus", "Complete this task",
         10, null, null, dateFormat.parse("4-25-2021"), null, null)
 
     private var savedProgress: MutableSet<String> = mutableSetOf()
