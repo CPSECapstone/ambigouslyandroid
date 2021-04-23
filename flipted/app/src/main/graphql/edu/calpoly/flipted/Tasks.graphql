@@ -1,6 +1,11 @@
 mutation SubmitTaskProgress($taskProgress: TaskProgressInput!) {
   submitTaskProgress(taskProgress: $taskProgress) {
-	
+    }
 }
-	
+
+mutation SaveMcProgress($mcInput:MultipleChoiceAnswerInput!) {
+  saveMultipleChoiceProgress(mcBlockInput: $mcInput)
+}
+mutation SaveFreeResponseProgress($freeResponseInput:FreeResponseAnswerInput!) {
+  saveFreeResponseProgress(frBlockInput:$freeResponseInput)
 }
