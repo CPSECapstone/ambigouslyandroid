@@ -19,43 +19,44 @@ query GetTasks($taskId:String!) {
     startAt,
     endAt,
     dueDate,
-    subMissionId,
+    parentMissionId,
+    parentMissionIndex,
     objectiveId,
     pages {
-      blocks {
-        title
-        ...on TextBlock {
-          contents,
-          fontSize
-        },
-        ...on ImageBlock {
-          imageUrl
-        },
-        ...on VideoBlock {
-          videoUrl
-        },
-        ...on QuizBlock {
-          blockId,
-          requiredScore,
-          points,
-          questions {
-            id,
-            description,
-            points,
-            ...on MCQuestion {
-              options {
-                id,
-                description
-              }
-            }
-          }
-        }
-      },
-      skippable
+     blocks {
+       title
+       ...on TextBlock {
+         contents,
+         fontSize
+       },
+       ...on ImageBlock {
+         imageUrl
+       },
+       ...on VideoBlock {
+         videoUrl
+       },
+       ...on QuizBlock {
+         blockId,
+         requiredScore,
+         points,
+         questions {
+           id,
+           description,
+           points,
+           ...on MCQuestion {
+             options {
+               id,
+               description
+             }
+           }
+         }
+       }
+     },
+     skippable
     },
     requirements {
-      id,
-      description
+     id,
+     description
     }
   }
 }

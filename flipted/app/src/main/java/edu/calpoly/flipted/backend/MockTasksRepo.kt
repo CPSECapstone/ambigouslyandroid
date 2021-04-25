@@ -81,7 +81,7 @@ class MockTasksRepo : TasksRepo {
             RubricRequirement("Read about the Test Bus", false, uids),
             RubricRequirement("Complete the summary task", false, uids)
         ), "c5110abd8c4", "Learn about the Test Bus", "Complete this task",
-        10, null, null, dateFormat.parse("4-25-2021"), null, null)
+        10, null, null, dateFormat.parse("4-25-2021"), "", 0, null)
 
     private var savedProgress: MutableSet<String> = mutableSetOf()
 
@@ -95,7 +95,7 @@ class MockTasksRepo : TasksRepo {
             if(it.uid in savedProgress) it.completed else it.incompleted
         }, mockedTask.uid, mockedTask.name, mockedTask.instructions,
         mockedTask.points, mockedTask.startAt, mockedTask.endAt,
-        mockedTask.dueDate, mockedTask.subMissionId, mockedTask.objectiveId)
+        mockedTask.dueDate, mockedTask.parentMissionId, mockedTask.parentMissionIndex, mockedTask.objectiveId)
     }
 
     override suspend fun saveRubricProgress(progress: TaskRubricProgress) {

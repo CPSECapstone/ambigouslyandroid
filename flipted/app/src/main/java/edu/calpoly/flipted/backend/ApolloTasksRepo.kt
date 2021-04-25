@@ -33,7 +33,7 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         }
 
         if(response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: bad response")
+            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
             throw IllegalStateException("Error when querying backend: bad response")
         }
 
@@ -90,7 +90,8 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         task.startAt,
         task.endAt,
         task.dueDate,
-        task.subMissionId,
+        task.parentMissionId,
+        task.parentMissionIndex,
         task.objectiveId)
     }
 
@@ -110,7 +111,7 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         }
 
         if(response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: bad response")
+            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
             return
         }
     }
@@ -130,7 +131,7 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         }
 
         if(response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: bad response")
+            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
             return
         }
     }
