@@ -1,10 +1,12 @@
 package edu.calpoly.flipted.ui.tasks.viewholders
 
+import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.lifecycle.Observer
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.quizzes.data.answers.FreeResponseAnswer
@@ -31,17 +33,44 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
                     val answers : RadioGroup = questionLayout.findViewById(R.id.answers)
 
                     questionText.text = question.question
+                    var count = 0
+                    if (viewModel.isSubmitted) {
+                        question.options.forEach { answerOption ->
+                            val answerLayout = inflater.inflate(R.layout.task_question_mc_answer_result, answers, false)
 
-                    question.options.forEach { answerOption ->
-                        val answerLayout = inflater.inflate(R.layout.task_question_mc_answer_option, answers, false) as RadioButton
-                        answerLayout.text = answerOption.displayPrompt
+                            val result = answerLayout.findViewById(R.id.result_radio) as RadioButton
 
-                        answerLayout.setOnCheckedChangeListener { _, isChecked ->
-                            if(isChecked)
-                                viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, MultipleChoiceAnswer(answerOption)))
+                            val score = questionLayout.findViewById(R.id.question_score) as TextView
+
+                            score.text = question.pointValue.toString() + "/" + question.pointValue.toString() + " points"
+                            result.text = answerOption.displayPrompt
+                            if (count == 0) {
+                                val resultText = answerLayout.findViewById(R.id.result_text) as TextView
+                                resultText.text = "Correct!"
+                                resultText.setTextColor(Color.parseColor("#66a266"))
+                                resultText.setVisibility(View.VISIBLE)
+                                result.setChecked(true)
+                                count++
+                            }
+
+                            result.setEnabled(false)
+                            answers.addView(answerLayout)
+                            score.setVisibility(View.VISIBLE)
+
                         }
+                    }
+                    else {
+                        question.options.forEach { answerOption ->
+                            val answerLayout = inflater.inflate(R.layout.task_question_mc_answer_option, answers, false) as RadioButton
+                            answerLayout.text = answerOption.displayPrompt
 
-                        answers.addView(answerLayout)
+                            answerLayout.setOnCheckedChangeListener { _, isChecked ->
+                                if(isChecked)
+                                    viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, MultipleChoiceAnswer(answerOption)))
+                            }
+
+                            answers.addView(answerLayout)
+                        }
                     }
                     rootLayout.addView(questionLayout)
                 }
@@ -52,17 +81,29 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
 
                     questionText.text = question.question
 
-                    answerBox.addTextChangedListener(object : TextWatcher {
-                        override fun beforeTextChanged(
-                            p0: CharSequence?, p1: Int, p2: Int, p3: Int
-                        ) {}
-                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                    if (viewModel.isSubmitted) {
+                        answerBox.setVisibility(View.GONE)
+                        val score = questionLayout.findViewById(R.id.fr_score) as TextView
+                        val resultText = questionLayout.findViewById(R.id.task_question_free_response_result) as TextView
+                        score.text = question.pointValue.toString() + "/" + question.pointValue.toString() + " points"
+                        resultText.setVisibility(View.VISIBLE)
+                        score.setVisibility(View.VISIBLE)
+                    }
+                    else {
+                        answerBox.addTextChangedListener(object : TextWatcher {
+                            override fun beforeTextChanged(
+                                    p0: CharSequence?, p1: Int, p2: Int, p3: Int
+                            ) {}
+                            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-                        override fun afterTextChanged(p0: Editable?) {
-                            viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, FreeResponseAnswer(p0.toString())))
-                        }
+                            override fun afterTextChanged(p0: Editable?) {
+                                viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, FreeResponseAnswer(p0.toString())))
+                            }
 
-                    })
+                        })
+                    }
+
+
 
                     rootLayout.addView(questionLayout)
                 }

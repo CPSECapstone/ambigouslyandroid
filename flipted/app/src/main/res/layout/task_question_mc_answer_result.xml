@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:weightSum="1"
+    android:backgroundTintMode="src_over"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 >
 <RadioButton
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/result_radio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
@@ -24,7 +24,9 @@
         android:layout_height="wrap_content"
         tools:text="Correct!"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="18sp"
+        android:textSize="16sp"
+        android:textColor="@color/browser_actions_text_color"
         android:layout_marginLeft="100dp"
+        android:visibility="gone"
         />
 </LinearLayout>

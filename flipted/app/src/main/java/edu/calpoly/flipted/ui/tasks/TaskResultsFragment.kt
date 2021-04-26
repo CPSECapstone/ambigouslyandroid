@@ -1,13 +1,19 @@
 package edu.calpoly.flipted.ui.tasks
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
+import edu.calpoly.flipted.businesslogic.tasks.data.Page
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
+import edu.calpoly.flipted.ui.tasks.viewholders.TaskRecyclerViewAdapter
 import java.lang.IllegalStateException
 
 /**
@@ -47,6 +53,23 @@ class TaskResultsFragment : Fragment() {
         else {
             hasBeenGraded.text = "Some of the questions have not been graded yet."
         }
+
+        val recyclerView : RecyclerView = view.findViewById(R.id.task_results_recyclerview)
+
+        val adapter = TaskRecyclerViewAdapter(this)
+
+        val blocks = mutableListOf<QuizBlock>()
+
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+
+        currTask.pages.forEach { page ->
+            blocks.addAll(page.blocks.filterIsInstance<QuizBlock>())
+        }
+        //Log.e("tag", blocks.size.toString())
+
+        adapter.taskBlocks = blocks
+
     }
 
     companion object {

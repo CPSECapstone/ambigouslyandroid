@@ -17,12 +17,16 @@ import kotlinx.coroutines.launch
 class TaskViewModel : ViewModel(){
     private val _currTask : MutableLiveData<Task> = MutableLiveData()
     private val _currResponse : MutableLiveData<TaskSubmissionResult> = MutableLiveData()
+    private var _isSubmitted : Boolean = false
 
     private val mockRepo = MockTasksRepo()
     private val repo = ApolloTasksRepo()
     private val getTaskUseCase = GetTask(mockRepo)
     private val submitTaskUseCase = SubmitTask(mockRepo)
     private val saveTaskProgressUseCase = SaveTaskProgress(mockRepo)
+
+    val isSubmitted : Boolean
+        get() = _isSubmitted
 
     val currTask : LiveData<Task>
         get() = _currTask
@@ -68,6 +72,7 @@ class TaskViewModel : ViewModel(){
     fun submitTask(taskId : String) {
         viewModelScope.launch {
             _currResponse.value = submitTaskUseCase.execute(taskId)
+            _isSubmitted = true
         }
     }
 
