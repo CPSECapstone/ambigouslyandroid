@@ -47,6 +47,7 @@ class TaskViewModel : ViewModel(){
             saveTaskProgressUseCase.saveRubricProgress(requirementProgress)
         }
     }
+
     private val questionAnswers = mutableMapOf<Int, StudentAnswerInput>()
 
     fun saveQuizAnswer(answer: StudentAnswerInput) {

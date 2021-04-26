@@ -1,5 +1,6 @@
 package edu.calpoly.flipted.backend
 
+import android.util.Log
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQuestion
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceAnswerOption
@@ -105,7 +106,7 @@ class MockTasksRepo : TasksRepo {
         if(progress.task.uid != mockedTask.uid)
             throw IllegalArgumentException("No task with ${progress.task.uid} exists")
         progress.finishedRequirements.forEach{
-            savedProgress.add(it.uid.toString())
+            savedProgress.add(it.uid)
         }
     }
 
