@@ -4,10 +4,8 @@ import android.util.Log
 import edu.calpoly.flipted.type.TaskProgressInput
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
-import edu.calpoly.flipted.GetTasksQuery
-import edu.calpoly.flipted.SaveFreeResponseProgressMutation
-import edu.calpoly.flipted.SaveMcProgressMutation
-import edu.calpoly.flipted.SubmitTaskProgressMutation
+import edu.calpoly.flipted.*
+import edu.calpoly.flipted.businesslogic.quizzes.data.answers.AnswerType
 import edu.calpoly.flipted.businesslogic.quizzes.data.answers.FreeResponseAnswer
 import edu.calpoly.flipted.businesslogic.quizzes.data.answers.MultipleChoiceAnswer
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQuestion
@@ -25,24 +23,39 @@ import edu.calpoly.flipted.type.MultipleChoiceAnswerInput
 class ApolloTasksRepo : ApolloRepo(), TasksRepo {
 
     override suspend fun getTask(taskId: String): Task {
-        val response = try {
+        val taskResponse = try {
             apolloClient().query(GetTasksQuery(taskId)).await()
         } catch(e: ApolloException) {
             Log.e("ApolloTasksRepo", "Error when querying backend", e)
             throw e
         }
 
-        if(response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
+        if(taskResponse.hasErrors() || taskResponse.data == null) {
+            Log.e("ApolloTasksRepo", "Error when querying backend: ${taskResponse.errors?.map {it.message} ?: "bad response"}")
+            throw IllegalStateException("Error when querying backend: bad response")
+        }
+
+        val progressResponse = try {
+            apolloClient().query(GetTaskProgressQuery(taskId)).await()
+        } catch(e: ApolloException) {
+            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            null
+        }
+
+        if(progressResponse != null && (progressResponse.hasErrors() || progressResponse.data == null)) {
+            Log.e("ApolloTasksRepo", "Error when querying backend: ${progressResponse.errors?.map {it.message} ?: "bad response"}")
             throw IllegalStateException("Error when querying backend: bad response")
         }
 
         val badResponseException = IllegalStateException("Error when querying backend: bad response")
 
-        val task = response.data?.task ?: throw badResponseException
+        val task = taskResponse.data?.task ?: throw badResponseException
 
         // TODO: Fill in the completedRequirementIds using the separate query
-        val completedRequirementIds : Set<String> = setOf()
+        val completedRequirementIds : Set<String> = progressResponse?.data?.retrieveTaskProgress?.finishedRequirementIds?.toSet() ?: setOf()
+        val completedQuestions : Map<String, GetTaskProgressQuery.Answer> = progressResponse?.data?.retrieveQuestionProgress?.answers?.map {
+            (it.questionId ?: throw badResponseException) to it
+        }?.toMap() ?: mapOf()
 
         return Task(task.pages.map { page ->
             Page(page.blocks?.map { block ->
@@ -58,16 +71,30 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
                         QuizBlock(block.asQuizBlock.questions?.map { question ->
                             if(question == null) throw badResponseException
                             when {
-                                question.asMCQuestion != null ->
-                                    MultipleChoiceQuestion(question.asMCQuestion.options?.map { answerOption ->
+                                question.asMCQuestion != null -> {
+                                    val answerOptions = question.asMCQuestion.options?.map { answerOption ->
                                         if(answerOption == null) throw badResponseException
                                         MultipleChoiceAnswerOption(answerOption.description, answerOption.id)
-                                    } ?: throw badResponseException,
-                                    question.description,
-                                    question.points,
-                                    question.id)
+                                    } ?: throw badResponseException
+
+                                    MultipleChoiceQuestion(
+                                        answerOptions,
+                                        question.description,
+                                        question.points,
+                                        question.id,
+                                        answerOptions.find {
+                                            it.id.toString() == completedQuestions[question.id]?.answer
+                                        }?.let {
+                                            MultipleChoiceAnswer(it)
+                                        }
+                                    )
+                                }
                                 else ->
-                                    FreeResponseQuestion(question.description, question.points, question.id)
+                                    FreeResponseQuestion(question.description, question.points, question.id,
+                                        completedQuestions[question.id]?.answer?.let {
+                                            FreeResponseAnswer(it)
+                                        }
+                                    )
                             }
                         } ?: throw badResponseException,
                         block.asQuizBlock.requiredScore ?: throw badResponseException,

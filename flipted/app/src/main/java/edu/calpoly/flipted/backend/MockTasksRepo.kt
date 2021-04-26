@@ -48,14 +48,14 @@ class MockTasksRepo : TasksRepo {
                                 MultipleChoiceAnswerOption("Class", uid),
                                 MultipleChoiceAnswerOption("Interface", uid),
                                 MultipleChoiceAnswerOption("Instance", uid)
-                            ),"A test bus is a...", 2, uids),
+                            ),"A test bus is a...", 2, uids, null),
                         MultipleChoiceQuestion(
                             listOf(
                                 MultipleChoiceAnswerOption("the user and user interface", uid),
                                 MultipleChoiceAnswerOption("the user interface and core logic", uid),
                                 MultipleChoiceAnswerOption("the client device and server", uid),
                                 MultipleChoiceAnswerOption("the operating system and running application", uid)
-                            ), "The test bus exists between...", 2, uids)
+                            ), "The test bus exists between...", 2, uids, null)
 
                         ), 2, uids, 3)
             ), true), Page(listOf(
@@ -74,7 +74,7 @@ class MockTasksRepo : TasksRepo {
                         FreeResponseQuestion("""
                             In your own words, summarize
                             what is a Test Bus and why they are useful.
-                        """.trimIndent(), 6, uids)),
+                        """.trimIndent(), 6, uids, null)),
                         0, uids, 5)
             ), true)
         ), listOf(

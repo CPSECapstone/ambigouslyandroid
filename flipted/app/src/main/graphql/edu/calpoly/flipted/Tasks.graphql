@@ -10,6 +10,19 @@ mutation SaveFreeResponseProgress($freeResponseInput:FreeResponseAnswerInput!) {
   saveFreeResponseProgress(frBlockInput:$freeResponseInput)
 }
 
+query GetTaskProgress($taskId:String!) {
+  retrieveTaskProgress(taskId:$taskId){
+    finishedRequirementIds
+  }
+  retrieveQuestionProgress(taskId:$taskId) {
+    answers {
+      questionId,
+      pointsAwarded,
+      answer
+    }
+  }
+}
+
 query GetTasks($taskId:String!) {
   task(taskId:$taskId) {
     id,
