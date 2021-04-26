@@ -23,37 +23,24 @@ import edu.calpoly.flipted.type.MultipleChoiceAnswerInput
 class ApolloTasksRepo : ApolloRepo(), TasksRepo {
 
     override suspend fun getTask(taskId: String): Task {
-        val taskResponse = try {
-            apolloClient().query(GetTasksQuery(taskId)).await()
+        val response = try {
+            apolloClient().query(GetTaskQuery(taskId)).await()
         } catch(e: ApolloException) {
             Log.e("ApolloTasksRepo", "Error when querying backend", e)
             throw e
         }
 
-        if(taskResponse.hasErrors() || taskResponse.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${taskResponse.errors?.map {it.message} ?: "bad response"}")
-            throw IllegalStateException("Error when querying backend: bad response")
-        }
-
-        val progressResponse = try {
-            apolloClient().query(GetTaskProgressQuery(taskId)).await()
-        } catch(e: ApolloException) {
-            Log.e("ApolloTasksRepo", "Error when querying backend", e)
-            null
-        }
-
-        if(progressResponse != null && (progressResponse.hasErrors() || progressResponse.data == null)) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${progressResponse.errors?.map {it.message} ?: "bad response"}")
+        if(response.hasErrors() || response.data == null) {
+            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
             throw IllegalStateException("Error when querying backend: bad response")
         }
 
         val badResponseException = IllegalStateException("Error when querying backend: bad response")
 
-        val task = taskResponse.data?.task ?: throw badResponseException
+        val task = response.data?.task ?: throw badResponseException
 
-        // TODO: Fill in the completedRequirementIds using the separate query
-        val completedRequirementIds : Set<String> = progressResponse?.data?.retrieveTaskProgress?.finishedRequirementIds?.toSet() ?: setOf()
-        val completedQuestions : Map<String, GetTaskProgressQuery.Answer> = progressResponse?.data?.retrieveQuestionProgress?.answers?.map {
+        val completedRequirementIds : Set<String> = response.data?.retrieveTaskProgress?.finishedRequirementIds?.toSet() ?: setOf()
+        val completedQuestions : Map<String, GetTaskQuery.Answer> = response.data?.retrieveQuestionProgress?.answers?.map {
             (it.questionId ?: throw badResponseException) to it
         }?.toMap() ?: mapOf()
 
