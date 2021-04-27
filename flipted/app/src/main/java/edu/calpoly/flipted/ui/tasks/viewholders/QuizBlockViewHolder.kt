@@ -60,19 +60,31 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
                         }
                     }
                     else {
+
                         question.options.forEach { answerOption ->
                             val answerLayout = inflater.inflate(R.layout.task_question_mc_answer_option, answers, false) as RadioButton
                             answerLayout.text = answerOption.displayPrompt
 
                             answerLayout.setOnCheckedChangeListener { _, isChecked ->
-                                if(isChecked)
+                                if (isChecked)
                                     viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, MultipleChoiceAnswer(answerOption)))
                             }
+                            answerLayout.setOnCheckedChangeListener { _, isChecked ->
+                                if (isChecked)
+                                    viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, MultipleChoiceAnswer(answerOption)), quizBlock)
 
+                            }
                             answers.addView(answerLayout)
+
+                            question.savedAnswer?.let {
+                                if (answerOption.id == it.chosenAnswer.id) {
+                                    answers.check(answerLayout.id)
+                                }
+
+                            }
                         }
+                        rootLayout.addView(questionLayout)
                     }
-                    rootLayout.addView(questionLayout)
                 }
                 is FreeResponseQuestion -> {
                     val questionLayout = inflater.inflate(R.layout.task_question_free_response, rootLayout, false)
@@ -90,6 +102,8 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
                         score.setVisibility(View.VISIBLE)
                     }
                     else {
+
+                        answerBox.setText(question.savedAnswer?.response ?: "")
                         answerBox.addTextChangedListener(object : TextWatcher {
                             override fun beforeTextChanged(
                                     p0: CharSequence?, p1: Int, p2: Int, p3: Int
@@ -97,13 +111,11 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
                             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
                             override fun afterTextChanged(p0: Editable?) {
-                                viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, FreeResponseAnswer(p0.toString())))
+                                viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, FreeResponseAnswer(p0.toString())), quizBlock)
                             }
 
                         })
                     }
-
-
 
                     rootLayout.addView(questionLayout)
                 }

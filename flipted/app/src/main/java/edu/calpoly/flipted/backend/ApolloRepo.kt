@@ -5,13 +5,29 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthSession
 import com.amplifyframework.auth.result.AuthSessionResult
 import com.amplifyframework.kotlin.core.Amplify
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.CustomTypeAdapter
+import com.apollographql.apollo.api.CustomTypeValue
+import edu.calpoly.flipted.type.CustomType
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import java.text.SimpleDateFormat
+import java.util.*
 
 abstract class ApolloRepo {
     companion object {
-        const val BACKEND_URL = "https://bvt1ftio71.execute-api.us-east-1.amazonaws.com/dev/graphql"
+        const val BACKEND_URL = "https://knyio2nl7d.execute-api.us-east-1.amazonaws.com/dev/graphql"
+    }
+
+    private val dateCustomTypeAdapter = object: CustomTypeAdapter<Date> {
+        private val dateFormat = SimpleDateFormat("y-M-d", Locale.US)
+        override fun decode(value: CustomTypeValue<*>): Date {
+            return dateFormat.parse(value.value.toString()) ?: throw IllegalArgumentException("Bad date")
+        }
+
+        override fun encode(value: Date): CustomTypeValue<*> {
+            return CustomTypeValue.GraphQLString(dateFormat.format(value))
+        }
     }
 
     private class AuthorizationInterceptor(val key: String) : Interceptor {
@@ -41,9 +57,11 @@ abstract class ApolloRepo {
 
         return ApolloClient.builder()
                 .serverUrl(BACKEND_URL)
+                .addCustomTypeAdapter(CustomType.DATE, dateCustomTypeAdapter)
                 .okHttpClient(OkHttpClient.Builder()
                         .addInterceptor(AuthorizationInterceptor(key))
                         .build()
-                ).build()
+                )
+                .build()
     }
 }
