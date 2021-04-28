@@ -88,26 +88,26 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
                     else {
 
                         question.options.forEach { answerOption ->
-                            val answerLayout = inflater.inflate(R.layout.task_question_mc_answer_result, answers, false)
-                            val option = answerLayout.findViewById(R.id.result_radio) as RadioButton
-                            option.text = answerOption.displayPrompt
+                            val answerLayout = inflater.inflate(R.layout.task_question_mc_answer_option, answers, false) as RadioButton
+                            answerLayout.text = answerOption.displayPrompt
 
-                            option.setOnCheckedChangeListener { _, isChecked ->
-                                if (isChecked)
+                            answerLayout.setOnCheckedChangeListener { _, isChecked ->
+                                if(isChecked)
                                     viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, MultipleChoiceAnswer(answerOption)), quizBlock)
-
                             }
+
                             answers.addView(answerLayout)
 
                             question.savedAnswer?.let {
-                                if (answerOption.id == it.chosenAnswer.id) {
+                                if(answerOption.id == it.chosenAnswer.id) {
                                     answers.check(answerLayout.id)
                                 }
-
                             }
+
+
                         }
-                        rootLayout.addView(questionLayout)
                     }
+                    rootLayout.addView(questionLayout)
                 }
                 is FreeResponseQuestion -> {
                     val questionLayout = inflater.inflate(R.layout.task_question_free_response, rootLayout, false)
@@ -132,6 +132,7 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
                         score.text = questionResult.pointsAwarded.toString() + "/" + question.pointValue.toString() + " points"
                         studentAnswer.text = questionResult.studentAnswer
                         resultText.setVisibility(View.VISIBLE)
+                        studentAnswer.setVisibility(View.VISIBLE)
                         score.setVisibility(View.VISIBLE)
                     }
                     else {

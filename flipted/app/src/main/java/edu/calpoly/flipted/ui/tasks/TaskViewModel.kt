@@ -44,6 +44,9 @@ class TaskViewModel : ViewModel(){
 
     fun saveRubricRequirement(requirement: RubricRequirement) {
         val task = currTask.value ?: throw IllegalStateException("No task")
+        task.requirements.map { r ->
+            requirements[r.uid] = r
+        }
         requirements[requirement.uid] = requirement
 
         val requirementProgress = TaskRubricProgress(requirements.values.filter{it.isComplete}.toList(), task)

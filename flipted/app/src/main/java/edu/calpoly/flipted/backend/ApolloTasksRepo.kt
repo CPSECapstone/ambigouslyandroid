@@ -185,8 +185,10 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
                     when {
                         qa.question.asMCQuestion != null ->
                             qa.question.asMCQuestion.answers!!.map{it.toString()}
+                        qa.question.asFRQuestion?.answer != null ->
+                            listOf(qa.question.asFRQuestion.answer)
                         else ->
-                            listOf(qa.question.asFRQuestion?.answer!!)
+                            listOf("")
                     }
                     , qa.answer?.answer!!, qa.answer.pointsAwarded!!)
                 }, "")
