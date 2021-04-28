@@ -92,11 +92,13 @@ class TaskRubricFragment : Fragment() {
             val data = getItem(position)
 
             checkBox.text = data.description
-            checkBox.isChecked = data.isComplete
+
 
             checkBox.setOnCheckedChangeListener{ buttonView, isChecked ->
                 viewModel.saveRubricRequirement(RubricRequirement(data.description, isChecked, data.uid))
             }
+
+            checkBox.isChecked = data.isComplete
 
             return fillInView
         }

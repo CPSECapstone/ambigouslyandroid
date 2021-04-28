@@ -74,7 +74,7 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
                             // Check if the current answerOption is what the student selected
                             else if (answerOption.id == questionResult.studentAnswer.toInt()) {
                                 result.setChecked(true)
-                                resultText.text = "Incorrect Response"
+                                resultText.text = "Your Response"
                                 resultText.setTextColor(Color.parseColor("#d03128"))
                                 resultText.setVisibility(View.VISIBLE)
                             }

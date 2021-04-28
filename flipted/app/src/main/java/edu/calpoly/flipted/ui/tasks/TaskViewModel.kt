@@ -1,5 +1,6 @@
 package edu.calpoly.flipted.ui.tasks
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,6 +38,10 @@ class TaskViewModel : ViewModel(){
     fun fetchTask(taskId : String) {
         viewModelScope.launch {
             _currTask.value = getTaskUseCase.execute(taskId)
+            val task = _currTask.value
+            task!!.requirements.forEach { r ->
+                requirements[r.uid] = r
+            }
         }
     }
 
@@ -44,11 +49,9 @@ class TaskViewModel : ViewModel(){
 
     fun saveRubricRequirement(requirement: RubricRequirement) {
         val task = currTask.value ?: throw IllegalStateException("No task")
-        task.requirements.map { r ->
-            requirements[r.uid] = r
-        }
-        requirements[requirement.uid] = requirement
 
+        requirements[requirement.uid] = requirement
+        Log.e("tag", requirements.values.filter{it.isComplete}.toList().size.toString())
         val requirementProgress = TaskRubricProgress(requirements.values.filter{it.isComplete}.toList(), task)
         viewModelScope.launch {
             saveTaskProgressUseCase.saveRubricProgress(requirementProgress)
