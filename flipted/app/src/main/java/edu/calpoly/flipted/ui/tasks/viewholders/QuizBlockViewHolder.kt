@@ -34,7 +34,7 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
                     val answers : RadioGroup = questionLayout.findViewById(R.id.answers)
 
                     questionText.text = question.question
-                    if (viewModel.isSubmitted) {
+                    if (viewModel.currResponse.value != null) {
 
                         val currResult = viewModel.currResponse.value ?: throw IllegalStateException("No response found")
                         val resultList = currResult.results

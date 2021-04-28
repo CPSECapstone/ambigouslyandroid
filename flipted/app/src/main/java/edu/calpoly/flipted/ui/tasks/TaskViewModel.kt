@@ -75,7 +75,9 @@ class TaskViewModel : ViewModel(){
     fun submitTask(taskId : String) {
         viewModelScope.launch {
             _currResponse.value = submitTaskUseCase.execute(taskId)
-            _isSubmitted = true
+            if (_currResponse.value != null) {
+                _isSubmitted = !_currResponse.value!!.err.isEmpty()
+            }
         }
     }
 

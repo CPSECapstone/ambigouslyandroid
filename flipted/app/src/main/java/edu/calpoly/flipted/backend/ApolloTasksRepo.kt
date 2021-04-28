@@ -162,13 +162,26 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
 
         if(response.hasErrors() || response.data == null) {
             val message = response.errors?.get(0)?.message
-            if (message!!.contains("rubric")) {
+            if (message != null) {
                 return TaskSubmissionResult(taskId, false, 0, 0, emptyList(), message)
             }
             else {
                 Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
                 throw IllegalStateException("Error when querying backend: bad response")
             }
+            /*
+            if (message!!.contains("rubric")) {
+                return TaskSubmissionResult(taskId, false, 0, 0, emptyList(), message)
+            }
+            else if (message.contains("Progress")) {
+                return TaskSubmissionResult(taskId, false, 0, 0, emptyList(), message)
+            }
+            else {
+                Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
+                throw IllegalStateException("Error when querying backend: bad response")
+            }
+
+             */
         }
         val badResponseException = IllegalStateException("Error when querying backend: bad response")
 

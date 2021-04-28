@@ -32,7 +32,11 @@ class TaskResultsFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.task_results_fragment, container, false)
     }
-
+/*
+    override fun isAutoMeasureEnabled(): Boolean {
+        return true
+    }
+*/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -61,7 +65,14 @@ class TaskResultsFragment : Fragment() {
         val blocks = mutableListOf<QuizBlock>()
 
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+
+        val layoutManager = LinearLayoutManager(requireActivity())
+
+
+        layoutManager.setAutoMeasureEnabled(true)
+        recyclerView.layoutManager = layoutManager
+
+        recyclerView.setNestedScrollingEnabled(false)
 
         currTask.pages.forEach { page ->
             blocks.addAll(page.blocks.filterIsInstance<QuizBlock>())
