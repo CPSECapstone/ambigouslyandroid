@@ -6,10 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ListView
+import android.widget.*
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
@@ -50,13 +47,20 @@ class TaskRubricFragment : Fragment() {
         adapter.data = rubricRequirements
 
         viewModel.currResponse.observe(viewLifecycleOwner, Observer {
-
+            if (viewModel.isSubmitted) {
                 parentFragment?.parentFragmentManager?.popBackStack("Start Task", FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 parentFragment?.parentFragmentManager?.commit {
                     replace(R.id.main_view, TaskResultsFragment.newInstance())
                     addToBackStack("Task Result")
                     setReorderingAllowed(true)
                 }
+            }
+            else {
+                val errorMsg = view.findViewById(R.id.submit_error_msg) as TextView
+                errorMsg.text = viewModel.currResponse.value?.err
+                errorMsg.visibility = View.VISIBLE
+            }
+
 
         })
         val submitButton = view.findViewById<Button>(R.id.task_submit_button)
