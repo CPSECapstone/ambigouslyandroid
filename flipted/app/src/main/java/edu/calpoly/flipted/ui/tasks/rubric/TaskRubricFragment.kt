@@ -1,6 +1,7 @@
 package edu.calpoly.flipted.ui.tasks.rubric
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -40,13 +41,13 @@ class TaskRubricFragment : Fragment() {
 
         val task = viewModel.currTask.value ?: throw IllegalArgumentException("Null task")
 
-        val rubricRequiments = task.requirements
+        val rubricRequirements = task.requirements
 
         adapter = RubricListAdapter()
 
         list.adapter = adapter
 
-        adapter.data = rubricRequiments
+        adapter.data = rubricRequirements
 
         viewModel.currResponse.observe(viewLifecycleOwner, Observer {
             /*
