@@ -51,7 +51,7 @@ class TaskViewModel : ViewModel(){
         val task = currTask.value ?: throw IllegalStateException("No task")
 
         requirements[requirement.uid] = requirement
-        Log.e("tag", requirements.values.filter{it.isComplete}.toList().size.toString())
+
         val requirementProgress = TaskRubricProgress(requirements.values.filter{it.isComplete}.toList(), task)
         viewModelScope.launch {
             saveTaskProgressUseCase.saveRubricProgress(requirementProgress)
@@ -81,6 +81,7 @@ class TaskViewModel : ViewModel(){
             if (_currResponse.value != null) {
                 _isSubmitted = !_currResponse.value!!.err.isEmpty()
             }
+            //Log.e("tag", _currResponse.value!!.graded.toString())
         }
     }
 
