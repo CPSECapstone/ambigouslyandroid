@@ -1,12 +1,10 @@
 package edu.calpoly.flipted.ui.goals
 import android.content.Context
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseExpandableListAdapter
-import android.widget.CheckBox
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.UidToStableId
 import edu.calpoly.flipted.businesslogic.goals.Goal
@@ -105,6 +103,9 @@ class CustomExpandableListAdapter (
 
         val checkBox : CheckBox = fillInView.findViewById(R.id.goals_item_top_check_box)
 
+        val groupIndicator: ImageView = fillInView.findViewById(R.id.goals_item_top_group_indicator)
+        val groupIndicatorDrawable = groupIndicator.drawable as AnimatedVectorDrawable
+
         if(currGoal.subgoals.isEmpty()) {
             progressContainer.visibility = View.GONE
             checkBox.visibility = View.VISIBLE
@@ -124,6 +125,11 @@ class CustomExpandableListAdapter (
             topProgress.progress = completedCount
 
             countText.text = "$completedCount / ${currGoal.subgoals.size}"
+
+            if(isExpanded)
+                groupIndicatorDrawable.start()
+            else
+                groupIndicatorDrawable.reset()
         }
         titleText.text = currGoal.title
 
