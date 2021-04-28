@@ -109,7 +109,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
 
-            android:src="@drawable/goals_group_indicator"
+            tools:src="@drawable/goals_group_indicator_anim_fwd"
 
             android:layout_marginEnd="20dp"
 
