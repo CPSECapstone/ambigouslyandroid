@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import edu.calpoly.flipted.backend.MockTasksRepo
 import edu.calpoly.flipted.backend.ApolloTasksRepo
+import edu.calpoly.flipted.backend.MockTasksRepo
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.tasks.GetTask
 import edu.calpoly.flipted.businesslogic.tasks.SaveTaskProgress
@@ -19,11 +19,10 @@ class TaskViewModel : ViewModel(){
     private val _currTask : MutableLiveData<Task> = MutableLiveData()
     private val _currResponse : MutableLiveData<TaskSubmissionResult> = MutableLiveData()
 
-    private val mockRepo = MockTasksRepo()
     private val repo = ApolloTasksRepo()
-    private val getTaskUseCase = GetTask(mockRepo)
-    private val submitTaskUseCase = SubmitTask(mockRepo)
-    private val saveTaskProgressUseCase = SaveTaskProgress(mockRepo)
+    private val getTaskUseCase = GetTask(repo)
+    private val submitTaskUseCase = SubmitTask(repo)
+    private val saveTaskProgressUseCase = SaveTaskProgress(repo)
 
     val currTask : LiveData<Task>
         get() = _currTask

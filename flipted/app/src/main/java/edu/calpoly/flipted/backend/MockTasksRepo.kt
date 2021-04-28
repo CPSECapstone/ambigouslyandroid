@@ -39,7 +39,7 @@ class MockTasksRepo : TasksRepo {
                 """.trimIndent(), 18),
                 VideoBlock("https://www.youtube.com/watch?v=VJi2vmaQe6w", "Watch this video"),
                 TextBlock("Look at This!", 36),
-                ImageBlock(uid.toString(), "https://www.digitalhrtech.com/wp-content/uploads/2020/01/Learning-and-development-manager.png"),
+                ImageBlock("https://www.digitalhrtech.com/wp-content/uploads/2020/01/Learning-and-development-manager.png"),
                 TextBlock("Check your knowledge", 24),
                 QuizBlock(
                     listOf(
@@ -48,17 +48,17 @@ class MockTasksRepo : TasksRepo {
                                 MultipleChoiceAnswerOption("Class", uid),
                                 MultipleChoiceAnswerOption("Interface", uid),
                                 MultipleChoiceAnswerOption("Instance", uid)
-                            ),"A test bus is a...", 2, uids),
+                            ),"A test bus is a...", 2, uids, null),
                         MultipleChoiceQuestion(
                             listOf(
                                 MultipleChoiceAnswerOption("the user and user interface", uid),
                                 MultipleChoiceAnswerOption("the user interface and core logic", uid),
                                 MultipleChoiceAnswerOption("the client device and server", uid),
                                 MultipleChoiceAnswerOption("the operating system and running application", uid)
-                            ), "The test bus exists between...", 2, uids)
+                            ), "The test bus exists between...", 2, uids, null)
 
                         ), 2, uids, 3)
-            )), Page(listOf(
+            ), true), Page(listOf(
                 TextBlock("Why are they useful?", 36),
                 TextBlock("""
                     Unit tests that interact with a user interface tend to be complex, difficult to
@@ -67,21 +67,21 @@ class MockTasksRepo : TasksRepo {
                     test that directly accesses the underlying logic reduces the amount of work
                     required every time the user interface is updated.
                 """.trimIndent(), 18)
-            )), Page(listOf(
+            ), true), Page(listOf(
                 TextBlock("Summarize the reading", 36),
                 QuizBlock(
                     listOf(
                         FreeResponseQuestion("""
                             In your own words, summarize
                             what is a Test Bus and why they are useful.
-                        """.trimIndent(), 6, uids)),
+                        """.trimIndent(), 6, uids, null)),
                         0, uids, 5)
-            ))
-        ), dateFormat.parse("4-25-2021")!!, "Learn about the Test Bus", 10, "1", listOf(
+            ), true)
+        ), listOf(
             RubricRequirement("Read about the Test Bus", false, uids),
             RubricRequirement("Complete the summary task", false, uids)
-        ))
-
+        ), "c5110abd8c4", "Learn about the Test Bus", "Complete this task",
+        10, null, null, dateFormat.parse("4-25-2021"), "", 0, null)
 
     private var savedProgress: MutableSet<String> = mutableSetOf()
 
@@ -91,21 +91,18 @@ class MockTasksRepo : TasksRepo {
     override suspend fun getTask(taskId: String) : Task {
         if(taskId != mockedTask.uid)
             throw IllegalArgumentException("No task with $taskId exists")
-        return Task(mockedTask.pages,
-            mockedTask.dueDate,
-            mockedTask.title,
-            mockedTask.points,
-            mockedTask.uid,
-            mockedTask.requirements.map {
-                it.completed
-        })
+        return Task(mockedTask.pages, mockedTask.requirements.map {
+            if(it.uid in savedProgress) it.completed else it.incompleted
+        }, mockedTask.uid, mockedTask.name, mockedTask.instructions,
+        mockedTask.points, mockedTask.startAt, mockedTask.endAt,
+        mockedTask.dueDate, mockedTask.parentMissionId, mockedTask.parentMissionIndex, mockedTask.objectiveId)
     }
 
     override suspend fun saveRubricProgress(progress: TaskRubricProgress) {
         if(progress.task.uid != mockedTask.uid)
             throw IllegalArgumentException("No task with ${progress.task.uid} exists")
         progress.finishedRequirements.forEach{
-            savedProgress.add(it.uid.toString())
+            savedProgress.add(it.uid)
         }
     }
 

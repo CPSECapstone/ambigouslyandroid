@@ -11,6 +11,9 @@ apply plugin: 'com.apollographql.apollo'
 apollo {
     // instruct the compiler to generate Kotlin models
     generateKotlinModels.set(true)
+    customTypeMapping = [
+            "Date" : "java.util.Date"
+    ]
 }
 
 android {

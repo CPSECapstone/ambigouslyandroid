@@ -42,6 +42,12 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
                         }
 
                         answers.addView(answerLayout)
+
+                        question.savedAnswer?.let {
+                            if(answerOption.id == it.chosenAnswer.id) {
+                                answers.check(answerLayout.id)
+                            }
+                        }
                     }
                     rootLayout.addView(questionLayout)
                 }
@@ -51,6 +57,8 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
                     val answerBox : EditText = questionLayout.findViewById(R.id.task_question_free_response_answer)
 
                     questionText.text = question.question
+
+                    answerBox.setText(question.savedAnswer?.response ?: "")
 
                     answerBox.addTextChangedListener(object : TextWatcher {
                         override fun beforeTextChanged(
