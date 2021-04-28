@@ -38,7 +38,7 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
 
                         answerLayout.setOnCheckedChangeListener { _, isChecked ->
                             if(isChecked)
-                                viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, MultipleChoiceAnswer(answerOption)))
+                                viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, MultipleChoiceAnswer(answerOption)), quizBlock)
                         }
 
                         answers.addView(answerLayout)
@@ -59,7 +59,7 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
                         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
                         override fun afterTextChanged(p0: Editable?) {
-                            viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, FreeResponseAnswer(p0.toString())))
+                            viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, FreeResponseAnswer(p0.toString())), quizBlock)
                         }
 
                     })

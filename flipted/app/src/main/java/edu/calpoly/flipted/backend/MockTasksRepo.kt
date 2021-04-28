@@ -48,16 +48,16 @@ class MockTasksRepo : TasksRepo {
                                 MultipleChoiceAnswerOption("Class", uid),
                                 MultipleChoiceAnswerOption("Interface", uid),
                                 MultipleChoiceAnswerOption("Instance", uid)
-                            ),"A test bus is a...", 2, uid),
+                            ),"A test bus is a...", 2, uids),
                         MultipleChoiceQuestion(
                             listOf(
                                 MultipleChoiceAnswerOption("the user and user interface", uid),
                                 MultipleChoiceAnswerOption("the user interface and core logic", uid),
                                 MultipleChoiceAnswerOption("the client device and server", uid),
                                 MultipleChoiceAnswerOption("the operating system and running application", uid)
-                            ), "The test bus exists between...", 2, uid)
+                            ), "The test bus exists between...", 2, uids)
 
-                        ), 2)
+                        ), 2, uids, 3)
             )), Page(listOf(
                 TextBlock("Why are they useful?", 36),
                 TextBlock("""
@@ -74,8 +74,8 @@ class MockTasksRepo : TasksRepo {
                         FreeResponseQuestion("""
                             In your own words, summarize
                             what is a Test Bus and why they are useful.
-                        """.trimIndent(), 6, uid)),
-                        0)
+                        """.trimIndent(), 6, uids)),
+                        0, uids, 5)
             ))
         ), dateFormat.parse("4-25-2021")!!, "Learn about the Test Bus", 10, "1", listOf(
             RubricRequirement("Read about the Test Bus", false, uids),
@@ -85,7 +85,7 @@ class MockTasksRepo : TasksRepo {
 
     private var savedProgress: MutableSet<String> = mutableSetOf()
 
-    private var savedQuestionAnswers: MutableMap<Int, StudentAnswerInput> = mutableMapOf()
+    private var savedQuestionAnswers: MutableMap<String, StudentAnswerInput> = mutableMapOf()
 
 
     override suspend fun getTask(taskId: String) : Task {
