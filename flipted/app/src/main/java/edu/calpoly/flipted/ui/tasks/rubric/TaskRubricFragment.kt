@@ -9,6 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ListView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -53,6 +54,7 @@ class TaskRubricFragment : Fragment() {
                 setReorderingAllowed(true)
             }
         })
+
         val submitButton = view.findViewById<Button>(R.id.task_submit_button)
         submitButton.setOnClickListener{
             // TODO submit actual taskId

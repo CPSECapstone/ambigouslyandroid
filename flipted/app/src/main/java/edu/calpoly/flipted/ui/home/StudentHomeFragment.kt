@@ -12,10 +12,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.amplifyframework.auth.AuthUserAttributeKey
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.ui.goals.GoalNewFragment
 import edu.calpoly.flipted.ui.goals.GoalsFragment
 import edu.calpoly.flipted.ui.login.LoginFragment
 import edu.calpoly.flipted.ui.login.LoginViewModel
+import edu.calpoly.flipted.ui.missions.MissionFragment
 import edu.calpoly.flipted.ui.tasks.TaskFragment
 
 /**
@@ -40,11 +40,19 @@ class StudentHomeFragment : Fragment() {
             }
 
         // mock task id
-        val taskId = 1
         val quizButton = view.findViewById<Button>(R.id.quiz_button)
         quizButton.setOnClickListener{
             parentFragmentManager.commit {
                 replace(R.id.main_view, TaskFragment.newInstance(1))
+                setReorderingAllowed(true)
+                addToBackStack(null)
+            }
+        }
+
+        val missionButton = view.findViewById<Button>(R.id.mission_button)
+        missionButton.setOnClickListener{
+            parentFragmentManager.commit {
+                replace(R.id.main_view, MissionFragment.newInstance())
                 setReorderingAllowed(true)
                 addToBackStack(null)
             }
