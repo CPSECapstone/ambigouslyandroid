@@ -41,7 +41,7 @@ class StudentHomeFragment : Fragment() {
         val taskButton = view.findViewById<Button>(R.id.task_button)
         taskButton.setOnClickListener{
             parentFragmentManager.commit {
-                replace(R.id.main_view, TaskFragment.newInstance("4f681550ba9"))
+                replace(R.id.main_view, TaskFragment.newInstance("90e0c730e56"))
                 setReorderingAllowed(true)
                 addToBackStack("Start Task")
             }
