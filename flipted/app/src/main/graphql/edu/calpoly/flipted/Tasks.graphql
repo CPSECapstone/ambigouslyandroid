@@ -1,6 +1,35 @@
-mutation SubmitTaskProgress($taskProgress: TaskProgressInput!) {
-  submitTaskProgress(taskProgress: $taskProgress) {
+mutation SubmitTask($taskId: String!) {
+  submitTask(taskId: $taskId) {
+    graded
+    pointsAwarded
+    pointsPossible
+    questionAndAnswers {
+      question {
+        ... on FRQuestion {
+          id
+          description
+          points
+          answer
+        }
+        ... on MCQuestion {
+          id
+          description
+          points
+          answers
+        }
+      }
+      answer {
+        questionId
+        pointsAwarded
+        answer
+      }
     }
+    teacherComment
+  }
+}
+
+mutation SubmitTaskProgress($taskProgress: TaskProgressInput!) {
+  submitTaskProgress(taskProgress: $taskProgress)
 }
 
 mutation SaveMcProgress($mcInput:MultipleChoiceAnswerInput!) {

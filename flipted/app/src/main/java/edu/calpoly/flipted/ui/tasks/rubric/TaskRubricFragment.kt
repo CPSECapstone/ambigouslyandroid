@@ -38,7 +38,6 @@ class TaskRubricFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[TaskViewModel::class.java]
 
-        // TODO: get task ID from current task for saving progress
         val task = viewModel.currTask.value ?: throw IllegalArgumentException("Null task")
 
         val rubricRequiments = task.requirements
@@ -50,17 +49,28 @@ class TaskRubricFragment : Fragment() {
         adapter.data = rubricRequiments
 
         viewModel.currResponse.observe(viewLifecycleOwner, Observer {
+            /*
+            if (it.err.isEmpty()) {
+                parentFragment?.parentFragmentManager?.popBackStack("Start Task", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                parentFragment?.parentFragmentManager?.commit {
+                    replace(R.id.main_view, TaskResultsFragment.newInstance())
+                    addToBackStack("Task Result")
+                    setReorderingAllowed(true)
+                }
+            }
+            */
             parentFragment?.parentFragmentManager?.popBackStack("Start Task", FragmentManager.POP_BACK_STACK_INCLUSIVE)
             parentFragment?.parentFragmentManager?.commit {
                 replace(R.id.main_view, TaskResultsFragment.newInstance())
                 addToBackStack("Task Result")
                 setReorderingAllowed(true)
             }
+
+
         })
         val submitButton = view.findViewById<Button>(R.id.task_submit_button)
         submitButton.setOnClickListener{
-            // TODO submit actual taskId
-            viewModel.submitTask("")
+            viewModel.submitTask(task.uid)
         }
     }
 

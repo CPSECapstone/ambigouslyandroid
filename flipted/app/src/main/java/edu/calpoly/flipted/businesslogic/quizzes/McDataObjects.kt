@@ -24,3 +24,10 @@ data class QuizResult(
     val questions : List<Question>,
     val numCorrect : Int
 )
+
+data class AnswerResult(
+        val questionId : String,
+        val correctAnswer : List<String>,
+        val studentAnswer : String,
+        val pointsAwarded : Int
+)

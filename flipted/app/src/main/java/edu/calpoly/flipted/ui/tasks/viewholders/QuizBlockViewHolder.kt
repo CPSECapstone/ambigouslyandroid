@@ -16,6 +16,7 @@ import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceQu
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TaskBlock
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
+import java.lang.IllegalStateException
 
 class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val viewModel: TaskViewModel) : TaskBlockViewHolder(view) {
     private val rootLayout : LinearLayout = view.findViewById(R.id.task_block_quiz_root)
@@ -33,8 +34,16 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
                     val answers : RadioGroup = questionLayout.findViewById(R.id.answers)
 
                     questionText.text = question.question
-                    var count = 0
                     if (viewModel.isSubmitted) {
+
+                        val currResult = viewModel.currResponse.value ?: throw IllegalStateException("No response found")
+                        val resultList = currResult.results
+                        val questionResult = resultList.find{it.questionId == question.uid}
+
+                        if (questionResult == null) {
+                            throw IllegalStateException("Question not found")
+                        }
+
                         question.options.forEach { answerOption ->
                             val answerLayout = inflater.inflate(R.layout.task_question_mc_answer_result, answers, false)
 
@@ -42,15 +51,32 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
 
                             val score = questionLayout.findViewById(R.id.question_score) as TextView
 
-                            score.text = question.pointValue.toString() + "/" + question.pointValue.toString() + " points"
+                            score.text = questionResult.pointsAwarded.toString() + "/" + question.pointValue.toString() + " points"
                             result.text = answerOption.displayPrompt
-                            if (count == 0) {
-                                val resultText = answerLayout.findViewById(R.id.result_text) as TextView
-                                resultText.text = "Correct!"
-                                resultText.setTextColor(Color.parseColor("#66a266"))
-                                resultText.setVisibility(View.VISIBLE)
+                            val resultText = answerLayout.findViewById(R.id.result_text) as TextView
+
+                            // Check if the current answerOption is a correct answer
+                            if (questionResult.correctAnswer.contains(answerOption.id.toString())) {
                                 result.setChecked(true)
-                                count++
+                                if (questionResult.correctAnswer.contains(questionResult.studentAnswer)) {
+                                    resultText.text = "Correct!"
+                                    resultText.setTextColor(Color.parseColor("#66a266"))
+                                    resultText.setVisibility(View.VISIBLE)
+                                }
+                                else {
+                                    resultText.text = "Correct Response"
+                                    resultText.setTextColor(Color.parseColor("#bcd9ea"))
+                                    resultText.setVisibility(View.VISIBLE)
+                                }
+
+
+                            }
+                            // Check if the current answerOption is what the student selected
+                            else if (answerOption.id == questionResult.studentAnswer.toInt()) {
+                                result.setChecked(true)
+                                resultText.text = "Incorrect Response"
+                                resultText.setTextColor(Color.parseColor("#d03128"))
+                                resultText.setVisibility(View.VISIBLE)
                             }
 
                             result.setEnabled(false)
@@ -62,14 +88,11 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
                     else {
 
                         question.options.forEach { answerOption ->
-                            val answerLayout = inflater.inflate(R.layout.task_question_mc_answer_option, answers, false) as RadioButton
-                            answerLayout.text = answerOption.displayPrompt
+                            val answerLayout = inflater.inflate(R.layout.task_question_mc_answer_result, answers, false)
+                            val option = answerLayout.findViewById(R.id.result_radio) as RadioButton
+                            option.text = answerOption.displayPrompt
 
-                            answerLayout.setOnCheckedChangeListener { _, isChecked ->
-                                if (isChecked)
-                                    viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, MultipleChoiceAnswer(answerOption)))
-                            }
-                            answerLayout.setOnCheckedChangeListener { _, isChecked ->
+                            option.setOnCheckedChangeListener { _, isChecked ->
                                 if (isChecked)
                                     viewModel.saveQuizAnswer(StudentAnswerInput(question.uid, MultipleChoiceAnswer(answerOption)), quizBlock)
 
@@ -94,10 +117,20 @@ class QuizBlockViewHolder(view : View, val inflater: LayoutInflater, private val
                     questionText.text = question.question
 
                     if (viewModel.isSubmitted) {
+
+                        val currResult = viewModel.currResponse.value ?: throw IllegalStateException("No response found")
+                        val resultList = currResult.results
+                        val questionResult = resultList.find{it.questionId == question.uid}
+
+                        if (questionResult == null) {
+                            throw IllegalStateException("Question not found")
+                        }
                         answerBox.setVisibility(View.GONE)
                         val score = questionLayout.findViewById(R.id.fr_score) as TextView
                         val resultText = questionLayout.findViewById(R.id.task_question_free_response_result) as TextView
-                        score.text = question.pointValue.toString() + "/" + question.pointValue.toString() + " points"
+                        val studentAnswer = questionLayout.findViewById(R.id.task_question_free_response_student_answer) as TextView
+                        score.text = questionResult.pointsAwarded.toString() + "/" + question.pointValue.toString() + " points"
+                        studentAnswer.text = questionResult.studentAnswer
                         resultText.setVisibility(View.VISIBLE)
                         score.setVisibility(View.VISIBLE)
                     }

@@ -45,7 +45,7 @@ class TaskResultsFragment : Fragment() {
                 ?: throw IllegalStateException("No response found")
         val currTask = viewModel.currTask.value
                 ?: throw IllegalStateException("No task found")
-        pointsAwarded.text = "${currResponse.pointsAwarded} out of ${currTask.points} points"
+        pointsAwarded.text = "${currResponse.pointsAwarded} out of ${currResponse.pointsPossible} points"
 
         if (currResponse.graded) {
             hasBeenGraded.text = "This is your final score."
@@ -66,7 +66,6 @@ class TaskResultsFragment : Fragment() {
         currTask.pages.forEach { page ->
             blocks.addAll(page.blocks.filterIsInstance<QuizBlock>())
         }
-        //Log.e("tag", blocks.size.toString())
 
         adapter.taskBlocks = blocks
 
