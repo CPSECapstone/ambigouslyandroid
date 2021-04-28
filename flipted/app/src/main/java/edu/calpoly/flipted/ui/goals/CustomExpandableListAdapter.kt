@@ -4,36 +4,45 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
+import android.widget.CheckBox
 import android.widget.ProgressBar
 import android.widget.TextView
 import edu.calpoly.flipted.R
+import edu.calpoly.flipted.businesslogic.UidToStableId
 import edu.calpoly.flipted.businesslogic.goals.Goal
+import java.text.SimpleDateFormat
 import java.time.*
 import kotlin.math.*
 
-class CustomExpandableListAdapter public constructor(
+class CustomExpandableListAdapter (
     private val context: Context
 ) : BaseExpandableListAdapter() {
 
+    private val dateFormat = SimpleDateFormat("MMMM dd, yyyy")
+
     private var goalData: List<Goal> = listOf()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    private val goalStableIds = UidToStableId<String>()
+    private val completionStableIds = UidToStableId<Pair<String, String>>()
 
     fun setGoals(goals: List<Goal>) {
         this.goalData = goals
         notifyDataSetChanged();
     }
 
-    override fun getChild(listPosition: Int, expandedListPosition: Int) : Any {
-        val goal = goalData[listPosition]
+    override fun getChild(listPosition: Int, expandedListPosition: Int)
+        = goalData[listPosition].subgoals[expandedListPosition]
 
-        return if (expandedListPosition >= goal.completions.size)
-        // No data for the "Add completion" button
-            Object()
-        else
-            goal.completions[expandedListPosition]
-    }
-    override fun getChildId(listPosition: Int, expandedListPosition: Int): Long {
-        return expandedListPosition.toLong()
-    }
+    override fun getChildId(listPosition: Int, expandedListPosition: Int): Long
+        = completionStableIds.getStableId(Pair(
+            goalData[listPosition].uid,
+            goalData[listPosition].subgoals[expandedListPosition].id
+        ))
+
     override fun getChildView(
         listPosition: Int,
         expandedListPosition: Int,
@@ -44,38 +53,38 @@ class CustomExpandableListAdapter public constructor(
         val layoutInflater = LayoutInflater.from(context)
         val goal = goalData[listPosition]
 
+        val fillInView = convertView ?: layoutInflater.inflate(R.layout.goals_item_sub, parent, false)
 
-        if(expandedListPosition >= goal.completions.size)
-            return if(convertView != null && convertView.id == R.layout.goals_item_mark_progress )
-                convertView
-            else
-                layoutInflater.inflate(R.layout.goals_item_mark_progress, parent, false)
+        val titleText: TextView = fillInView.findViewById(R.id.Comp_Title)
+        val subtitle: TextView = fillInView.findViewById(R.id.Comp_Subtitle)
+        val checkBox: CheckBox = fillInView.findViewById(R.id.goals_item_sub_complete_checkbox)
 
-        val fillinView = if (convertView != null && convertView.id == R.layout.goals_item_sub)
-            convertView
-        else
-            layoutInflater.inflate(R.layout.goals_item_sub, parent, false)
+        val currSubGoal = goal.subgoals[expandedListPosition]
 
-        val currComp = goal.completions[expandedListPosition]
-        val compDate = currComp.completedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        val month = compDate.month.toString().get(0)  + compDate.month.toString().substring(1).toLowerCase()
+        titleText.text = currSubGoal.title
 
-        val titleText = fillinView.findViewById(R.id.Comp_Title) as TextView
-        val subtitle = fillinView.findViewById(R.id.Comp_Subtitle) as TextView
+        if(currSubGoal.completed) {
+            checkBox.isChecked = true
+            subtitle.text = currSubGoal.completedDate?.let {
+                "Completed on ${dateFormat.format(it)}"
+            } ?: "Completed"
+        } else {
+            checkBox.isChecked = false
+            subtitle.text = currSubGoal.dueDate.let { "Complete by ${dateFormat.format(it)}" }
+        }
 
-        titleText.text = currComp.description
-        subtitle.text = "Completed on ${month} ${compDate.dayOfMonth}, ${compDate.year}"
+        checkBox.setOnCheckedChangeListener { compoundButton, isChecked ->
+            TODO("Not yet implemented")
+        }
 
-
-        return fillinView
+        return fillInView
     }
-    override fun getChildrenCount(listPosition: Int) =
-        (this.goalData[listPosition].completions.size + 1)
+    override fun getChildrenCount(listPosition: Int) = this.goalData[listPosition].subgoals.size
 
     override fun getGroup(listPosition: Int) = this.goalData[listPosition]
     override fun getGroupCount() = this.goalData.size
 
-    override fun getGroupId(listPosition: Int) = this.goalData[listPosition].uid.toLong()
+    override fun getGroupId(listPosition: Int) : Long = goalStableIds.getStableId(goalData[listPosition].uid)
 
     override fun getGroupView(
         listPosition: Int,
@@ -85,29 +94,51 @@ class CustomExpandableListAdapter public constructor(
     ): View {
         val currGoal = goalData[listPosition]
 
-        val convertView = convertView ?: LayoutInflater.from(context).inflate(R.layout.goals_item_top, parent, false)
+        val fillInView = convertView ?: LayoutInflater.from(context).inflate(R.layout.goals_item_top, parent, false)
 
-        val titleText : TextView = convertView.findViewById(R.id.Goal_Title_Text)
-        val subtitle : TextView = convertView.findViewById(R.id.Goal_Subtitle)
-        val countText : TextView = convertView.findViewById(R.id.Goal_Count)
-        val topProgress : ProgressBar = convertView.findViewById(R.id.mf_progress_bar)
-        val goalDate = currGoal.dueDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        val month = goalDate.month.toString().get(0)  + goalDate.month.toString().substring(1).toLowerCase()
-        val percentDone = ((currGoal.completions.size.toDouble()/currGoal.targetCompletionCount)*100).roundToInt()
+        val titleText : TextView = fillInView.findViewById(R.id.Goal_Title_Text)
+        val subtitle : TextView = fillInView.findViewById(R.id.Goal_Subtitle)
 
+        val progressContainer: ViewGroup = fillInView.findViewById(R.id.goals_item_top_progress_bar_container)
+        val countText : TextView = fillInView.findViewById(R.id.Goal_Count)
+        val topProgress : ProgressBar = fillInView.findViewById(R.id.mf_progress_bar)
+
+        val checkBox : CheckBox = fillInView.findViewById(R.id.goals_item_top_check_box)
+
+        if(currGoal.subgoals.isEmpty()) {
+            progressContainer.visibility = View.GONE
+            checkBox.visibility = View.VISIBLE
+
+            checkBox.isChecked = currGoal.completed
+
+            checkBox.setOnCheckedChangeListener { compoundButton, isChecked ->
+                TODO("Not yet implemented")
+            }
+        } else {
+            progressContainer.visibility = View.VISIBLE
+            checkBox.visibility = View.GONE
+
+            val completedCount = currGoal.subgoals.count { it.completed }
+
+            topProgress.max = currGoal.subgoals.size
+            topProgress.progress = completedCount
+
+            countText.text = "$completedCount / ${currGoal.subgoals.size}"
+        }
         titleText.text = currGoal.title
-        subtitle.text = "Target: ${currGoal.title} by ${month} ${goalDate.dayOfMonth}, ${goalDate.year}"
-        countText.text = "${currGoal.completions.size} ${currGoal.unitOfMeasurement}"
-        topProgress.progress = percentDone
-        return convertView
+
+        if(currGoal.completed) {
+            subtitle.text = currGoal.completedDate?.let {
+                "Completed on ${dateFormat.format(it)}"
+            } ?: "Completed"
+        } else {
+            subtitle.text = currGoal.dueDate.let { "Complete by ${dateFormat.format(it)}" }
+        }
+        return fillInView
 
     }
-    override fun hasStableIds(): Boolean {
-        return false
-    }
-    override fun isChildSelectable(listPosition: Int, expandedListPosition: Int): Boolean {
-        return true
-    }
+    override fun hasStableIds() = true
+    override fun isChildSelectable(listPosition: Int, expandedListPosition: Int) = true
 
 
 
