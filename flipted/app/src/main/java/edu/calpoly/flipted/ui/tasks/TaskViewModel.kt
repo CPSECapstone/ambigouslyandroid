@@ -1,5 +1,6 @@
 package edu.calpoly.flipted.ui.tasks
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,14 +16,18 @@ import kotlinx.coroutines.launch
 
 
 class TaskViewModel : ViewModel(){
+    private var _taskIsPending = false
     private val _currTask : MutableLiveData<Task> = MutableLiveData()
-    private val _currResponse : MutableLiveData<TaskSubmissionResult> = MutableLiveData()
+    private var _currResponse : MutableLiveData<TaskSubmissionResult> = MutableLiveData()
 
     private val repo = ApolloTasksRepo()
     private val getTaskUseCase = GetTask(repo)
     private val submitTaskUseCase = SubmitTask(repo)
     private val saveTaskProgressUseCase = SaveTaskProgress(repo)
 
+
+    val taskIsPending
+        get() = _taskIsPending
     val currTask : LiveData<Task>
         get() = _currTask
 
@@ -30,8 +35,14 @@ class TaskViewModel : ViewModel(){
         get() = _currResponse
 
     fun fetchTask(taskId : String) {
+        _taskIsPending = true
         viewModelScope.launch {
             _currTask.value = getTaskUseCase.execute(taskId)
+            val task = _currTask.value
+            task!!.requirements.forEach { r ->
+                requirements[r.uid] = r
+            }
+            _taskIsPending = false
         }
     }
 
@@ -39,6 +50,7 @@ class TaskViewModel : ViewModel(){
 
     fun saveRubricRequirement(requirement: RubricRequirement) {
         val task = currTask.value ?: throw IllegalStateException("No task")
+
         requirements[requirement.uid] = requirement
 
         val requirementProgress = TaskRubricProgress(requirements.values.filter{it.isComplete}.toList(), task)
@@ -46,6 +58,7 @@ class TaskViewModel : ViewModel(){
             saveTaskProgressUseCase.saveRubricProgress(requirementProgress)
         }
     }
+
     private val questionAnswers = mutableMapOf<String, StudentAnswerInput>()
 
     fun saveQuizAnswer(answer: StudentAnswerInput, block: QuizBlock) {

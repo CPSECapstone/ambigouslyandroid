@@ -1,13 +1,20 @@
 package edu.calpoly.flipted.ui.tasks
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
+import edu.calpoly.flipted.businesslogic.tasks.data.Page
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
+import edu.calpoly.flipted.ui.tasks.viewholders.TaskRecyclerViewAdapter
+import edu.calpoly.flipted.ui.tasks.viewholders.TaskResultsRecyclerViewAdapter
 import java.lang.IllegalStateException
 
 /**
@@ -26,7 +33,11 @@ class TaskResultsFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.task_results_fragment, container, false)
     }
-
+/*
+    override fun isAutoMeasureEnabled(): Boolean {
+        return true
+    }
+*/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,7 +50,7 @@ class TaskResultsFragment : Fragment() {
                 ?: throw IllegalStateException("No response found")
         val currTask = viewModel.currTask.value
                 ?: throw IllegalStateException("No task found")
-        pointsAwarded.text = "${currResponse.pointsAwarded} out of ${currTask.points} points"
+        pointsAwarded.text = "${currResponse.pointsAwarded} out of ${currResponse.pointsPossible} points"
 
         if (currResponse.graded) {
             hasBeenGraded.text = "This is your final score."
@@ -47,6 +58,29 @@ class TaskResultsFragment : Fragment() {
         else {
             hasBeenGraded.text = "Some of the questions have not been graded yet."
         }
+
+        val recyclerView : RecyclerView = view.findViewById(R.id.task_results_recyclerview)
+
+        val adapter = TaskResultsRecyclerViewAdapter(this)
+
+        val blocks = mutableListOf<QuizBlock>()
+
+        recyclerView.adapter = adapter
+
+        val layoutManager = LinearLayoutManager(requireActivity())
+
+
+        layoutManager.setAutoMeasureEnabled(true)
+        recyclerView.layoutManager = layoutManager
+
+        recyclerView.setNestedScrollingEnabled(false)
+
+        currTask.pages.forEach { page ->
+            blocks.addAll(page.blocks.filterIsInstance<QuizBlock>())
+        }
+
+        adapter.taskBlocks = blocks
+
     }
 
     companion object {

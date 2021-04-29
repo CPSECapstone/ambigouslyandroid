@@ -1,14 +1,16 @@
 package edu.calpoly.flipted.ui.tasks.rubric
 
 import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.*
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ListView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
@@ -37,30 +39,42 @@ class TaskRubricFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[TaskViewModel::class.java]
 
-        // TODO: get task ID from current task for saving progress
         val task = viewModel.currTask.value ?: throw IllegalArgumentException("Null task")
 
-        val rubricRequiments = task.requirements
+        val rubricRequirements = task.requirements
 
         adapter = RubricListAdapter()
 
         list.adapter = adapter
 
-        adapter.data = rubricRequiments
+        adapter.data = rubricRequirements
 
         viewModel.currResponse.observe(viewLifecycleOwner, Observer {
-            parentFragment?.parentFragmentManager?.popBackStack("Start Task", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            parentFragment?.parentFragmentManager?.commit {
-                replace(R.id.main_view, TaskResultsFragment.newInstance())
-                addToBackStack("Task Result")
-                setReorderingAllowed(true)
+            if (viewModel.taskIsPending)
+                return@Observer
+            if (viewModel.currResponse.value?.taskId != viewModel.currTask.value!!.uid)
+                return@Observer
+            if (viewModel.currResponse.value?.err!!.isEmpty()) {
+                parentFragment?.parentFragmentManager?.popBackStack("Start task", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                parentFragment?.parentFragmentManager?.commit {
+                    replace(R.id.main_view, TaskResultsFragment.newInstance())
+                    addToBackStack(null)
+                    setReorderingAllowed(true)
+                }
             }
+            else {
+                val errorMsg = view.findViewById(R.id.submit_error_msg) as TextView
+                errorMsg.text = viewModel.currResponse.value?.err
+                errorMsg.visibility = View.VISIBLE
+            }
+
+
+
         })
 
         val submitButton = view.findViewById<Button>(R.id.task_submit_button)
         submitButton.setOnClickListener{
-            // TODO submit actual taskId
-            viewModel.submitTask("")
+            viewModel.submitTask(task.uid)
         }
     }
 
@@ -91,6 +105,12 @@ class TaskRubricFragment : Fragment() {
             val data = getItem(position)
 
             checkBox.text = data.description
+
+
+            checkBox.setOnCheckedChangeListener{ buttonView, isChecked ->
+                viewModel.saveRubricRequirement(RubricRequirement(data.description, isChecked, data.uid))
+            }
+
             checkBox.isChecked = data.isComplete
 
             return fillInView

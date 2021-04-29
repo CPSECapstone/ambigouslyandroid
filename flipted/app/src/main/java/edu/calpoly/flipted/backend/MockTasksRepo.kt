@@ -1,5 +1,6 @@
 package edu.calpoly.flipted.backend
 
+import android.util.Log
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQuestion
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceAnswerOption
@@ -178,7 +179,8 @@ class MockTasksRepo : TasksRepo {
     }
 
     override suspend fun submitTask(taskId : String) : TaskSubmissionResult {
-        return TaskSubmissionResult(taskId, true, 8)
+    TODO()
+    //return TaskSubmissionResult(taskId, true, 8)
     }
 
 

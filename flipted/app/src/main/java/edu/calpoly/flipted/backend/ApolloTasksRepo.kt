@@ -5,6 +5,7 @@ import edu.calpoly.flipted.type.TaskProgressInput
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import edu.calpoly.flipted.*
+import edu.calpoly.flipted.businesslogic.quizzes.AnswerResult
 import edu.calpoly.flipted.businesslogic.quizzes.data.answers.AnswerType
 import edu.calpoly.flipted.businesslogic.quizzes.data.answers.FreeResponseAnswer
 import edu.calpoly.flipted.businesslogic.quizzes.data.answers.MultipleChoiceAnswer
@@ -151,7 +152,59 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
     }
 
     override suspend fun submitTask(taskId: String): TaskSubmissionResult {
-        TODO("Not yet implemented")
+        val mutation = SubmitTaskMutation(taskId)
+        val response = try {
+            apolloClient().mutate(mutation).await()
+        } catch(e: ApolloException) {
+            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            throw e
+        }
+
+        if(response.hasErrors() || response.data == null) {
+            val message = response.errors?.get(0)?.message
+            if (message != null) {
+                return TaskSubmissionResult(taskId, false, 0, 0, emptyList(), message)
+            }
+            else {
+                Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
+                throw IllegalStateException("Error when querying backend: bad response")
+            }
+            /*
+            if (message!!.contains("rubric")) {
+                return TaskSubmissionResult(taskId, false, 0, 0, emptyList(), message)
+            }
+            else if (message.contains("Progress")) {
+                return TaskSubmissionResult(taskId, false, 0, 0, emptyList(), message)
+            }
+            else {
+                Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
+                throw IllegalStateException("Error when querying backend: bad response")
+            }
+
+             */
+        }
+        val badResponseException = IllegalStateException("Error when querying backend: bad response")
+
+        val result = response.data?.submitTask?: throw badResponseException
+
+        return TaskSubmissionResult(taskId, result.graded, result.pointsAwarded!!, result.pointsPossible!!,
+                result.questionAndAnswers!!.map { qa ->
+                    AnswerResult(when {
+                        qa.question.asMCQuestion != null ->
+                            qa.question.asMCQuestion.id
+                        else ->
+                           qa.question.asFRQuestion?.id!!
+                    } ,
+                    when {
+                        qa.question.asMCQuestion != null ->
+                            qa.question.asMCQuestion.answers!!.map{it.toString()}
+                        qa.question.asFRQuestion?.answer != null ->
+                            listOf(qa.question.asFRQuestion.answer)
+                        else ->
+                            listOf("")
+                    }
+                    , qa.answer?.answer!!, qa.answer.pointsAwarded!!)
+                }, "")
     }
 
 }

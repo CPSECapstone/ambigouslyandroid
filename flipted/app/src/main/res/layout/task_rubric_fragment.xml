@@ -32,4 +32,14 @@
         android:text="SUBMIT"
         android:id="@+id/task_submit_button"
         android:layout_marginTop="20dp"/>
+
+
+    <TextView
+        android:id="@+id/submit_error_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Task Submission Error"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="22sp"
+        android:paddingTop="10dp"/>
 </LinearLayout>
