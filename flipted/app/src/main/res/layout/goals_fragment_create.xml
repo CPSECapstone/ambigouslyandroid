@@ -1,110 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
 
-    android:gravity="center">
 <LinearLayout
-
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Goal"
+        android:text="Edit Goal"
         android:fontFamily="sans-serif-medium"
         android:textColor="@android:color/black"
+        android:layout_marginTop="40dp"
         android:textSize="25sp" />
 
     <TextView
-        android:layout_marginTop="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:text="Goal Name" />
 
     <EditText
-        android:id="@+id/goalNameInput"
+        android:id="@+id/goals_fragment_create_name_input"
         android:layout_width="410dp"
         android:layout_height="35dp"
         android:background="@drawable/grey_goal_box"
-        android:inputType="text" />
-
-    <TextView
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Target Description" />
-
-    <EditText
-        android:id="@+id/targetDescInput"
-        android:layout_width="410dp"
-        android:layout_height="35dp"
-        android:background="@drawable/grey_goal_box"
-        android:inputType="text" />
-
-    <TextView
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Completion Amount" />
-
-    <EditText
-        android:id="@+id/compAmountInput"
-        android:layout_width="410dp"
-        android:layout_height="35dp"
-        android:background="@drawable/grey_goal_box"
-        android:inputType="text" />
-
-    <TextView
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Completion Unit"
-        />
-
-    <EditText
-        android:id="@+id/compUnitInput"
-        android:layout_width="410dp"
-        android:layout_height="35dp"
-        android:background="@drawable/grey_goal_box"
+        android:hint="Input title here"
         android:inputType="text"
-        />
+        android:paddingStart="10dp" />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Goal Category" />
+
+    <Spinner
+        android:id="@+id/goals_fragment_create_category_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <TextView
+        android:id="@+id/goals_fragment_create_date_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:padding="20dp" />
+
+    <Button
+        android:id="@+id/goals_fragment_create_date_selector_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Goal Date" />
+
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Goal Due Date"
-        />
-
-    <DatePicker
-        android:id="@+id/dateInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-       />
+        android:id="@+id/goals_fragment_create_subgoals_recyclerview"
+        tools:listitem="@layout/goals_fragment_create_subgoal_list_item"/>
 
     <Button
         android:layout_marginTop="20dp"
-        android:id="@+id/SubmitNewGoalButton"
+        android:id="@+id/goals_fragment_create_submit_button"
         android:layout_width="250dp"
         android:layout_height="70dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="sans-serif-black"
-        android:text="Save New Goal"
+        android:text="Save Edits"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="20dp"
-         />
+        />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="60dp"
+        android:id="@+id/testText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="TextView" />
 
 </LinearLayout>
-</RelativeLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,7 +1,6 @@
 package edu.calpoly.flipted.ui.goals
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
-import android.graphics.drawable.VectorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,6 @@ import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.UidToStableId
 import edu.calpoly.flipted.businesslogic.goals.Goal
 import java.text.SimpleDateFormat
-import java.time.*
-import kotlin.math.*
 
 class CustomExpandableListAdapter (
     private val context: Context
@@ -150,7 +147,6 @@ class CustomExpandableListAdapter (
     }
     override fun hasStableIds() = true
     override fun isChildSelectable(listPosition: Int, expandedListPosition: Int) = true
-
 
 
 
