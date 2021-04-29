@@ -80,7 +80,7 @@ class MockTasksRepo : TasksRepo {
         ), listOf(
             RubricRequirement("Read about the Test Bus", false, uids),
             RubricRequirement("Complete the summary task", false, uids)
-        ), "c5110abd8c4", "Learn about the Test Bus", "Complete this task",
+        ), "4f681550ba9", "Learn about the Test Bus", "Complete this task",
         10, null, null, dateFormat.parse("4-25-2021"), "", 0, null)
 
     private val mockedTask2 = Task(
@@ -139,7 +139,7 @@ class MockTasksRepo : TasksRepo {
             RubricRequirement("Watch TDD video", false, uids),
             RubricRequirement("Answer multiple choice questions", false, uids),
             RubricRequirement("Complete free-response question", false, uids)
-        ), "2", "What is TDD?",
+        ), "90e0c730e56", "What is TDD?",
             "Read this information carefully and answer the provided questions",
             10, null, null, dateFormat.parse("4-29-2021")!!,
             "", 0, null)

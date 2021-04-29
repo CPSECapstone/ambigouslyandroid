@@ -34,9 +34,9 @@ class MissionFragment : Fragment() {
         val taskOneButton = view.findViewById<Button>(R.id.taskOneButton)
         taskOneButton.setOnClickListener{
             parentFragmentManager.commit {
-                replace(R.id.main_view, TaskFragment.newInstance(1))
+                replace(R.id.main_view, TaskFragment.newInstance("4f681550ba9"))
                 setReorderingAllowed(true)
-                addToBackStack(null)
+                addToBackStack("Start task")
             }
         }
 
@@ -44,9 +44,9 @@ class MissionFragment : Fragment() {
         val taskTwoButton = view.findViewById<Button>(R.id.taskTwoButton)
         taskTwoButton.setOnClickListener{
             parentFragmentManager.commit {
-                replace(R.id.main_view, TaskFragment.newInstance(2))
+                replace(R.id.main_view, TaskFragment.newInstance("90e0c730e56"))
                 setReorderingAllowed(true)
-                addToBackStack(null)
+                addToBackStack("Start task")
             }
         }
     }
