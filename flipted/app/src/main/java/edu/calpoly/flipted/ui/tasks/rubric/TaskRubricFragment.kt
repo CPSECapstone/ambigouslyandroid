@@ -7,13 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import android.widget.BaseAdapter
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.ListView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
-import edu.calpoly.flipted.ui.tasks.TaskFragment
 import edu.calpoly.flipted.ui.tasks.TaskResultsFragment
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
 
@@ -47,22 +50,28 @@ class TaskRubricFragment : Fragment() {
         adapter.data = rubricRequirements
 
         viewModel.currResponse.observe(viewLifecycleOwner, Observer {
-            if (viewModel.currResponse.value?.err!!.isEmpty()) {
-                parentFragment?.parentFragmentManager?.popBackStack("Start Task", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-                parentFragment?.parentFragmentManager?.commit {
-                    replace(R.id.main_view, TaskResultsFragment.newInstance())
-                    addToBackStack("Task Result")
-                    setReorderingAllowed(true)
+            //this if statement doesn't work
+            if (viewModel.currResponse.value?.taskId == viewModel.currTask.value!!.uid) {
+                if (viewModel.currResponse.value?.err!!.isEmpty()) {
+                    //parentFragment?.parentFragmentManager?.popBackStack("Start Task", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    parentFragment?.parentFragmentManager?.popBackStack("Start Mission", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    parentFragment?.parentFragmentManager?.commit {
+                        replace(R.id.main_view, TaskResultsFragment.newInstance())
+                        addToBackStack(null)
+                        setReorderingAllowed(true)
+                    }
+                }
+                else {
+                    val errorMsg = view.findViewById(R.id.submit_error_msg) as TextView
+                    errorMsg.text = viewModel.currResponse.value?.err
+                    errorMsg.visibility = View.VISIBLE
                 }
             }
-            else {
-                val errorMsg = view.findViewById(R.id.submit_error_msg) as TextView
-                errorMsg.text = viewModel.currResponse.value?.err
-                errorMsg.visibility = View.VISIBLE
-            }
+
 
 
         })
+
         val submitButton = view.findViewById<Button>(R.id.task_submit_button)
         submitButton.setOnClickListener{
             viewModel.submitTask(task.uid)
