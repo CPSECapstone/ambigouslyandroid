@@ -1,7 +1,6 @@
 package edu.calpoly.flipted.ui.tasks.rubric
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +8,13 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ListView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
-import edu.calpoly.flipted.ui.tasks.TaskFragment
 import edu.calpoly.flipted.ui.tasks.TaskResultsFragment
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
 
@@ -57,6 +56,7 @@ class TaskRubricFragment : Fragment() {
                 setReorderingAllowed(true)
             }
         })
+
         val submitButton = view.findViewById<Button>(R.id.task_submit_button)
         submitButton.setOnClickListener{
             // TODO submit actual taskId

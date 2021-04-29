@@ -15,6 +15,7 @@ import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.goals.GoalsFragment
 import edu.calpoly.flipted.ui.login.LoginFragment
 import edu.calpoly.flipted.ui.login.LoginViewModel
+import edu.calpoly.flipted.ui.missions.MissionFragment
 import edu.calpoly.flipted.ui.tasks.TaskFragment
 
 /**
@@ -38,12 +39,12 @@ class StudentHomeFragment : Fragment() {
                 }
             }
 
-        val taskButton = view.findViewById<Button>(R.id.task_button)
-        taskButton.setOnClickListener{
+        val missionButton = view.findViewById<Button>(R.id.mission_button)
+        missionButton.setOnClickListener{
             parentFragmentManager.commit {
-                replace(R.id.main_view, TaskFragment.newInstance("4f681550ba9"))
+                replace(R.id.main_view, MissionFragment.newInstance())
                 setReorderingAllowed(true)
-                addToBackStack("Start Task")
+                addToBackStack(null)
             }
         }
 
