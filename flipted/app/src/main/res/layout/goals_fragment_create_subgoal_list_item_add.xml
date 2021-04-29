@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:background="@color/colorDarkGrey"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
 
 
     <LinearLayout
@@ -14,7 +15,6 @@
         android:orientation="horizontal"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:layout_gravity="right"
         >
 
         <TextView
@@ -24,7 +24,8 @@
             android:fontFamily="sans-serif-medium"
             android:textColor="@android:color/black"
             android:textSize="25sp"
-            android:layout_marginStart="20dp" />
+            android:layout_marginStart="20dp"
+            android:layout_marginHorizontal="20dp"/>
 
         <Button
             android:id="@+id/add_sub_goal_button"

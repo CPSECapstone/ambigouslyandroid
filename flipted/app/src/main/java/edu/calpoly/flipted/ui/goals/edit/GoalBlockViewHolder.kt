@@ -1,4 +1,4 @@
-package edu.calpoly.flipted.ui.goals
+package edu.calpoly.flipted.ui.goals.edit
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

@@ -1,5 +1,4 @@
 package edu.calpoly.flipted.businesslogic.goals
-import edu.calpoly.flipted.ui.goals.GoalNewFragment
 
 
 class GoalEdit

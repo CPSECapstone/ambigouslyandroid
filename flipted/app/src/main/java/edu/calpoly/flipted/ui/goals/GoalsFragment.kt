@@ -1,17 +1,17 @@
 package edu.calpoly.flipted.ui.goals
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.goals.Goal
-import edu.calpoly.flipted.ui.login.LoginFragment
+import edu.calpoly.flipted.ui.goals.edit.GoalNewFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -20,7 +20,7 @@ import edu.calpoly.flipted.ui.login.LoginFragment
  */
 class GoalsFragment : Fragment() {
     private lateinit var goalsListFragmentContainer : ViewGroup
-    //private lateinit var viewModel : GoalsViewModel
+    private lateinit var viewModel : GoalsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +31,7 @@ class GoalsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*
+
         viewModel = ViewModelProvider(requireActivity())[GoalsViewModel::class.java]
         goalsListFragmentContainer = view.findViewById(R.id.goals_list_fragment_container)
 
@@ -59,7 +59,6 @@ class GoalsFragment : Fragment() {
         } else {
             showGoalsList()
         }
-        */
 
 
         val newGoalButton = view.findViewById<Button>(R.id.newGoalButton)
