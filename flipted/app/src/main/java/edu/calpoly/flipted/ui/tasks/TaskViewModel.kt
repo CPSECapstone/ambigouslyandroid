@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 
 
 class TaskViewModel : ViewModel(){
+    private var _taskIsPending = false
     private val _currTask : MutableLiveData<Task> = MutableLiveData()
     private var _currResponse : MutableLiveData<TaskSubmissionResult> = MutableLiveData()
 
@@ -25,6 +26,8 @@ class TaskViewModel : ViewModel(){
     private val saveTaskProgressUseCase = SaveTaskProgress(repo)
 
 
+    val taskIsPending
+        get() = _taskIsPending
     val currTask : LiveData<Task>
         get() = _currTask
 
@@ -32,12 +35,14 @@ class TaskViewModel : ViewModel(){
         get() = _currResponse
 
     fun fetchTask(taskId : String) {
+        _taskIsPending = true
         viewModelScope.launch {
             _currTask.value = getTaskUseCase.execute(taskId)
             val task = _currTask.value
             task!!.requirements.forEach { r ->
                 requirements[r.uid] = r
             }
+            _taskIsPending = false
         }
     }
 
