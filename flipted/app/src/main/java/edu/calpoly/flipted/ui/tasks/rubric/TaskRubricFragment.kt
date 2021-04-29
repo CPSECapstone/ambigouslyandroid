@@ -47,7 +47,7 @@ class TaskRubricFragment : Fragment() {
         adapter.data = rubricRequirements
 
         viewModel.currResponse.observe(viewLifecycleOwner, Observer {
-            if (viewModel.isSubmitted) {
+            if (viewModel.currResponse.value?.err!!.isEmpty()) {
                 parentFragment?.parentFragmentManager?.popBackStack("Start Task", FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 parentFragment?.parentFragmentManager?.commit {
                     replace(R.id.main_view, TaskResultsFragment.newInstance())

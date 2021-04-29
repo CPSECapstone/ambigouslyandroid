@@ -14,6 +14,7 @@ import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.tasks.data.Page
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
 import edu.calpoly.flipted.ui.tasks.viewholders.TaskRecyclerViewAdapter
+import edu.calpoly.flipted.ui.tasks.viewholders.TaskResultsRecyclerViewAdapter
 import java.lang.IllegalStateException
 
 /**
@@ -60,7 +61,7 @@ class TaskResultsFragment : Fragment() {
 
         val recyclerView : RecyclerView = view.findViewById(R.id.task_results_recyclerview)
 
-        val adapter = TaskRecyclerViewAdapter(this)
+        val adapter = TaskResultsRecyclerViewAdapter(this)
 
         val blocks = mutableListOf<QuizBlock>()
 
