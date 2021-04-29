@@ -4,6 +4,7 @@ package edu.calpoly.flipted.ui.goals
 import android.util.Log
 import androidx.lifecycle.*
 import edu.calpoly.flipted.backend.ApolloGoalsRepo
+import edu.calpoly.flipted.backend.MockGoalsRepo
 import edu.calpoly.flipted.businesslogic.goals.GetAllGoals
 import edu.calpoly.flipted.businesslogic.goals.Goal
 import edu.calpoly.flipted.businesslogic.goals.GoalCompletion
@@ -15,7 +16,8 @@ class GoalsViewModel : ViewModel() {
     val goals : LiveData<List<Goal>>
         get() = _goals
 
-    private val repo = ApolloGoalsRepo()
+    //private val repo = ApolloGoalsRepo()
+    private val repo = MockGoalsRepo()
     private val getAllGoals = GetAllGoals(repo)
     private val saveCompletion = SaveNewCompletion(repo)
 

@@ -12,6 +12,6 @@
         android:text="Some Rubric Item"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="16dp"
-
-        android:clickable="false"/>
+        android:clickable="true"
+        android:buttonTint="@color/colorPrimaryDark"/>
 </LinearLayout>

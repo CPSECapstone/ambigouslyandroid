@@ -1,18 +1,20 @@
 package edu.calpoly.flipted.ui.tasks
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
+import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-
 import edu.calpoly.flipted.R
+import edu.calpoly.flipted.ui.tasks.rubric.TaskRubricFragment
 
 private const val TASKID_ARG_PARAM = "taskId"
 
@@ -22,18 +24,19 @@ private const val TASKID_ARG_PARAM = "taskId"
  * create an instance of this fragment.
  */
 class TaskFragment : Fragment() {
-    private var taskId: Int? = null
+    private var taskId: String? = null
 
     private lateinit var progressBar : ProgressBar
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager : ViewPager2
+    private lateinit var rubricView : FragmentContainerView
 
     private lateinit var viewModel : TaskViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            taskId = it.getInt(TASKID_ARG_PARAM)
+            taskId = it.getString(TASKID_ARG_PARAM)
         }
     }
 
@@ -52,6 +55,7 @@ class TaskFragment : Fragment() {
         progressBar = view.findViewById(R.id.task_pager_progressbar)
         tabLayout = view.findViewById(R.id.task_pager_tabs)
         viewPager = view.findViewById(R.id.task_pager)
+        rubricView = view.findViewById(R.id.task_pager_rubric_container)
 
         val pagerAdapter = TaskPagerAdapter(this)
 
@@ -59,8 +63,14 @@ class TaskFragment : Fragment() {
             progressBar.visibility = View.GONE
             tabLayout.visibility = View.VISIBLE
             viewPager.visibility = View.VISIBLE
+            rubricView.visibility = View.VISIBLE
 
             pagerAdapter.pages = it.pages
+
+            childFragmentManager.commit {
+                replace(R.id.task_pager_rubric_container, TaskRubricFragment.newInstance())
+                setReorderingAllowed(true)
+            }
         })
         viewModel.fetchTask(id)
 
@@ -74,9 +84,9 @@ class TaskFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(taskId: Int) = TaskFragment().apply {
+        fun newInstance(taskId: String) = TaskFragment().apply {
             arguments = Bundle().apply {
-                putInt(TASKID_ARG_PARAM, taskId)
+                putString(TASKID_ARG_PARAM, taskId)
             }
         }
     }
