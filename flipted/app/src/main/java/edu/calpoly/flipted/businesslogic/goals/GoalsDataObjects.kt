@@ -4,15 +4,18 @@ import java.util.Date
 
 data class Goal(
     val title : String,
-    val uid : Int,
+    val uid : String,
     val dueDate : Date,
-    val targetCompletionCount : Int,
-    val unitOfMeasurement : String,
-    val completions: MutableList<GoalCompletion>
+    val completedDate: Date?,
+    val subgoals: List<SubGoal>,
+    val completed: Boolean,
+    val ownedByStudent: Boolean
 )
 
-data class GoalCompletion(
-    val description : String,
-    val parentId : Int,
-    val completedDate : Date
+data class SubGoal(
+        val title: String,
+        val id: String,
+        val dueDate: Date,
+        val completed: Boolean,
+        val completedDate: Date?
 )
