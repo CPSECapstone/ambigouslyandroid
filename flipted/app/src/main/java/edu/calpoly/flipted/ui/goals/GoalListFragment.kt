@@ -1,6 +1,6 @@
 package edu.calpoly.flipted.ui.goals
 
-
+/*
 import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
@@ -106,3 +106,4 @@ class GoalListFragment : Fragment() {
         fun newInstance() = GoalListFragment()
     }
 }
+*/

@@ -10,7 +10,7 @@ import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.goals.Goal
 import java.time.*
 import kotlin.math.*
-
+/*
 class CustomExpandableListAdapter public constructor(
     private val context: Context
 ) : BaseExpandableListAdapter() {
@@ -111,5 +111,5 @@ class CustomExpandableListAdapter public constructor(
 
 
 
-
 }
+*/

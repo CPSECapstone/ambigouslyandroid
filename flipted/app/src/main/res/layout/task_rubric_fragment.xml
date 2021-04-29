@@ -23,6 +23,20 @@
     <ListView
         android:id="@+id/rubric_items_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/task_rubric_checkbox" />
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/task_rubric_checkbox" >
+    </ListView>
+
+    <Button
+        android:id="@+id/submit_Task"
+        android:layout_width="130dp"
+        android:layout_height="75dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"
+        />
+
+
 </LinearLayout>

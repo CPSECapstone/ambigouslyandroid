@@ -1,5 +1,5 @@
 package edu.calpoly.flipted.backend
-
+/*
 import android.util.Log
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
@@ -72,4 +72,10 @@ class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
             null
         }
     }
+
+    override suspend fun editGoal() {
+        // add goal parameter
+        TODO("Not yet implemented")
+    }
 }
+*/

@@ -1,5 +1,6 @@
 package edu.calpoly.flipted.ui.goals
 
+/*
 import android.util.Log
 import androidx.lifecycle.*
 import edu.calpoly.flipted.backend.ApolloGoalsRepo
@@ -46,3 +47,4 @@ class GoalsViewModel : ViewModel() {
         }
     }
 }
+*/
