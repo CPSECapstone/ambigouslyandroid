@@ -19,7 +19,7 @@
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_menu_book_black_24dp" />
+        tools:srcCompat="@drawable/baseline_menu_book_black_24dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -54,6 +54,16 @@
             android:textSize="14sp"
             tools:text="Read on March 4, 2021" />
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/goals_item_sub_complete_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
