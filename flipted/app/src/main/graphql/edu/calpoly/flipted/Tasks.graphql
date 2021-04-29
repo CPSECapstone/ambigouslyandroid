@@ -1,0 +1,72 @@
+mutation SubmitTaskProgress($taskProgress: TaskProgressInput!) {
+  submitTaskProgress(taskProgress: $taskProgress) {
+    }
+}
+
+mutation SaveMcProgress($mcInput:MultipleChoiceAnswerInput!) {
+  saveMultipleChoiceProgress(mcBlockInput: $mcInput)
+}
+mutation SaveFreeResponseProgress($freeResponseInput:FreeResponseAnswerInput!) {
+  saveFreeResponseProgress(frBlockInput:$freeResponseInput)
+}
+
+query GetTask($taskId:String!) {
+  task(taskId:$taskId) {
+    id,
+    name,
+    instructions,
+    points,
+    startAt,
+    endAt,
+    dueDate,
+    parentMissionId,
+    parentMissionIndex,
+    objectiveId,
+    pages {
+     blocks {
+       title
+       ...on TextBlock {
+         contents,
+         fontSize
+       },
+       ...on ImageBlock {
+         imageUrl
+       },
+       ...on VideoBlock {
+         videoUrl
+       },
+       ...on QuizBlock {
+         blockId,
+         requiredScore,
+         points,
+         questions {
+           id,
+           description,
+           points,
+           ...on MCQuestion {
+             options {
+               id,
+               description
+             }
+           }
+         }
+       }
+     },
+     skippable
+    },
+    requirements {
+     id,
+     description
+    }
+  }
+  retrieveTaskProgress(taskId:$taskId){
+    finishedRequirementIds
+  }
+  retrieveQuestionProgress(taskId:$taskId) {
+    answers {
+      questionId,
+      pointsAwarded,
+      answer
+    }
+  }
+}

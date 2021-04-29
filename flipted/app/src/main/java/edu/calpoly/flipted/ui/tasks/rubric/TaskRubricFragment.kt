@@ -1,7 +1,6 @@
 package edu.calpoly.flipted.ui.tasks.rubric
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +8,13 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ListView
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
-import edu.calpoly.flipted.ui.tasks.TaskFragment
 import edu.calpoly.flipted.ui.tasks.TaskResultsFragment
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
 
@@ -38,6 +37,7 @@ class TaskRubricFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[TaskViewModel::class.java]
 
+        // TODO: get task ID from current task for saving progress
         val task = viewModel.currTask.value ?: throw IllegalArgumentException("Null task")
 
         val rubricRequiments = task.requirements
@@ -49,8 +49,10 @@ class TaskRubricFragment : Fragment() {
         adapter.data = rubricRequiments
 
         viewModel.currResponse.observe(viewLifecycleOwner, Observer {
+            parentFragment?.parentFragmentManager?.popBackStack("Start Task", FragmentManager.POP_BACK_STACK_INCLUSIVE)
             parentFragment?.parentFragmentManager?.commit {
                 replace(R.id.main_view, TaskResultsFragment.newInstance())
+                addToBackStack("Task Result")
                 setReorderingAllowed(true)
             }
         })
@@ -89,6 +91,7 @@ class TaskRubricFragment : Fragment() {
             val data = getItem(position)
 
             checkBox.text = data.description
+            checkBox.isChecked = data.isComplete
 
             return fillInView
         }

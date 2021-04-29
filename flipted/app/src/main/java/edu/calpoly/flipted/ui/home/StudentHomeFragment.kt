@@ -39,13 +39,12 @@ class StudentHomeFragment : Fragment() {
                 }
             }
 
-        // mock task id
-        val quizButton = view.findViewById<Button>(R.id.quiz_button)
-        quizButton.setOnClickListener{
+        val taskButton = view.findViewById<Button>(R.id.task_button)
+        taskButton.setOnClickListener{
             parentFragmentManager.commit {
-                replace(R.id.main_view, TaskFragment.newInstance(1))
+                replace(R.id.main_view, TaskFragment.newInstance("90e0c730e56"))
                 setReorderingAllowed(true)
-                addToBackStack(null)
+                addToBackStack("Start Task")
             }
         }
 

@@ -49,7 +49,7 @@ class ActivityInputOutputTest {
     @Test fun testStudentHomeFragment() {
         val scenario = launchFragmentInContainer<StudentHomeFragment>()
         onView(allOf(withId(R.id.goals_button), withText("Goals")))
-        onView(allOf(withId(R.id.quiz_button), withText("Take Quiz")))
+        onView(allOf(withId(R.id.task_button), withText("Take Quiz")))
     }
 
     @Test fun testGoalsFragment() {
