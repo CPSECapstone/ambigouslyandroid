@@ -26,6 +26,8 @@
 
         tools:listitem="@layout/goals_item_top"
 
+        android:groupIndicator="@null"
+
         android:visibility="gone"
         />
 
