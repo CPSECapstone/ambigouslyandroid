@@ -33,11 +33,7 @@ class TaskResultsFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.task_results_fragment, container, false)
     }
-/*
-    override fun isAutoMeasureEnabled(): Boolean {
-        return true
-    }
-*/
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -51,14 +47,14 @@ class TaskResultsFragment : Fragment() {
         val currTask = viewModel.currTask.value
                 ?: throw IllegalStateException("No task found")
         pointsAwarded.text = "${currResponse.pointsAwarded} out of ${currResponse.pointsPossible} points"
-
+/*
         if (currResponse.graded) {
             hasBeenGraded.text = "This is your final score."
         }
         else {
             hasBeenGraded.text = "Some of the questions have not been graded yet."
         }
-
+*/
         val recyclerView : RecyclerView = view.findViewById(R.id.task_results_recyclerview)
 
         val adapter = TaskResultsRecyclerViewAdapter(this)
