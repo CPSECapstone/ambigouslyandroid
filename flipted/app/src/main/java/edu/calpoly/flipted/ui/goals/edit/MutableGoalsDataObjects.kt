@@ -50,27 +50,3 @@ class MutableSubGoal(
         }
     }
 }
-
-class MutableGoal(
-    var title : String,
-    val uid : String,
-    var dueDate : Date,
-    var completedDate: Date?,
-    var subgoals: List<SubGoal>,
-    var completed: Boolean,
-    var ownedByStudent: Boolean
-) {
-    constructor(goal: Goal) : this(
-        goal.title,
-        goal.uid,
-        goal.dueDate,
-        goal.completedDate,
-        goal.subgoals,
-        goal.completed,
-        goal.ownedByStudent
-    )
-
-    val lock: Goal
-        get() = Goal(title, uid, dueDate, completedDate, subgoals, completed, ownedByStudent)
-}
-

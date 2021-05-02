@@ -1,6 +1,5 @@
 package edu.calpoly.flipted.ui.goals.edit
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.businesslogic.goals.NewGoalInput
-import edu.calpoly.flipted.businesslogic.goals.SubGoalInput
+import edu.calpoly.flipted.businesslogic.goals.UnsavedNewGoal
+import edu.calpoly.flipted.businesslogic.goals.UnsavedNewSubGoal
 import edu.calpoly.flipted.ui.goals.GoalRecyclerViewAdapter
-import kotlinx.android.synthetic.main.goals_fragment_create.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,7 +25,7 @@ class GoalNewFragment : Fragment() {
     private lateinit var goalDueDateText: TextView
     private lateinit var goalCategorySelector: Spinner
 
-    private lateinit var newGoal: NewGoalInput
+    private lateinit var newGoal: UnsavedNewGoal
 
     private lateinit var subGoalsView : RecyclerView
 
@@ -94,9 +92,9 @@ class GoalNewFragment : Fragment() {
             val goalDateString: String = goalDueDateText.text.toString()
             val goalDate: Date = dateFormatter.parse(goalDateString)
             val category: String = goalCategorySelector.selectedItem.toString()
-            val subGoal = SubGoalInput("tempTitle",goalDate)
+            val subGoal = UnsavedNewSubGoal("tempTitle",goalDate)
             val subGoalList = adapter.subGoalBlocks.map {
-                SubGoalInput(it.title,it.dueDate!!)
+                UnsavedNewSubGoal(it.title,it.dueDate!!)
             }
 
             //temporary crashes when more than one goal input
@@ -108,7 +106,7 @@ class GoalNewFragment : Fragment() {
             this.testText.text = testText + testTextSub
             //temporary
 
-            newGoal = NewGoalInput(title,goalDate,subGoalList,category,false,false,0)
+            newGoal = UnsavedNewGoal(title,goalDate,subGoalList,category,false,false,0)
         }
 
     }

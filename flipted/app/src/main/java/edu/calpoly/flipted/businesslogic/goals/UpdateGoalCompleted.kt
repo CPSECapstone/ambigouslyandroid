@@ -10,7 +10,7 @@ import java.util.*
  */
 class UpdateGoalCompleted(private val repo: GoalsRepo) {
     suspend fun execute(goal: Goal, isComplete: Boolean) : Goal {
-        if(goal.subgoals.isNotEmpty())
+        if(goal.subGoals.isNotEmpty())
             throw IllegalArgumentException("Input goal has subgoals")
 
         if(isComplete == goal.completed)
@@ -18,9 +18,9 @@ class UpdateGoalCompleted(private val repo: GoalsRepo) {
             return goal
 
         val updatedGoal = if(isComplete)
-            Goal(goal.title, goal.uid, goal.dueDate, Date(), goal.subgoals, true, goal.ownedByStudent)
+            Goal(goal.title, goal.uid, goal.dueDate, Date(), goal.subGoals, true, goal.category, goal.favorited, goal.ownedByStudent, goal.pointValue)
         else
-            Goal(goal.title, goal.uid, goal.dueDate, null, goal.subgoals, false, goal.ownedByStudent)
+            Goal(goal.title, goal.uid, goal.dueDate, null, goal.subGoals, false, goal.category, goal.favorited, goal.ownedByStudent, goal.pointValue)
         return repo.editGoal(updatedGoal)
     }
 }

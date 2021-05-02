@@ -37,12 +37,12 @@ class CustomExpandableListAdapter (
     }
 
     override fun getChild(listPosition: Int, expandedListPosition: Int)
-        = goalData[listPosition].subgoals[expandedListPosition]
+        = goalData[listPosition].subGoals[expandedListPosition]
 
     override fun getChildId(listPosition: Int, expandedListPosition: Int): Long
         = completionStableIds.getStableId(Pair(
             goalData[listPosition].uid,
-            goalData[listPosition].subgoals[expandedListPosition].id
+            goalData[listPosition].subGoals[expandedListPosition].id
         ))
 
     override fun getChildView(
@@ -61,7 +61,7 @@ class CustomExpandableListAdapter (
         val subtitle: TextView = fillInView.findViewById(R.id.Comp_Subtitle)
         val checkBox: CheckBox = fillInView.findViewById(R.id.goals_item_sub_complete_checkbox)
 
-        val currSubGoal = goal.subgoals[expandedListPosition]
+        val currSubGoal = goal.subGoals[expandedListPosition]
 
         titleText.text = currSubGoal.title
 
@@ -81,7 +81,7 @@ class CustomExpandableListAdapter (
 
         return fillInView
     }
-    override fun getChildrenCount(listPosition: Int) = this.goalData[listPosition].subgoals.size
+    override fun getChildrenCount(listPosition: Int) = this.goalData[listPosition].subGoals.size
 
     override fun getGroup(listPosition: Int) = this.goalData[listPosition]
     override fun getGroupCount() = this.goalData.size
@@ -109,7 +109,7 @@ class CustomExpandableListAdapter (
 
         val groupIndicator: ImageView = fillInView.findViewById(R.id.goals_item_top_group_indicator)
 
-        if(currGoal.subgoals.isEmpty()) {
+        if(currGoal.subGoals.isEmpty()) {
             progressContainer.visibility = View.GONE
             checkBox.visibility = View.VISIBLE
 
@@ -122,12 +122,12 @@ class CustomExpandableListAdapter (
             progressContainer.visibility = View.VISIBLE
             checkBox.visibility = View.GONE
 
-            val completedCount = currGoal.subgoals.count { it.completed }
+            val completedCount = currGoal.subGoals.count { it.completed }
 
-            topProgress.max = currGoal.subgoals.size
+            topProgress.max = currGoal.subGoals.size
             topProgress.progress = completedCount
 
-            countText.text = "$completedCount / ${currGoal.subgoals.size}"
+            countText.text = "$completedCount / ${currGoal.subGoals.size}"
 
             val groupIndicatorDrawableId = if(isExpanded)
                 R.drawable.goals_group_indicator_anim_fwd
