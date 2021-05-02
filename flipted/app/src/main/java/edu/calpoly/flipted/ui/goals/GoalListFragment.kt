@@ -56,7 +56,7 @@ class GoalListFragment : Fragment() {
             )
         }
 
-        adapter = CustomExpandableListAdapter(requireActivity())
+        adapter = CustomExpandableListAdapter(this)
         expandableListView.setAdapter(adapter)
 
         viewModel.goals.observe(viewLifecycleOwner, Observer { newGoals ->

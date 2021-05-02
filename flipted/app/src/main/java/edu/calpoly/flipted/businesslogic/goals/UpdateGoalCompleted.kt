@@ -9,18 +9,18 @@ import java.util.*
  * This use case is only for use with standalone goals that do not have subgoals.
  */
 class UpdateGoalCompleted(private val repo: GoalsRepo) {
-    suspend fun execute(goal: Goal, isComplete: Boolean) {
+    suspend fun execute(goal: Goal, isComplete: Boolean) : Goal {
         if(goal.subgoals.isNotEmpty())
             throw IllegalArgumentException("Input goal has subgoals")
 
         if(isComplete == goal.completed)
             // We're not changing anything, so just bail instead of doing pointless work
-            return
+            return goal
 
         val updatedGoal = if(isComplete)
             Goal(goal.title, goal.uid, goal.dueDate, Date(), goal.subgoals, true, goal.ownedByStudent)
         else
             Goal(goal.title, goal.uid, goal.dueDate, null, goal.subgoals, false, goal.ownedByStudent)
-        repo.editGoal(updatedGoal)
+        return repo.editGoal(updatedGoal)
     }
 }

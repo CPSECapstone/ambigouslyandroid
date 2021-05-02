@@ -8,13 +8,13 @@ import java.util.*
  * parent goal is also marked as complete.
  */
 class UpdateSubgoalCompleted(private val repo: GoalsRepo) {
-    suspend fun execute(goal: Goal, subGoal: SubGoal, isComplete: Boolean) {
+    suspend fun execute(goal: Goal, subGoal: SubGoal, isComplete: Boolean) : Goal {
         if(!goal.subgoals.contains(subGoal))
             throw IllegalArgumentException("The subgoal with id ${subGoal.id} is not a child of the goal with uid ${goal.uid}")
 
         if(subGoal.completed == isComplete)
             // We're not changing anything, so just bail instead of doing pointless work
-            return
+            return goal
 
         val subgoals = goal.subgoals.map {
             if(it.id == subGoal.id)
@@ -23,6 +23,6 @@ class UpdateSubgoalCompleted(private val repo: GoalsRepo) {
         }
         val allSubgoalsCompleted = subgoals.fold(true) {completed, subgoal -> completed && subgoal.completed}
         val updatedGoal = Goal(goal.title, goal.uid, goal.dueDate, if(allSubgoalsCompleted) Date() else null, subgoals, allSubgoalsCompleted, goal.ownedByStudent)
-        repo.editGoal(updatedGoal)
+        return repo.editGoal(updatedGoal)
     }
 }

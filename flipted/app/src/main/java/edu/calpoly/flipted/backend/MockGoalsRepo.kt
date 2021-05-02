@@ -18,8 +18,8 @@ class MockGoalsRepo : GoalsRepo {
     private val goalsMap : MutableMap<String, Goal> = mutableMapOf()
 
     init {
-        uids.also {goalsMap[it] = Goal("Read 10 books", uids, dateFormat.parse("4-21-2021"), null, listOf(), false, true) }
-        uids.also {goalsMap[it] = Goal("Complete 5 worksheets", uids, dateFormat.parse("6-18-2021"), null, listOf(
+        uids.also {goalsMap[it] = Goal("Read 10 books", it, dateFormat.parse("4-21-2021"), null, listOf(), false, true) }
+        uids.also {goalsMap[it] = Goal("Complete 5 worksheets", it, dateFormat.parse("6-18-2021"), null, listOf(
                 SubGoal("Worksheet A1", uids, dateFormat.parse("4-30-2021"), true, dateFormat.parse("4-27-2021")),
                 SubGoal("Worksheet A2", uids, dateFormat.parse("5-2-2021"), false, null)
             ), false, false)}

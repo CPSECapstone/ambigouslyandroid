@@ -2,6 +2,7 @@ package edu.calpoly.flipted.backend
 
 import edu.calpoly.flipted.businesslogic.goals.Goal
 import edu.calpoly.flipted.businesslogic.goals.GoalsRepo
+import edu.calpoly.flipted.businesslogic.goals.NewGoalInput
 
 class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
 
@@ -9,11 +10,11 @@ class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getGoalById(id: String): Goal? {
+    override suspend fun getGoalById(id: String): Goal {
         TODO("Not yet implemented")
     }
 
-    override suspend fun saveNewGoal(goal: Goal): Goal {
+    override suspend fun saveNewGoal(goal: NewGoalInput): Goal {
         TODO("Not yet implemented")
     }
 

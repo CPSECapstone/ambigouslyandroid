@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.UidToStableId
 import edu.calpoly.flipted.businesslogic.goals.Goal
 import java.text.SimpleDateFormat
 
 class CustomExpandableListAdapter (
-    private val context: Context
+    fragment: Fragment
 ) : BaseExpandableListAdapter() {
 
     private val dateFormat = SimpleDateFormat("MMMM dd, yyyy")
@@ -25,6 +27,9 @@ class CustomExpandableListAdapter (
 
     private val goalStableIds = UidToStableId<String>()
     private val completionStableIds = UidToStableId<Pair<String, String>>()
+
+    private val viewModel = ViewModelProvider(fragment.requireActivity())[GoalsViewModel::class.java]
+    private val context = fragment.requireActivity()
 
     fun setGoals(goals: List<Goal>) {
         this.goalData = goals
@@ -70,8 +75,8 @@ class CustomExpandableListAdapter (
             subtitle.text = currSubGoal.dueDate.let { "Complete by ${dateFormat.format(it)}" }
         }
 
-        checkBox.setOnCheckedChangeListener { compoundButton, isChecked ->
-            TODO("Not yet implemented")
+        checkBox.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.setSubgoalCompleted(goal, currSubGoal, isChecked)
         }
 
         return fillInView
@@ -110,8 +115,8 @@ class CustomExpandableListAdapter (
 
             checkBox.isChecked = currGoal.completed
 
-            checkBox.setOnCheckedChangeListener { compoundButton, isChecked ->
-                TODO("Not yet implemented")
+            checkBox.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.setGoalCompleted(currGoal, isChecked)
             }
         } else {
             progressContainer.visibility = View.VISIBLE
