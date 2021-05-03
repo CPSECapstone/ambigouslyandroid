@@ -2,6 +2,7 @@ package edu.calpoly.flipted.ui.goals.edit
 
 import edu.calpoly.flipted.businesslogic.goals.Goal
 import edu.calpoly.flipted.businesslogic.goals.SubGoal
+import edu.calpoly.flipted.businesslogic.goals.UnsavedNewSubGoal
 import java.util.*
 
 class MutableSubGoal(
@@ -19,13 +20,18 @@ class MutableSubGoal(
         subGoal.completedDate
     )
 
-    val lock: SubGoal?
+    val asSubGoal: SubGoal?
         get() {
             val id = id
             val dueDate = dueDate
             if(id == null || dueDate == null)
                 return null
             return SubGoal(title, id, dueDate, completed, completedDate)
+        }
+    val asUnsavedNewSubGoal: UnsavedNewSubGoal?
+        get() {
+            val dueDate = dueDate ?: return null
+            return UnsavedNewSubGoal(title, dueDate)
         }
 
     private val myid = nextId
@@ -52,25 +58,29 @@ class MutableSubGoal(
 }
 
 class MutableGoal(
-    var title : String,
-    val uid : String,
-    var dueDate : Date,
-    var completedDate: Date?,
-    var subgoals: List<SubGoal>,
-    var completed: Boolean,
-    var ownedByStudent: Boolean
+        var title: String,
+        var uid: String?,
+        var dueDate: Date?,
+        var completedDate: Date?,
+        var subGoals: MutableList<MutableSubGoal>,
+        var completed: Boolean,
+        var category: String,
+        var favorited: Boolean,
+        var ownedByStudent: Boolean,
+        var pointValue: Int?
 ) {
     constructor(goal: Goal) : this(
-        goal.title,
-        goal.uid,
-        goal.dueDate,
-        goal.completedDate,
-        goal.subgoals,
-        goal.completed,
-        goal.ownedByStudent
+            goal.title,
+            goal.uid,
+            goal.dueDate,
+            goal.completedDate,
+            goal.subGoals.map {
+                MutableSubGoal(it)
+            }.toMutableList(),
+            goal.completed,
+            goal.category,
+            goal.favorited,
+            goal.ownedByStudent,
+            goal.pointValue
     )
-
-    val lock: Goal
-        get() = Goal(title, uid, dueDate, completedDate, subgoals, completed, ownedByStudent)
 }
-
