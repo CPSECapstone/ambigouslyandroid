@@ -3,12 +3,10 @@ package edu.calpoly.flipted.ui.goals
 
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.ui.goals.edit.AddSubGoalViewHolder
-import edu.calpoly.flipted.ui.goals.edit.GoalBlockViewHolder
-import edu.calpoly.flipted.ui.goals.edit.MutableSubGoal
-import edu.calpoly.flipted.ui.goals.edit.SubGoalViewHolder
+import edu.calpoly.flipted.ui.goals.edit.*
 import java.util.*
 
 class GoalRecyclerViewAdapter(
@@ -16,8 +14,14 @@ class GoalRecyclerViewAdapter(
 ) : RecyclerView.Adapter<GoalBlockViewHolder>()
 {
     private val inflater = fragment.layoutInflater
+    private val viewModel = ViewModelProvider(fragment.requireActivity())[EditGoalViewModel::class.java]
 
-    var subGoalBlocks : List<MutableSubGoal> = listOf()
+    var subGoalBlocks : List<MutableSubGoal>
+        get() = viewModel.currSubgoalList
+        set(value: List<MutableSubGoal>) {
+            viewModel.currSubgoalList = value
+        }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoalBlockViewHolder {
         val inflatedView = inflater.inflate(viewType, parent, false)

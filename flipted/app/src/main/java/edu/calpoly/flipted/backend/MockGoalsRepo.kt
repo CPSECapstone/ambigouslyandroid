@@ -13,17 +13,19 @@ class MockGoalsRepo : GoalsRepo {
             }
         private val uids
             get() = uid.toString()
-    }
+        private val goalsMap : MutableMap<String, Goal> = mutableMapOf()
 
-    private val goalsMap : MutableMap<String, Goal> = mutableMapOf()
-
-    init {
-        uids.also {goalsMap[it] = Goal("Read 10 books", it, dateFormat.parse("4-21-2021"), null, listOf(), false, "English", false, true, null) }
-        uids.also {goalsMap[it] = Goal("Complete 5 worksheets", it, dateFormat.parse("6-18-2021"), null, listOf(
-                SubGoal("Worksheet A1", uids, dateFormat.parse("4-30-2021"), true, dateFormat.parse("4-27-2021")),
-                SubGoal("Worksheet A2", uids, dateFormat.parse("5-2-2021"), false, null)
+        init {
+            uids.also {goalsMap[it] = Goal("Read 10 books", it, dateFormat.parse("4-21-2021"), null, listOf(), false, "English", false, true, null) }
+            uids.also {goalsMap[it] = Goal("Complete 5 worksheets", it, dateFormat.parse("6-18-2021"), null, listOf(
+                    SubGoal("Worksheet A1", uids, dateFormat.parse("4-30-2021"), true, dateFormat.parse("4-27-2021")),
+                    SubGoal("Worksheet A2", uids, dateFormat.parse("5-2-2021"), false, null)
             ), false, "Classwork", false, false, 10)}
+        }
     }
+
+
+
     override suspend fun getAllGoals(): List<Goal> = goalsMap.values.toList()
 
     override suspend fun getGoalById(id: String): Goal = goalsMap[id] ?: throw IllegalArgumentException("No goal with uid $uid exists")
