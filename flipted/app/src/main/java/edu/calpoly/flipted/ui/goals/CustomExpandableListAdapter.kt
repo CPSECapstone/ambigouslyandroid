@@ -7,14 +7,17 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.UidToStableId
 import edu.calpoly.flipted.businesslogic.goals.Goal
+import edu.calpoly.flipted.ui.goals.edit.EditGoalFragment
 import java.text.SimpleDateFormat
 
 class CustomExpandableListAdapter (
-    fragment: Fragment
+    fragment: Fragment,
+    private val listView: ExpandableListView
 ) : BaseExpandableListAdapter() {
 
     private val dateFormat = SimpleDateFormat("MMMM dd, yyyy")
@@ -30,6 +33,8 @@ class CustomExpandableListAdapter (
 
     private val viewModel = ViewModelProvider(fragment.requireActivity())[GoalsViewModel::class.java]
     private val context = fragment.requireActivity()
+
+    private val fragmentManager = fragment.requireParentFragment().parentFragmentManager
 
     fun setGoals(goals: List<Goal>) {
         this.goalData = goals
@@ -109,6 +114,8 @@ class CustomExpandableListAdapter (
 
         val groupIndicator: ImageView = fillInView.findViewById(R.id.goals_item_top_group_indicator)
 
+        val editButton: Button = fillInView.findViewById(R.id.goals_item_top_edit_button)
+
         if(currGoal.subGoals.isEmpty()) {
             progressContainer.visibility = View.GONE
             checkBox.visibility = View.VISIBLE
@@ -137,8 +144,23 @@ class CustomExpandableListAdapter (
             val groupIndicatorDrawable = ContextCompat.getDrawable(context, groupIndicatorDrawableId) as AnimatedVectorDrawable
             groupIndicator.setImageDrawable(groupIndicatorDrawable)
             groupIndicatorDrawable.start()
+
+            groupIndicator.setOnClickListener {
+                if(isExpanded)
+                    listView.collapseGroup(listPosition)
+                else
+                    listView.expandGroup(listPosition, true)
+            }
         }
         titleText.text = currGoal.title
+
+        editButton.setOnClickListener {
+            fragmentManager.commit {
+                replace(R.id.main_view, EditGoalFragment.newInstanceEditGoal(currGoal.uid))
+                setReorderingAllowed(true)
+                addToBackStack("EditGoalFragment")
+            }
+        }
 
         if(currGoal.completed) {
             subtitle.text = currGoal.completedDate?.let {
