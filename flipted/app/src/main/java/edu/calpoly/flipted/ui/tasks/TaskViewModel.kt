@@ -14,9 +14,12 @@ import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
 import kotlinx.coroutines.launch
 
 
-class TaskViewModel : ViewModel(){
-    private val _currTask : MutableLiveData<Task?> = MutableLiveData()
-    private var _currResponse : MutableLiveData<TaskSubmissionResult?> = MutableLiveData()
+class TaskViewModel : ViewModel() {
+    private val _currTask : MutableLiveData<Task> = MutableLiveData()
+    private var _currResponse : MutableLiveData<TaskSubmissionResult> = MutableLiveData()
+    private val _errorMessage : MutableLiveData<String> = MutableLiveData()
+    val errorMessage : LiveData<String>
+        get() = _errorMessage
 
     private val repo = ApolloTasksRepo()
     private val getTaskUseCase = GetTask(repo)
@@ -38,7 +41,12 @@ class TaskViewModel : ViewModel(){
     fun fetchTask(taskId : String) {
         clearTask()
         viewModelScope.launch {
-            _currTask.value = getTaskUseCase.execute(taskId)
+            try {
+                _currTask.value = getTaskUseCase.execute(taskId)
+            } catch (e: RuntimeException) {
+                _errorMessage.value = e.message
+                return@launch
+            }
             val task = _currTask.value
             task!!.requirements.forEach { r ->
                 requirements[r.uid] = r
@@ -55,7 +63,11 @@ class TaskViewModel : ViewModel(){
 
         val requirementProgress = TaskRubricProgress(requirements.values.filter{it.isComplete}.toList(), task)
         viewModelScope.launch {
-            saveTaskProgressUseCase.saveRubricProgress(requirementProgress)
+            try {
+                saveTaskProgressUseCase.saveRubricProgress(requirementProgress)
+            } catch (e: RuntimeException) {
+                _errorMessage.value = e.message
+            }
         }
     }
 

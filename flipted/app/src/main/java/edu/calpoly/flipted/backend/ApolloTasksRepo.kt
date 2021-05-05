@@ -156,8 +156,9 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         val response = try {
             apolloClient().mutate(mutation).await()
         } catch(e: ApolloException) {
+            val message = "Task submission unavailable right now. Please make sure you are not offline."
             Log.e("ApolloTasksRepo", "Error when querying backend", e)
-            throw e
+            return TaskSubmissionResult(taskId, false, 0, 0, emptyList(), message)
         }
 
         if(response.hasErrors() || response.data == null) {

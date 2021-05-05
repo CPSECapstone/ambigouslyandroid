@@ -35,55 +35,50 @@ class ResultBlockViewHolder(view : View, val inflater: LayoutInflater, private v
 
                     questionText.text = question.question
 
+                    val currResult = viewModel.currResponse.value ?: throw IllegalStateException("No response found")
+                    val resultList = currResult.results
+                    val questionResult = resultList.find{it.questionId == question.uid} ?: return@forEach
 
-                        val currResult = viewModel.currResponse.value ?: throw IllegalStateException("No response found")
-                        val resultList = currResult.results
-                        val questionResult = resultList.find{it.questionId == question.uid}
+                    question.options.forEach { answerOption ->
+                        val answerLayout = inflater.inflate(R.layout.task_question_mc_answer_result, answers, false)
 
-                        if (questionResult == null) {
-                            throw IllegalStateException("Question not found")
-                        }
+                        val result = answerLayout.findViewById(R.id.result_radio) as RadioButton
 
-                        question.options.forEach { answerOption ->
-                            val answerLayout = inflater.inflate(R.layout.task_question_mc_answer_result, answers, false)
+                        val score = questionLayout.findViewById(R.id.question_score) as TextView
 
-                            val result = answerLayout.findViewById(R.id.result_radio) as RadioButton
+                        score.text = questionResult.pointsAwarded.toString() + "/" + question.pointValue.toString() + " points"
+                        result.text = answerOption.displayPrompt
+                        val resultText = answerLayout.findViewById(R.id.result_text) as TextView
 
-                            val score = questionLayout.findViewById(R.id.question_score) as TextView
-
-                            score.text = questionResult.pointsAwarded.toString() + "/" + question.pointValue.toString() + " points"
-                            result.text = answerOption.displayPrompt
-                            val resultText = answerLayout.findViewById(R.id.result_text) as TextView
-
-                            // Check if the current answerOption is a correct answer
-                            if (questionResult.correctAnswer.contains(answerOption.id.toString())) {
-                                result.setChecked(true)
-                                if (questionResult.correctAnswer.contains(questionResult.studentAnswer)) {
-                                    resultText.text = "Correct!"
-                                    resultText.setTextColor(Color.parseColor("#66a266"))
-                                    resultText.setVisibility(View.VISIBLE)
-                                }
-                                else {
-                                    resultText.text = "Correct Response"
-                                    resultText.setTextColor(Color.parseColor("#bcd9ea"))
-                                    resultText.setVisibility(View.VISIBLE)
-                                }
-
-
+                        // Check if the current answerOption is a correct answer
+                        if (questionResult.correctAnswer.contains(answerOption.id.toString())) {
+                            result.setChecked(true)
+                            if (questionResult.correctAnswer.contains(questionResult.studentAnswer)) {
+                                resultText.text = "Correct!"
+                                resultText.setTextColor(Color.parseColor("#66a266"))
+                                resultText.setVisibility(View.VISIBLE)
                             }
-                            // Check if the current answerOption is what the student selected
-                            else if (answerOption.id == questionResult.studentAnswer.toInt()) {
-                                result.setChecked(true)
-                                resultText.text = "Your Response"
-                                resultText.setTextColor(Color.parseColor("#d03128"))
+                            else {
+                                resultText.text = "Correct Response"
+                                resultText.setTextColor(Color.parseColor("#bcd9ea"))
                                 resultText.setVisibility(View.VISIBLE)
                             }
 
-                            result.setEnabled(false)
-                            answers.addView(answerLayout)
-                            score.setVisibility(View.VISIBLE)
 
                         }
+                        // Check if the current answerOption is what the student selected
+                        else if (answerOption.id == questionResult.studentAnswer.toInt()) {
+                            result.setChecked(true)
+                            resultText.text = "Your Response"
+                            resultText.setTextColor(Color.parseColor("#d03128"))
+                            resultText.setVisibility(View.VISIBLE)
+                        }
+
+                        result.setEnabled(false)
+                        answers.addView(answerLayout)
+                        score.setVisibility(View.VISIBLE)
+
+                    }
 
 
                     rootLayout.addView(questionLayout)
@@ -98,11 +93,8 @@ class ResultBlockViewHolder(view : View, val inflater: LayoutInflater, private v
 
                         val currResult = viewModel.currResponse.value ?: throw IllegalStateException("No response found")
                         val resultList = currResult.results
-                        val questionResult = resultList.find{it.questionId == question.uid}
+                        val questionResult = resultList.find{it.questionId == question.uid} ?: return@forEach
 
-                        if (questionResult == null) {
-                            throw IllegalStateException("Question not found")
-                        }
                         answerBox.setVisibility(View.GONE)
                         val score = questionLayout.findViewById(R.id.fr_score) as TextView
                         val resultText = questionLayout.findViewById(R.id.task_question_free_response_result) as TextView
