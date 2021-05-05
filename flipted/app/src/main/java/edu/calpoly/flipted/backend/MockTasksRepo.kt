@@ -2,6 +2,8 @@ package edu.calpoly.flipted.backend
 
 import android.util.Log
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
+import edu.calpoly.flipted.businesslogic.quizzes.data.answers.FreeResponseAnswer
+import edu.calpoly.flipted.businesslogic.quizzes.data.answers.MultipleChoiceAnswer
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQuestion
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceAnswerOption
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceQuestion
@@ -11,6 +13,7 @@ import edu.calpoly.flipted.businesslogic.tasks.data.blocks.ImageBlock
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TextBlock
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.VideoBlock
+import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 
 class MockTasksRepo : TasksRepo {
@@ -147,7 +150,7 @@ class MockTasksRepo : TasksRepo {
 
     private val savedTasks: Map<String, Task> = mapOf(
             mockedTask.uid to mockedTask,
-            mockedTask2.uid to mockedTask
+            mockedTask2.uid to mockedTask2
     )
 
     private var savedProgress: MutableSet<String> = mutableSetOf()
@@ -155,16 +158,43 @@ class MockTasksRepo : TasksRepo {
     private var savedQuestionAnswers: MutableMap<String, StudentAnswerInput> = mutableMapOf()
 
 
-    override suspend fun getTask(taskId: String) : Task
-        = savedTasks[taskId]?.let { task ->
-            Task(task.pages, task.requirements.map {
+    override suspend fun getTask(taskId: String) : Task {
+        delay(5000)
+        return savedTasks[taskId]?.let { task ->
+            Task(task.pages.map { page ->
+                Page(page.blocks.map { block ->
+                    when (block) {
+                        is QuizBlock -> QuizBlock(block.questions.map { question ->
+                            when (question) {
+                                is MultipleChoiceQuestion -> MultipleChoiceQuestion(question.options, question.question, question.pointValue, question.uid,
+                                        savedQuestionAnswers[question.uid]?.chosenAnswerValue?.let {
+                                            when (it) {
+                                                is MultipleChoiceAnswer -> it
+                                                else -> null
+                                            }
+                                        })
+                                else -> FreeResponseQuestion(question.question, question.pointValue, question.uid,
+                                        savedQuestionAnswers[question.uid]?.chosenAnswerValue?.let {
+                                            when (it) {
+                                                is FreeResponseAnswer -> it
+                                                else -> null
+                                            }
+                                        })
+                            }
+                        }, block.requiredQuestionsCorrect, block.uid, block.points)
+                        else -> block
+                    }
+                }, page.skippable)
+            }, task.requirements.map {
                 if (it.uid in savedProgress) it.completed else it.incompleted
             }, task.uid, task.name, task.instructions, task.points, task.startAt,
-            task.endAt, task.dueDate, task.parentMissionId, task.parentMissionIndex, task.objectiveId)
+                    task.endAt, task.dueDate, task.parentMissionId, task.parentMissionIndex, task.objectiveId)
         } ?: throw IllegalArgumentException("No task with $taskId exists")
+    }
 
 
     override suspend fun saveRubricProgress(progress: TaskRubricProgress) {
+        delay(2000)
         if(!savedTasks.containsKey(progress.task.uid))
             throw IllegalArgumentException("No task with ${progress.task.uid} exists")
         progress.finishedRequirements.forEach{
@@ -173,14 +203,16 @@ class MockTasksRepo : TasksRepo {
     }
 
     override suspend fun saveQuizAnswer(answer: TaskQuizAnswer) {
+        delay(2000)
         if(!savedTasks.containsKey(answer.task.uid))
             throw IllegalArgumentException("No task with ${answer.task.uid} exists")
         savedQuestionAnswers[answer.answer.questionId] = answer.answer
     }
 
     override suspend fun submitTask(taskId : String) : TaskSubmissionResult {
-    TODO()
-    //return TaskSubmissionResult(taskId, true, 8)
+        delay(3000)
+        return TaskSubmissionResult(taskId, false, 5, 10,
+        listOf(), "")
     }
 
 
