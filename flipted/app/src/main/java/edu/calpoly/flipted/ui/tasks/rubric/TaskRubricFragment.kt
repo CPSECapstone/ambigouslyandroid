@@ -54,9 +54,8 @@ class TaskRubricFragment : Fragment() {
         adapter.data = rubricRequirements
 
         viewModel.currResponse.observe(viewLifecycleOwner, Observer {
-            if (viewModel.taskIsPending)
-                return@Observer
-            if (viewModel.currResponse.value?.taskId != viewModel.currTask.value!!.uid)
+            val task = viewModel.currTask.value ?: return@Observer
+            if (viewModel.currResponse.value?.taskId != task.uid)
                 return@Observer
             if (viewModel.currResponse.value?.err!!.isEmpty()) {
                 parentFragment?.parentFragmentManager?.popBackStack("Start task", FragmentManager.POP_BACK_STACK_INCLUSIVE)

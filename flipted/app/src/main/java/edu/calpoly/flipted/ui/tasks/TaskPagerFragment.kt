@@ -65,27 +65,36 @@ class TaskFragment : Fragment() {
         val pagerAdapter = TaskPagerAdapter(this)
         var clickNum: Int = 0
         rubricButton.setOnClickListener {
-            if(clickNum == 0) {
+            if (clickNum == 0) {
                 rubricView.visibility = View.VISIBLE
                 clickNum++
-            } else if(clickNum == 1){
+            } else if (clickNum == 1) {
                 rubricView.visibility = View.GONE
                 clickNum = 0
             }
         }
 
+        viewModel.clearTask()
+
+
         viewModel.currTask.observe(viewLifecycleOwner, Observer {
-            progressBar.visibility = View.GONE
-            tabLayout.visibility = View.VISIBLE
-            viewPager.visibility = View.VISIBLE
-            rubricView.visibility = View.GONE
-            rubricButton.visibility = View.VISIBLE
+            if(it == null) {
+                progressBar.visibility = View.VISIBLE
+                tabLayout.visibility = View.GONE
+                viewPager.visibility = View.GONE
+                rubricView.visibility = View.GONE
+            } else {
+                progressBar.visibility = View.GONE
+                tabLayout.visibility = View.VISIBLE
+                viewPager.visibility = View.VISIBLE
+                rubricView.visibility = View.VISIBLE
 
-            pagerAdapter.pages = it.pages
+                pagerAdapter.pages = it.pages
 
-            childFragmentManager.commit {
-                replace(R.id.task_pager_rubric_container, TaskRubricFragment.newInstance())
-                setReorderingAllowed(true)
+                childFragmentManager.commit {
+                    replace(R.id.task_pager_rubric_container, TaskRubricFragment.newInstance())
+                    setReorderingAllowed(true)
+                }
             }
         })
         viewModel.fetchTask(id)

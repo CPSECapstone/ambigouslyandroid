@@ -15,8 +15,7 @@ import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
 import kotlinx.coroutines.launch
 
 
-class TaskViewModel : ViewModel(){
-    private var _taskIsPending = false
+class TaskViewModel : ViewModel() {
     private val _currTask : MutableLiveData<Task> = MutableLiveData()
     private var _currResponse : MutableLiveData<TaskSubmissionResult> = MutableLiveData()
     private val _errorMessage : MutableLiveData<String> = MutableLiveData()
@@ -29,16 +28,19 @@ class TaskViewModel : ViewModel(){
     private val saveTaskProgressUseCase = SaveTaskProgress(repo)
 
 
-    val taskIsPending
-        get() = _taskIsPending
-    val currTask : LiveData<Task>
+    val currTask : LiveData<Task?>
         get() = _currTask
 
-    val currResponse : LiveData<TaskSubmissionResult>
+    val currResponse : LiveData<TaskSubmissionResult?>
         get() = _currResponse
 
+    fun clearTask() {
+        _currTask.value = null
+        _currResponse.value = null
+    }
+
     fun fetchTask(taskId : String) {
-        _taskIsPending = true
+        clearTask()
         viewModelScope.launch {
             try {
                 _currTask.value = getTaskUseCase.execute(taskId)
@@ -50,7 +52,6 @@ class TaskViewModel : ViewModel(){
             task!!.requirements.forEach { r ->
                 requirements[r.uid] = r
             }
-            _taskIsPending = false
         }
     }
 
