@@ -1,7 +1,6 @@
 package edu.calpoly.flipted.ui.tasks.rubric
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +18,7 @@ import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
 import edu.calpoly.flipted.ui.tasks.TaskResultsFragment
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
+import kotlinx.android.synthetic.main.task_rubric_fragment.view.*
 
 
 class TaskRubricFragment : Fragment() {
@@ -28,6 +28,8 @@ class TaskRubricFragment : Fragment() {
 
     private lateinit var adapter : RubricListAdapter
 
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
         = inflater.inflate(R.layout.task_rubric_fragment, container, false)
@@ -35,7 +37,9 @@ class TaskRubricFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         list = view.findViewById(R.id.rubric_items_list)
+
 
         viewModel = ViewModelProvider(requireActivity())[TaskViewModel::class.java]
 
@@ -67,6 +71,7 @@ class TaskRubricFragment : Fragment() {
                 errorMsg.text = viewModel.currResponse.value?.err
                 errorMsg.visibility = View.VISIBLE
             }
+
 
 
 

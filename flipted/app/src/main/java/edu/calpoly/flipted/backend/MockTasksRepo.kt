@@ -31,17 +31,15 @@ class MockTasksRepo : TasksRepo {
     private val mockedTask = Task(
         listOf(
             Page(listOf(
-                TextBlock("What is a Test Bus?", 36),
+               // TextBlock("What is a Test Bus?", 36),
                 TextBlock("""
                     A Test Bus is an interface that exists between the user interface and the
                     core logic of an application. This facilitates unit testing by allowing
                     tests to directly access the underlying logic of the application without
                     having to futz around with the user interface.
-                """.trimIndent(), 18),
+                """.trimIndent(), 18,"What is a Test Bus?"),
                 VideoBlock("https://www.youtube.com/watch?v=VJi2vmaQe6w", "Watch this video"),
-                TextBlock("Look at This!", 36),
-                ImageBlock("https://www.digitalhrtech.com/wp-content/uploads/2020/01/Learning-and-development-manager.png"),
-                TextBlock("Check your knowledge", 24),
+                ImageBlock("https://www.digitalhrtech.com/wp-content/uploads/2020/01/Learning-and-development-manager.png","Time to Learn!"),
                 QuizBlock(
                     listOf(
                         MultipleChoiceQuestion(

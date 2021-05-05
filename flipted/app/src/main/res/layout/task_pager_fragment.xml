@@ -51,4 +51,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"
         />
+
+    <edu.calpoly.flipted.ui.tasks.rubric.VerticalButton
+        android:id="@+id/task_button_rubric"
+        android:layout_width="35dp"
+        android:layout_height="match_parent"
+        android:text="Task Rubric"
+        android:textColor="@color/blue1"
+        android:background="@color/blue2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:drawableStart="@drawable/checkmark_circle"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
