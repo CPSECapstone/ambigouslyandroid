@@ -1,6 +1,5 @@
 package edu.calpoly.flipted.ui.tasks
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +19,9 @@ class TaskViewModel : ViewModel(){
     private var _taskIsPending = false
     private val _currTask : MutableLiveData<Task> = MutableLiveData()
     private var _currResponse : MutableLiveData<TaskSubmissionResult> = MutableLiveData()
+    private val _errorMessage : MutableLiveData<String> = MutableLiveData()
+    val errorMessage : LiveData<String>
+        get() = _errorMessage
 
     private val repo = ApolloTasksRepo()
     private val getTaskUseCase = GetTask(repo)
@@ -38,7 +40,12 @@ class TaskViewModel : ViewModel(){
     fun fetchTask(taskId : String) {
         _taskIsPending = true
         viewModelScope.launch {
-            _currTask.value = getTaskUseCase.execute(taskId)
+            try {
+                _currTask.value = getTaskUseCase.execute(taskId)
+            } catch (e: RuntimeException) {
+                _errorMessage.value = e.message
+                return@launch
+            }
             val task = _currTask.value
             task!!.requirements.forEach { r ->
                 requirements[r.uid] = r
@@ -56,7 +63,11 @@ class TaskViewModel : ViewModel(){
 
         val requirementProgress = TaskRubricProgress(requirements.values.filter{it.isComplete}.toList(), task)
         viewModelScope.launch {
-            saveTaskProgressUseCase.saveRubricProgress(requirementProgress)
+            try {
+                saveTaskProgressUseCase.saveRubricProgress(requirementProgress)
+            } catch (e: RuntimeException) {
+                _errorMessage.value = e.message
+            }
         }
     }
 

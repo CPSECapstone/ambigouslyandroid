@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.goals.Goal
-import edu.calpoly.flipted.ui.goals.edit.GoalNewFragment
+import edu.calpoly.flipted.ui.goals.edit.EditGoalFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -64,9 +64,9 @@ class GoalsFragment : Fragment() {
         val newGoalButton = view.findViewById<Button>(R.id.newGoalButton)
         newGoalButton.setOnClickListener{
             parentFragmentManager.commit {
-                replace(R.id.main_view, GoalNewFragment.newInstance())
+                replace(R.id.main_view, EditGoalFragment.newInstanceCreateGoal())
                 setReorderingAllowed(true)
-                addToBackStack(null)
+                addToBackStack("EditGoalFragment")
             }
         }
     }

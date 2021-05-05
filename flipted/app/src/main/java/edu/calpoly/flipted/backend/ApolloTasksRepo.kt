@@ -50,7 +50,7 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
                 if(block == null) throw badResponseException
                 when {
                     block.asTextBlock != null ->
-                        TextBlock(block.asTextBlock.contents, block.asTextBlock.fontSize, block.title)
+                        TextBlock(block.asTextBlock.contents ?: throw badResponseException, block.asTextBlock.fontSize ?: throw badResponseException, block.title)
                     block.asImageBlock != null ->
                         ImageBlock(block.asImageBlock.imageUrl, block.title)
                     block.asVideoBlock != null ->
@@ -59,8 +59,8 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
                         QuizBlock(block.asQuizBlock.questions?.map { question ->
                             if(question == null) throw badResponseException
                             when {
-                                question.asMCQuestion != null -> {
-                                    val answerOptions = question.asMCQuestion.options?.map { answerOption ->
+                                question.asMcQuestion != null -> {
+                                    val answerOptions = question.asMcQuestion.options?.map { answerOption ->
                                         if(answerOption == null) throw badResponseException
                                         MultipleChoiceAnswerOption(answerOption.description, answerOption.id)
                                     } ?: throw badResponseException
@@ -105,15 +105,15 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         task.startAt,
         task.endAt,
         task.dueDate,
-        task.parentMissionId,
-        task.parentMissionIndex,
+        task.missionId,
+        task.missionIndex,
         task.objectiveId)
     }
 
     override suspend fun saveRubricProgress(progress: TaskRubricProgress) {
         val progressInput = TaskProgressInput(
                 progress.task.uid,
-        progress.finishedRequirements.map {
+            progress.finishedRequirements.map {
             it.uid
         })
         val progressMutation = SubmitTaskProgressMutation(progressInput)
@@ -156,8 +156,9 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         val response = try {
             apolloClient().mutate(mutation).await()
         } catch(e: ApolloException) {
+            val message = "Task submission unavailable right now. Please make sure you are not offline."
             Log.e("ApolloTasksRepo", "Error when querying backend", e)
-            throw e
+            return TaskSubmissionResult(taskId, false, 0, 0, emptyList(), message)
         }
 
         if(response.hasErrors() || response.data == null) {
@@ -190,16 +191,16 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         return TaskSubmissionResult(taskId, result.graded, result.pointsAwarded!!, result.pointsPossible!!,
                 result.questionAndAnswers!!.map { qa ->
                     AnswerResult(when {
-                        qa.question.asMCQuestion != null ->
-                            qa.question.asMCQuestion.id
+                        qa.question.asMcQuestion != null ->
+                            qa.question.asMcQuestion.id
                         else ->
-                           qa.question.asFRQuestion?.id!!
+                           qa.question.asFrQuestion?.id!!
                     } ,
                     when {
-                        qa.question.asMCQuestion != null ->
-                            qa.question.asMCQuestion.answers!!.map{it.toString()}
-                        qa.question.asFRQuestion?.answer != null ->
-                            listOf(qa.question.asFRQuestion.answer)
+                        qa.question.asMcQuestion != null ->
+                            qa.question.asMcQuestion.answers!!.map{it.toString()}
+                        qa.question.asFrQuestion?.answer != null ->
+                            listOf(qa.question.asFrQuestion.answer)
                         else ->
                             listOf("")
                     }
