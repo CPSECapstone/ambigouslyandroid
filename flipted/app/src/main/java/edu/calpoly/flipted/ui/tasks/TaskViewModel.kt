@@ -1,12 +1,10 @@
 package edu.calpoly.flipted.ui.tasks
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import edu.calpoly.flipted.backend.ApolloTasksRepo
-import edu.calpoly.flipted.businesslogic.goals.Goal
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.tasks.GetTask
 import edu.calpoly.flipted.businesslogic.tasks.SaveTaskProgress
@@ -14,7 +12,6 @@ import edu.calpoly.flipted.businesslogic.tasks.SubmitTask
 import edu.calpoly.flipted.businesslogic.tasks.data.*
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 
 
 class TaskViewModel : ViewModel(){
