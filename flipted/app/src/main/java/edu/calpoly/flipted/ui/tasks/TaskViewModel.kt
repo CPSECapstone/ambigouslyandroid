@@ -1,6 +1,5 @@
 package edu.calpoly.flipted.ui.tasks
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,9 +15,8 @@ import kotlinx.coroutines.launch
 
 
 class TaskViewModel : ViewModel(){
-    private var _taskIsPending = false
-    private val _currTask : MutableLiveData<Task> = MutableLiveData()
-    private var _currResponse : MutableLiveData<TaskSubmissionResult> = MutableLiveData()
+    private val _currTask : MutableLiveData<Task?> = MutableLiveData()
+    private var _currResponse : MutableLiveData<TaskSubmissionResult?> = MutableLiveData()
 
     private val repo = ApolloTasksRepo()
     private val getTaskUseCase = GetTask(repo)
@@ -26,23 +24,25 @@ class TaskViewModel : ViewModel(){
     private val saveTaskProgressUseCase = SaveTaskProgress(repo)
 
 
-    val taskIsPending
-        get() = _taskIsPending
-    val currTask : LiveData<Task>
+    val currTask : LiveData<Task?>
         get() = _currTask
 
-    val currResponse : LiveData<TaskSubmissionResult>
+    val currResponse : LiveData<TaskSubmissionResult?>
         get() = _currResponse
 
+    fun clearTask() {
+        _currTask.value = null
+        _currResponse.value = null
+    }
+
     fun fetchTask(taskId : String) {
-        _taskIsPending = true
+        clearTask()
         viewModelScope.launch {
             _currTask.value = getTaskUseCase.execute(taskId)
             val task = _currTask.value
             task!!.requirements.forEach { r ->
                 requirements[r.uid] = r
             }
-            _taskIsPending = false
         }
     }
 
