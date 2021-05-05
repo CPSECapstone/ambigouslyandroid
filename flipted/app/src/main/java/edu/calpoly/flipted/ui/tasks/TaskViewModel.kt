@@ -21,9 +21,7 @@ class TaskViewModel : ViewModel(){
     private val _currTask : MutableLiveData<Task> = MutableLiveData()
     private var _currResponse : MutableLiveData<TaskSubmissionResult> = MutableLiveData()
 
-
-    //private val repo = ApolloTasksRepo()
-    private val repo = MockTasksRepo()
+    private val repo = ApolloTasksRepo()
     private val getTaskUseCase = GetTask(repo)
     private val submitTaskUseCase = SubmitTask(repo)
     private val saveTaskProgressUseCase = SaveTaskProgress(repo)
