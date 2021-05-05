@@ -5,13 +5,13 @@ mutation SubmitTask($taskId: String!) {
     pointsPossible
     questionAndAnswers {
       question {
-        ... on FRQuestion {
+        ... on FrQuestion {
           id
           description
           points
           answer
         }
-        ... on MCQuestion {
+        ... on McQuestion {
           id
           description
           points
@@ -48,8 +48,8 @@ query GetTask($taskId:String!) {
     startAt,
     endAt,
     dueDate,
-    parentMissionId,
-    parentMissionIndex,
+    missionId,
+    missionIndex,
     objectiveId,
     pages {
      blocks {
@@ -72,7 +72,7 @@ query GetTask($taskId:String!) {
            id,
            description,
            points,
-           ...on MCQuestion {
+           ...on McQuestion {
              options {
                id,
                description
