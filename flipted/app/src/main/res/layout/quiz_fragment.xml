@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ListView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ListView
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/question_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:listitem="@layout/task_question_mc"
-    tools:listfooter="@layout/quiz_footer"/>
+    tools:listfooter="@layout/quiz_footer" />
+
+</LinearLayout>
+
+
+

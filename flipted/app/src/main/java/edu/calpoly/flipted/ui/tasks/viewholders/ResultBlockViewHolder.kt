@@ -21,7 +21,7 @@ import java.lang.IllegalStateException
 class ResultBlockViewHolder(view : View, val inflater: LayoutInflater, private val viewModel: TaskViewModel) : TaskBlockViewHolder(view) {
     private val rootLayout : LinearLayout = view.findViewById(R.id.task_block_quiz_root)
 
-    override fun bind(block: TaskBlock) {
+    override fun bind(block: TaskBlock, position: Int) {
         val quizBlock = block as QuizBlock
 
         rootLayout.removeAllViews()

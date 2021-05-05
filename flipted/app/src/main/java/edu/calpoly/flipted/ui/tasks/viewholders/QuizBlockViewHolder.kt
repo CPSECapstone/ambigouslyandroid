@@ -20,9 +20,15 @@ import java.lang.IllegalStateException
 
 class QuizBlockViewHolder(view: View, val inflater: LayoutInflater, private val viewModel: TaskViewModel) : TaskBlockViewHolder(view) {
     private val rootLayout: LinearLayout = view.findViewById(R.id.task_block_quiz_root)
+    private val colorOfBlock: LinearLayout = view.findViewById(R.id.task_block_quiz_root)
 
-    override fun bind(block: TaskBlock) {
+    override fun bind(block: TaskBlock, position: Int) {
         val quizBlock = block as QuizBlock
+
+        if (position % 2 != 0)
+            colorOfBlock.setBackgroundColor(Color.parseColor("#F2F2F2"))
+        else
+            colorOfBlock.setBackgroundColor(Color.parseColor("#FFFFFF"))
 
         rootLayout.removeAllViews()
 
@@ -32,12 +38,12 @@ class QuizBlockViewHolder(view: View, val inflater: LayoutInflater, private val 
                     val questionLayout = inflater.inflate(R.layout.task_question_mc, rootLayout, false)
                     val questionText: TextView = questionLayout.findViewById(R.id.mc_question)
                     val answers: RadioGroup = questionLayout.findViewById(R.id.answers)
-
                     questionText.text = question.question
 
 
                     question.options.forEach { answerOption ->
                         val answerLayout = inflater.inflate(R.layout.task_question_mc_answer_option, answers, false) as RadioButton
+                        //val answerLayout: RadioButton = answerLinearLayouts.findViewById(R.id.question_answer)
                         answerLayout.text = answerOption.displayPrompt
 
                         answerLayout.setOnCheckedChangeListener { _, isChecked ->

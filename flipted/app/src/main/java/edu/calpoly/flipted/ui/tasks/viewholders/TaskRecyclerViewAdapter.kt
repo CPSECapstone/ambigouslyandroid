@@ -25,7 +25,7 @@ class TaskRecyclerViewAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskBlockViewHolder {
         val inflatedView = inflater.inflate(viewType, parent, false)
         return when (viewType) {
-            R.layout.task_block_image -> ImageBlockViewHolder(inflatedView)
+            R.layout.task_block_image -> ImageBlockViewHolder(inflatedView,inflater)
             R.layout.task_block_quiz -> QuizBlockViewHolder(inflatedView, inflater, viewModel)
             R.layout.task_block_text -> TextBlockViewHolder(inflatedView)
             R.layout.task_block_video -> VideoBlockViewHolder(inflatedView, fragment.viewLifecycleOwner.lifecycle)
@@ -34,7 +34,8 @@ class TaskRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: TaskBlockViewHolder, position: Int) {
-        holder.bind(taskBlocks[position])
+        holder.bind(taskBlocks[position], position)
+        //change bind to accept postion and change color based on postion
     }
 
     override fun getItemCount(): Int = taskBlocks.size

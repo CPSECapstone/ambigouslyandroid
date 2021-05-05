@@ -1,6 +1,4 @@
 package edu.calpoly.flipted.ui.tasks.viewholders
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -31,7 +29,7 @@ class TaskResultsRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: TaskBlockViewHolder, position: Int) {
-        holder.bind(taskBlocks[position])
+        holder.bind(taskBlocks[position], position)
     }
 
     override fun getItemCount(): Int = taskBlocks.size
