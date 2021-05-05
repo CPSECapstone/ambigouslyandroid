@@ -5,11 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -28,6 +31,8 @@ import edu.calpoly.flipted.ui.myTeam.MyTeamFragment
 
 
 class MainActivity : AppCompatActivity() {
+    val BACK_STACK_ROOT_TAG = "root_fragment"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,8 +58,10 @@ class MainActivity : AppCompatActivity() {
                     "My Progress" -> MyProgressFragment.newInstance()
                     else -> throw IllegalStateException()
                 }
+                supportFragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 supportFragmentManager.commit {
                     replace(R.id.main_view, targetFragment)
+                    addToBackStack(BACK_STACK_ROOT_TAG)
                     setReorderingAllowed(true)
                 }
             }
@@ -64,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                // Handle tab unselect
+                // Handle tab deselect
             }
         })
 
@@ -73,6 +80,7 @@ class MainActivity : AppCompatActivity() {
             tabLayout.visibility = if (it) View.VISIBLE else View.GONE
         })
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -97,6 +105,16 @@ class MainActivity : AppCompatActivity() {
         }
         return super.dispatchTouchEvent(event)
     }
+/*
+    override fun onBackPressed() {
+        val fragment =
+                this.supportFragmentManager.findFragmentById(R.id.main_view)
+        (fragment as? IBackPressed)?.onBackPressed()?.let {
+            super.onBackPressed()
+        }
+    }
+*/
+
 
 
 }
