@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:drawable="@drawable/circle_check_box"
+        android:state_checked="true"
+        android:state_pressed="true" />
+    <item
+        android:drawable="@drawable/circle_checked_box"
+        android:state_pressed="true" />
+    <item
+        android:drawable="@drawable/circle_checked_box"
+        android:state_checked="true" />
+    <item
+        android:drawable="@drawable/circle_check_box" />
 </selector>
