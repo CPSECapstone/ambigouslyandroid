@@ -1,11 +1,11 @@
 package edu.calpoly.flipted.ui.tasks
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import edu.calpoly.flipted.backend.ApolloTasksRepo
+import edu.calpoly.flipted.backend.MockTasksRepo
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.tasks.GetTask
 import edu.calpoly.flipted.businesslogic.tasks.SaveTaskProgress
@@ -15,10 +15,12 @@ import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
 import kotlinx.coroutines.launch
 
 
-class TaskViewModel : ViewModel(){
-    private var _taskIsPending = false
+class TaskViewModel : ViewModel() {
     private val _currTask : MutableLiveData<Task> = MutableLiveData()
     private var _currResponse : MutableLiveData<TaskSubmissionResult> = MutableLiveData()
+    private val _errorMessage : MutableLiveData<String> = MutableLiveData()
+    val errorMessage : LiveData<String>
+        get() = _errorMessage
 
     private val repo = ApolloTasksRepo()
     private val getTaskUseCase = GetTask(repo)
@@ -26,23 +28,30 @@ class TaskViewModel : ViewModel(){
     private val saveTaskProgressUseCase = SaveTaskProgress(repo)
 
 
-    val taskIsPending
-        get() = _taskIsPending
-    val currTask : LiveData<Task>
+    val currTask : LiveData<Task?>
         get() = _currTask
 
-    val currResponse : LiveData<TaskSubmissionResult>
+    val currResponse : LiveData<TaskSubmissionResult?>
         get() = _currResponse
 
+    fun clearTask() {
+        _currTask.value = null
+        _currResponse.value = null
+    }
+
     fun fetchTask(taskId : String) {
-        _taskIsPending = true
+        clearTask()
         viewModelScope.launch {
-            _currTask.value = getTaskUseCase.execute(taskId)
+            try {
+                _currTask.value = getTaskUseCase.execute(taskId)
+            } catch (e: RuntimeException) {
+                _errorMessage.value = e.message
+                return@launch
+            }
             val task = _currTask.value
             task!!.requirements.forEach { r ->
                 requirements[r.uid] = r
             }
-            _taskIsPending = false
         }
     }
 
@@ -55,7 +64,11 @@ class TaskViewModel : ViewModel(){
 
         val requirementProgress = TaskRubricProgress(requirements.values.filter{it.isComplete}.toList(), task)
         viewModelScope.launch {
-            saveTaskProgressUseCase.saveRubricProgress(requirementProgress)
+            try {
+                saveTaskProgressUseCase.saveRubricProgress(requirementProgress)
+            } catch (e: RuntimeException) {
+                _errorMessage.value = e.message
+            }
         }
     }
 

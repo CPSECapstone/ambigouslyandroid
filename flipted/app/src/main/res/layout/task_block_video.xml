@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/task_block_video_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,24 +12,19 @@
 
     <TextView
         android:id="@+id/task_block_video_title"
+        style="@style/TaskBlockTitleText"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:textSize="15pt"
         tools:text="Title of Video Block"
-        android:paddingBottom="10pt"
         />
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/youtubePlayerViewTask"
+        style="@style/TaskBlockVideoStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:videoId="1FJHYqE0RDg"
-        app:autoPlay="false"
-        app:showFullScreenButton="true"
-        android:paddingLeft="15pt"
-        android:paddingRight="15pt"
-        android:paddingBottom="10pt"
         />
 
 </LinearLayout>

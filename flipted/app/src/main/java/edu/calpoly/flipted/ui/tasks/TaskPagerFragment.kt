@@ -1,9 +1,11 @@
 package edu.calpoly.flipted.ui.tasks
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -15,6 +17,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.tasks.rubric.TaskRubricFragment
+import java.util.*
 
 private const val TASKID_ARG_PARAM = "taskId"
 
@@ -30,8 +33,8 @@ class TaskFragment : Fragment() {
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager : ViewPager2
     private lateinit var rubricView : FragmentContainerView
-
     private lateinit var viewModel : TaskViewModel
+    private lateinit var rubricButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,19 +60,41 @@ class TaskFragment : Fragment() {
         viewPager = view.findViewById(R.id.task_pager)
         rubricView = view.findViewById(R.id.task_pager_rubric_container)
 
+        rubricButton = view.findViewById(R.id.task_button_rubric)
+
         val pagerAdapter = TaskPagerAdapter(this)
+        var clickNum: Int = 0
+        rubricButton.setOnClickListener {
+            if (clickNum == 0) {
+                rubricView.visibility = View.VISIBLE
+                clickNum++
+            } else if (clickNum == 1) {
+                rubricView.visibility = View.GONE
+                clickNum = 0
+            }
+        }
+
+        viewModel.clearTask()
+
 
         viewModel.currTask.observe(viewLifecycleOwner, Observer {
-            progressBar.visibility = View.GONE
-            tabLayout.visibility = View.VISIBLE
-            viewPager.visibility = View.VISIBLE
-            rubricView.visibility = View.VISIBLE
+            if(it == null) {
+                progressBar.visibility = View.VISIBLE
+                tabLayout.visibility = View.GONE
+                viewPager.visibility = View.GONE
+                rubricView.visibility = View.GONE
+            } else {
+                progressBar.visibility = View.GONE
+                tabLayout.visibility = View.VISIBLE
+                viewPager.visibility = View.VISIBLE
+                rubricView.visibility = View.VISIBLE
 
-            pagerAdapter.pages = it.pages
+                pagerAdapter.pages = it.pages
 
-            childFragmentManager.commit {
-                replace(R.id.task_pager_rubric_container, TaskRubricFragment.newInstance())
-                setReorderingAllowed(true)
+                childFragmentManager.commit {
+                    replace(R.id.task_pager_rubric_container, TaskRubricFragment.newInstance())
+                    setReorderingAllowed(true)
+                }
             }
         })
         viewModel.fetchTask(id)

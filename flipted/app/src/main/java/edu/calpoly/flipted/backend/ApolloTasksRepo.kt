@@ -93,29 +93,29 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
                 }
             } ?: throw badResponseException, page.skippable ?: throw badResponseException)
         },
-                task.requirements.map { requirement ->
-                    RubricRequirement(requirement.description ?: throw badResponseException,
-                            completedRequirementIds.contains(requirement.id),
-                            requirement.id)
-                },
-                task.id,
-                task.name,
-                task.instructions,
-                task.points,
-                task.startAt,
-                task.endAt,
-                task.dueDate,
-                task.missionId,
-                task.missionIndex,
-                task.objectiveId)
+        task.requirements.map { requirement ->
+            RubricRequirement(requirement.description ?: throw badResponseException,
+                    completedRequirementIds.contains(requirement.id),
+                    requirement.id)
+        },
+        task.id,
+        task.name,
+        task.instructions,
+        task.points,
+        task.startAt,
+        task.endAt,
+        task.dueDate,
+        task.missionId,
+        task.missionIndex,
+        task.objectiveId)
     }
 
     override suspend fun saveRubricProgress(progress: TaskRubricProgress) {
         val progressInput = TaskProgressInput(
                 progress.task.uid,
-                progress.finishedRequirements.map {
-                    it.uid
-                })
+            progress.finishedRequirements.map {
+            it.uid
+        })
         val progressMutation = SubmitTaskProgressMutation(progressInput)
         val response = try {
             apolloClient().mutate(progressMutation).await()
@@ -156,8 +156,9 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         val response = try {
             apolloClient().mutate(mutation).await()
         } catch(e: ApolloException) {
+            val message = "Task submission unavailable right now. Please make sure you are not offline."
             Log.e("ApolloTasksRepo", "Error when querying backend", e)
-            throw e
+            return TaskSubmissionResult(taskId, false, 0, 0, emptyList(), message)
         }
 
         if(response.hasErrors() || response.data == null) {
@@ -180,17 +181,17 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
                         qa.question.asMcQuestion != null ->
                             qa.question.asMcQuestion.id
                         else ->
-                            qa.question.asFrQuestion?.id!!
+                           qa.question.asFrQuestion?.id!!
                     } ,
-                            when {
-                                qa.question.asMcQuestion != null ->
-                                    qa.question.asMcQuestion.answers!!.map{it.toString()}
-                                qa.question.asFrQuestion?.answer != null ->
-                                    listOf(qa.question.asFrQuestion.answer)
-                                else ->
-                                    listOf("")
-                            }
-                            , qa.answer?.answer!!, qa.answer.pointsAwarded!!)
+                    when {
+                        qa.question.asMcQuestion != null ->
+                            qa.question.asMcQuestion.answers!!.map{it.toString()}
+                        qa.question.asFrQuestion?.answer != null ->
+                            listOf(qa.question.asFrQuestion.answer)
+                        else ->
+                            listOf("")
+                    }
+                    , qa.answer?.answer!!, qa.answer.pointsAwarded!!)
                 }, "")
     }
 

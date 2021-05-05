@@ -1,6 +1,8 @@
 package edu.calpoly.flipted.ui.tasks.viewholders
 
+import android.graphics.Color
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -14,9 +16,15 @@ import edu.calpoly.flipted.businesslogic.tasks.data.blocks.VideoBlock
 class VideoBlockViewHolder(view : View, private val lifecycle : Lifecycle) : TaskBlockViewHolder(view) {
     private val videoPlayer : YouTubePlayerView = view.findViewById(R.id.youtubePlayerViewTask)
     private val title : TextView = view.findViewById(R.id.task_block_video_title)
+    private val colorOfBlock: LinearLayout = view.findViewById(R.id.task_block_video_root)
 
-    override fun bind(block: TaskBlock) {
+    override fun bind(block: TaskBlock, position: Int) {
         val videoBlock = block as VideoBlock
+
+        if (position % 2 != 0)
+            colorOfBlock.setBackgroundColor(Color.parseColor("#F2F2F2"))
+        else
+            colorOfBlock.setBackgroundColor(Color.parseColor("#FFFFFF"))
 
         if(block.title != null) {
             title.text = block.title

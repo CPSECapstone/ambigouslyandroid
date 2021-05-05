@@ -8,16 +8,12 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/navbar"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/colorPrimary"
-        app:tabIndicatorColor="@color/colorDarker"
-        app:tabMode="fixed"
-        app:tabTextColor="@color/white"
-
+        style="@style/MainNavigationBarStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="80dp"
+        android:layout_width="match_parent">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/home_tab"
