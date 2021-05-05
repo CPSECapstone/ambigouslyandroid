@@ -54,6 +54,7 @@ abstract class ApolloRepo {
         }
 
         val key = id.value!!.accessToken
+        Log.e("tag", key)
 
         return ApolloClient.builder()
                 .serverUrl(BACKEND_URL)

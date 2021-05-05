@@ -1,0 +1,24 @@
+mutation EditOrCreateGoal($goal: GoalInput!) {
+  editOrCreateGoal(goal: $goal)
+}
+
+query GetAllGoals {
+  getAllGoals {
+    id
+    title
+    dueDate
+    completed
+    completedDate
+    category
+    favorited
+    owner
+    assignee
+    pointValue
+    subGoals {
+      title
+      dueDate
+      completed
+      completedDate
+    }
+  }
+}

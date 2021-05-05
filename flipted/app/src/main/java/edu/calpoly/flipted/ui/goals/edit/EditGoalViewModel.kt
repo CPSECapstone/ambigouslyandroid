@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import edu.calpoly.flipted.backend.ApolloGoalsRepo
 import edu.calpoly.flipted.backend.MockGoalsRepo
 import edu.calpoly.flipted.businesslogic.goals.*
 import kotlinx.coroutines.launch
@@ -12,7 +13,7 @@ import java.util.*
 class EditGoalViewModel : ViewModel() {
     private val _goal = MutableLiveData<UnsavedNewGoal>()
 
-    private val repo = MockGoalsRepo()
+    private val repo = ApolloGoalsRepo()
     private val getGoal = GetGoalById(repo)
     private val editGoal = EditGoal(repo)
     private val saveNewGoal = SaveNewGoal(repo)
@@ -29,7 +30,7 @@ class EditGoalViewModel : ViewModel() {
     }
 
     fun fillInEmptyGoal() {
-        _goal.value = UnsavedNewGoal("", Date(), listOf(), "", false, true, null)
+        _goal.value = UnsavedNewGoal("", Date(), listOf(), "", false, false, null)
     }
 
     fun saveGoal() {

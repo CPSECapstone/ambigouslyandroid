@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import edu.calpoly.flipted.backend.ApolloGoalsRepo
 import edu.calpoly.flipted.backend.MockGoalsRepo
 import edu.calpoly.flipted.businesslogic.goals.*
 import kotlinx.coroutines.launch
@@ -14,7 +15,7 @@ class GoalsViewModel : ViewModel() {
     val goals : LiveData<List<Goal>>
         get() = _goals
 
-    private val repo = MockGoalsRepo()
+    private val repo = ApolloGoalsRepo()
     private val getAllGoals = GetAllGoals(repo)
     private val updateGoalCompleted = UpdateGoalCompleted(repo)
     private val updateSubgoalCompleted = UpdateSubgoalCompleted(repo)
