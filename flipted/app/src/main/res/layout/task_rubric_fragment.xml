@@ -1,45 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
     android:gravity="center_horizontal"
-    android:background="@color/colorAccent">
+    android:background="@color/white1"
+    >
 
-    <TextView
-        android:id="@+id/mc_question"
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TASK RUBRIC"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="22sp"
-        android:paddingBottom="10dp"/>
-
-    <ListView
-        android:id="@+id/rubric_items_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/task_rubric_checkbox" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SUBMIT"
-        android:id="@+id/task_submit_button"
-        android:layout_marginTop="20dp"/>
+        android:layout_height="match_parent"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="10dp"
+        android:elevation="5dp"
+        app:cardCornerRadius="1dp" >
 
 
-    <TextView
-        android:id="@+id/submit_error_msg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="Task Submission Error"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="22sp"
-        android:paddingTop="10dp"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:gravity="center_horizontal"
+            android:background="@color/white1"
+            >
+
+
+        <TextView
+            android:id="@+id/task_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:text="TASK RUBRIC"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/blue1"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/rubric_items_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            tools:listitem="@layout/task_rubric_checkbox"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="19dp"/>
+
+
+        <Button
+            android:id="@+id/task_submit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/grey_out_button"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Submit Task"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+           />
+
+        <TextView
+            android:id="@+id/submit_error_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Task Submission Error"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="20sp"
+            android:paddingTop="10dp"
+            />
+
+        </LinearLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
 </LinearLayout>
