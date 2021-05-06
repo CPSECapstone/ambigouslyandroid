@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFEE93">
@@ -55,41 +56,94 @@
     </LinearLayout>
 
 
-    <ProgressBar
-        android:id="@+id/mf_progress_bar"
-        style="?android:attr/progressBarStyleHorizontal"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/goals_item_top_progress_bar_container"
         android:layout_width="0dp"
-        android:layout_height="25dp"
-        app:layout_constraintWidth_max="300dp"
-        android:progressDrawable="@drawable/green_progress_drawable"
+        android:layout_height="0dp"
 
-        android:layout_marginStart="20dp"
+        app:layout_constraintEnd_toStartOf="@id/goals_item_top_edit_button"
+        app:layout_constraintStart_toEndOf="@id/goals_item_top_text_container"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <ProgressBar
+            android:id="@+id/mf_progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:progressDrawable="@drawable/green_progress_drawable"
+
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+
+
+            app:layout_constraintWidth_max="300dp"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/goals_item_top_group_indicator"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            tools:progress="50" />
+
+        <TextView
+            android:id="@+id/Goal_Count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/mf_progress_bar"
+            app:layout_constraintEnd_toEndOf="@id/mf_progress_bar"
+
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+
+            tools:text="5 Books" />
+
+        <ImageView
+            android:id="@+id/goals_item_top_group_indicator"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+
+            tools:src="@drawable/goals_group_indicator_anim_fwd"
+
+            android:layout_marginEnd="20dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <CheckBox
+        android:id="@+id/goals_item_top_check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
         android:layout_marginEnd="20dp"
 
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toEndOf="@id/goals_item_top_text_container"
+        app:layout_constraintEnd_toStartOf="@id/goals_item_top_edit_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/goals_item_top_edit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Edit"
+
+        android:layout_marginHorizontal="5dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        />
 
-        tools:progress="50" />
-
-    <TextView
-        android:id="@+id/Goal_Count"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#00000000"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/mf_progress_bar"
-        app:layout_constraintEnd_toEndOf="@id/mf_progress_bar"
-
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-
-        tools:text="5 Books" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

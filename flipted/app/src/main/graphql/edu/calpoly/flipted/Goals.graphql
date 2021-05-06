@@ -1,27 +1,34 @@
-query AllGoals {
-  goals {
-    id
-    title
-    dueDate
-    target
-    unit
-    completions {
-      name
-      date
-    }
+mutation EditOrCreateGoal($goal: GoalInput!) {
+  editOrCreateGoal(goal: $goal)
+}
+
+query GetAllGoals {
+  getAllGoals {
+    ...allGoalFields
   }
 }
 
-mutation SaveCompletion($goalId: Int!, $name: String!, $date: String!) {
-  addGoalCompletion(goalId: $goalId, name: $name, date: $date){
-    id,
-    title,
-    dueDate,
-    target,
-    unit,
-    completions {
-      name,
-      date
-    }
+query GetGoalById($id: String!, $userId: String!) {
+  getGoalById(id:$id, user:$userId) {
+    ...allGoalFields
+  }
+}
+
+fragment allGoalFields on Goal {
+  id
+  title
+  dueDate
+  completed
+  completedDate
+  category
+  favorited
+  owner
+  assignee
+  pointValue
+  subGoals {
+   title
+   dueDate
+   completed
+   completedDate
   }
 }

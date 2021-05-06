@@ -6,4 +6,19 @@
     <color name="colorAccent">#FFEE93</color>
     <color name="white">#FFFFFF</color>
     <color name="main_grey">#DBD6D6</color>
+    <color name="colorDarkGrey">#969292</color>
+
+    <!--New official Colors-->
+    <color name="blue1">#4274F3</color>
+    <color name="blue2">#B2C5F6</color>
+    <color name="blueText">#2F80ED</color>
+    <color name="white1">#FFFFFF</color>
+    <color name="gray6">#F2F2F2</color>
+    <color name="gray2">#4F4F4F</color>
+    <color name="grayOut">#C4C4C4</color>
+    <color name="black">#000000</color>
+    <color name="yellow">#FFBD12</color>
+
+
+
 </resources>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.tasks.TaskResultsFragment"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:text="Your Score:"
+        android:textSize="26dp"></TextView>
+
+    <TextView
+        android:id="@+id/total_awarded_points"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        tools:text="Total Awarded Points"
+        android:textSize="24dp"></TextView>
+
+    <TextView
+        android:id="@+id/has_been_graded"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_gravity="center_horizontal"
+        tools:text="(Whether or not this task has been graded)"
+        android:textSize="18dp"
+        android:textStyle="italic"></TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:text="Review Your Results:"
+        android:textSize="26dp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        android:paddingLeft="150dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+
+
+        android:id="@+id/task_results_recyclerview"/>
+
+
+</LinearLayout>
+</androidx.core.widget.NestedScrollView>
