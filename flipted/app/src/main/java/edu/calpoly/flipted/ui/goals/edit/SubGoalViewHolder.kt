@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.goals.GoalRecyclerViewAdapter
 import java.text.SimpleDateFormat
@@ -55,8 +56,12 @@ class SubGoalViewHolder(view: View, private val adapter: GoalRecyclerViewAdapter
             override fun afterTextChanged(p0: Editable?) {
                 subGoal.title = p0.toString()
             }
+
+
         })
     }
+
+
 
     fun bind(subGoal: MutableSubGoal) {
         this.subGoal = subGoal

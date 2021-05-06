@@ -31,8 +31,8 @@ class EditGoalFragment : Fragment() {
     private lateinit var goalCategorySelector: Spinner
 
     private lateinit var subGoalsView : RecyclerView
-
     private val dateFormat = SimpleDateFormat("MMMM dd, yyyy")
+    private var tittleExist: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +61,7 @@ class EditGoalFragment : Fragment() {
         goalTitleText.setOnFocusChangeListener { _, hasFocus ->
             if(!hasFocus)
                 viewModel.setGoalTitleText(goalTitleText.text.toString())
+            tittleExist = goalTitleText.text.isNotBlank()
         }
 
         goalDueDateSetButton.setOnClickListener {
@@ -81,8 +82,13 @@ class EditGoalFragment : Fragment() {
         }
 
         submitGoalButton.setOnClickListener {
-            viewModel.saveGoal()
-            parentFragmentManager?.popBackStack("EditGoalFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            if(tittleExist){
+                viewModel.saveGoal()
+                parentFragmentManager?.popBackStack("EditGoalFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            }
+            else {
+                Toast.makeText(requireActivity(), "missing required goal title", Toast.LENGTH_LONG).show()
+            }
         }
 
         subGoalsView = view.findViewById(R.id.goals_fragment_create_subgoals_recyclerview)
@@ -119,7 +125,10 @@ class EditGoalFragment : Fragment() {
                 }
             }
         }
+
     }
+
+
 
 
     companion object {
