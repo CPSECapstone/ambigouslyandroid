@@ -66,29 +66,29 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
                                     } ?: throw badResponseException
 
                                     MultipleChoiceQuestion(
-                                        answerOptions,
-                                        question.description,
-                                        question.points,
-                                        question.id,
-                                        answerOptions.find {
-                                            it.id.toString() == completedQuestions[question.id]?.answer
-                                        }?.let {
-                                            MultipleChoiceAnswer(it)
-                                        }
+                                            answerOptions,
+                                            question.description,
+                                            question.points,
+                                            question.id,
+                                            answerOptions.find {
+                                                it.id.toString() == completedQuestions[question.id]?.answer
+                                            }?.let {
+                                                MultipleChoiceAnswer(it)
+                                            }
                                     )
                                 }
                                 else ->
                                     FreeResponseQuestion(question.description, question.points, question.id,
-                                        completedQuestions[question.id]?.answer?.let {
-                                            FreeResponseAnswer(it)
-                                        }
+                                            completedQuestions[question.id]?.answer?.let {
+                                                FreeResponseAnswer(it)
+                                            }
                                     )
                             }
                         } ?: throw badResponseException,
-                        block.asQuizBlock.requiredScore ?: throw badResponseException,
-                        block.asQuizBlock.blockId ?: throw badResponseException,
-                        block.asQuizBlock.points ?: throw badResponseException,
-                        block.title)
+                                block.asQuizBlock.requiredScore ?: throw badResponseException,
+                                block.asQuizBlock.blockId ?: throw badResponseException,
+                                block.asQuizBlock.points ?: throw badResponseException,
+                                block.title)
                     else -> throw badResponseException
                 }
             } ?: throw badResponseException, page.skippable ?: throw badResponseException)
@@ -170,19 +170,6 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
                 Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
                 throw IllegalStateException("Error when querying backend: bad response")
             }
-            /*
-            if (message!!.contains("rubric")) {
-                return TaskSubmissionResult(taskId, false, 0, 0, emptyList(), message)
-            }
-            else if (message.contains("Progress")) {
-                return TaskSubmissionResult(taskId, false, 0, 0, emptyList(), message)
-            }
-            else {
-                Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
-                throw IllegalStateException("Error when querying backend: bad response")
-            }
-
-             */
         }
         val badResponseException = IllegalStateException("Error when querying backend: bad response")
 

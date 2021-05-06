@@ -28,8 +28,6 @@ class CustomExpandableListAdapter (
             notifyDataSetChanged()
         }
 
-    private val goalStableIds = UidToStableId<String>()
-    private val completionStableIds = UidToStableId<Pair<String, String>>()
 
     private val viewModel = ViewModelProvider(fragment.requireActivity())[GoalsViewModel::class.java]
     private val context = fragment.requireActivity()
@@ -44,11 +42,6 @@ class CustomExpandableListAdapter (
     override fun getChild(listPosition: Int, expandedListPosition: Int)
         = goalData[listPosition].subGoals[expandedListPosition]
 
-    override fun getChildId(listPosition: Int, expandedListPosition: Int): Long
-        = completionStableIds.getStableId(Pair(
-            goalData[listPosition].uid,
-            goalData[listPosition].subGoals[expandedListPosition].id
-        ))
 
     override fun getChildView(
         listPosition: Int,
@@ -91,7 +84,9 @@ class CustomExpandableListAdapter (
     override fun getGroup(listPosition: Int) = this.goalData[listPosition]
     override fun getGroupCount() = this.goalData.size
 
-    override fun getGroupId(listPosition: Int) : Long = goalStableIds.getStableId(goalData[listPosition].uid)
+    override fun getGroupId(listPosition: Int) : Long = ExpandableListView.NO_ID.toLong()
+
+    override fun getChildId(p0: Int, p1: Int): Long = ExpandableListView.NO_ID.toLong()
 
     override fun getGroupView(
         listPosition: Int,
@@ -155,10 +150,12 @@ class CustomExpandableListAdapter (
         titleText.text = currGoal.title
 
         editButton.setOnClickListener {
-            fragmentManager.commit {
-                replace(R.id.main_view, EditGoalFragment.newInstanceEditGoal(currGoal.uid))
-                setReorderingAllowed(true)
-                addToBackStack("EditGoalFragment")
+            currGoal.uid?.let {
+                fragmentManager.commit {
+                    replace(R.id.main_view, EditGoalFragment.newInstanceEditGoal(it))
+                    setReorderingAllowed(true)
+                    addToBackStack("EditGoalFragment")
+                }
             }
         }
 
@@ -172,7 +169,7 @@ class CustomExpandableListAdapter (
         return fillInView
 
     }
-    override fun hasStableIds() = true
+    override fun hasStableIds() = false
     override fun isChildSelectable(listPosition: Int, expandedListPosition: Int) = true
 
 

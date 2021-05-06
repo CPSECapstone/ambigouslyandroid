@@ -105,10 +105,7 @@ class EditGoalFragment : Fragment() {
 
             if(savedInstanceState == null) {
                 subgoalAdapter.subGoalBlocks = it.subGoals.map { subgoal ->
-                    when (subgoal) {
-                        is SubGoal -> MutableSubGoal(subgoal)
-                        else -> MutableSubGoal(subgoal.title, null, subgoal.dueDate, false, null)
-                    }
+                    MutableSubGoal(subgoal)
                 }
                 subgoalAdapter.notifyDataSetChanged()
             }

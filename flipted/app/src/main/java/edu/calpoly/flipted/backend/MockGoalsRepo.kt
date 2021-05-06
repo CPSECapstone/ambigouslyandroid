@@ -1,6 +1,8 @@
 package edu.calpoly.flipted.backend
 
-import edu.calpoly.flipted.businesslogic.goals.*
+import edu.calpoly.flipted.businesslogic.goals.Goal
+import edu.calpoly.flipted.businesslogic.goals.GoalsRepo
+import edu.calpoly.flipted.businesslogic.goals.SubGoal
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 
@@ -17,15 +19,15 @@ class MockGoalsRepo : GoalsRepo {
         private val goalsMap : MutableMap<String, Goal> = mutableMapOf()
 
         init {
-            uids.also {goalsMap[it] = Goal("Read 10 books", it, dateFormat.parse("4-21-2021"), null, listOf(), false, "English", false, true, null) }
-            uids.also {goalsMap[it] = Goal("Complete 5 worksheets", it, dateFormat.parse("6-18-2021"), null, listOf(
-                    SubGoal("Worksheet A1", uids, dateFormat.parse("4-30-2021"), true, dateFormat.parse("4-27-2021")),
-                    SubGoal("Worksheet A2", uids, dateFormat.parse("5-2-2021"), false, null)
-            ), false, "Classwork", false, false, 10)}
+            listOf(
+                    Goal(uids, "Read 10 books", dateFormat.parse("4-21-2021"), false, null, listOf(), "English", false, false, 10),
+                    Goal(uids, "Complete 2 worksheets", dateFormat.parse("6-18-2021"), false, null, listOf(
+                            SubGoal("Worksheet A1", dateFormat.parse("4-30-2021"), false, null),
+                            SubGoal("Worksheet A2", dateFormat.parse("5-2-2021"), false, null)
+                    ), "Classwork", false, true, null)
+            ).associateByTo(goalsMap) { it.uid!! }
         }
     }
-
-
 
     override suspend fun getAllGoals(): List<Goal> {
         delay(1000)
@@ -37,30 +39,17 @@ class MockGoalsRepo : GoalsRepo {
         return goalsMap[id] ?: throw IllegalArgumentException("No goal with uid $uid exists")
     }
 
-    override suspend fun saveNewGoal(goal: UnsavedNewGoal): Goal {
-        delay(1000)
-        return Goal(
-            goal.title,
-            uids,
-            goal.dueDate,
-            null,
-            goal.subGoals.map {
-                SubGoal(it.title, uids, it.dueDate, false, null)
-            },
-            false,
-            goal.category,
-            goal.favorited,
-            goal.ownedByStudent,
-            goal.pointValue).also {
-                goalsMap[it.uid] = it
-        }
-    }
-
     override suspend fun editGoal(goal: Goal): Goal {
         delay(1000)
-        if(!goalsMap.containsKey(goal.uid))
-            throw IllegalArgumentException("No goal with uid ${goal.uid} exists")
-        goalsMap[goal.uid] = goal
-        return goal
+        return if(goal.uid == null) {
+            Goal(uids, goal.title, goal.dueDate, goal.completed, goal.completedDate, goal.subGoals, goal.category, goal.favorited, goal.isOwnedByStudent, goal.pointValue).also {
+                goalsMap[it.uid!!] = it
+            }
+        } else {
+            if (!goalsMap.containsKey(goal.uid))
+                throw IllegalArgumentException("No goal with uid ${goal.uid} exists")
+            goalsMap[goal.uid] = goal
+            goal
+        }
     }
 }
