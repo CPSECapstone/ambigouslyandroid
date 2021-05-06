@@ -44,7 +44,6 @@ class TaskViewModel : ViewModel() {
     private var allQuestions : List<Question> = listOf()
 
     fun fetchTask(taskId : String) {
-        clearTask()
         viewModelScope.launch {
             val task = try {
                 getTaskUseCase.execute(taskId)

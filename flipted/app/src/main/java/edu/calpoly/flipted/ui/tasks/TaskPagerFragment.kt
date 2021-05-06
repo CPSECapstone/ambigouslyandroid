@@ -75,7 +75,8 @@ class TaskFragment : Fragment() {
             }
         }
 
-        viewModel.clearTask()
+        if(savedInstanceState == null)
+            viewModel.clearTask()
 
 
         viewModel.currTask.observe(viewLifecycleOwner, Observer {
@@ -98,6 +99,7 @@ class TaskFragment : Fragment() {
                 }
             }
         })
+
         viewModel.fetchTask(id)
 
         viewPager.adapter = pagerAdapter
