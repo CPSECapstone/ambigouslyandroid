@@ -1,12 +1,12 @@
 package edu.calpoly.flipted.ui.tasks
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import edu.calpoly.flipted.backend.ApolloTasksRepo
 import edu.calpoly.flipted.backend.MockTasksRepo
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
+import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQuestion
+import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceQuestion
+import edu.calpoly.flipted.businesslogic.quizzes.data.questions.Question
 import edu.calpoly.flipted.businesslogic.tasks.GetTask
 import edu.calpoly.flipted.businesslogic.tasks.SaveTaskProgress
 import edu.calpoly.flipted.businesslogic.tasks.SubmitTask
@@ -39,54 +39,66 @@ class TaskViewModel : ViewModel() {
         _currResponse.value = null
     }
 
+    private val requirements: MutableLiveData<Map<String, RubricRequirement>> = MutableLiveData()
+    private val questionAnswers = MutableLiveData<Map<String, StudentAnswerInput>>()
+    private var allQuestions : List<Question> = listOf()
+
     fun fetchTask(taskId : String) {
         clearTask()
         viewModelScope.launch {
-            try {
-                _currTask.value = getTaskUseCase.execute(taskId)
+            val task = try {
+                getTaskUseCase.execute(taskId)
             } catch (e: RuntimeException) {
                 _errorMessage.value = e.message
                 return@launch
             }
-            val task = _currTask.value
-            task!!.requirements.forEach { r ->
-                requirements[r.uid] = r
-            }
+            _currTask.value = task
+
+            requirements.value = task.requirements.associateBy { it.uid }
+            allQuestions = task.pages
+                    .flatMap { it.blocks }
+                    .filterIsInstance<QuizBlock>()
+                    .flatMap {it.questions}
+            questionAnswers.value = allQuestions
+                    .mapNotNull {
+                        question -> question.savedAnswer?.let{StudentAnswerInput(question.uid, it)}
+                    }
+                    .associateBy { it.questionId }
         }
     }
-
-    private val requirements : MutableMap<String, RubricRequirement> = mutableMapOf()
 
     fun saveRubricRequirement(requirement: RubricRequirement) {
         val task = currTask.value ?: throw IllegalStateException("No task")
 
-        requirements[requirement.uid] = requirement
+        val updatedRequirementsMap = (requirements.value ?: mapOf()) + Pair(requirement.uid, requirement)
 
-        val requirementProgress = TaskRubricProgress(requirements.values.filter{it.isComplete}.toList(), task)
+        val requirementProgress = TaskRubricProgress(updatedRequirementsMap.values.filter{it.isComplete}.toList(), task)
         viewModelScope.launch {
             try {
                 saveTaskProgressUseCase.saveRubricProgress(requirementProgress)
+                requirements.value = updatedRequirementsMap
             } catch (e: RuntimeException) {
                 _errorMessage.value = e.message
             }
         }
     }
 
-    private val questionAnswers = mutableMapOf<String, StudentAnswerInput>()
+
 
     fun saveQuizAnswer(answer: StudentAnswerInput, block: QuizBlock) {
         val task = currTask.value ?: throw IllegalStateException("No task")
 
-        questionAnswers[answer.questionId] = answer
-
         val answerProgress = TaskQuizAnswer(answer, task, block)
 
         viewModelScope.launch {
-            saveTaskProgressUseCase.saveQuizAnswer(answerProgress)
+            try {
+                saveTaskProgressUseCase.saveQuizAnswer(answerProgress)
+                questionAnswers.value = (questionAnswers.value ?: mapOf()) + Pair(answer.questionId, answer)
+            } catch(e: RuntimeException) {
+                _errorMessage.value = e.message
+            }
         }
     }
-
-    fun getQuizAnswers() : Collection<StudentAnswerInput> = questionAnswers.values
 
 
     fun submitTask(taskId : String) {
@@ -94,5 +106,30 @@ class TaskViewModel : ViewModel() {
             _currResponse.value = submitTaskUseCase.execute(taskId)
         }
     }
+
+
+    private val allRequirementsComplete = Transformations.map(requirements) { requirements ->
+        requirements.values.fold(true) { acc, requirement ->
+            acc && requirement.isComplete
+        }
+    }
+    private val allQuestionsAnswered = Transformations.map(questionAnswers) { answers ->
+        allQuestions.fold(true) {acc, question ->
+            acc && answers.containsKey(question.uid)
+        }
+    }
+
+    private val _eligibleForSubmission = MediatorLiveData<Boolean>()
+    init {
+        _eligibleForSubmission.addSource(allRequirementsComplete) {
+            _eligibleForSubmission.value = (allQuestionsAnswered.value ?: false) && it
+        }
+        _eligibleForSubmission.addSource(allQuestionsAnswered) {
+            _eligibleForSubmission.value = (allRequirementsComplete.value ?: false) && it
+        }
+    }
+
+    val eligibleForSubmission: LiveData<Boolean>
+        get() = _eligibleForSubmission
 
 }

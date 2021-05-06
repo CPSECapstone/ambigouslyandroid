@@ -13,5 +13,5 @@ class MultipleChoiceQuestion(
         question: String,
         pointValue: Int,
         uid: String,
-        val savedAnswer: MultipleChoiceAnswer?
+        override val savedAnswer: MultipleChoiceAnswer?
 ) : Question(question, pointValue, uid)

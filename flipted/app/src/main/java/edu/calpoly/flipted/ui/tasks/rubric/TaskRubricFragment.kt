@@ -72,12 +72,13 @@ class TaskRubricFragment : Fragment() {
                 errorMsg.visibility = View.VISIBLE
             }
 
+        })
+        val submitButton = view.findViewById<Button>(R.id.task_submit_button)
 
-
-
+        viewModel.eligibleForSubmission.observe(viewLifecycleOwner, Observer {
+            submitButton.isEnabled = it
         })
 
-        val submitButton = view.findViewById<Button>(R.id.task_submit_button)
         submitButton.setOnClickListener{
             viewModel.submitTask(task.uid)
         }
@@ -111,12 +112,12 @@ class TaskRubricFragment : Fragment() {
 
             checkBox.text = data.description
 
+            checkBox.isChecked = data.isComplete
 
             checkBox.setOnCheckedChangeListener{ buttonView, isChecked ->
                 viewModel.saveRubricRequirement(RubricRequirement(data.description, isChecked, data.uid))
             }
 
-            checkBox.isChecked = data.isComplete
 
             return fillInView
         }
