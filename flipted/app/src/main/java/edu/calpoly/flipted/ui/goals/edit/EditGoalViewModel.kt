@@ -58,7 +58,7 @@ class EditGoalViewModel : ViewModel() {
                 is Goal -> Goal(it.title, it.uid, date, it.completedDate, it.subGoals, it.completed, it.category, it.favorited, it.ownedByStudent, it.pointValue)
                 else -> UnsavedNewGoal(it.title, date, it.subGoals, it.category, it.favorited, it.ownedByStudent, it.pointValue)
             }
-        } ?: throw IllegalStateException("Attempt to set date of null goal")
+        }
     }
 
     fun setGoalTitleText(title: String) {
@@ -67,7 +67,7 @@ class EditGoalViewModel : ViewModel() {
                 is Goal -> Goal(title, it.uid, it.dueDate, it.completedDate, it.subGoals, it.completed, it.category, it.favorited, it.ownedByStudent, it.pointValue)
                 else -> UnsavedNewGoal(title, it.dueDate, it.subGoals, it.category, it.favorited, it.ownedByStudent, it.pointValue)
             }
-        } ?: throw IllegalStateException("Attempt to set title of null goal")
+        }
     }
 
     fun setGoalCategory(category: String) {
@@ -76,7 +76,7 @@ class EditGoalViewModel : ViewModel() {
                 is Goal -> Goal(it.title, it.uid, it.dueDate, it.completedDate, it.subGoals, it.completed, category, it.favorited, it.ownedByStudent, it.pointValue)
                 else -> UnsavedNewGoal(it.title, it.dueDate, it.subGoals, category, it.favorited, it.ownedByStudent, it.pointValue)
             }
-        } ?: throw java.lang.IllegalStateException("Attempt to set category of null goal")
+        }
     }
 
 }
