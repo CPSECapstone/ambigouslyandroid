@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
@@ -74,7 +75,8 @@ class TaskFragment : Fragment() {
             }
         }
 
-        viewModel.clearTask()
+        if(savedInstanceState == null)
+            viewModel.clearTask()
 
 
         viewModel.currTask.observe(viewLifecycleOwner, Observer {
@@ -97,6 +99,7 @@ class TaskFragment : Fragment() {
                 }
             }
         })
+
         viewModel.fetchTask(id)
 
         viewPager.adapter = pagerAdapter
@@ -104,6 +107,11 @@ class TaskFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = "Page ${position + 1}"
         }.attach()
+
+
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer{
+            Toast.makeText(requireActivity(), "Error: $it", Toast.LENGTH_LONG).show()
+        })
 
     }
 

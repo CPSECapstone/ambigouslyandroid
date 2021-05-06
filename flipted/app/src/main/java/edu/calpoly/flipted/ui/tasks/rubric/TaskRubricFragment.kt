@@ -15,6 +15,7 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
+import edu.calpoly.flipted.businesslogic.UidToStableId
 import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
 import edu.calpoly.flipted.ui.tasks.TaskResultsFragment
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
@@ -28,7 +29,7 @@ class TaskRubricFragment : Fragment() {
 
     private lateinit var adapter : RubricListAdapter
 
-
+    private val uidMap = UidToStableId<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
@@ -71,12 +72,13 @@ class TaskRubricFragment : Fragment() {
                 errorMsg.visibility = View.VISIBLE
             }
 
+        })
+        val submitButton = view.findViewById<Button>(R.id.task_submit_button)
 
-
-
+        viewModel.eligibleForSubmission.observe(viewLifecycleOwner, Observer {
+            submitButton.isEnabled = it
         })
 
-        val submitButton = view.findViewById<Button>(R.id.task_submit_button)
         submitButton.setOnClickListener{
             viewModel.submitTask(task.uid)
         }
@@ -100,7 +102,7 @@ class TaskRubricFragment : Fragment() {
 
         override fun getItem(p0: Int): RubricRequirement = data[p0]
 
-        override fun getItemId(p0: Int): Long = data[p0].uid.toLong()
+        override fun getItemId(p0: Int): Long = uidMap.getStableId(data[p0].uid)
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val fillInView = convertView ?: layoutInflater.inflate(R.layout.task_rubric_checkbox, parent, false)
@@ -110,12 +112,12 @@ class TaskRubricFragment : Fragment() {
 
             checkBox.text = data.description
 
+            checkBox.isChecked = data.isComplete
 
             checkBox.setOnCheckedChangeListener{ buttonView, isChecked ->
                 viewModel.saveRubricRequirement(RubricRequirement(data.description, isChecked, data.uid))
             }
 
-            checkBox.isChecked = data.isComplete
 
             return fillInView
         }

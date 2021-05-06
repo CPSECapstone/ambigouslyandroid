@@ -7,5 +7,5 @@ class FreeResponseQuestion(
     question: String,
     pointValue: Int,
     uid: String,
-    val savedAnswer: FreeResponseAnswer?
+    override val savedAnswer: FreeResponseAnswer?
 ) : Question(question, pointValue, uid)
