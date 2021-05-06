@@ -19,6 +19,7 @@ import java.util.*
 class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
 
     override suspend fun getAllGoals(): List<Goal> {
+        Log.e("tag", "get goals")
         val response = try {
             apolloClient().query(GetAllGoalsQuery()).await()
         } catch(e: ApolloException) {
@@ -67,6 +68,7 @@ class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
 
         val result = goals.find{it.id==id}!!
 
+
         return Goal(result.title, result.id, result.dueDate, result.completedDate,
                 result.subGoals.map { sg ->
                     SubGoal(sg.title, "0",
@@ -79,9 +81,9 @@ class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
 
     override suspend fun saveNewGoal(goal: UnsavedNewGoal): Goal {
         val goalInput = GoalInput(Input.absent(), goal.title, goal.dueDate, false, Input.absent(),
-            goal.subGoals.map {
-                SubGoalInput(it.title, it.dueDate, false, Input.absent())
-            }, goal.category, goal.favorited, Input.absent(), Input.absent(), Input.absent())
+                goal.subGoals.map {
+                    SubGoalInput(it.title, it.dueDate, false, Input.absent())
+                }, goal.category, goal.favorited, Input.absent(), Input.absent(), Input.absent())
         val mutation = EditOrCreateGoalMutation(goalInput)
         val response = try {
             apolloClient().mutate(mutation).await()
