@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.goals.GoalRecyclerViewAdapter
 import java.text.SimpleDateFormat

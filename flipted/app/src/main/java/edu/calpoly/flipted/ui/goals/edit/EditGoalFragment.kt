@@ -32,7 +32,6 @@ class EditGoalFragment : Fragment() {
 
     private lateinit var subGoalsView : RecyclerView
     private val dateFormat = SimpleDateFormat("MMMM dd, yyyy")
-    private var titleExist: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +60,6 @@ class EditGoalFragment : Fragment() {
         goalTitleText.setOnFocusChangeListener { _, hasFocus ->
             if(!hasFocus)
                 viewModel.setGoalTitleText(goalTitleText.text.toString())
-            titleExist = goalTitleText.text.isNotBlank()
         }
 
         goalDueDateSetButton.setOnClickListener {
@@ -82,12 +80,12 @@ class EditGoalFragment : Fragment() {
         }
 
         submitGoalButton.setOnClickListener {
-            if(titleExist){
+            val errors = viewModel.validateGoal()
+            if(errors.isEmpty()) {
                 viewModel.saveGoal()
-                parentFragmentManager?.popBackStack("EditGoalFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            }
-            else {
-                Toast.makeText(requireActivity(), "missing required goal title", Toast.LENGTH_LONG).show()
+                parentFragmentManager.popBackStack("EditGoalFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            } else {
+                Toast.makeText(requireActivity(), errors[0], Toast.LENGTH_LONG).show()
             }
         }
 
@@ -127,9 +125,6 @@ class EditGoalFragment : Fragment() {
         }
 
     }
-
-
-
 
     companion object {
         // TODO: Rename and change types and number of parameters
