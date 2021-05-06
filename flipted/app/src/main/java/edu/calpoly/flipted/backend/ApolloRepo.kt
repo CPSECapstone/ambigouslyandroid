@@ -20,7 +20,7 @@ abstract class ApolloRepo {
     }
 
     private val dateCustomTypeAdapter = object: CustomTypeAdapter<Date> {
-        private val dateFormat = SimpleDateFormat("y-M-d", Locale.US)
+        private val dateFormat = SimpleDateFormat("y-MM-dd", Locale.US)
         override fun decode(value: CustomTypeValue<*>): Date {
             return dateFormat.parse(value.value.toString()) ?: throw IllegalArgumentException("Bad date")
         }

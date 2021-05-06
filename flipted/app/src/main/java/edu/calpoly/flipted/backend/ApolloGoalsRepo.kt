@@ -81,14 +81,13 @@ class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
     }
 
     override suspend fun saveNewGoal(goal: UnsavedNewGoal): Goal {
-        /*
         val goalInput = GoalInput(Input.absent(), goal.title, goal.dueDate, false, Input.absent(),
                 goal.subGoals.map {
                     SubGoalInput(it.title, it.dueDate, false, Input.absent())
                 }, goal.category, goal.favorited, Input.absent(), Input.absent(), Input.absent())
-        //val mutation = EditOrCreateGoalMutation(goalInput)
-        */
-        val mutation = CreateGoalMutation(goal.title, goal.dueDate, false, goal.category, goal.favorited)
+        val mutation = EditOrCreateGoalMutation(goalInput)
+
+        //val mutation = CreateGoalMutation(goal.title, goal.dueDate, false, goal.category, goal.favorited)
         val response = try {
             apolloClient().mutate(mutation).await()
         } catch(e: ApolloException) {
