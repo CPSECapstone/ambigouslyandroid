@@ -39,9 +39,9 @@ class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
             results.add(Goal(it.title, it.id, it.dueDate, it.completedDate,
                     it.subGoals.map { sg ->
                         SubGoal(sg.title, "0",
-                                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH).parse(sg.dueDate.toString())!!,
+                                sg.dueDate,
                                 sg.completed,
-                                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH).parse(sg.completedDate.toString())!!)
+                                sg.completedDate)
                     },
                     it.completed, it.category, it.favorited, false, it.pointValue))
         }
@@ -65,7 +65,16 @@ class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
 
         val goals = response.data?.getAllGoals?.toMutableList() ?: throw IllegalStateException("Error when querying backend: bad response")
 
+        val result = goals.find{it.id==id}!!
 
+        return Goal(result.title, result.id, result.dueDate, result.completedDate,
+                result.subGoals.map { sg ->
+                    SubGoal(sg.title, "0",
+                            sg.dueDate,
+                            sg.completed,
+                            sg.completedDate)
+                },
+                result.completed, result.category, result.favorited, false, result.pointValue)
     }
 
     override suspend fun saveNewGoal(goal: UnsavedNewGoal): Goal {
