@@ -4,18 +4,13 @@ import android.util.Log
 import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
-import edu.calpoly.flipted.CreateGoalMutation
 import edu.calpoly.flipted.EditOrCreateGoalMutation
 import edu.calpoly.flipted.GetAllGoalsQuery
-import edu.calpoly.flipted.SubmitTaskMutation
 import edu.calpoly.flipted.businesslogic.goals.Goal
 import edu.calpoly.flipted.businesslogic.goals.GoalsRepo
 import edu.calpoly.flipted.businesslogic.goals.SubGoal
-import edu.calpoly.flipted.businesslogic.goals.UnsavedNewGoal
 import edu.calpoly.flipted.type.GoalInput
 import edu.calpoly.flipted.type.SubGoalInput
-import java.text.SimpleDateFormat
-import java.util.*
 
 class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
 
@@ -33,81 +28,24 @@ class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
             throw IllegalStateException("Error when querying backend: bad response")
         }
 
-        val goals = response.data?.getAllGoals?.toMutableList() ?: throw IllegalStateException("Error when querying backend: bad response")
-
-        val results = mutableListOf<Goal>()
-
-        goals.forEach {
-            results.add(Goal(it.title, it.id, it.dueDate, it.completedDate,
-                    it.subGoals.map { sg ->
-                        SubGoal(sg.title, "0",
-                                sg.dueDate,
-                                sg.completed,
-                                sg.completedDate)
-                    },
-                    it.completed, it.category, it.favorited, false, it.pointValue))
+        val goals = response.data?.getAllGoals ?: throw IllegalStateException("Error when querying backend: bad response")
+        return goals.map{
+            it.fragments.allGoalFields
+        }.map{
+            goal -> Goal(goal.id, goal.title, goal.dueDate, goal.completed, goal.completedDate,
+                goal.subGoals.map {
+                    subGoal -> SubGoal(subGoal.title, subGoal.dueDate, subGoal.completed, subGoal.completedDate)
+                }, goal.category, goal.favorited, goal.assignee == goal.owner, goal.pointValue)
         }
-
-        return results
 
     }
 
     override suspend fun getGoalById(id: String): Goal {
-        val response = try {
-            apolloClient().query(GetAllGoalsQuery()).await()
-        } catch(e: ApolloException) {
-            Log.e("ApolloTasksRepo", "Error when querying backend", e)
-            throw e
-        }
-
-        if(response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
-            throw IllegalStateException("Error when querying backend: bad response")
-        }
-
-        val goals = response.data?.getAllGoals?.toMutableList() ?: throw IllegalStateException("Error when querying backend: bad response")
-
-        val result = goals.find{it.id==id}!!
-
-
-        return Goal(result.title, result.id, result.dueDate, result.completedDate,
-                result.subGoals.map { sg ->
-                    SubGoal(sg.title, "0",
-                            sg.dueDate,
-                            sg.completed,
-                            sg.completedDate)
-                },
-                result.completed, result.category, result.favorited, false, result.pointValue)
-    }
-
-    override suspend fun saveNewGoal(goal: UnsavedNewGoal): Goal {
-        val goalInput = GoalInput(Input.absent(), goal.title, goal.dueDate, false, Input.absent(),
-                goal.subGoals.map {
-                    SubGoalInput(it.title, it.dueDate, false, Input.absent())
-                }, goal.category, goal.favorited, Input.absent(), Input.absent(), Input.absent())
-        val mutation = EditOrCreateGoalMutation(goalInput)
-
-        //val mutation = CreateGoalMutation(goal.title, goal.dueDate, false, goal.category, goal.favorited)
-        val response = try {
-            apolloClient().mutate(mutation).await()
-        } catch(e: ApolloException) {
-            Log.e("ApolloTasksRepo", e.message, e)
-            throw e
-        }
-
-        if(response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
-            throw IllegalStateException("Error when querying backend: bad response")
-        }
-
-        val id = response.data?.editOrCreateGoal ?: throw IllegalStateException("Error when querying backend: bad response")
-
-        return Goal(goal.title, id, goal.dueDate, null, listOf(), false,
-            goal.category, goal.favorited, goal.ownedByStudent, goal.pointValue)
+        return getAllGoals().find { it.uid == id } ?: throw IllegalArgumentException("Could not find goal with id $id")
     }
 
     override suspend fun editGoal(goal: Goal): Goal {
-        val goalInput = GoalInput(Input.optional(goal.uid), goal.title, goal.dueDate, goal.completed, Input.absent(),
+        val goalInput = GoalInput(Input.optional(goal.uid), goal.title, goal.dueDate, goal.completed, Input.optional(goal.completedDate),
                 goal.subGoals.map {
                     SubGoalInput(it.title, it.dueDate, it.completed, Input.optional(it.completedDate))
                 }, goal.category, goal.favorited, Input.absent(), Input.absent(), Input.absent())
@@ -124,6 +62,9 @@ class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
             throw IllegalStateException("Error when querying backend: bad response")
         }
 
-        return goal
+        val id = response.data?.editOrCreateGoal ?: throw IllegalStateException("Error when querying backend: bad response")
+
+        return Goal(goal.title, id, goal.dueDate, goal.completed, goal.completedDate, goal.subGoals,
+                goal.category, goal.favorited, goal.isOwnedByStudent, goal.pointValue)
     }
 }

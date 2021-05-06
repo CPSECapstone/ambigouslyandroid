@@ -8,17 +8,26 @@ import androidx.lifecycle.viewModelScope
 import edu.calpoly.flipted.backend.ApolloGoalsRepo
 import edu.calpoly.flipted.backend.MockGoalsRepo
 import edu.calpoly.flipted.businesslogic.goals.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class GoalsViewModel : ViewModel() {
+open class GoalsViewModel : ViewModel() {
     private val _goals : MutableLiveData<List<Goal>> = MutableLiveData()
     val goals : LiveData<List<Goal>>
         get() = _goals
 
     private val repo = ApolloGoalsRepo()
     private val getAllGoals = GetAllGoals(repo)
-    private val updateGoalCompleted = UpdateGoalCompleted(repo)
-    private val updateSubgoalCompleted = UpdateSubgoalCompleted(repo)
+    private val editGoal = EditGoal(repo)
+
+    init {
+        viewModelScope.launch {
+            while(true) {
+                delay(5000)
+                fetchGoals()
+            }
+        }
+    }
 
     fun fetchGoals() {
         viewModelScope.launch {
@@ -28,7 +37,7 @@ class GoalsViewModel : ViewModel() {
 
     fun setGoalCompleted(goal: Goal, isComplete: Boolean) {
         viewModelScope.launch {
-            val updatedGoal = updateGoalCompleted.execute(goal, isComplete)
+            val updatedGoal = UpdateGoalCompleted.execute(goal, isComplete)
             // We think we just marked the goal as complete.
             // However, something may have gone wrong when marking the goal as complete.
             // To prevent the server and client from getting out-of-sync, we'll refresh the
@@ -41,20 +50,21 @@ class GoalsViewModel : ViewModel() {
                 else
                     it
             }
-
+            editGoal.execute(updatedGoal)
             _goals.value = getAllGoals.execute()
         }
     }
 
     fun setSubgoalCompleted(goal: Goal, subgoal: SubGoal, isComplete: Boolean) {
         viewModelScope.launch {
-            val updatedGoal = updateSubgoalCompleted.execute(goal, subgoal, isComplete)
+            val updatedGoal = UpdateSubgoalCompleted.execute(goal, subgoal, isComplete)
             _goals.value = goals.value!!.map {
                 if(it.uid == updatedGoal.uid)
                     updatedGoal
                 else
                     it
             }
+            editGoal.execute(updatedGoal)
             _goals.value = getAllGoals.execute()
         }
     }

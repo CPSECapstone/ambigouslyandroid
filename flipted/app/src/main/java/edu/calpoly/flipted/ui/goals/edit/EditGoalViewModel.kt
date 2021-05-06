@@ -11,16 +11,15 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 class EditGoalViewModel : ViewModel() {
-    private val _goal = MutableLiveData<UnsavedNewGoal>()
+    private val _goal = MutableLiveData<Goal>()
 
     private val repo = ApolloGoalsRepo()
     private val getGoal = GetGoalById(repo)
     private val editGoal = EditGoal(repo)
-    private val saveNewGoal = SaveNewGoal(repo)
 
     var currSubgoalList : List<MutableSubGoal> = listOf()
 
-    val goal: LiveData<UnsavedNewGoal>
+    val goal: LiveData<Goal>
         get() = _goal
 
     fun fetchGoal(goalId: String) {
@@ -30,52 +29,34 @@ class EditGoalViewModel : ViewModel() {
     }
 
     fun fillInEmptyGoal() {
-        _goal.value = UnsavedNewGoal("", Date(), listOf(), "", false, false, null)
+        _goal.value = Goal(null, "", Date(), false, null, listOf(), "", false, true, null)
     }
 
     fun saveGoal() {
         val saveGoal = _goal.value?.let {
-            when(it) {
-                // FIXME: Any new subgoals added to an existing goal are deleted by the mapNotNull
-                //        This is a symptom of the fact that the goals api does not currently
-                //        currently support adding new subgoals to an existing goal
-                is Goal -> Goal(it.title, it.uid, it.dueDate, it.completedDate, currSubgoalList.mapNotNull { sg -> sg.asSubGoal }, it.completed, it.category, it.favorited, it.ownedByStudent, it.pointValue)
-                else -> UnsavedNewGoal(it.title, it.dueDate, currSubgoalList.mapNotNull { sg -> sg.asUnsavedNewSubGoal }, it.category, it.favorited, it.ownedByStudent, it.pointValue)
-            }
+            Goal(it.uid, it.title, it.dueDate, it.completed, it.completedDate, currSubgoalList.map{sg -> sg.asSubGoal}, it.category, it.favorited, it.isOwnedByStudent, it.pointValue)
         } ?: throw IllegalStateException("Attempt to save null goal")
         viewModelScope.launch {
-            _goal.value = when(saveGoal) {
-                is Goal -> editGoal.execute(saveGoal)
-                else -> saveNewGoal.execute(saveGoal)
-            }
+            editGoal.execute(saveGoal)
         }
 
     }
 
     fun setGoalDueDate(date: Date) {
         _goal.value?.let {
-            _goal.value = when(it) {
-                is Goal -> Goal(it.title, it.uid, date, it.completedDate, it.subGoals, it.completed, it.category, it.favorited, it.ownedByStudent, it.pointValue)
-                else -> UnsavedNewGoal(it.title, date, it.subGoals, it.category, it.favorited, it.ownedByStudent, it.pointValue)
-            }
+            _goal.value = Goal(it.uid, it.title, date, it.completed, it.completedDate, it.subGoals, it.category, it.favorited, it.isOwnedByStudent, it.pointValue)
         }
     }
 
     fun setGoalTitleText(title: String) {
         goal.value?.let {
-            _goal.value = when(it) {
-                is Goal -> Goal(title, it.uid, it.dueDate, it.completedDate, it.subGoals, it.completed, it.category, it.favorited, it.ownedByStudent, it.pointValue)
-                else -> UnsavedNewGoal(title, it.dueDate, it.subGoals, it.category, it.favorited, it.ownedByStudent, it.pointValue)
-            }
+            _goal.value = Goal(it.uid, title, it.dueDate, it.completed, it.completedDate, it.subGoals, it.category, it.favorited, it.isOwnedByStudent, it.pointValue)
         }
     }
 
     fun setGoalCategory(category: String) {
         _goal.value?.let {
-            _goal.value = when(it) {
-                is Goal -> Goal(it.title, it.uid, it.dueDate, it.completedDate, it.subGoals, it.completed, category, it.favorited, it.ownedByStudent, it.pointValue)
-                else -> UnsavedNewGoal(it.title, it.dueDate, it.subGoals, category, it.favorited, it.ownedByStudent, it.pointValue)
-            }
+            _goal.value = Goal(it.uid, it.title, it.dueDate, it.completed, it.completedDate, it.subGoals, category, it.favorited, it.isOwnedByStudent, it.pointValue)
         }
     }
 
