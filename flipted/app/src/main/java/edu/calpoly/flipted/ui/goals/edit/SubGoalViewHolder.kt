@@ -55,8 +55,12 @@ class SubGoalViewHolder(view: View, private val adapter: GoalRecyclerViewAdapter
             override fun afterTextChanged(p0: Editable?) {
                 subGoal.title = p0.toString()
             }
+
+
         })
     }
+
+
 
     fun bind(subGoal: MutableSubGoal) {
         this.subGoal = subGoal

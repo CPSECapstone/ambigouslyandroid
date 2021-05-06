@@ -78,4 +78,10 @@ class EditGoalViewModel : ViewModel() {
         } ?: throw java.lang.IllegalStateException("Attempt to set category of null goal")
     }
 
+    fun validateGoal(): List<String> {
+        return _goal.value?.let {
+            ValidateGoals.execute(it)
+        } ?: listOf("There is no goal yet")
+    }
+
 }
