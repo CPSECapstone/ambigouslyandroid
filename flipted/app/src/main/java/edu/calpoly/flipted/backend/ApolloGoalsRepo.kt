@@ -107,7 +107,7 @@ class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
     }
 
     override suspend fun editGoal(goal: Goal): Goal {
-        val goalInput = GoalInput(Input.optional(goal.uid), goal.title, goal.dueDate, false, Input.absent(),
+        val goalInput = GoalInput(Input.optional(goal.uid), goal.title, goal.dueDate, goal.completed, Input.absent(),
                 goal.subGoals.map {
                     SubGoalInput(it.title, it.dueDate, it.completed, Input.optional(it.completedDate))
                 }, goal.category, goal.favorited, Input.absent(), Input.absent(), Input.absent())
