@@ -1,6 +1,7 @@
 package edu.calpoly.flipted.backend
 
 import edu.calpoly.flipted.businesslogic.goals.*
+import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 
 class MockGoalsRepo : GoalsRepo {
@@ -26,11 +27,18 @@ class MockGoalsRepo : GoalsRepo {
 
 
 
-    override suspend fun getAllGoals(): List<Goal> = goalsMap.values.toList()
+    override suspend fun getAllGoals(): List<Goal> {
+        delay(1000)
+        return goalsMap.values.toList()
+    }
 
-    override suspend fun getGoalById(id: String): Goal = goalsMap[id] ?: throw IllegalArgumentException("No goal with uid $uid exists")
+    override suspend fun getGoalById(id: String): Goal {
+        delay(1000)
+        return goalsMap[id] ?: throw IllegalArgumentException("No goal with uid $uid exists")
+    }
 
     override suspend fun saveNewGoal(goal: UnsavedNewGoal): Goal {
+        delay(1000)
         return Goal(
             goal.title,
             uids,
@@ -49,6 +57,7 @@ class MockGoalsRepo : GoalsRepo {
     }
 
     override suspend fun editGoal(goal: Goal): Goal {
+        delay(1000)
         if(!goalsMap.containsKey(goal.uid))
             throw IllegalArgumentException("No goal with uid ${goal.uid} exists")
         goalsMap[goal.uid] = goal
