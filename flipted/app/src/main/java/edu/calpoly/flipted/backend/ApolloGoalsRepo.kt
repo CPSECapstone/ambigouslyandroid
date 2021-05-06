@@ -4,6 +4,7 @@ import android.util.Log
 import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
+import edu.calpoly.flipted.CreateGoalMutation
 import edu.calpoly.flipted.EditOrCreateGoalMutation
 import edu.calpoly.flipted.GetAllGoalsQuery
 import edu.calpoly.flipted.SubmitTaskMutation
@@ -80,15 +81,18 @@ class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
     }
 
     override suspend fun saveNewGoal(goal: UnsavedNewGoal): Goal {
+        /*
         val goalInput = GoalInput(Input.absent(), goal.title, goal.dueDate, false, Input.absent(),
                 goal.subGoals.map {
                     SubGoalInput(it.title, it.dueDate, false, Input.absent())
                 }, goal.category, goal.favorited, Input.absent(), Input.absent(), Input.absent())
-        val mutation = EditOrCreateGoalMutation(goalInput)
+        //val mutation = EditOrCreateGoalMutation(goalInput)
+        */
+        val mutation = CreateGoalMutation(goal.title, goal.dueDate, false, goal.category, goal.favorited)
         val response = try {
             apolloClient().mutate(mutation).await()
         } catch(e: ApolloException) {
-            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            Log.e("ApolloTasksRepo", e.message, e)
             throw e
         }
 

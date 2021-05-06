@@ -2,6 +2,17 @@ mutation EditOrCreateGoal($goal: GoalInput!) {
   editOrCreateGoal(goal: $goal)
 }
 
+mutation CreateGoal($title: String!, $dueDate: Date!, $completed: Boolean!, $category: String!, $favorited: Boolean!) {
+  editOrCreateGoal(goal: {
+    title: $title
+    dueDate: $dueDate
+    completed: $completed
+    subGoals: []
+    category: $category
+    favorited: $favorited
+   })
+}
+
 query GetAllGoals {
   getAllGoals {
     id
