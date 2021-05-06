@@ -31,7 +31,6 @@ class EditGoalFragment : Fragment() {
     private lateinit var goalCategorySelector: Spinner
 
     private lateinit var subGoalsView : RecyclerView
-
     private val dateFormat = SimpleDateFormat("MMMM dd, yyyy")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,8 +80,13 @@ class EditGoalFragment : Fragment() {
         }
 
         submitGoalButton.setOnClickListener {
-            viewModel.saveGoal()
-            parentFragmentManager?.popBackStack("EditGoalFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            val errors = viewModel.validateGoal()
+            if(errors.isEmpty()) {
+                viewModel.saveGoal()
+                parentFragmentManager.popBackStack("EditGoalFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            } else {
+                Toast.makeText(requireActivity(), errors[0], Toast.LENGTH_LONG).show()
+            }
         }
 
         subGoalsView = view.findViewById(R.id.goals_fragment_create_subgoals_recyclerview)
@@ -119,8 +123,8 @@ class EditGoalFragment : Fragment() {
                 }
             }
         }
-    }
 
+    }
 
     companion object {
         // TODO: Rename and change types and number of parameters

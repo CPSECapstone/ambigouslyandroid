@@ -61,6 +61,19 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // Handle tab reselect
+                val targetFragment = when (tab!!.text) {
+                    "Home" -> StudentHomeFragment.newInstance()
+                    "Classes" -> ClassesFragment.newInstance()
+                    "My Team" -> MyTeamFragment.newInstance()
+                    "Marketplace" -> MarketplaceFragment.newInstance()
+                    "Leaderboard" -> LeaderboardFragment.newInstance()
+                    "My Progress" -> MyProgressFragment.newInstance()
+                    else -> throw IllegalStateException()
+                }
+                supportFragmentManager.commit {
+                    replace(R.id.main_view, targetFragment)
+                    setReorderingAllowed(true)
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {

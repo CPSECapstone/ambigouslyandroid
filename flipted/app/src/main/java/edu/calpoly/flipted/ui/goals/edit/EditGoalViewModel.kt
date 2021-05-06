@@ -79,4 +79,10 @@ class EditGoalViewModel : ViewModel() {
         }
     }
 
+    fun validateGoal(): List<String> {
+        return _goal.value?.let {
+            ValidateGoals.execute(it)
+        } ?: listOf("There is no goal yet")
+    }
+
 }

@@ -85,11 +85,13 @@ class TaskFragment : Fragment() {
                 tabLayout.visibility = View.GONE
                 viewPager.visibility = View.GONE
                 rubricView.visibility = View.GONE
+                rubricButton.visibility = View.GONE
             } else {
                 progressBar.visibility = View.GONE
                 tabLayout.visibility = View.VISIBLE
                 viewPager.visibility = View.VISIBLE
-                rubricView.visibility = View.VISIBLE
+                rubricView.visibility = View.GONE
+                rubricButton.visibility = View.VISIBLE
 
                 pagerAdapter.pages = it.pages
 
