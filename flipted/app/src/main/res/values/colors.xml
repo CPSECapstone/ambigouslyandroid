@@ -21,6 +21,10 @@
     <color name="black">#000000</color>
     <color name="yellow">#FFBD12</color>
 
+    <color name="notMastered">#EA6868</color>
+    <color name="nearlyMastered">#F2C94C</color>
+    <color name="mastered">#30CC30</color>
+
 
 
 </resources>
