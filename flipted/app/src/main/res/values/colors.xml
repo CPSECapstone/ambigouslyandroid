@@ -15,7 +15,8 @@
     <color name="white1">#FFFFFF</color>
     <color name="gray6">#F2F2F2</color>
     <color name="gray2">#4F4F4F</color>
-    <color name="lightgray">#828282</color>
+    <color name="gray3">#828282</color>
+    <color name="gray4">#E0E0E0</color>
     <color name="grayOut">#C4C4C4</color>
     <color name="black">#000000</color>
     <color name="yellow">#FFBD12</color>

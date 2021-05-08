@@ -98,7 +98,7 @@
         <item name="fontFamily">@font/font_poppins</item>
         <item name="fontWeight">600</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/lightgray</item>
+        <item name="android:textColor">@color/gray3</item>
     </style>
 
 </resources>
