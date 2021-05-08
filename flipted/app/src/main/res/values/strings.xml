@@ -6,9 +6,8 @@
     <string name="check_circle_desc">check_circle</string>
 
     <string name="selected_item">Selected item:</string>
-
-
-
+    <string name="learning_target_item_column_text_1">TARGET ITEM</string>
+    <string name="learning_target_item_colun_text_2">PROGRESS</string>
 
 
 </resources>

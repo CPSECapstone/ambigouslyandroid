@@ -87,6 +87,18 @@
         <item name="android:layout_marginRight">150dp</item>
     </style>
 
+    <style name="TitleStyle">
+        <item name="fontFamily">@font/font_poppins</item>
+        <item name="fontWeight">500</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">@color/blueText</item>
+    </style>
 
+    <style name="ColumnTitleStyle">
+        <item name="fontFamily">@font/font_poppins</item>
+        <item name="fontWeight">600</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/lightgray</item>
+    </style>
 
 </resources>
