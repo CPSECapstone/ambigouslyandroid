@@ -9,6 +9,5 @@ data class TaskSubmissionResult(
         val graded: Boolean,
         val pointsAwarded: Int,
         val pointsPossible: Int,
-        val results: List<AnswerResult>,
-        val err: String
+        val results: List<AnswerResult>
 )
