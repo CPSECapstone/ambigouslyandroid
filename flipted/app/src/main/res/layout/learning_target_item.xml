@@ -44,7 +44,7 @@
 
         style="@style/ColumnTitleStyle"
 
-        android:text="@string/learning_target_item_colun_text_2"
+        android:text="@string/learning_target_item_column_text_2"
         />
     <View
         android:id="@+id/learning_target_item_row_divisor_1"
@@ -55,6 +55,17 @@
         app:layout_constraintEnd_toEndOf="parent"
 
         android:background="@color/gray4"
+        />
+
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toBottomOf="@id/learning_target_item_row_divisor_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        tools:listitem="@layout/learning_objective_item"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
