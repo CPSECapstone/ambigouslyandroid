@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="masteryState">
-        <attr name="state_not_graded" format="boolean" />
-        <attr name="state_not_mastered" format="boolean" />
-        <attr name="state_nearly_mastered" format="boolean" />
-        <attr name="state_mastered" format="boolean" />
-    </declare-styleable>
-</resources>
