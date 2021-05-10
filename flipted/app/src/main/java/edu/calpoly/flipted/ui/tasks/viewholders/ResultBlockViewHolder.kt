@@ -1,5 +1,6 @@
 package edu.calpoly.flipted.ui.tasks.viewholders
 
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
 import android.text.Editable
@@ -21,7 +22,7 @@ import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TaskBlock
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
 import java.lang.IllegalStateException
 
-class ResultBlockViewHolder(view: View, val inflater: LayoutInflater, private val viewModel: TaskViewModel) : TaskBlockViewHolder(view) {
+class ResultBlockViewHolder(view: View, val inflater: LayoutInflater, private val viewModel: TaskViewModel, val context: Context) : TaskBlockViewHolder(view) {
     private val rootLayout: LinearLayout = view.findViewById(R.id.task_block_quiz_root)
 
     override fun bind(block: TaskBlock, position: Int) {
@@ -61,11 +62,11 @@ class ResultBlockViewHolder(view: View, val inflater: LayoutInflater, private va
                                 result.setChecked(true)
                                 if (questionResult.correctAnswer.contains(questionResult.studentAnswer)) {
                                     resultText.text = "Correct!"
-                                    resultText.setTextColor(Resources.getSystem().getColor(R.color.blue2))
+                                    resultText.setTextColor(ContextCompat.getColor(context, R.color.blue2))
                                     resultText.setVisibility(View.VISIBLE)
                                 } else {
                                     resultText.text = "Correct Response"
-                                    resultText.setTextColor(Resources.getSystem().getColor(R.color.correctGreen))
+                                    resultText.setTextColor(ContextCompat.getColor(context, R.color.correctGreen))
                                     resultText.setVisibility(View.VISIBLE)
                                 }
 
@@ -75,7 +76,7 @@ class ResultBlockViewHolder(view: View, val inflater: LayoutInflater, private va
                             else if (answerOption.id == questionResult.studentAnswer.toInt()) {
                                 result.setChecked(true)
                                 resultText.text = "Your Response"
-                                resultText.setTextColor(Resources.getSystem().getColor(R.color.incorrectRed))
+                                resultText.setTextColor(ContextCompat.getColor(context, R.color.incorrectRed))
                                 resultText.setVisibility(View.VISIBLE)
                             }
 

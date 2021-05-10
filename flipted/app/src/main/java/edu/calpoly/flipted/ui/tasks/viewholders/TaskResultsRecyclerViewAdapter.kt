@@ -23,7 +23,7 @@ class TaskResultsRecyclerViewAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskBlockViewHolder {
         val inflatedView = inflater.inflate(viewType, parent, false)
         return when (viewType) {
-            R.layout.task_block_quiz -> ResultBlockViewHolder(inflatedView, inflater, viewModel)
+            R.layout.task_block_quiz -> ResultBlockViewHolder(inflatedView, inflater, viewModel, fragment.requireContext())
             else -> throw IllegalArgumentException("Unknown viewType")
         }
     }

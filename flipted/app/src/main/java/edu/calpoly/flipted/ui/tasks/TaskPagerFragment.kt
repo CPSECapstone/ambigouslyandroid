@@ -30,11 +30,11 @@ private const val TASKID_ARG_PARAM = "taskId"
 class TaskFragment : Fragment() {
     private var taskId: String? = null
 
-    private lateinit var progressBar : ProgressBar
+    private lateinit var progressBar: ProgressBar
     private lateinit var tabLayout: TabLayout
-    private lateinit var viewPager : ViewPager2
-    private lateinit var rubricView : FragmentContainerView
-    private lateinit var viewModel : TaskViewModel
+    private lateinit var viewPager: ViewPager2
+    private lateinit var rubricView: FragmentContainerView
+    private lateinit var viewModel: TaskViewModel
     private lateinit var rubricButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,8 +45,8 @@ class TaskFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View = inflater.inflate(R.layout.task_pager_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,12 +75,12 @@ class TaskFragment : Fragment() {
             }
         }
 
-        if(savedInstanceState == null)
+        if (savedInstanceState == null)
             viewModel.clearTask()
 
 
         viewModel.currTask.observe(viewLifecycleOwner, Observer {
-            if(it == null) {
+            if (it == null) {
                 progressBar.visibility = View.VISIBLE
                 tabLayout.visibility = View.GONE
                 viewPager.visibility = View.GONE
@@ -111,8 +111,10 @@ class TaskFragment : Fragment() {
         }.attach()
 
 
-        viewModel.errorMessage.observe(viewLifecycleOwner, Observer{
-            Toast.makeText(requireActivity(), "Error: $it", Toast.LENGTH_LONG).show()
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+            if (it.isEmpty().not()) {
+                Toast.makeText(requireActivity(), "Error: $it", Toast.LENGTH_LONG).show()
+            }
         })
 
     }

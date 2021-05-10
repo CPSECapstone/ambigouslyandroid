@@ -104,9 +104,12 @@ class TaskViewModel : ViewModel() {
     fun submitTask(taskId: String) {
         viewModelScope.launch {
             try {
+                _errorMessage.value = ""
                 _currResponse.value = submitTaskUseCase.execute(taskId)
             } catch (e: RuntimeException) {
                 _errorMessage.value = e.message
+                _currResponse.value = TaskSubmissionResult(taskId, false, 0, 0,
+                        listOf())
             }
         }
     }
