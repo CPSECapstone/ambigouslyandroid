@@ -7,6 +7,8 @@
     <color name="white">#FFFFFF</color>
     <color name="main_grey">#DBD6D6</color>
     <color name="colorDarkGrey">#969292</color>
+    <color name="correctGreen">#bcd9ea</color>
+    <color name="incorrectRed">#d03128</color>
 
     <!--New official Colors-->
     <color name="blue1">#4274F3</color>

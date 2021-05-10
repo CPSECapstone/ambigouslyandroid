@@ -210,7 +210,7 @@ class MockTasksRepo : TasksRepo {
     override suspend fun submitTask(taskId : String) : TaskSubmissionResult {
         delay(3000)
         return TaskSubmissionResult(taskId, false, 5, 10,
-        listOf(), "")
+        listOf())
     }
 
 

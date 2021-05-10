@@ -67,9 +67,11 @@ class TaskRubricFragment : Fragment() {
                 }
             }
             else {
-                val errorMsg = view.findViewById(R.id.submit_error_msg) as TextView
-                errorMsg.text = viewModel.currResponse.value?.err
-                errorMsg.visibility = View.VISIBLE
+                viewModel.errorMessage.observe(viewLifecycleOwner, Observer{
+                    val errorMsg = view.findViewById(R.id.submit_error_msg) as TextView
+                    errorMsg.text = viewModel.errorMessage.value
+                    errorMsg.visibility = View.VISIBLE
+                })
             }
 
         })

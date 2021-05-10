@@ -26,13 +26,13 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
     override suspend fun getTask(taskId: String): Task {
         val response = try {
             apolloClient().query(GetTaskQuery(taskId)).await()
-        } catch(e: ApolloException) {
+        } catch (e: ApolloException) {
             Log.e("ApolloTasksRepo", "Error when querying backend", e)
             throw e
         }
 
-        if(response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
+        if (response.hasErrors() || response.data == null) {
+            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
             throw IllegalStateException("Error when querying backend: bad response")
         }
 
@@ -40,28 +40,31 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
 
         val task = response.data?.task ?: throw badResponseException
 
-        val completedRequirementIds : Set<String> = response.data?.retrieveTaskProgress?.finishedRequirementIds?.toSet() ?: setOf()
-        val completedQuestions : Map<String, GetTaskQuery.Answer> = response.data?.retrieveQuestionProgress?.answers?.map {
+        val completedRequirementIds: Set<String> = response.data?.retrieveTaskProgress?.finishedRequirementIds?.toSet()
+                ?: setOf()
+        val completedQuestions: Map<String, GetTaskQuery.Answer> = response.data?.retrieveQuestionProgress?.answers?.map {
             (it.questionId ?: throw badResponseException) to it
         }?.toMap() ?: mapOf()
 
         return Task(task.pages.map { page ->
             Page(page.blocks?.map { block ->
-                if(block == null) throw badResponseException
+                if (block == null) throw badResponseException
                 when {
                     block.asTextBlock != null ->
-                        TextBlock(block.asTextBlock.contents ?: throw badResponseException, block.asTextBlock.fontSize ?: throw badResponseException, block.title)
+                        TextBlock(block.asTextBlock.contents
+                                ?: throw badResponseException, block.asTextBlock.fontSize
+                                ?: throw badResponseException, block.title)
                     block.asImageBlock != null ->
                         ImageBlock(block.asImageBlock.imageUrl, block.title)
                     block.asVideoBlock != null ->
                         VideoBlock(block.asVideoBlock.videoUrl, block.title)
                     block.asQuizBlock != null ->
                         QuizBlock(block.asQuizBlock.questions?.map { question ->
-                            if(question == null) throw badResponseException
+                            if (question == null) throw badResponseException
                             when {
                                 question.asMcQuestion != null -> {
                                     val answerOptions = question.asMcQuestion.options?.map { answerOption ->
-                                        if(answerOption == null) throw badResponseException
+                                        if (answerOption == null) throw badResponseException
                                         MultipleChoiceAnswerOption(answerOption.description, answerOption.id)
                                     } ?: throw badResponseException
 
@@ -93,46 +96,46 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
                 }
             } ?: throw badResponseException, page.skippable ?: throw badResponseException)
         },
-        task.requirements.map { requirement ->
-            RubricRequirement(requirement.description ?: throw badResponseException,
-                    completedRequirementIds.contains(requirement.id),
-                    requirement.id)
-        },
-        task.id,
-        task.name,
-        task.instructions,
-        task.points,
-        task.startAt,
-        task.endAt,
-        task.dueDate,
-        task.missionId,
-        task.missionIndex,
-        task.objectiveId)
+                task.requirements.map { requirement ->
+                    RubricRequirement(requirement.description ?: throw badResponseException,
+                            completedRequirementIds.contains(requirement.id),
+                            requirement.id)
+                },
+                task.id,
+                task.name,
+                task.instructions,
+                task.points,
+                task.startAt,
+                task.endAt,
+                task.dueDate,
+                task.missionId,
+                task.missionIndex,
+                task.objectiveId)
     }
 
     override suspend fun saveRubricProgress(progress: TaskRubricProgress) {
         val progressInput = TaskProgressInput(
                 progress.task.uid,
-            progress.finishedRequirements.map {
-            it.uid
-        })
+                progress.finishedRequirements.map {
+                    it.uid
+                })
         val progressMutation = SubmitTaskProgressMutation(progressInput)
         val response = try {
             apolloClient().mutate(progressMutation).await()
-        } catch(e: ApolloException) {
+        } catch (e: ApolloException) {
             e.printStackTrace()
             Log.e("ApolloTasksRepo", "Error when querying backend", e)
             return
         }
 
-        if(response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
+        if (response.hasErrors() || response.data == null) {
+            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
             return
         }
     }
 
     override suspend fun saveQuizAnswer(answer: TaskQuizAnswer) {
-        val mutation = when(answer.answer.chosenAnswerValue) {
+        val mutation = when (answer.answer.chosenAnswerValue) {
             is MultipleChoiceAnswer -> SaveMcProgressMutation(MultipleChoiceAnswerInput(answer.task.uid, answer.block.uid, answer.answer.questionId, answer.answer.chosenAnswerValue.chosenAnswer.id))
             is FreeResponseAnswer -> SaveFreeResponseProgressMutation(FreeResponseAnswerInput(answer.task.uid, answer.block.uid, answer.answer.questionId, answer.answer.chosenAnswerValue.response))
             else -> throw IllegalArgumentException("Unknown answer type")
@@ -140,13 +143,13 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
 
         val response = try {
             apolloClient().mutate(mutation).await()
-        } catch(e: ApolloException) {
+        } catch (e: ApolloException) {
             Log.e("ApolloTasksRepo", "Error when querying backend", e)
             return
         }
 
-        if(response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
+        if (response.hasErrors() || response.data == null) {
+            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
             return
         }
     }
@@ -155,25 +158,24 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         val mutation = SubmitTaskMutation(taskId)
         val response = try {
             apolloClient().mutate(mutation).await()
-        } catch(e: ApolloException) {
+        } catch (e: ApolloException) {
             val message = "Task submission unavailable right now. Please make sure you are not offline."
             Log.e("ApolloTasksRepo", "Error when querying backend", e)
-            return TaskSubmissionResult(taskId, false, 0, 0, emptyList(), message)
+            throw IllegalStateException(message)
         }
 
-        if(response.hasErrors() || response.data == null) {
+        if (response.hasErrors() || response.data == null) {
             val message = response.errors?.get(0)?.message
             if (message != null) {
-                return TaskSubmissionResult(taskId, false, 0, 0, emptyList(), message)
-            }
-            else {
-                Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
-                throw IllegalStateException("Error when querying backend: bad response")
+                throw IllegalStateException(message)
+            } else {
+                Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
+                throw IllegalStateException("Task submission unavailable right now.")
             }
         }
         val badResponseException = IllegalStateException("Error when querying backend: bad response")
 
-        val result = response.data?.submitTask?: throw badResponseException
+        val result = response.data?.submitTask ?: throw badResponseException
 
         return TaskSubmissionResult(taskId, result.graded, result.pointsAwarded!!, result.pointsPossible!!,
                 result.questionAndAnswers!!.map { qa ->
@@ -181,18 +183,17 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
                         qa.question.asMcQuestion != null ->
                             qa.question.asMcQuestion.id
                         else ->
-                           qa.question.asFrQuestion?.id!!
-                    } ,
-                    when {
-                        qa.question.asMcQuestion != null ->
-                            qa.question.asMcQuestion.answers!!.map{it.toString()}
-                        qa.question.asFrQuestion?.answer != null ->
-                            listOf(qa.question.asFrQuestion.answer)
-                        else ->
-                            listOf("")
-                    }
-                    , qa.answer?.answer!!, qa.answer.pointsAwarded!!)
-                }, "")
+                            qa.question.asFrQuestion?.id!!
+                    },
+                            when {
+                                qa.question.asMcQuestion != null ->
+                                    qa.question.asMcQuestion.answers!!.map { it.toString() }
+                                qa.question.asFrQuestion?.answer != null ->
+                                    listOf(qa.question.asFrQuestion.answer)
+                                else ->
+                                    listOf("")
+                            }, qa.answer?.answer!!, qa.answer.pointsAwarded!!)
+                })
     }
 
 }
