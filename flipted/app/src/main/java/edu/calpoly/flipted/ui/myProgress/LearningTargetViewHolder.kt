@@ -1,5 +1,6 @@
 package edu.calpoly.flipted.ui.myProgress
 
+import android.animation.LayoutTransition
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.view.LayoutInflater
@@ -33,6 +34,11 @@ class LearningTargetViewHolder(view: View, private val context: Context) : Recyc
             val masteryIndicator: ImageView = fillInObjective.findViewById(R.id.learning_objective_item_mastery_indicator)
             val objectiveTitle: TextView = fillInObjective.findViewById(R.id.learning_objective_item_title)
             val taskContainer: LinearLayout = fillInObjective.findViewById(R.id.learning_objective_item_task_container)
+
+            val layoutTransition = LayoutTransition()
+            layoutTransition.disableTransitionType(LayoutTransition.DISAPPEARING)
+            layoutTransition.disableTransitionType(LayoutTransition.CHANGE_DISAPPEARING)
+            taskContainer.layoutTransition = layoutTransition
 
             fillInObjective.setOnClickListener{
                 // Note: the equality comparison with a boolean value is necessary because of the implicit null check
