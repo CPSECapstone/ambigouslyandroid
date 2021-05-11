@@ -75,8 +75,6 @@
 
             style="@style/MasteryTextStyle"
 
-            app:textFontWeight="800"
-
             tools:text="MASTERED"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>

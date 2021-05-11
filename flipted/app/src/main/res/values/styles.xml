@@ -88,29 +88,29 @@
     </style>
 
     <style name="TitleStyle">
-        <item name="fontFamily">@font/font_poppins</item>
-        <item name="fontWeight">500</item>
+        <item name="android:fontFamily">@font/font_poppins</item>
+        <item name="android:textFontWeight">500</item>
         <item name="android:textSize">36sp</item>
         <item name="android:textColor">@color/blueText</item>
     </style>
 
     <style name="ColumnTitleStyle">
-        <item name="fontFamily">@font/font_poppins</item>
-        <item name="fontWeight">600</item>
+        <item name="android:fontFamily">@font/font_poppins</item>
+        <item name="android:textFontWeight">600</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/gray3</item>
     </style>
 
     <style name="Heading2Style">
-        <item name="fontFamily">@font/font_poppins</item>
-        <item name="fontWeight">500</item>
+        <item name="android:fontFamily">@font/font_poppins</item>
+        <item name="android:textFontWeight">500</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="MasteryTextStyle">
-        <item name="fontFamily">@font/font_poppins</item>
-        <item name="fontWeight">700</item>
+        <item name="android:fontFamily">@font/font_poppins</item>
+        <item name="android:textFontWeight">700</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
