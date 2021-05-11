@@ -5,7 +5,11 @@
     <string name="prog_text">Mark Progress</string>
     <string name="check_circle_desc">check_circle</string>
 
+    <string name="graded">This is your final score.</string>
+    <string name="ungraded">Some of the questions have not been graded yet.</string>
+
     <string name="selected_item">Selected item:</string>
+
     <string name="learning_target_item_column_text_1">TARGET ITEM</string>
     <string name="learning_target_item_column_text_2">MASTERY</string>
 
