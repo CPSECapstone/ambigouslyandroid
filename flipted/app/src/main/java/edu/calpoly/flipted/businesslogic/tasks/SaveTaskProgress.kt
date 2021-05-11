@@ -1,6 +1,7 @@
 package edu.calpoly.flipted.businesslogic.tasks
 
-import edu.calpoly.flipted.businesslogic.tasks.data.TaskQuizAnswer
+import edu.calpoly.flipted.businesslogic.errors.ResponseOrError
+import edu.calpoly.flipted.businesslogic.tasks.data.QuizBlockStudentAnswerInput
 import edu.calpoly.flipted.businesslogic.tasks.data.TaskRubricProgress
 
 class SaveTaskProgress(
@@ -10,7 +11,7 @@ class SaveTaskProgress(
         repo.saveRubricProgress(progress)
     }
 
-    suspend fun saveQuizAnswer(answer: TaskQuizAnswer) {
-        repo.saveQuizAnswer(answer)
+    suspend fun saveQuizAnswer(answer: QuizBlockStudentAnswerInput) : ResponseOrError<QuizBlockStudentAnswerInput> {
+        return repo.saveQuizAnswer(answer)
     }
 }

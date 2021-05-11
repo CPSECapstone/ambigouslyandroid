@@ -1,5 +1,6 @@
 package edu.calpoly.flipted.backend
 
+import edu.calpoly.flipted.businesslogic.errors.ResponseOrError
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQuestion
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceAnswerOption
@@ -109,10 +110,11 @@ class MockTasksRepo : TasksRepo {
         }
     }
 
-    override suspend fun saveQuizAnswer(answer: TaskQuizAnswer) {
+    override suspend fun saveQuizAnswer(answer: QuizBlockStudentAnswerInput): ResponseOrError<QuizBlockStudentAnswerInput> {
         if(answer.task.uid != mockedTask.uid)
             throw IllegalArgumentException("No task with ${answer.task.uid} exists")
         savedQuestionAnswers[answer.answer.questionId] = answer.answer
+        return ResponseOrError.withResponse(answer)
     }
 
     override suspend fun submitTask(taskId : String) : TaskSubmissionResult {
