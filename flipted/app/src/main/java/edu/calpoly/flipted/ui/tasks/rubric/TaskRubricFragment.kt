@@ -20,7 +20,6 @@ import edu.calpoly.flipted.businesslogic.UidToStableId
 import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
 import edu.calpoly.flipted.ui.tasks.TaskResultsFragment
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
-import kotlinx.android.synthetic.main.task_rubric_fragment.view.*
 
 
 class TaskRubricFragment : Fragment() {
