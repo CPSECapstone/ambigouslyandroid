@@ -1,19 +1,23 @@
 package edu.calpoly.flipted.ui.tasks
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
+import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-
 import edu.calpoly.flipted.R
+import edu.calpoly.flipted.ui.tasks.rubric.TaskRubricFragment
+import java.util.*
 
 private const val TASKID_ARG_PARAM = "taskId"
 
@@ -25,11 +29,12 @@ private const val TASKID_ARG_PARAM = "taskId"
 class TaskFragment : Fragment() {
     private var taskId: String? = null
 
-    private lateinit var progressBar : ProgressBar
+    private lateinit var progressBar: ProgressBar
     private lateinit var tabLayout: TabLayout
-    private lateinit var viewPager : ViewPager2
-
-    private lateinit var viewModel : TaskViewModel
+    private lateinit var viewPager: ViewPager2
+    private lateinit var rubricView: FragmentContainerView
+    private lateinit var viewModel: TaskViewModel
+    private lateinit var rubricButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +44,8 @@ class TaskFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View = inflater.inflate(R.layout.task_pager_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,19 +58,52 @@ class TaskFragment : Fragment() {
         progressBar = view.findViewById(R.id.task_pager_progressbar)
         tabLayout = view.findViewById(R.id.task_pager_tabs)
         viewPager = view.findViewById(R.id.task_pager)
+        rubricView = view.findViewById(R.id.task_pager_rubric_container)
+
+        rubricButton = view.findViewById(R.id.task_button_rubric)
 
         val pagerAdapter = TaskPagerAdapter(this)
+        var clickNum: Int = 0
+        rubricButton.setOnClickListener {
+            if (clickNum == 0) {
+                rubricView.visibility = View.VISIBLE
+                clickNum++
+            } else if (clickNum == 1) {
+                rubricView.visibility = View.GONE
+                clickNum = 0
+            }
+        }
+
+        if (savedInstanceState == null)
+            viewModel.clearTask()
+
 
         viewModel.currTask.observe(viewLifecycleOwner, Observer {
-            progressBar.visibility = View.GONE
-            tabLayout.visibility = View.VISIBLE
-            viewPager.visibility = View.VISIBLE
+            if (it == null) {
+                progressBar.visibility = View.VISIBLE
+                tabLayout.visibility = View.GONE
+                viewPager.visibility = View.GONE
+                rubricView.visibility = View.GONE
+                rubricButton.visibility = View.GONE
+            } else {
+                progressBar.visibility = View.GONE
+                tabLayout.visibility = View.VISIBLE
+                viewPager.visibility = View.VISIBLE
+                rubricView.visibility = View.GONE
+                rubricButton.visibility = View.VISIBLE
 
-            pagerAdapter.pages = it.pages
+                pagerAdapter.pages = it.pages
+
+                childFragmentManager.commit {
+                    replace(R.id.task_pager_rubric_container, TaskRubricFragment.newInstance())
+                    setReorderingAllowed(true)
+                }
+            }
         })
 
         viewModel.lastError.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(requireActivity(), it.message, Toast.LENGTH_LONG).show()
+            if(it != null)
+                Toast.makeText(requireActivity(), it.message, Toast.LENGTH_LONG).show()
         })
 
         viewModel.fetchTask(id)

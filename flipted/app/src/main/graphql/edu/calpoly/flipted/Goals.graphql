@@ -1,0 +1,34 @@
+mutation EditOrCreateGoal($goal: GoalInput!) {
+  editOrCreateGoal(goal: $goal)
+}
+
+query GetAllGoals {
+  getAllGoals {
+    ...allGoalFields
+  }
+}
+
+query GetGoalById($id: String!, $userId: String!) {
+  getGoalById(id:$id, user:$userId) {
+    ...allGoalFields
+  }
+}
+
+fragment allGoalFields on Goal {
+  id
+  title
+  dueDate
+  completed
+  completedDate
+  category
+  favorited
+  owner
+  assignee
+  pointValue
+  subGoals {
+   title
+   dueDate
+   completed
+   completedDate
+  }
+}

@@ -17,8 +17,7 @@
         android:layout_marginTop="80dp"
 
         android:indeterminateTint="@color/colorPrimaryDark"
-
-        android:visibility="gone"/>
+        />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/task_pager_tabs"
@@ -28,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/task_pager_rubric_container"
         app:layout_constraintTop_toTopOf="parent"
-
+        android:visibility="gone"
         />
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/task_pager"
@@ -39,7 +38,7 @@
         app:layout_constraintEnd_toStartOf="@id/task_pager_rubric_container"
         app:layout_constraintTop_toBottomOf="@+id/task_pager_tabs"
         app:layout_constraintBottom_toBottomOf="parent"
-
+        android:visibility="gone"
         />
 
     <androidx.fragment.app.FragmentContainerView
@@ -50,6 +49,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:name="edu.calpoly.flipted.ui.tasks.rubric.TaskRubricFragment"
+        android:visibility="gone"
         />
+
+    <edu.calpoly.flipted.ui.tasks.rubric.VerticalButton
+        android:id="@+id/task_button_rubric"
+        android:layout_width="35dp"
+        android:layout_height="match_parent"
+        android:text="Task Rubric"
+        android:textColor="@color/blue1"
+        android:background="@color/blue2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

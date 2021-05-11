@@ -1,13 +1,20 @@
 package edu.calpoly.flipted.ui.tasks
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
+import edu.calpoly.flipted.businesslogic.tasks.data.Page
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
+import edu.calpoly.flipted.ui.tasks.viewholders.TaskRecyclerViewAdapter
+import edu.calpoly.flipted.ui.tasks.viewholders.TaskResultsRecyclerViewAdapter
 import java.lang.IllegalStateException
 
 /**
@@ -30,8 +37,8 @@ class TaskResultsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val pointsAwarded : TextView = view.findViewById(R.id.total_awarded_points)
-        val hasBeenGraded : TextView = view.findViewById(R.id.has_been_graded)
+        val pointsAwarded: TextView = view.findViewById(R.id.total_awarded_points)
+        val hasBeenGraded: TextView = view.findViewById(R.id.has_been_graded)
 
         val viewModel = ViewModelProvider(requireActivity())[TaskViewModel::class.java]
 
@@ -39,14 +46,36 @@ class TaskResultsFragment : Fragment() {
                 ?: throw IllegalStateException("No response found")
         val currTask = viewModel.currTask.value
                 ?: throw IllegalStateException("No task found")
-        pointsAwarded.text = "${currResponse.pointsAwarded} out of ${currTask.points} points"
+        pointsAwarded.text = "${currResponse.pointsAwarded} out of ${currResponse.pointsPossible} points"
 
         if (currResponse.graded) {
-            hasBeenGraded.text = "This is your final score."
+            hasBeenGraded.text = getString(R.string.graded)
+        } else {
+            hasBeenGraded.text = getString(R.string.ungraded)
         }
-        else {
-            hasBeenGraded.text = "Some of the questions have not been graded yet."
+
+        val recyclerView: RecyclerView = view.findViewById(R.id.task_results_recyclerview)
+
+        val adapter = TaskResultsRecyclerViewAdapter(this)
+
+        val blocks = mutableListOf<QuizBlock>()
+
+        recyclerView.adapter = adapter
+
+        val layoutManager = LinearLayoutManager(requireActivity())
+
+
+        layoutManager.setAutoMeasureEnabled(true)
+        recyclerView.layoutManager = layoutManager
+
+        recyclerView.setNestedScrollingEnabled(false)
+
+        currTask.pages.filter { page ->
+            blocks.addAll(page.blocks.filterIsInstance<QuizBlock>())
         }
+
+        adapter.taskBlocks = blocks
+
     }
 
     companion object {

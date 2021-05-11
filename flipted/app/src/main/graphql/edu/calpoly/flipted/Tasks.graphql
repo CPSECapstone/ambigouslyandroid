@@ -1,6 +1,35 @@
-mutation SubmitTaskProgress($taskProgress: TaskProgressInput!) {
-  submitTaskProgress(taskProgress: $taskProgress) {
+mutation SubmitTask($taskId: String!) {
+  submitTask(taskId: $taskId) {
+    graded
+    pointsAwarded
+    pointsPossible
+    questionAndAnswers {
+      question {
+        ... on FrQuestion {
+          id
+          description
+          points
+          answer
+        }
+        ... on McQuestion {
+          id
+          description
+          points
+          answers
+        }
+      }
+      answer {
+        questionId
+        pointsAwarded
+        answer
+      }
     }
+    teacherComment
+  }
+}
+
+mutation SubmitTaskProgress($taskProgress: TaskProgressInput!) {
+  submitTaskProgress(taskProgress: $taskProgress)
 }
 
 mutation SaveMcProgress($mcInput:MultipleChoiceAnswerInput!) {
@@ -8,4 +37,64 @@ mutation SaveMcProgress($mcInput:MultipleChoiceAnswerInput!) {
 }
 mutation SaveFreeResponseProgress($freeResponseInput:FreeResponseAnswerInput!) {
   saveFreeResponseProgress(frBlockInput:$freeResponseInput)
+}
+
+query GetTask($taskId:String!) {
+  task(taskId:$taskId) {
+    id,
+    name,
+    instructions,
+    points,
+    startAt,
+    endAt,
+    dueDate,
+    missionId,
+    missionIndex,
+    pages {
+     blocks {
+       title
+       ...on TextBlock {
+         contents,
+         fontSize
+       },
+       ...on ImageBlock {
+         imageUrl
+       },
+       ...on VideoBlock {
+         videoUrl
+       },
+       ...on QuizBlock {
+         blockId,
+         requiredScore,
+         points,
+         questions {
+           id,
+           description,
+           points,
+           ...on McQuestion {
+             options {
+               id,
+               description
+             }
+           }
+         }
+       }
+     },
+     skippable
+    },
+    requirements {
+     id,
+     description
+    }
+  }
+  retrieveTaskProgress(taskId:$taskId){
+    finishedRequirementIds
+  }
+  retrieveQuestionProgress(taskId:$taskId) {
+    answers {
+      questionId,
+      pointsAwarded,
+      answer
+    }
+  }
 }

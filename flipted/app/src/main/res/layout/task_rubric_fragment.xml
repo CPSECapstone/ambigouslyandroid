@@ -1,35 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    android:gravity="center_horizontal"
-    android:background="@color/colorAccent">
+    app:cardUseCompatPadding="true"
+    app:cardElevation="10dp"
+    android:elevation="5dp"
+    app:cardCornerRadius="5dp"
+    android:layout_margin="5dp"
+    >
 
-    <TextView
-        android:id="@+id/mc_question"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TASK RUBRIC"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="22sp"
-        android:paddingBottom="10dp"/>
 
-    <ListView
-        android:id="@+id/rubric_items_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/task_rubric_checkbox" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:background="@color/white1">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SUBMIT"
-        android:id="@+id/task_submit_button"
-        android:layout_marginTop="20dp"/>
-</LinearLayout>
+
+        <TextView
+            android:id="@+id/task_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:text="TASK RUBRIC"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/blue1"
+            android:textSize="30dp"
+            android:textStyle="bold"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ListView
+            android:id="@+id/rubric_items_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            tools:listitem="@layout/task_rubric_checkbox"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="19dp"
+
+            android:layout_marginBottom="20dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/task_name"
+            app:layout_constraintBottom_toTopOf="@id/task_submit_button"/>
+
+
+        <Button
+            android:id="@+id/task_submit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grey_out_button"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Submit Task"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:enabled="false"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/submit_error_msg"
+           />
+
+        <TextView
+            android:id="@+id/submit_error_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Task Submission Error"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="20sp"
+            android:paddingTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone"
+            />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.cardview.widget.CardView>

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
+    android:id="@+id/task_block_image_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
-    android:gravity="center_horizontal">
-
+    android:gravity="center_horizontal"
+    tools:background="@color/white">
 
     <TextView
         android:id="@+id/task_image_block_title"
+        style="@style/TaskBlockTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15pt"
@@ -19,11 +20,10 @@
 
     <ImageView
         android:id="@+id/task_block_image"
+        style="@style/TaskBlockImageStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:srcCompat="@tools:sample/backgrounds/scenic"
-        android:paddingLeft="15pt"
-        android:paddingRight="15pt"
         />
 
 </LinearLayout>

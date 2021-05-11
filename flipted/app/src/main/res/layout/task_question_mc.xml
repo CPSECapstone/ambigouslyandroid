@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="@color/white1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp">
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="15dp">
 
     <TextView
         android:id="@+id/mc_question"
@@ -16,23 +18,35 @@
         tools:text="1. Some question here"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
-        android:paddingBottom="5dp"/>
+        android:paddingTop="5dp"
+        android:layout_weight="0.8"/>
+    <TextView
+        android:id="@+id/question_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2"
+        tools:text="0/4 points"
+        android:paddingLeft="100dp"
+        android:gravity="right"
+        android:textAlignment="gravity"
+        android:textSize="16sp"
+        android:layout_marginStart="20dp"
+        android:visibility="gone"/>
+
+    </LinearLayout>
     <TextView
         android:id="@+id/question_issue_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         tools:text="Missing answer"
-
         android:textSize="18sp"
         android:textColor="#CF0000"
-        android:layout_marginStart="20dp"
-
-        android:visibility="gone"/>
+        android:layout_marginStart="20dp"/>
 
     <RadioGroup
         android:id="@+id/answers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:orientation="vertical"/>
+
 </LinearLayout>
