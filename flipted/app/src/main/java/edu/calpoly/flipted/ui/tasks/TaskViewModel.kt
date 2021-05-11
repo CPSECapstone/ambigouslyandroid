@@ -16,10 +16,10 @@ import kotlinx.coroutines.launch
 
 
 class TaskViewModel : ViewModel() {
-    private val _currTask : MutableLiveData<Task> = MutableLiveData()
-    private var _currResponse : MutableLiveData<TaskSubmissionResult> = MutableLiveData()
-    private val _errorMessage : MutableLiveData<String> = MutableLiveData()
-    val errorMessage : LiveData<String>
+    private val _currTask: MutableLiveData<Task> = MutableLiveData()
+    private val _currResponse: MutableLiveData<TaskSubmissionResult> = MutableLiveData()
+    private val _errorMessage: MutableLiveData<String> = MutableLiveData()
+    val errorMessage: LiveData<String>
         get() = _errorMessage
 
     private val repo = ApolloTasksRepo()
@@ -28,10 +28,10 @@ class TaskViewModel : ViewModel() {
     private val saveTaskProgressUseCase = SaveTaskProgress(repo)
 
 
-    val currTask : LiveData<Task?>
+    val currTask: LiveData<Task?>
         get() = _currTask
 
-    val currResponse : LiveData<TaskSubmissionResult?>
+    val currResponse: LiveData<TaskSubmissionResult?>
         get() = _currResponse
 
     fun clearTask() {
@@ -41,9 +41,9 @@ class TaskViewModel : ViewModel() {
 
     private val requirements: MutableLiveData<Map<String, RubricRequirement>> = MutableLiveData()
     private val questionAnswers = MutableLiveData<Map<String, StudentAnswerInput>>()
-    private var allQuestions : List<Question> = listOf()
+    private var allQuestions: List<Question> = listOf()
 
-    fun fetchTask(taskId : String) {
+    fun fetchTask(taskId: String) {
         viewModelScope.launch {
             val task = try {
                 getTaskUseCase.execute(taskId)
@@ -57,10 +57,10 @@ class TaskViewModel : ViewModel() {
             allQuestions = task.pages
                     .flatMap { it.blocks }
                     .filterIsInstance<QuizBlock>()
-                    .flatMap {it.questions}
+                    .flatMap { it.questions }
             questionAnswers.value = allQuestions
-                    .mapNotNull {
-                        question -> question.savedAnswer?.let{StudentAnswerInput(question.uid, it)}
+                    .mapNotNull { question ->
+                        question.savedAnswer?.let { StudentAnswerInput(question.uid, it) }
                     }
                     .associateBy { it.questionId }
         }
@@ -69,9 +69,10 @@ class TaskViewModel : ViewModel() {
     fun saveRubricRequirement(requirement: RubricRequirement) {
         val task = currTask.value ?: throw IllegalStateException("No task")
 
-        val updatedRequirementsMap = (requirements.value ?: mapOf()) + Pair(requirement.uid, requirement)
+        val updatedRequirementsMap = (requirements.value
+                ?: mapOf()) + Pair(requirement.uid, requirement)
 
-        val requirementProgress = TaskRubricProgress(updatedRequirementsMap.values.filter{it.isComplete}.toList(), task)
+        val requirementProgress = TaskRubricProgress(updatedRequirementsMap.values.filter { it.isComplete }.toList(), task)
         viewModelScope.launch {
             try {
                 saveTaskProgressUseCase.saveRubricProgress(requirementProgress)
@@ -83,7 +84,6 @@ class TaskViewModel : ViewModel() {
     }
 
 
-
     fun saveQuizAnswer(answer: StudentAnswerInput, block: QuizBlock) {
         val task = currTask.value ?: throw IllegalStateException("No task")
 
@@ -92,17 +92,25 @@ class TaskViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 saveTaskProgressUseCase.saveQuizAnswer(answerProgress)
-                questionAnswers.value = (questionAnswers.value ?: mapOf()) + Pair(answer.questionId, answer)
-            } catch(e: RuntimeException) {
+                questionAnswers.value = (questionAnswers.value
+                        ?: mapOf()) + Pair(answer.questionId, answer)
+            } catch (e: RuntimeException) {
                 _errorMessage.value = e.message
             }
         }
     }
 
 
-    fun submitTask(taskId : String) {
+    fun submitTask(taskId: String) {
         viewModelScope.launch {
-            _currResponse.value = submitTaskUseCase.execute(taskId)
+            try {
+                _errorMessage.value = ""
+                _currResponse.value = submitTaskUseCase.execute(taskId)
+            } catch (e: RuntimeException) {
+                _errorMessage.value = e.message
+                _currResponse.value = TaskSubmissionResult(taskId, false, 0, 0,
+                        listOf())
+            }
         }
     }
 
@@ -113,12 +121,13 @@ class TaskViewModel : ViewModel() {
         }
     }
     private val allQuestionsAnswered = Transformations.map(questionAnswers) { answers ->
-        allQuestions.fold(true) {acc, question ->
+        allQuestions.fold(true) { acc, question ->
             acc && answers.containsKey(question.uid)
         }
     }
 
     private val _eligibleForSubmission = MediatorLiveData<Boolean>()
+
     init {
         _eligibleForSubmission.addSource(allRequirementsComplete) {
             _eligibleForSubmission.value = (allQuestionsAnswered.value ?: false) && it
