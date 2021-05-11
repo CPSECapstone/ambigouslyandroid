@@ -108,4 +108,11 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="MasteryTextStyle">
+        <item name="fontFamily">@font/font_poppins</item>
+        <item name="fontWeight">700</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 </resources>
