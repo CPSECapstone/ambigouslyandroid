@@ -1,11 +1,13 @@
 package edu.calpoly.flipted.ui.myProgress
 
 import android.content.Context
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
@@ -37,6 +39,10 @@ class LearningTargetViewHolder(view: View, private val context: Context) : Recyc
                 if(expandedMap[objectiveProgress.objectiveId] == true) {
                     expandedMap[objectiveProgress.objectiveId] = false
                     taskContainer.removeAllViews()
+
+                    val groupIndicatorDrawable = ContextCompat.getDrawable(context, R.drawable.left_group_indicator_anim_rev) as AnimatedVectorDrawable
+                    groupIndicator.setImageDrawable(groupIndicatorDrawable)
+                    groupIndicatorDrawable.start()
                 } else {
                     expandedMap[objectiveProgress.objectiveId] = true
                     objectiveProgress.tasks.forEach { taskProgress ->
@@ -56,6 +62,10 @@ class LearningTargetViewHolder(view: View, private val context: Context) : Recyc
                         indicatorText.setText(stringResource)
 
                         taskContainer.addView(fillInTask)
+
+                        val groupIndicatorDrawable = ContextCompat.getDrawable(context, R.drawable.left_group_indicator_anim_fwd) as AnimatedVectorDrawable
+                        groupIndicator.setImageDrawable(groupIndicatorDrawable)
+                        groupIndicatorDrawable.start()
                     }
                 }
             }
