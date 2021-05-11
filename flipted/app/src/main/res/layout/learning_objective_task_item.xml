@@ -10,7 +10,7 @@
         android:layout_height="0dp"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/learning_objective_task_item_mastery_indicator"
+        app:layout_constraintEnd_toStartOf="@id/learning_objective_task_item_mastery_indicator_group"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
 
@@ -35,7 +35,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/learning_objective_task_item_mastery_indicator"
+        android:id="@+id/learning_objective_task_item_mastery_indicator_group"
         android:layout_width="0dp"
         android:layout_height="0dp"
 
@@ -47,6 +47,7 @@
         app:layout_constraintHorizontal_weight="4"
         >
         <ImageView
+            android:id="@+id/learning_objective_task_item_mastery_indicator_color"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="fitXY"
@@ -56,14 +57,12 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
 
-            android:paddingEnd="30dp"
-            android:paddingStart="0dp"
-
             android:src="@drawable/mastery_indicator_large"
 
             tools:tint="@color/mastered"
         />
         <TextView
+            android:id="@+id/learning_objective_task_item_mastery_indicator_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 

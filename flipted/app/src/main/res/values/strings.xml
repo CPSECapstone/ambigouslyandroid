@@ -9,5 +9,10 @@
     <string name="learning_target_item_column_text_1">TARGET ITEM</string>
     <string name="learning_target_item_column_text_2">MASTERY</string>
 
+    <string name="mastery_not_graded">NOT GRADED</string>
+    <string name="mastery_not_mastered">NOT MASTERED</string>
+    <string name="mastery_nearly_mastered">NEARLY MASTERED</string>
+    <string name="mastery_mastered">MASTERED</string>
+
 
 </resources>

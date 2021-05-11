@@ -58,12 +58,20 @@
         />
 
     <ExpandableListView
+        android:id="@+id/learning_target_item_objective_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         app:layout_constraintTop_toBottomOf="@id/learning_target_item_row_divisor_1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+
+        android:paddingHorizontal="10dp"
+
+        android:divider="@android:color/background_light"
+        android:dividerHeight="0.5dp"
+
+        android:groupIndicator="@null"
 
         tools:listitem="@layout/learning_objective_item"
         />
