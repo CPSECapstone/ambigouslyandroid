@@ -9,9 +9,9 @@ import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TaskBlock
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TextBlock
 
 class TextBlockViewHolder(view : View) : TaskBlockViewHolder(view) {
-    private val title : TextView = view.findViewById(R.id.text_block_text_title)
-    private val text : TextView = view.findViewById(R.id.text_block_text)
-    private val colorOfBlock: LinearLayout = view.findViewById(R.id.text_block_text_root)
+    private val title : TextView = view.findViewById(R.id.task_block_text_title)
+    private val text : TextView = view.findViewById(R.id.task_block_text)
+    private val colorOfBlock: LinearLayout = view.findViewById(R.id.task_block_text_root)
 
     override fun bind(block: TaskBlock, position: Int) {
         val textBlock = block as TextBlock
