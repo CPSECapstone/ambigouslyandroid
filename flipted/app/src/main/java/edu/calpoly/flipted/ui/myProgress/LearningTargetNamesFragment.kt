@@ -86,20 +86,18 @@ class LearningTargetNamesFragment  : Fragment() {
             targetText.text = data.targetName
 
             //color relates to if in current list or not
-
             targetText.setOnClickListener{ view ->
-                updateSelectedTargets(
-                if (.any{data.uid == it}) {
-                remove
-                change color
-            }
+                val result = viewModel.updateSelectedTargets(data.uid)
+                if (viewModel.allSelected.value!!) {
+                    allTargets.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray2))
+                }
+                if (result) {
+                    targetText.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                }
                 else {
-                add
-                change color
+                targetText.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray2))
+                }
             }
-            }
-
-
             return fillInView
         }
 

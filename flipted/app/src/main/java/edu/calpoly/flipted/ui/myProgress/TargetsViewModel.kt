@@ -22,13 +22,16 @@ class TargetsViewModel : ViewModel() {
     private val repo = MockLearningTargetRepo()
     private val getAllTargetProgressUseCase = GetAllTargetProgress(repo)
 
-    private val allSelected : MutableLiveData<Boolean> = MutableLiveData(true)
+    private val _allSelected : MutableLiveData<Boolean> = MutableLiveData(true)
 
     val selectedTargetList: LiveData<MutableList<LearningTarget>?>
         get() = _selectedTargetList
 
     val targetMap: LiveData<MutableMap<LearningTarget, Boolean>?>
         get() = _targetMap
+
+    val allSelected: LiveData<Boolean>
+        get() = _allSelected
 
     fun fetchAllTargetProgress(courseId: String) {
         viewModelScope.launch {
@@ -47,7 +50,7 @@ class TargetsViewModel : ViewModel() {
         }
     }
 
-    fun toggleAllTargets() : Boolean {
+    fun toggleAllTargets() {
         var isSelected = allSelected.value ?: throw IllegalStateException("No selection assignment")
         var targets = _selectedTargetList.value ?: throw IllegalStateException("No targets")
         var targetsMap = _targetMap.value ?: throw IllegalStateException("No targets Map")
@@ -59,13 +62,12 @@ class TargetsViewModel : ViewModel() {
             isSelected = isSelected.not()
             _targetMap.value = targetsMap
             _selectedTargetList.value = targets
-            allSelected.value = isSelected
+            _allSelected.value = isSelected
         }
-        return isSelected
     }
 
 
-    fun updateSelectedTargets(targetId: String) {
+    fun updateSelectedTargets(targetId: String) : Boolean {
         val isAllSelected = allSelected.value ?: throw IllegalStateException("No selection assignment")
         var targets = _selectedTargetList.value ?: throw IllegalStateException("No targets")
         val targetsMap = _targetMap.value ?: throw IllegalStateException("No targets Map")
@@ -75,7 +77,7 @@ class TargetsViewModel : ViewModel() {
 
 
         if (isAllSelected) {
-            allSelected.value = isAllSelected.not()
+            _allSelected.value = isAllSelected.not()
             targets = mutableListOf(key)
             targetsMap.put(key, true)
         }
@@ -84,6 +86,7 @@ class TargetsViewModel : ViewModel() {
             targetsMap.put(key, isChecked.not())
         }
         _selectedTargetList.value = targets
+        return isChecked.not()
     }
 
 }
