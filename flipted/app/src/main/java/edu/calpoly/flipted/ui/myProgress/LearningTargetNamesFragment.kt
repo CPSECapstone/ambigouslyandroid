@@ -19,7 +19,7 @@ import edu.calpoly.flipted.businesslogic.UidToStableId
 import edu.calpoly.flipted.businesslogic.learningTargets.LearningTarget
 import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
 
-class LearningTargetNamesFragment  : Fragment() {
+class LearningTargetNamesFragment : Fragment() {
 
     private lateinit var viewModel: TargetsViewModel
     private lateinit var list: ListView
@@ -41,7 +41,8 @@ class LearningTargetNamesFragment  : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[TargetsViewModel::class.java]
 
-        val targetMap = viewModel.targetMap.value ?: throw IllegalArgumentException("Null target map")
+        val targetMap = viewModel.targetMap.value
+                ?: throw IllegalArgumentException("Null target map")
 
         val targetNames = targetMap.keys.toList()
 
@@ -78,24 +79,24 @@ class LearningTargetNamesFragment  : Fragment() {
         override fun getItemId(p0: Int): Long = uidMap.getStableId(data[p0].uid)
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val fillInView = convertView ?: layoutInflater.inflate(R.layout.learning_target_names_item, parent, false)
-            val targetText : TextView = fillInView.findViewById(R.id.learning_target_name_text)
+            val fillInView = convertView
+                    ?: layoutInflater.inflate(R.layout.learning_target_names_item, parent, false)
+            val targetText: TextView = fillInView.findViewById(R.id.learning_target_name_text)
 
             val data = getItem(position)
 
             targetText.text = data.targetName
 
             //color relates to if in current list or not
-            targetText.setOnClickListener{ view ->
+            targetText.setOnClickListener { view ->
                 val result = viewModel.updateSelectedTargets(data.uid)
                 if (viewModel.allSelected.value!!) {
                     allTargets.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray2))
                 }
                 if (result) {
                     targetText.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-                }
-                else {
-                targetText.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray2))
+                } else {
+                    targetText.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray2))
                 }
             }
             return fillInView

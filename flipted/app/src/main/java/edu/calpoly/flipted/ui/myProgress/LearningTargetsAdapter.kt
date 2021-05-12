@@ -8,45 +8,36 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.learningTargets.LearningTarget
+import edu.calpoly.flipted.businesslogic.learningTargets.TargetProgress
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TaskBlock
 
 
 class LearningTargetsAdapter (
         private val fragment: Fragment
-) : RecyclerView.Adapter<LearningTargetsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<LearningTargetViewHolder>() {
 
-    var selectedTargets : List<LearningTarget> = listOf()
+    var selectedTargets : List<TargetProgress> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView
-
-        init {
-            // Define click listener for the ViewHolder's View.
-            textView = view.findViewById(R.id.learning_target_name_text)
-        }
-    }
-
     private val inflater = fragment.layoutInflater
-    //private val viewModel = ViewModelProvider(fragment.requireActivity())[TaskViewModel::class.java]
+    private val viewModel = ViewModelProvider(fragment.requireActivity())[TargetsViewModel::class.java]
 
-    var targetNames : List<String> = mutableListOf("1", "2")
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LearningTargetsAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LearningTargetViewHolder {
         val inflatedView = inflater.inflate(viewType, parent, false)
         return when (viewType) {
-            R.layout.task_block_quiz -> LearningTargetsAdapter.ViewHolder(inflatedView, inflater, viewModel)
+            R.layout.task_block_quiz -> LearningTargetViewHolder(inflatedView, fragment.requireContext())
             else -> throw IllegalArgumentException("Unknown viewType")
         }
     }
 
-    override fun onBindViewHolder(holder: TaskBlockViewHolder, position: Int) {
-        holder.bind(taskBlocks[position], position)
+    override fun onBindViewHolder(holder: LearningTargetViewHolder, position: Int) {
+        holder.bind(selectedTargets[position])
     }
 
-    override fun getItemCount(): Int = targetNames.size
+    override fun getItemCount(): Int = selectedTargets.size
 
 }

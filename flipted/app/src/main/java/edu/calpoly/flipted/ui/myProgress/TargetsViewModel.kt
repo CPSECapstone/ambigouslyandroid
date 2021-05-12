@@ -8,6 +8,7 @@ import edu.calpoly.flipted.backend.ApolloTasksRepo
 import edu.calpoly.flipted.backend.MockLearningTargetRepo
 import edu.calpoly.flipted.businesslogic.learningTargets.GetAllTargetProgress
 import edu.calpoly.flipted.businesslogic.learningTargets.LearningTarget
+import edu.calpoly.flipted.businesslogic.learningTargets.TargetProgress
 import edu.calpoly.flipted.businesslogic.tasks.GetTask
 import edu.calpoly.flipted.businesslogic.tasks.SaveTaskProgress
 import edu.calpoly.flipted.businesslogic.tasks.SubmitTask
@@ -16,6 +17,7 @@ import edu.calpoly.flipted.businesslogic.tasks.data.Task
 import kotlinx.coroutines.launch
 
 class TargetsViewModel : ViewModel() {
+    private val _allProgress : MutableLiveData<List<TargetProgress>> = MutableLiveData()
     private val _targetMap : MutableLiveData<MutableMap<LearningTarget, Boolean>> = MutableLiveData()
     private val _selectedTargetList : MutableLiveData<MutableList<LearningTarget>> = MutableLiveData()
 
@@ -33,9 +35,14 @@ class TargetsViewModel : ViewModel() {
     val allSelected: LiveData<Boolean>
         get() = _allSelected
 
+    val allProgress: LiveData<List<TargetProgress>>
+        get() = _allProgress
+
     fun fetchAllTargetProgress(courseId: String) {
         viewModelScope.launch {
             val progress = getAllTargetProgressUseCase.execute()
+            _allProgress.value = progress
+
             val targets = mutableMapOf<LearningTarget, Boolean>()
 
             val currTargets = progress.map{

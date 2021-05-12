@@ -53,9 +53,10 @@ class LearningTargetsFragment : Fragment() {
         val targetsAdapter = LearningTargetsAdapter(this)
 
 
-        viewModel.selectedTargetList.observe(viewLifecycleOwner, Observer {
-//filter here
-            targetsAdapter.selectedTargets = it
+        viewModel.selectedTargetList.observe(viewLifecycleOwner, Observer { selectedList ->
+            val allProgress = viewModel.allProgress.value ?: throw IllegalArgumentException("Null all progress")
+            val uids = selectedList!!.map{it.targetName}
+            targetsAdapter.selectedTargets = allProgress.filter{it.target.uid in uids}
 
                 childFragmentManager.commit {
                     replace(R.id.learning_target_names_container, LearningTargetNamesFragment.newInstance())
