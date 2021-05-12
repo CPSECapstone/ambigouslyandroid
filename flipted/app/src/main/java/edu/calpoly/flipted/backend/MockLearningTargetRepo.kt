@@ -19,9 +19,9 @@ class MockLearningTargetRepo: LearningTargetRepo
 
 
     // not sure about target name, how would we get Learning Target #1...
-    private val learningTarget1 = LearningTarget(uids)
-    private val learningTarget2 = LearningTarget(uids)
-    private val learningTarget3 = LearningTarget(uids)
+    private val learningTarget1 = LearningTarget(uids, uids)
+    private val learningTarget2 = LearningTarget(uids, uids)
+    private val learningTarget3 = LearningTarget(uids, uids)
 
     private val taskObjectiveProgress1 = TaskObjectiveProgress(uids,"task 1.0",Mastery.MASTERED)
     private val taskObjectiveProgress2 = TaskObjectiveProgress(uids,"task 2.0",Mastery.NOT_MASTERED)

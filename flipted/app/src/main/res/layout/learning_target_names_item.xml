@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <TextView
         android:id="@+id/learning_target_name_text"
@@ -12,6 +13,11 @@
         tools:text="Learning Target 1"
         android:textSize="20dp"
         android:onClick="onClick"
-        android:clickable="true"/>
+        android:clickable="true"
+        android:textColor="@color/gray2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

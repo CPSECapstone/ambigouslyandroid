@@ -4,14 +4,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.CheckBox
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
+import androidx.fragment.app.commit
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
+import edu.calpoly.flipted.ui.tasks.TaskPagerAdapter
+import edu.calpoly.flipted.ui.tasks.TaskViewModel
+import edu.calpoly.flipted.ui.tasks.rubric.TaskRubricFragment
 
 class LearningTargetsFragment : Fragment() {
+
+    private lateinit var progressBar: ProgressBar
+    private lateinit var targetNamesView: FragmentContainerView
+    private lateinit var targetlistView: RecyclerView
+    private lateinit var viewModel: TargetsViewModel
+    private lateinit var allTargets: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,54 +39,36 @@ class LearningTargetsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_my_progress, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(requireActivity())[TargetsViewModel::class.java]
+
+        progressBar = view.findViewById(R.id.learning_target_progressbar)
+        targetlistView = view.findViewById(R.id.learning_targets_container)
+        targetNamesView = view.findViewById(R.id.learning_target_names_container)
+
+        allTargets = view.findViewById(R.id.all_targets_text)
+
+        val targetsAdapter = LearningTargetsAdapter(this)
+
+
+        viewModel.selectedTargetList.observe(viewLifecycleOwner, Observer {
+//filter here
+            targetsAdapter.selectedTargets = it
+
+                childFragmentManager.commit {
+                    replace(R.id.learning_target_names_container, LearningTargetNamesFragment.newInstance())
+                    setReorderingAllowed(true)
+                }
+            }
+        )
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() =
                 LearningTargetsFragment()
     }
 
-    inner class TargetNamesListAdapter : BaseAdapter() {
-
-        var data : List<LearningTarget> = mutableListOf("1", "2")
-
-        override fun getCount(): Int = data.size
-
-        override fun getItem(p0: Int): LearningTarget {
-            if (p0 == 0) {
-
-            }
-            else {
-                return data[p0 - 1]
-            }
-        }
-
-        override fun getItemId(p0: Int): Long = uidMap.getStableId(data[p0].uid)
-
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val fillInView = convertView ?: layoutInflater.inflate(R.layout.learning_target_names_item, parent, false)
-            val targetText : TextView = fillInView.findViewById(R.id.learning_target_name_text)
-
-            val data = getItem(position)
-
-            targetText.text = data.description
-
-            targetText.isChecked = data.isComplete
-            //color relates to if in current list or not
-
-            targetText.setOnClickListener{ view ->
-                if (.any{data.uid == it}) {
-                    remove
-                change color
-            }
-                else {
-                    add
-                change color
-            }
-            }
-
-
-            return fillInView
-        }
-
-    }
 }

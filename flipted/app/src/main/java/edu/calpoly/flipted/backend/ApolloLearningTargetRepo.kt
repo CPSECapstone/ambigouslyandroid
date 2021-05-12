@@ -28,7 +28,7 @@ class ApolloLearningTargetRepo: ApolloRepo(), LearningTargetRepo {
             ?: throw IllegalStateException("Error when querying backend: bad response")
         return target.map { targetProgress ->
             TargetProgress(targetProgress.target.let { target ->
-                LearningTarget(target.targetName) },targetProgress.objectives.map { objective ->
+                LearningTarget(target.targetName, target.targetId) },targetProgress.objectives.map { objective ->
                     ObjectiveProgress(objective.objectiveId,objective.objectiveName,objective.tasks.map {
                         TaskObjectiveProgress(it.taskId,it.taskName,it.mastery)
                     })

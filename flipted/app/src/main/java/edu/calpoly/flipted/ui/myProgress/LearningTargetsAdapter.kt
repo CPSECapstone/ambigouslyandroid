@@ -7,11 +7,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
+import edu.calpoly.flipted.businesslogic.learningTargets.LearningTarget
+import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TaskBlock
 
 
 class LearningTargetsAdapter (
         private val fragment: Fragment
 ) : RecyclerView.Adapter<LearningTargetsAdapter.ViewHolder>() {
+
+    var selectedTargets : List<LearningTarget> = listOf()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView

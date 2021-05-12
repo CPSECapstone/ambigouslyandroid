@@ -31,6 +31,7 @@ enum class Mastery {
 }
 
 data class LearningTarget (
-    val targetName: String
+    val targetName: String,
+    val uid: String
 )
 

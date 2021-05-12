@@ -4,6 +4,7 @@ query GetAllTargetProgress($courseId: String!,$username: String){
         student,
         target {
             targetName
+            targetId
         }
         objectives {
             objectiveId
