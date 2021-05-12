@@ -19,7 +19,7 @@ class MockMissionsRepo : MissionsRepo {
     }
     private val data = listOf(
         MissionProgress(
-            Mission(uids, "Biology", "Mendelian Genetics", "How do dominant and recessive alleles work?"),
+            Mission(uids, "Mendelian Genetics"),
             listOf(
                 uids.let{TaskStats(it, "Pea pod phenotypes", TaskSubmissionResult(it, true, 15, 18, listOf()))},
                 uids.let{TaskStats(it, "Dominant alleles", TaskSubmissionResult(it, true, 20, 20, listOf()))},
@@ -29,7 +29,7 @@ class MockMissionsRepo : MissionsRepo {
             )
         ),
         MissionProgress(
-            Mission(uids, "Biology", "Genetic Disease", "What is sickle-cell anemia, and how does it work?"),
+            Mission(uids, "Genetic Disease"),
             listOf(
                 uids.let{TaskStats(it, "The Circulatory System", TaskSubmissionResult(it, true, 8, 10, listOf()))},
                 uids.let{TaskStats(it, "The Structure of Hemoglobin", TaskSubmissionResult(it, true, 20, 75, listOf()))},
@@ -37,7 +37,7 @@ class MockMissionsRepo : MissionsRepo {
             )
         ),
         MissionProgress(
-            Mission(uids, "Biology", "GMOs", "What are genetically modified organisms, and why do we need them?"),
+            Mission(uids,  "GMOs"),
             listOf(
                 TaskStats(uids, "The challenges we face, and how GMOs can help", null),
                 TaskStats(uids, "What are the different kinds of GMO?", null),

@@ -3,10 +3,8 @@ package edu.calpoly.flipted.businesslogic.missions
 import edu.calpoly.flipted.businesslogic.tasks.data.TaskSubmissionResult
 
 data class Mission(
-    val id: String,
-    val course: String,
-    val name: String,
-    val description: String
+    val uid: String,
+    val name: String
 )
 
 data class TaskStats(
