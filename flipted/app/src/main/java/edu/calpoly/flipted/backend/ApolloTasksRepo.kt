@@ -96,21 +96,21 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
                 }
             } ?: throw badResponseException, page.skippable ?: throw badResponseException)
         },
-                task.requirements.map { requirement ->
-                    RubricRequirement(requirement.description ?: throw badResponseException,
-                            completedRequirementIds.contains(requirement.id),
-                            requirement.id)
-                },
-                task.id,
-                task.name,
-                task.instructions,
-                task.points,
-                task.startAt,
-                task.endAt,
-                task.dueDate,
-                task.missionId,
-                task.missionIndex,
-                "temp")
+        task.requirements.map { requirement ->
+            RubricRequirement(requirement.description ?: throw badResponseException,
+                    completedRequirementIds.contains(requirement.id),
+                    requirement.id)
+        },
+        task.id,
+        task.name,
+        task.instructions,
+        task.points,
+        task.startAt,
+        task.endAt,
+        task.dueDate,
+        task.missionId,
+        task.missionIndex
+        )
     }
 
     override suspend fun saveRubricProgress(progress: TaskRubricProgress) {

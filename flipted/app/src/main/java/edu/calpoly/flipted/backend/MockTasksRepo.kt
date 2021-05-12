@@ -83,7 +83,7 @@ class MockTasksRepo : TasksRepo {
             RubricRequirement("Read about the Test Bus", false, uids),
             RubricRequirement("Complete the summary task", false, uids)
         ), "4f681550ba9", "Learn about the Test Bus", "Complete this task",
-        10, null, null, dateFormat.parse("4-25-2021"), "", 0, null)
+        10, null, null, dateFormat.parse("4-25-2021"), "", 0)
 
     private val mockedTask2 = Task(
         listOf(
@@ -144,7 +144,7 @@ class MockTasksRepo : TasksRepo {
         ), "90e0c730e56", "What is TDD?",
             "Read this information carefully and answer the provided questions",
             10, null, null, dateFormat.parse("4-29-2021")!!,
-            "", 0, null)
+            "", 0)
 
     private val savedTasks: Map<String, Task> = mapOf(
             mockedTask.uid to mockedTask,
@@ -186,7 +186,7 @@ class MockTasksRepo : TasksRepo {
             }, task.requirements.map {
                 if (it.uid in savedProgress) it.completed else it.incompleted
             }, task.uid, task.name, task.instructions, task.points, task.startAt,
-                    task.endAt, task.dueDate, task.parentMissionId, task.parentMissionIndex, task.objectiveId)
+                    task.endAt, task.dueDate, task.parentMissionId, task.parentMissionIndex)
         } ?: throw IllegalArgumentException("No task with $taskId exists")
     }
 

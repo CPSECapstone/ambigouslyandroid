@@ -13,6 +13,5 @@ data class Task(
         val endAt: Date?,
         val dueDate: Date?,
         val parentMissionId: String,
-        val parentMissionIndex: Int,
-        val objectiveId: String?
+        val parentMissionIndex: Int
 )

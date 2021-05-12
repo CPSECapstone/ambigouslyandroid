@@ -1,0 +1,18 @@
+query GetAllTargetProgress($courseId: String!,$username: String){
+    getAllTargetProgress(courseId: $courseId, username: $username)
+    {
+        student,
+        target {
+            targetName
+        }
+        objectives {
+            objectiveId
+            objectiveName
+            tasks {
+                taskId
+                taskName
+                mastery
+            }
+        }
+    }
+}

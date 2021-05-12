@@ -11,7 +11,7 @@ import edu.calpoly.flipted.R
 
 class LearningTargetsAdapter (
         private val fragment: Fragment
-) : RecyclerView.Adapter<LearningTargetNameViewholder>() {
+) : RecyclerView.Adapter<LearningTargetsAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView
@@ -27,10 +27,10 @@ class LearningTargetsAdapter (
 
     var targetNames : List<String> = mutableListOf("1", "2")
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskBlockViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LearningTargetsAdapter.ViewHolder {
         val inflatedView = inflater.inflate(viewType, parent, false)
         return when (viewType) {
-            R.layout.task_block_quiz -> ResultBlockViewHolder(inflatedView, inflater, viewModel)
+            R.layout.task_block_quiz -> LearningTargetsAdapter.ViewHolder(inflatedView, inflater, viewModel)
             else -> throw IllegalArgumentException("Unknown viewType")
         }
     }
