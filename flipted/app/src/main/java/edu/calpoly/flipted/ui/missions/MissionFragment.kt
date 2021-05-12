@@ -31,6 +31,7 @@ class MissionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         // mock task id for task 1
         val taskOneButton = view.findViewById<Button>(R.id.taskOneButton)
         taskOneButton.setOnClickListener{
