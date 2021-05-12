@@ -14,7 +14,7 @@ class MockGoalsRepo : GoalsRepo {
                 field += 1
                 return field
             }
-        private val uids
+        val uids
             get() = uid.toString()
         private val goalsMap : MutableMap<String, Goal> = mutableMapOf()
 

@@ -5,3 +5,4 @@ interface GoalsRepo {
     suspend fun getGoalById(id : String) : Goal
     suspend fun editGoal(goal : Goal) : Goal
 }
+
