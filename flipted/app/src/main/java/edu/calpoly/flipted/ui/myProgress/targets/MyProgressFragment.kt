@@ -1,12 +1,10 @@
-package edu.calpoly.flipted.ui.myProgress
+package edu.calpoly.flipted.ui.myProgress.targets
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
 
 class MyProgressFragment : Fragment() {

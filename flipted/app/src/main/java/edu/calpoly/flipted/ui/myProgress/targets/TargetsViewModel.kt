@@ -1,4 +1,4 @@
-package edu.calpoly.flipted.ui.myProgress
+package edu.calpoly.flipted.ui.myProgress.targets
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
