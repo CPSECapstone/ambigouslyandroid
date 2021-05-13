@@ -5,7 +5,6 @@ import edu.calpoly.flipted.businesslogic.targets.*
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import org.junit.Assert.*
-import edu.calpoly.flipted.type.Mastery
 
 
 class TestLearningTargets {
@@ -19,7 +18,7 @@ class TestLearningTargets {
         val repo = MockLearningTargetsRepo()
         val useCase = GetAllTargetProgress(repo)
 
-        val learningTarget = LearningTarget("test")
+        val learningTarget = LearningTarget("abc123", "test")
 
         val taskObjectiveProgress1 = TaskObjectiveProgress("test","task 1.0", Mastery.NOT_GRADED)
         val taskObjectiveProgress2 = TaskObjectiveProgress("test","task 2.0", Mastery.NOT_MASTERED)

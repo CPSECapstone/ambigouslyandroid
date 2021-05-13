@@ -5,6 +5,7 @@ import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import edu.calpoly.flipted.GetAllTargetProgressQuery
 import edu.calpoly.flipted.businesslogic.targets.*
+import edu.calpoly.flipted.type.Mastery as ApolloMastery
 
 class ApolloLearningTargetsRepo: ApolloRepo(), LearningTargetsRepo {
 
@@ -27,9 +28,15 @@ class ApolloLearningTargetsRepo: ApolloRepo(), LearningTargetsRepo {
             ?: throw IllegalStateException("Error when querying backend: bad response")
         return target.map { targetProgress ->
             TargetProgress(targetProgress.target.let { target ->
-                LearningTarget(target.targetName) },targetProgress.objectives.map { objective ->
+                LearningTarget(target.targetId, target.targetName) },targetProgress.objectives.map { objective ->
                     ObjectiveProgress(objective.objectiveId,objective.objectiveName,objective.tasks.map {
-                        TaskObjectiveProgress(it.taskId,it.taskName,it.mastery)
+                        TaskObjectiveProgress(it.taskId,it.taskName, when(it.mastery) {
+                            ApolloMastery.NOT_GRADED -> Mastery.NOT_GRADED
+                            ApolloMastery.NOT_MASTERED -> Mastery.NOT_MASTERED
+                            ApolloMastery.NEARLY_MASTERED -> Mastery.NEARLY_MASTERED
+                            ApolloMastery.MASTERED -> Mastery.MASTERED
+                            else -> throw IllegalStateException("Error when querying backend: bad response")
+                        })
                     })
             })
         }

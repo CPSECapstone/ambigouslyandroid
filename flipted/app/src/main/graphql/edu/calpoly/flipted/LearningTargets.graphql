@@ -1,6 +1,7 @@
 query GetAllTargetProgress($courseId: String!){
   getAllTargetProgress(courseId: $courseId) {
     target {
+      targetId,
       targetName
     },
     objectives {

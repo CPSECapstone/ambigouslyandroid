@@ -2,60 +2,100 @@ package edu.calpoly.flipted.backend
 
 import edu.calpoly.flipted.businesslogic.targets.*
 import kotlinx.coroutines.delay
-import edu.calpoly.flipted.type.Mastery
 
 class MockLearningTargetsRepo: LearningTargetsRepo
 {
-
-    private var uid = 10
-        get() {
-            field += 1
-            return field
-        }
-    private val uids
-        get() = uid.toString()
-
-    private val targetMap : MutableMap<String, TargetProgress> = mutableMapOf()
-
-
-    // not sure about target name, how would we get Learning Target #1...
-    private val learningTarget1 = LearningTarget(uids)
-    private val learningTarget2 = LearningTarget(uids)
-    private val learningTarget3 = LearningTarget(uids)
-
-    private val taskObjectiveProgress1 = TaskObjectiveProgress(uids,"task 1.0",Mastery.MASTERED)
-    private val taskObjectiveProgress2 = TaskObjectiveProgress(uids,"task 2.0",Mastery.NOT_MASTERED)
-    private val taskObjectiveProgress3 = TaskObjectiveProgress(uids,"task 3.0",Mastery.MASTERED)
-    private val taskObjectiveProgress4 = TaskObjectiveProgress(uids,"task 1.1",Mastery.NEARLY_MASTERED)
-    private val taskObjectiveProgress5 = TaskObjectiveProgress(uids,"task 2.1",Mastery.MASTERED)
-    private val taskObjectiveProgress6 = TaskObjectiveProgress(uids,"task 3.1",Mastery.NOT_MASTERED)
-    private val taskObjectiveProgress7 = TaskObjectiveProgress(uids,"task 1.2",Mastery.NEARLY_MASTERED)
-    private val taskObjectiveProgress8 = TaskObjectiveProgress(uids,"task 1.1",Mastery.NEARLY_MASTERED)
-    private val taskObjectiveProgress9 = TaskObjectiveProgress(uids,"task 2.1",Mastery.MASTERED)
-    private val taskObjectiveProgress10 = TaskObjectiveProgress(uids,"task 3.1",Mastery.NOT_MASTERED)
-    private val taskObjectiveProgress11 = TaskObjectiveProgress(uids,"task 1.3",Mastery.NEARLY_MASTERED)
-    private val taskObjectiveProgress12 = TaskObjectiveProgress(uids,"task 2.3",Mastery.MASTERED)
-    private val taskObjectiveProgress13 = TaskObjectiveProgress(uids,"task 3.3",Mastery.NOT_MASTERED)
-
-    private val objectiveProgress1 = ObjectiveProgress(uids,"Learning Objective 1", listOf(taskObjectiveProgress1,taskObjectiveProgress2))
-    private val objectiveProgress2 = ObjectiveProgress(uids,"Learning Objective 2", listOf(taskObjectiveProgress3))
-    private val objectiveProgress3 = ObjectiveProgress(uids,"Learning Objective 3", listOf(taskObjectiveProgress4,taskObjectiveProgress5,taskObjectiveProgress6))
-    private val objectiveProgress4 = ObjectiveProgress(uids,"Learning Objective 4", listOf(taskObjectiveProgress7,taskObjectiveProgress13))
-    private val objectiveProgress5 = ObjectiveProgress(uids,"Learning Objective 5", listOf(taskObjectiveProgress8,taskObjectiveProgress11,taskObjectiveProgress12))
-    private val objectiveProgress6 = ObjectiveProgress(uids,"Learning Objective 6", listOf(taskObjectiveProgress9,taskObjectiveProgress10))
-
-    init {
-        listOf(
-                TargetProgress(learningTarget1, listOf(objectiveProgress1,objectiveProgress2)),
-                TargetProgress(learningTarget2, listOf(objectiveProgress3,objectiveProgress4,objectiveProgress5)),
-                TargetProgress(learningTarget3, listOf(objectiveProgress6))
-        )
+    companion object {
+        private var uid = 10
+            get() {
+                field += 1
+                return field
+            }
+        private val uids
+            get() = uid.toString()
     }
-
-    // not sure how to do this if it should return List
+    private val targets : List<TargetProgress> = listOf(
+        TargetProgress(
+            LearningTarget(uids, "Learning target 1"),
+            listOf(
+                ObjectiveProgress(uids, "Objective 1", listOf(
+                    TaskObjectiveProgress(uids, "Task 1", Mastery.NOT_MASTERED),
+                    TaskObjectiveProgress(uids, "Something Else", Mastery.NOT_MASTERED),
+                    TaskObjectiveProgress(uids, "Task 3.14", Mastery.NOT_MASTERED),
+                    TaskObjectiveProgress(uids, "Task kasT", Mastery.NEARLY_MASTERED),
+                    TaskObjectiveProgress(uids, "Do your homework", Mastery.NOT_GRADED),
+                    TaskObjectiveProgress(uids, "Blah blah blah", Mastery.NOT_GRADED)
+                )),
+                ObjectiveProgress(uids, "Objective 2", listOf(
+                    TaskObjectiveProgress(uids, "Task 42", Mastery.NOT_MASTERED),
+                    TaskObjectiveProgress(uids, "NOTHING", Mastery.NEARLY_MASTERED),
+                    TaskObjectiveProgress(uids, "Task 2.01", Mastery.NOT_MASTERED),
+                    TaskObjectiveProgress(uids, "ksaT Task", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "I don't believe in homework", Mastery.NOT_GRADED),
+                    TaskObjectiveProgress(uids, "NOPENOPENOPENOPE", Mastery.NOT_GRADED)
+                ))
+            )
+        ),
+        TargetProgress(
+            LearningTarget(uids, "Learning target 1"),
+            listOf(
+                ObjectiveProgress(uids, "Objective 1", listOf(
+                    TaskObjectiveProgress(uids, "FU", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "BLEH", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "Task 1337", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "H4X0R", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "aaAAAaa", Mastery.NEARLY_MASTERED),
+                    TaskObjectiveProgress(uids, "0x13456babF", Mastery.NOT_GRADED)
+                ))
+            )
+        ),
+        TargetProgress(
+            LearningTarget(uids, "Learning target 1"),
+            listOf(
+                ObjectiveProgress(uids, "Objective 1", listOf(
+                    TaskObjectiveProgress(uids, "4 FU", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "4 BLEH", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "4 Task 1337", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "4 H4X0R", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "4 aaAAAaa", Mastery.NEARLY_MASTERED),
+                    TaskObjectiveProgress(uids, "4 0x13456babF", Mastery.NOT_GRADED)
+                )),
+                ObjectiveProgress(uids, "Objective 1", listOf(
+                    TaskObjectiveProgress(uids, "5 FU", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "5 BLEH", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "5 Task 1337", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "5 H4X0R", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "5 aaAAAaa", Mastery.NEARLY_MASTERED),
+                    TaskObjectiveProgress(uids, "5 0x13456babF", Mastery.NOT_GRADED)
+                ))
+            )
+        ),
+        TargetProgress(
+            LearningTarget(uids, "Learning target 1"),
+            listOf(
+                ObjectiveProgress(uids, "Objective 1", listOf(
+                    TaskObjectiveProgress(uids, "6 FU", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "6 BLEH", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "6 Task 1337", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "6 H4X0R", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "6 aaAAAaa", Mastery.NEARLY_MASTERED),
+                    TaskObjectiveProgress(uids, "6 0x13456babF", Mastery.NOT_GRADED)
+                )),
+                ObjectiveProgress(uids, "Objective 1", listOf(
+                    TaskObjectiveProgress(uids, "7 FU", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "7 BLEH", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "7 Task 1337", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "7 H4X0R", Mastery.MASTERED),
+                    TaskObjectiveProgress(uids, "7 aaAAAaa", Mastery.NEARLY_MASTERED),
+                    TaskObjectiveProgress(uids, "7 0x13456babF", Mastery.NOT_GRADED)
+                ))
+            )
+        )
+    )
+    
     override suspend fun getAllTargetProgress(courseId: String, studentId: String?): List<TargetProgress> {
         delay(1000)
-        return targetMap.values.toList()
+        return targets
     }
 
 }
