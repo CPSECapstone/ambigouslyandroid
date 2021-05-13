@@ -9,7 +9,6 @@ import edu.calpoly.flipted.businesslogic.learningTargets.*
 class ApolloLearningTargetRepo: ApolloRepo(), LearningTargetRepo {
 
     override suspend fun getAllTargetProgress(courseId: String, studentId: String?): List<TargetProgress> {
-        Log.e("tag", "get goals")
         val response = try {
             apolloClient().query(GetAllTargetProgressQuery(courseId)).await()
         } catch (e: ApolloException) {
