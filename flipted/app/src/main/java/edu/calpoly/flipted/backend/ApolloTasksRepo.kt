@@ -106,8 +106,8 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         task.endAt,
         task.dueDate,
         task.missionId,
-        task.missionIndex
-        )
+        task.missionIndex,
+        task.objectiveId)
     }
 
     override suspend fun saveRubricProgress(progress: TaskRubricProgress) {
