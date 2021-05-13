@@ -1,4 +1,4 @@
-package edu.calpoly.flipted.businesslogic.learningTargets
+package edu.calpoly.flipted.businesslogic.targets
 
 import edu.calpoly.flipted.type.Mastery
 

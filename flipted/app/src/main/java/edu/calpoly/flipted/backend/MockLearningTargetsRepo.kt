@@ -1,10 +1,10 @@
 package edu.calpoly.flipted.backend
 
-import edu.calpoly.flipted.businesslogic.learningTargets.*
+import edu.calpoly.flipted.businesslogic.targets.*
 import kotlinx.coroutines.delay
 import edu.calpoly.flipted.type.Mastery
 
-class MockLearningTargetRepo: LearningTargetRepo
+class MockLearningTargetsRepo: LearningTargetsRepo
 {
 
     private var uid = 10

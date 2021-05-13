@@ -1,7 +1,7 @@
 package edu.calpoly.flipted.businesslogic
 
 
-import edu.calpoly.flipted.businesslogic.learningTargets.*
+import edu.calpoly.flipted.businesslogic.targets.*
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import org.junit.Assert.*
@@ -9,14 +9,14 @@ import edu.calpoly.flipted.type.Mastery
 
 
 class TestLearningTargets {
-    class MockLearningTargetRepo : LearningTargetRepo  {
+    class MockLearningTargetsRepo : LearningTargetsRepo  {
         val data = mutableListOf<TargetProgress>()
         override suspend fun getAllTargetProgress(courseId: String, studentId: String?) = data
     }
 
     @Test
     fun getAllTargetProgressTest() = runBlockingTest {
-        val repo = MockLearningTargetRepo()
+        val repo = MockLearningTargetsRepo()
         val useCase = GetAllTargetProgress(repo)
 
         val learningTarget = LearningTarget("test")

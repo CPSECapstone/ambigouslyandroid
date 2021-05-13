@@ -4,9 +4,9 @@ import android.util.Log
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import edu.calpoly.flipted.GetAllTargetProgressQuery
-import edu.calpoly.flipted.businesslogic.learningTargets.*
+import edu.calpoly.flipted.businesslogic.targets.*
 
-class ApolloLearningTargetRepo: ApolloRepo(), LearningTargetRepo {
+class ApolloLearningTargetsRepo: ApolloRepo(), LearningTargetsRepo {
 
     override suspend fun getAllTargetProgress(courseId: String, studentId: String?): List<TargetProgress> {
         val response = try {
