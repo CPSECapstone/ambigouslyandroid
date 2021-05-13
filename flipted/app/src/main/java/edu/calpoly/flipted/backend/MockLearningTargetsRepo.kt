@@ -37,7 +37,7 @@ class MockLearningTargetsRepo: LearningTargetsRepo
             )
         ),
         TargetProgress(
-            LearningTarget(uids, "Learning target 1"),
+            LearningTarget(uids, "Learning target 2"),
             listOf(
                 ObjectiveProgress(uids, "Objective 1", listOf(
                     TaskObjectiveProgress(uids, "FU", Mastery.MASTERED),
@@ -50,7 +50,7 @@ class MockLearningTargetsRepo: LearningTargetsRepo
             )
         ),
         TargetProgress(
-            LearningTarget(uids, "Learning target 1"),
+            LearningTarget(uids, "Learning target 3"),
             listOf(
                 ObjectiveProgress(uids, "Objective 1", listOf(
                     TaskObjectiveProgress(uids, "4 FU", Mastery.MASTERED),
@@ -71,7 +71,7 @@ class MockLearningTargetsRepo: LearningTargetsRepo
             )
         ),
         TargetProgress(
-            LearningTarget(uids, "Learning target 1"),
+            LearningTarget(uids, "Learning target 4"),
             listOf(
                 ObjectiveProgress(uids, "Objective 1", listOf(
                     TaskObjectiveProgress(uids, "6 FU", Mastery.MASTERED),

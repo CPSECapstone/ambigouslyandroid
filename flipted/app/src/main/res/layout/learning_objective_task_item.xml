@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/learning_objective_task_item_text_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/learning_objective_task_item_mastery_indicator_group"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/learning_objective_task_item_row_divisor"
+
+        app:layout_constraintHorizontal_weight="2"
+        >
+
+        <TextView
+            android:id="@+id/learning_objective_task_item_task_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            android:layout_marginStart="60dp"
+
+            style="@style/Heading2Style"
+
+            tools:text="Learning Task 1.4.3"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/learning_objective_task_item_mastery_indicator_group"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+
+        app:layout_constraintStart_toEndOf="@id/learning_objective_task_item_text_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/learning_objective_task_item_row_divisor"
+
+        app:layout_constraintHorizontal_weight="4"
+        >
+        <ImageView
+            android:id="@+id/learning_objective_task_item_mastery_indicator_color"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            android:src="@drawable/mastery_indicator_large"
+
+            tools:tint="@color/mastered"
+        />
+        <TextView
+            android:id="@+id/learning_objective_task_item_mastery_indicator_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            android:layout_marginStart="20dp"
+
+            style="@style/MasteryTextStyle"
+
+            tools:text="MASTERED"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/learning_objective_task_item_row_divisor"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="60dp"
+
+        android:background="@color/gray4"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

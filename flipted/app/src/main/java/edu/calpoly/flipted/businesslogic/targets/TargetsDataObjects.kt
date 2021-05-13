@@ -1,8 +1,8 @@
 package edu.calpoly.flipted.businesslogic.targets
 
 data class LearningTarget(
-        val targetId: String,
-        val targetName: String
+    val uid: String,
+    val targetName: String
 )
 
 enum class Mastery {
