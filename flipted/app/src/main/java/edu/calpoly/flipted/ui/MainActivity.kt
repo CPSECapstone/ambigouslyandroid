@@ -23,7 +23,8 @@ import edu.calpoly.flipted.ui.leaderboard.LeaderboardFragment
 import edu.calpoly.flipted.ui.login.LoginFragment
 import edu.calpoly.flipted.ui.login.LoginViewModel
 import edu.calpoly.flipted.ui.marketplace.MarketplaceFragment
-import edu.calpoly.flipted.ui.myProgress.MyProgressFragment
+import edu.calpoly.flipted.ui.myProgress.ProgressFragment
+import edu.calpoly.flipted.ui.myProgress.targets.LearningTargetsFragment
 import edu.calpoly.flipted.ui.myTeam.MyTeamFragment
 
 
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                     "My Team" -> MyTeamFragment.newInstance()
                     "Marketplace" -> MarketplaceFragment.newInstance()
                     "Leaderboard" -> LeaderboardFragment.newInstance()
-                    "My Progress" -> MyProgressFragment.newInstance()
+                    "My Progress" -> ProgressFragment.newInstance()
                     else -> throw IllegalStateException()
                 }
                 supportFragmentManager.commit {
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                     "My Team" -> MyTeamFragment.newInstance()
                     "Marketplace" -> MarketplaceFragment.newInstance()
                     "Leaderboard" -> LeaderboardFragment.newInstance()
-                    "My Progress" -> MyProgressFragment.newInstance()
+                    "My Progress" -> ProgressFragment.newInstance()
                     else -> throw IllegalStateException()
                 }
                 supportFragmentManager.commit {

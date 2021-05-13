@@ -1,7 +1,6 @@
 package edu.calpoly.flipted.ui.tasks.rubric
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +19,6 @@ import edu.calpoly.flipted.businesslogic.UidToStableId
 import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
 import edu.calpoly.flipted.ui.tasks.TaskResultsFragment
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
-import kotlinx.android.synthetic.main.task_rubric_fragment.view.*
 
 
 class TaskRubricFragment : Fragment() {
