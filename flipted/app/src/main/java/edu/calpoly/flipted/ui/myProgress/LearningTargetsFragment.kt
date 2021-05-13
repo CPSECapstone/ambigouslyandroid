@@ -1,62 +1,56 @@
 package edu.calpoly.flipted.ui.myProgress
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.BaseAdapter
+import android.widget.ListView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
-import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
-import edu.calpoly.flipted.ui.tasks.TaskPagerAdapter
-import edu.calpoly.flipted.ui.tasks.TaskViewModel
-import edu.calpoly.flipted.ui.tasks.rubric.TaskRubricFragment
+import edu.calpoly.flipted.businesslogic.UidToStableId
+import edu.calpoly.flipted.businesslogic.targets.LearningTarget
 
 class LearningTargetsFragment : Fragment() {
-
-    private lateinit var progressBar: ProgressBar
-    private lateinit var targetNamesView: FragmentContainerView
-    private lateinit var targetlistView: RecyclerView
     private lateinit var viewModel: TargetsViewModel
-    private lateinit var allTargets: TextView
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.learning_targets_fragment, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.learning_targets_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity())[TargetsViewModel::class.java]
 
-        //progressBar = view.findViewById(R.id.learning_target_progressbar)
-        targetlistView = view.findViewById(R.id.learning_targets_container)
-        targetNamesView = view.findViewById(R.id.learning_target_names_container)
+        val targetRecyclerView: RecyclerView = view.findViewById(R.id.learning_targets_container)
+        val allTargets: TextView = view.findViewById(R.id.all_targets_text)
+        val namesList: ListView = view.findViewById(R.id.learning_target_names_list)
 
         val targetsAdapter = LearningTargetsAdapter(this)
+        val namesAdapter = TargetNamesListAdapter()
 
-        viewModel.allProgress.observe(viewLifecycleOwner, Observer {
-            childFragmentManager.commit {
-                replace(R.id.learning_target_names_container, LearningTargetNamesFragment.newInstance())
-                setReorderingAllowed(true)
-            }
+        targetRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        targetRecyclerView.adapter = targetsAdapter
+
+        namesList.adapter = namesAdapter
+
+        allTargets.setOnClickListener {
+            viewModel.clearSelection()
+        }
+
+        viewModel.selectedLearningTargets.observe(viewLifecycleOwner, Observer {
+            allTargets.setTextColor(ContextCompat.getColor(requireContext(),
+                if (it.isEmpty()) R.color.black else R.color.gray2
+            ))
+
         })
 
         viewModel.selectedLearningTargets.observe(viewLifecycleOwner, Observer { selectedTargets ->
@@ -65,21 +59,74 @@ class LearningTargetsFragment : Fragment() {
                 allProgress
             else
                 allProgress.filter{it.target in selectedTargets}
+
+            val targets = viewModel.allProgress.value?.map{
+                it.target
+            } ?: listOf()
+            namesAdapter.data = targets
         })
 
         viewModel.fetchAllTargetProgress()
-
-        targetlistView.layoutManager = LinearLayoutManager(requireActivity())
-
-
-        targetlistView.adapter = targetsAdapter
-
     }
 
     companion object {
         @JvmStatic
         fun newInstance() =
                 LearningTargetsFragment()
+    }
+
+
+    inner class TargetNamesListAdapter : BaseAdapter() {
+        private val uidMap = UidToStableId<String>()
+
+        var data: List<LearningTarget> = listOf()
+            set(value) {
+                field = value
+                notifyDataSetChanged()
+            }
+
+        override fun getCount(): Int = data.size
+
+        override fun getItem(p0: Int): LearningTarget = data[p0]
+
+        override fun getItemId(p0: Int): Long = uidMap.getStableId(data[p0].uid)
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+            val fillInView = convertView
+                ?: layoutInflater.inflate(R.layout.learning_target_names_item, parent, false)
+            val targetText: TextView = fillInView.findViewById(R.id.learning_target_name_text)
+
+            val data = getItem(position)
+
+            targetText.text = data.targetName
+
+            val selectedTargets = viewModel.selectedLearningTargets.value ?: setOf()
+            targetText.setTextColor(
+                ContextCompat.getColor(requireContext(),
+                if (selectedTargets.contains(data)) {
+                    R.color.black
+                } else {
+                    R.color.gray2
+                }
+            ))
+
+            viewModel.selectedLearningTargets.observe(viewLifecycleOwner, Observer {
+                targetText.setTextColor(
+                    ContextCompat.getColor(requireContext(),
+                    if (it.contains(data)) {
+                        R.color.black
+                    } else {
+                        R.color.gray2
+                    }
+                ))
+            })
+
+            targetText.setOnClickListener { _ ->
+                viewModel.toggleSelectTarget(data)
+            }
+            return fillInView
+        }
+
     }
 
 }

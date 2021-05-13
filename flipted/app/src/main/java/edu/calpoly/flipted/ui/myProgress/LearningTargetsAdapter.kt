@@ -1,15 +1,10 @@
 package edu.calpoly.flipted.ui.myProgress
 
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.businesslogic.targets.LearningTarget
 import edu.calpoly.flipted.businesslogic.targets.TargetProgress
-import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TaskBlock
 
 
 class LearningTargetsAdapter (
@@ -23,12 +18,10 @@ class LearningTargetsAdapter (
         }
 
     private val inflater = fragment.layoutInflater
-    private val viewModel = ViewModelProvider(fragment.requireActivity())[TargetsViewModel::class.java]
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LearningTargetViewHolder {
         val itemView = inflater.inflate(R.layout.learning_target_item, parent, false)
-        return LearningTargetViewHolder(itemView, fragment.getContext()!!)
+        return LearningTargetViewHolder(itemView, fragment.requireActivity())
     }
 
     override fun onBindViewHolder(holder: LearningTargetViewHolder, position: Int) {
