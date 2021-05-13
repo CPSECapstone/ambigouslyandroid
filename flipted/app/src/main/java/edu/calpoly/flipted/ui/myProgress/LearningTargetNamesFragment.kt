@@ -37,28 +37,24 @@ class LearningTargetNamesFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[TargetsViewModel::class.java]
 
-        val targetMap = viewModel.targetMap.value
-                ?: throw IllegalArgumentException("Null target map")
-
-        val targetNames = targetMap.keys.toList()
+        val targets = viewModel.allProgress.value?.map{
+            it.target
+        } ?: throw IllegalArgumentException("Null target map")
 
         adapter = TargetNamesListAdapter()
 
         list.adapter = adapter
 
-        adapter.data = targetNames
+        adapter.data = targets
 
         allTargets.setOnClickListener {
-            viewModel.toggleAllTargets()
+            viewModel.clearSelection()
         }
 
-        viewModel.allSelected.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                allTargets.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-            }
-            else {
-                allTargets.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray2))
-            }
+        viewModel.selectedLearningTargets.observe(viewLifecycleOwner, Observer {
+            allTargets.setTextColor(ContextCompat.getColor(requireContext(),
+                if (it.isEmpty()) R.color.black else R.color.gray2
+            ))
 
         })
     }
@@ -92,19 +88,29 @@ class LearningTargetNamesFragment : Fragment() {
 
             targetText.text = data.targetName
 
-            val targetMap = viewModel.targetMap.value
-                    ?: throw IllegalStateException("No target map")
-            val curr = targetMap.filterKeys { it.uid.compareTo(data.uid) == 0 }.toList()[0]
+            val selectedTargets = viewModel.selectedLearningTargets.value ?: setOf()
+            targetText.setTextColor(ContextCompat.getColor(requireContext(),
+                if (selectedTargets.contains(data)) {
+                    R.color.black
+                } else {
+                    R.color.gray2
+                }
+            ))
 
-            if (curr.second) {
-                targetText.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-            } else {
-                targetText.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray2))
-            }
+            viewModel.selectedLearningTargets.observe(viewLifecycleOwner, Observer {
+                targetText.setTextColor(ContextCompat.getColor(requireContext(),
+                    if (it.contains(data)) {
+                        R.color.black
+                    } else {
+                        R.color.gray2
+                    }
+                ))
+            })
+
 
             //color relates to if in current list or not
-            targetText.setOnClickListener { view ->
-                viewModel.updateSelectedTargets(data.uid)
+            targetText.setOnClickListener { _ ->
+                viewModel.toggleSelectTarget(data)
             }
             return fillInView
         }

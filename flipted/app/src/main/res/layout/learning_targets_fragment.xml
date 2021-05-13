@@ -31,7 +31,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/learning_target_names_container"
+        app:layout_constraintRight_toLeftOf="@id/learning_target_names_container"
         app:layout_constraintHorizontal_weight="6"/>
 
 
@@ -45,7 +45,7 @@
 
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/learning_targets_container"
+        app:layout_constraintLeft_toRightOf="@id/learning_targets_container"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_weight="4"

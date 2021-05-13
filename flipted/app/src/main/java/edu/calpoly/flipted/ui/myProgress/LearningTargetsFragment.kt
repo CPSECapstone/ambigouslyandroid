@@ -52,26 +52,27 @@ class LearningTargetsFragment : Fragment() {
 
         val targetsAdapter = LearningTargetsAdapter(this)
 
+        viewModel.allProgress.observe(viewLifecycleOwner, Observer {
+            childFragmentManager.commit {
+                replace(R.id.learning_target_names_container, LearningTargetNamesFragment.newInstance())
+                setReorderingAllowed(true)
+            }
+        })
+
+        viewModel.selectedLearningTargets.observe(viewLifecycleOwner, Observer { selectedTargets ->
+            val allProgress = viewModel.allProgress.value ?: listOf()
+            targetsAdapter.selectedTargets = if(selectedTargets.isEmpty())
+                allProgress
+            else
+                allProgress.filter{it.target in selectedTargets}
+        })
+
         viewModel.fetchAllTargetProgress()
 
         targetlistView.layoutManager = LinearLayoutManager(requireActivity())
 
 
         targetlistView.adapter = targetsAdapter
-
-
-        viewModel.selectedTargetList.observe(viewLifecycleOwner, Observer { selectedList ->
-            val allProgress = viewModel.allProgress.value ?: throw IllegalArgumentException("Null all progress")
-            val uids = selectedList!!.map{it.uid}
-            targetsAdapter.selectedTargets = allProgress.filter{it.target.uid in uids}
-            //Log.e("tage", allProgress.filter{it.target.uid in uids}.size.toString())
-
-                childFragmentManager.commit {
-                    replace(R.id.learning_target_names_container, LearningTargetNamesFragment.newInstance())
-                    setReorderingAllowed(true)
-                }
-            }
-        )
 
     }
 
