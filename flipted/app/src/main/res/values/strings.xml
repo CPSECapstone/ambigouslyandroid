@@ -8,6 +8,8 @@
     <string name="selected_item">Selected item:</string>
     <string name="graded">This is your final score.</string>
     <string name="ungraded">Some of the questions have not been graded yet.</string>
+    <string name="mission_task_item_column_text_1">TARGET ITEM</string>
+    <string name="mission_task_item_column_text_2">MASTERY</string>
 
 
 

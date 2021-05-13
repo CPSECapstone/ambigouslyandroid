@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    >
+
+
+    <TextView
+        android:id="@+id/mission_task_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Task 1.1"
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="110dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:fontFamily="@font/font_poppins"
+        />
+
+    <ProgressBar
+        android:id="@+id/mission_task_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_height="24dp"
+        android:layout_width="550dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="110dp"
+        android:progressDrawable="@drawable/mission_task_progress"
+        tools:progress="57" />
+
+    <TextView
+        android:id="@+id/mission_task_percent"
+        android:layout_marginTop="11dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="80%"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_marginStart="11dp"
+        android:fontFamily="@font/font_poppins"
+        />
+
+
+</LinearLayout>
