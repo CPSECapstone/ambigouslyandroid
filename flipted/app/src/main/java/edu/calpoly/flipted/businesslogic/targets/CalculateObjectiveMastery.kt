@@ -1,8 +1,5 @@
-package edu.calpoly.flipted.businesslogic.learningTargets
+package edu.calpoly.flipted.businesslogic.targets
 
-import edu.calpoly.flipted.type.Mastery
-
-import edu.calpoly.flipted.businesslogic.learningTargets.ObjectiveProgress
 import kotlin.math.round
 
 object CalculateObjectiveMastery {
@@ -11,7 +8,6 @@ object CalculateObjectiveMastery {
         Mastery.NOT_MASTERED -> 0
         Mastery.NEARLY_MASTERED -> 1
         Mastery.MASTERED -> 2
-        else -> null
     }
 
     private fun intToMastery(int: Int) : Mastery? = when(int) {

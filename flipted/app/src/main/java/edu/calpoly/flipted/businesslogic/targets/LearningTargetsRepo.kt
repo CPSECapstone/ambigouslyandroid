@@ -1,6 +1,6 @@
-package edu.calpoly.flipted.businesslogic.learningTargets
+package edu.calpoly.flipted.businesslogic.targets
 
-interface LearningTargetRepo {
+interface LearningTargetsRepo {
 
     suspend fun getAllTargetProgress(courseId: String,studentId: String?): List<TargetProgress>
 
