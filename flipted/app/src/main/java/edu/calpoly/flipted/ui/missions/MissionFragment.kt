@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.amplifyframework.auth.AuthUserAttributeKey
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.goals.GoalsFragment
@@ -30,27 +31,9 @@ class MissionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-        // mock task id for task 1
-        val taskOneButton = view.findViewById<Button>(R.id.taskOneButton)
-        taskOneButton.setOnClickListener{
-            parentFragmentManager.commit {
-                replace(R.id.main_view, TaskFragment.newInstance("4f681550ba9"))
-                setReorderingAllowed(true)
-                addToBackStack("Start task")
-            }
-        }
-
-        // mock task id for task 2
-        val taskTwoButton = view.findViewById<Button>(R.id.taskTwoButton)
-        taskTwoButton.setOnClickListener{
-            parentFragmentManager.commit {
-                replace(R.id.main_view, TaskFragment.newInstance("90e0c730e56"))
-                setReorderingAllowed(true)
-                addToBackStack("Start task")
-            }
-        }
+        val recyclerView : RecyclerView = view.findViewById(R.id.fragment_mission_recycler_view)
+        val adapter = MissionsRecyclerViewAdapter(requireActivity())
+        recyclerView.adapter = adapter
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
