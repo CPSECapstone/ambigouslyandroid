@@ -1,9 +1,11 @@
 package edu.calpoly.flipted.ui.myProgress
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import edu.calpoly.flipted.backend.ApolloLearningTargetRepo
 import edu.calpoly.flipted.backend.ApolloTasksRepo
 import edu.calpoly.flipted.backend.MockLearningTargetRepo
 import edu.calpoly.flipted.businesslogic.learningTargets.GetAllTargetProgress
@@ -38,7 +40,7 @@ class TargetsViewModel : ViewModel() {
     val allProgress: LiveData<List<TargetProgress>>
         get() = _allProgress
 
-    fun fetchAllTargetProgress(courseId: String) {
+    fun fetchAllTargetProgress() {
         viewModelScope.launch {
             val progress = getAllTargetProgressUseCase.execute()
             _allProgress.value = progress
@@ -74,7 +76,7 @@ class TargetsViewModel : ViewModel() {
     }
 
 
-    fun updateSelectedTargets(targetId: String) : Boolean {
+    fun updateSelectedTargets(targetId: String) {
         val isAllSelected = allSelected.value ?: throw IllegalStateException("No selection assignment")
         var targets = _selectedTargetList.value ?: throw IllegalStateException("No targets")
         val targetsMap = _targetMap.value ?: throw IllegalStateException("No targets Map")
@@ -89,11 +91,19 @@ class TargetsViewModel : ViewModel() {
             targetsMap.put(key, true)
         }
         else {
-            targets.add(key)
+            if (isChecked) {
+                targets.remove(key)
+                if (targets.size == 0) {
+                    toggleAllTargets()
+                    targets = _selectedTargetList.value!!
+                }
+            }
+            else {
+                targets.add(key)
+            }
             targetsMap.put(key, isChecked.not())
         }
         _selectedTargetList.value = targets
-        return isChecked.not()
     }
 
 }

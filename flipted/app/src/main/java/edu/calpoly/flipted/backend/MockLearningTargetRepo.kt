@@ -1,5 +1,6 @@
 package edu.calpoly.flipted.backend
 
+import android.util.Log
 import edu.calpoly.flipted.businesslogic.learningTargets.*
 import kotlinx.coroutines.delay
 import edu.calpoly.flipted.type.Mastery
@@ -55,7 +56,12 @@ class MockLearningTargetRepo: LearningTargetRepo
     // not sure how to do this if it should return List
     override suspend fun getAllTargetProgress(courseId: String, studentId: String?): List<TargetProgress> {
         delay(1000)
-        return targetMap.values.toList()
+        val progress = listOf(
+                TargetProgress(learningTarget1, listOf(objectiveProgress1,objectiveProgress2)),
+                TargetProgress(learningTarget2, listOf(objectiveProgress3,objectiveProgress4,objectiveProgress5)),
+                TargetProgress(learningTarget3, listOf(objectiveProgress6))
+        )
+        return progress
     }
 
 }

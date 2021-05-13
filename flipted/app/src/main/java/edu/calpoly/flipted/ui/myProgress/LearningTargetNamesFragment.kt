@@ -1,6 +1,7 @@
 package edu.calpoly.flipted.ui.myProgress
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,8 +55,17 @@ class LearningTargetNamesFragment : Fragment() {
 
         allTargets.setOnClickListener {
             viewModel.toggleAllTargets()
-            allTargets.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
         }
+
+        viewModel.allSelected.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                allTargets.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            }
+            else {
+                allTargets.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray2))
+            }
+
+        })
     }
 
     companion object {
@@ -87,17 +97,19 @@ class LearningTargetNamesFragment : Fragment() {
 
             targetText.text = data.targetName
 
+            val targetMap = viewModel.targetMap.value
+                    ?: throw IllegalStateException("No target map")
+            val curr = targetMap.filterKeys { it.uid.compareTo(data.uid) == 0 }.toList()[0]
+
+            if (curr.second) {
+                targetText.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            } else {
+                targetText.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray2))
+            }
+
             //color relates to if in current list or not
             targetText.setOnClickListener { view ->
-                val result = viewModel.updateSelectedTargets(data.uid)
-                if (viewModel.allSelected.value!!) {
-                    allTargets.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray2))
-                }
-                if (result) {
-                    targetText.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-                } else {
-                    targetText.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray2))
-                }
+                viewModel.updateSelectedTargets(data.uid)
             }
             return fillInView
         }

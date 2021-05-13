@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Learning Target 1"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:onClick="onClick"
         android:clickable="true"
         android:textColor="@color/gray2"

@@ -27,11 +27,8 @@ class LearningTargetsAdapter (
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LearningTargetViewHolder {
-        val inflatedView = inflater.inflate(viewType, parent, false)
-        return when (viewType) {
-            R.layout.task_block_quiz -> LearningTargetViewHolder(inflatedView, fragment.requireContext())
-            else -> throw IllegalArgumentException("Unknown viewType")
-        }
+        val itemView = inflater.inflate(R.layout.learning_target_item, parent, false)
+        return LearningTargetViewHolder(itemView, fragment.getContext()!!)
     }
 
     override fun onBindViewHolder(holder: LearningTargetViewHolder, position: Int) {
