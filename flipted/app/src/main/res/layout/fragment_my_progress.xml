@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.myProgress.MyProgressFragment">
+    tools:context=".ui.myProgress.targets.MyProgressFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

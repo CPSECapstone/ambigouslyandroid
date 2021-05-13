@@ -1,4 +1,4 @@
-package edu.calpoly.flipted.ui.myProgress
+package edu.calpoly.flipted.ui.myProgress.targets
 
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment

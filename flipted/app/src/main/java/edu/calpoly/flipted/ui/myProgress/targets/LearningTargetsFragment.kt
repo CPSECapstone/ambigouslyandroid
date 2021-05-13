@@ -1,4 +1,4 @@
-package edu.calpoly.flipted.ui.myProgress
+package edu.calpoly.flipted.ui.myProgress.targets
 
 import android.os.Bundle
 import android.view.LayoutInflater
