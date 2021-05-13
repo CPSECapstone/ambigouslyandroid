@@ -1,4 +1,4 @@
-package edu.calpoly.flipted.ui.missions
+package edu.calpoly.flipted.ui.myProgress.missions
 
 import android.content.Context
 import android.view.LayoutInflater
