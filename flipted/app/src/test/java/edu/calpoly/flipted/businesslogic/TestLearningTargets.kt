@@ -19,7 +19,7 @@ class TestLearningTargets {
         val repo = MockLearningTargetRepo()
         val useCase = GetAllTargetProgress(repo)
 
-        val learningTarget = LearningTarget("test")
+        val learningTarget = LearningTarget("test", "1")
 
         val taskObjectiveProgress1 = TaskObjectiveProgress("test","task 1.0", Mastery.NOT_GRADED)
         val taskObjectiveProgress2 = TaskObjectiveProgress("test","task 2.0", Mastery.NOT_MASTERED)
