@@ -1,24 +1,19 @@
 package edu.calpoly.flipted.ui.myProgress
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.UidToStableId
-import edu.calpoly.flipted.businesslogic.learningTargets.LearningTarget
-import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
+import edu.calpoly.flipted.businesslogic.targets.LearningTarget
 
 class LearningTargetNamesFragment : Fragment() {
 

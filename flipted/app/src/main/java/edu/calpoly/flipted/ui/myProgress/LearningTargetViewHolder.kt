@@ -12,8 +12,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.businesslogic.learningTargets.CalculateObjectiveMastery
-import edu.calpoly.flipted.businesslogic.learningTargets.TargetProgress
+import edu.calpoly.flipted.businesslogic.targets.CalculateObjectiveMastery
+import edu.calpoly.flipted.businesslogic.targets.TargetProgress
 import edu.calpoly.flipted.ui.MasteryResources
 
 class LearningTargetViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {

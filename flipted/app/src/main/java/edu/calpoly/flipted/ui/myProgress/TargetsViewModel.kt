@@ -1,21 +1,13 @@
 package edu.calpoly.flipted.ui.myProgress
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import edu.calpoly.flipted.backend.ApolloLearningTargetRepo
-import edu.calpoly.flipted.backend.ApolloTasksRepo
-import edu.calpoly.flipted.backend.MockLearningTargetRepo
-import edu.calpoly.flipted.businesslogic.learningTargets.GetAllTargetProgress
-import edu.calpoly.flipted.businesslogic.learningTargets.LearningTarget
-import edu.calpoly.flipted.businesslogic.learningTargets.TargetProgress
-import edu.calpoly.flipted.businesslogic.tasks.GetTask
-import edu.calpoly.flipted.businesslogic.tasks.SaveTaskProgress
-import edu.calpoly.flipted.businesslogic.tasks.SubmitTask
-import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
-import edu.calpoly.flipted.businesslogic.tasks.data.Task
+import edu.calpoly.flipted.backend.MockLearningTargetsRepo
+import edu.calpoly.flipted.businesslogic.targets.GetAllTargetProgress
+import edu.calpoly.flipted.businesslogic.targets.LearningTarget
+import edu.calpoly.flipted.businesslogic.targets.TargetProgress
 import kotlinx.coroutines.launch
 
 class TargetsViewModel : ViewModel() {
@@ -23,7 +15,7 @@ class TargetsViewModel : ViewModel() {
     private val _targetMap : MutableLiveData<MutableMap<LearningTarget, Boolean>> = MutableLiveData()
     private val _selectedTargetList : MutableLiveData<MutableList<LearningTarget>> = MutableLiveData()
 
-    private val repo = MockLearningTargetRepo()
+    private val repo = MockLearningTargetsRepo()
     private val getAllTargetProgressUseCase = GetAllTargetProgress(repo)
 
     private val _allSelected : MutableLiveData<Boolean> = MutableLiveData(true)

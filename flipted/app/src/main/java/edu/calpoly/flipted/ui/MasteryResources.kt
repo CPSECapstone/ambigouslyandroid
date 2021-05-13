@@ -1,7 +1,7 @@
 package edu.calpoly.flipted.ui
 
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.type.Mastery
+import edu.calpoly.flipted.businesslogic.targets.Mastery
 
 object MasteryResources {
     fun colorResource(mastery: Mastery) : Int = when(mastery) {
@@ -9,7 +9,6 @@ object MasteryResources {
         Mastery.NOT_MASTERED -> R.color.notMastered
         Mastery.NEARLY_MASTERED -> R.color.nearlyMastered
         Mastery.MASTERED -> R.color.mastered
-        else -> 0
     }
 
     fun stringResource(mastery: Mastery) : Int = when(mastery) {
@@ -17,6 +16,5 @@ object MasteryResources {
         Mastery.NOT_MASTERED -> R.string.mastery_not_mastered
         Mastery.NEARLY_MASTERED -> R.string.mastery_nearly_mastered
         Mastery.MASTERED -> R.string.mastery_mastered
-        else -> -1
     }
 }

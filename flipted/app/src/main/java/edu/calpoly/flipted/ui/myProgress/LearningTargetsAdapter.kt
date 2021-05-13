@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.businesslogic.learningTargets.LearningTarget
-import edu.calpoly.flipted.businesslogic.learningTargets.TargetProgress
+import edu.calpoly.flipted.businesslogic.targets.LearningTarget
+import edu.calpoly.flipted.businesslogic.targets.TargetProgress
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TaskBlock
 
 
