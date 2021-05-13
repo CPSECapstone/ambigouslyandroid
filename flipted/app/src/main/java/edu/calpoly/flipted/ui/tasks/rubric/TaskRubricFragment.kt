@@ -1,6 +1,7 @@
 package edu.calpoly.flipted.ui.tasks.rubric
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,21 +20,19 @@ import edu.calpoly.flipted.businesslogic.UidToStableId
 import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
 import edu.calpoly.flipted.ui.tasks.TaskResultsFragment
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
-import kotlinx.android.synthetic.main.task_rubric_fragment.view.*
 
 
 class TaskRubricFragment : Fragment() {
 
-    private lateinit var viewModel : TaskViewModel
-    private lateinit var list : ListView
+    private lateinit var viewModel: TaskViewModel
+    private lateinit var list: ListView
 
-    private lateinit var adapter : RubricListAdapter
+    private lateinit var adapter: RubricListAdapter
 
     private val uidMap = UidToStableId<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View?
-        = inflater.inflate(R.layout.task_rubric_fragment, container, false)
+                              savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.task_rubric_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,19 +55,20 @@ class TaskRubricFragment : Fragment() {
 
         viewModel.currResponse.observe(viewLifecycleOwner, Observer {
             val task = viewModel.currTask.value ?: return@Observer
+            val err = viewModel.errorMessage.value ?: return@Observer
+
             if (viewModel.currResponse.value?.taskId != task.uid)
                 return@Observer
-            if (viewModel.currResponse.value?.err!!.isEmpty()) {
+            if (err.isEmpty() || err.contains("submission").not()) {
                 parentFragment?.parentFragmentManager?.popBackStack("Start task", FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 parentFragment?.parentFragmentManager?.commit {
                     replace(R.id.main_view, TaskResultsFragment.newInstance())
                     addToBackStack(null)
                     setReorderingAllowed(true)
                 }
-            }
-            else {
+            } else {
                 val errorMsg = view.findViewById(R.id.submit_error_msg) as TextView
-                errorMsg.text = viewModel.currResponse.value?.err
+                errorMsg.text = err
                 errorMsg.visibility = View.VISIBLE
             }
 
@@ -79,7 +79,7 @@ class TaskRubricFragment : Fragment() {
             submitButton.isEnabled = it
         })
 
-        submitButton.setOnClickListener{
+        submitButton.setOnClickListener {
             viewModel.submitTask(task.uid)
         }
     }
@@ -92,7 +92,7 @@ class TaskRubricFragment : Fragment() {
 
     inner class RubricListAdapter : BaseAdapter() {
 
-        var data : List<RubricRequirement> = listOf()
+        var data: List<RubricRequirement> = listOf()
             set(value) {
                 field = value
                 notifyDataSetChanged()
@@ -105,8 +105,9 @@ class TaskRubricFragment : Fragment() {
         override fun getItemId(p0: Int): Long = uidMap.getStableId(data[p0].uid)
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val fillInView = convertView ?: layoutInflater.inflate(R.layout.task_rubric_checkbox, parent, false)
-            val checkBox : CheckBox = fillInView.findViewById(R.id.checkBox)
+            val fillInView = convertView
+                    ?: layoutInflater.inflate(R.layout.task_rubric_checkbox, parent, false)
+            val checkBox: CheckBox = fillInView.findViewById(R.id.checkBox)
 
             val data = getItem(position)
 
@@ -114,7 +115,7 @@ class TaskRubricFragment : Fragment() {
 
             checkBox.isChecked = data.isComplete
 
-            checkBox.setOnCheckedChangeListener{ buttonView, isChecked ->
+            checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
                 viewModel.saveRubricRequirement(RubricRequirement(data.description, isChecked, data.uid))
             }
 

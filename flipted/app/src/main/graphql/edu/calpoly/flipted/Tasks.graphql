@@ -50,7 +50,6 @@ query GetTask($taskId:String!) {
     dueDate,
     missionId,
     missionIndex,
-    objectiveId,
     pages {
      blocks {
        title
