@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                     "My Team" -> MyTeamFragment.newInstance()
                     "Marketplace" -> MarketplaceFragment.newInstance()
                     "Leaderboard" -> LeaderboardFragment.newInstance()
-                    "My Progress" -> MyProgressFragment.newInstance()
+                    "My Progress" -> LearningTargetsFragment.newInstance()
                     else -> throw IllegalStateException()
                 }
                 supportFragmentManager.commit {
