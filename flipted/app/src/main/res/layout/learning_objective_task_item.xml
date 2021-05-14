@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/learning_objective_task_item_row_divisor"
 
-        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintHorizontal_weight="3"
         >
 
         <TextView

@@ -31,7 +31,7 @@ class ProgressFragment : Fragment() {
 
             override fun createFragment(position: Int): Fragment = when(position) {
                 0 -> MissionProgressFragment.newInstance()
-                1 -> LearningTargetDetailFragment.newInstance()
+                1 -> LearningTargetDetailFragment.newInstance("lt1")
                 else -> throw IllegalArgumentException("Invalid ViewPager page")
             }
 
