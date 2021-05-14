@@ -92,7 +92,6 @@ class LearningTargetExpandableListAdapter(private val context: Context) : BaseEx
      * underlying data.
      *
      * @return whether or not the same ID always refers to the same object
-     * @see Adapter.hasStableIds
      */
     override fun hasStableIds(): Boolean = true
 
@@ -167,7 +166,23 @@ class LearningTargetExpandableListAdapter(private val context: Context) : BaseEx
      * @return the View corresponding to the child at the specified position
      */
     override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
-        //TODO("Not yet implemented")
-        return View(context)
+        val fillInView = convertView ?: LayoutInflater.from(context).inflate(R.layout.learning_objective_task_item, parent, false)
+
+        val taskName: TextView = fillInView.findViewById(R.id.learning_objective_task_item_task_name)
+        val masteryColor: ImageView = fillInView.findViewById(R.id.learning_objective_task_item_mastery_indicator_color)
+        val masteryText: TextView = fillInView.findViewById(R.id.learning_objective_task_item_mastery_indicator_text)
+
+        val taskProgress = objectives[groupPosition].tasks[childPosition]
+
+        taskName.text = taskProgress.taskName
+
+        val colorResource = MasteryResources.colorResource(taskProgress.mastery)
+        val color = ResourcesCompat.getColor(context.resources, colorResource, null)
+        masteryColor.setColorFilter(color)
+
+        val stringResource = MasteryResources.stringResource(taskProgress.mastery)
+        masteryText.setText(stringResource)
+
+        return fillInView
     }
 }
