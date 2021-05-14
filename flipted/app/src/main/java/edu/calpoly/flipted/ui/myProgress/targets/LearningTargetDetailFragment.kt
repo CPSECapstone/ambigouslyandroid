@@ -17,13 +17,13 @@ import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.UidToStableId
 import edu.calpoly.flipted.businesslogic.targets.LearningTarget
 
-class LearningTargetsFragment : Fragment() {
+class LearningTargetDetailFragment : Fragment() {
     private lateinit var viewModel: TargetsViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.learning_targets_fragment, container, false)
+    ): View? = inflater.inflate(R.layout.learning_target_detail_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -72,7 +72,7 @@ class LearningTargetsFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-                LearningTargetsFragment()
+                LearningTargetDetailFragment()
     }
 
 

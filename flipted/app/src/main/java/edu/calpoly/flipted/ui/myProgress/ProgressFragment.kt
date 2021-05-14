@@ -11,7 +11,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.myProgress.missions.MissionProgressFragment
-import edu.calpoly.flipted.ui.myProgress.targets.LearningTargetsFragment
+import edu.calpoly.flipted.ui.myProgress.targets.LearningTargetDetailFragment
 
 class ProgressFragment : Fragment() {
 
@@ -31,7 +31,7 @@ class ProgressFragment : Fragment() {
 
             override fun createFragment(position: Int): Fragment = when(position) {
                 0 -> MissionProgressFragment.newInstance()
-                1 -> LearningTargetsFragment.newInstance()
+                1 -> LearningTargetDetailFragment.newInstance()
                 else -> throw IllegalArgumentException("Invalid ViewPager page")
             }
 
