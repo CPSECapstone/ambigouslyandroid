@@ -51,6 +51,9 @@ class LearningTargetDetailFragment : Fragment() {
         if(targetId == null)
             throw IllegalStateException("No targetId provided")
 
+        val objectivesAdapter = LearningTargetExpandableListAdapter(requireActivity())
+        objectivesList.setAdapter(objectivesAdapter)
+
         viewModel.allProgress.observe(viewLifecycleOwner, Observer { progressMap ->
             val target = progressMap[targetId]
 
@@ -71,7 +74,8 @@ class LearningTargetDetailFragment : Fragment() {
             }
 
             title.text = target.target.targetName
-            // TODO: propagate the data to the adapters for the objectivesList and otherTargetsList
+            objectivesAdapter.objectives = target.objectives
+            // TODO: propagate the data to the adapters for the otherTargetsList
         })
 
         if(viewModel.allProgress.value == null)

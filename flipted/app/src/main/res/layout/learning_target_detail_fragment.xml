@@ -104,6 +104,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
+            android:groupIndicator="@null"
+
             tools:listitem="@layout/learning_objective_item"
             />
 
