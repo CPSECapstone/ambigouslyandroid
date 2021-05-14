@@ -1,6 +1,7 @@
 package edu.calpoly.flipted.ui.myProgress.targets
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,8 @@ class LearningTargetDetailFragment : Fragment() {
     private lateinit var viewModel: TargetsViewModel
     private var targetId: String? = null
 
+    private var refreshCount = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -44,6 +47,32 @@ class LearningTargetDetailFragment : Fragment() {
         val title: TextView = view.findViewById(R.id.learning_target_detail_title)
         val objectivesList: ExpandableListView = view.findViewById(R.id.learning_target_detail_list)
         val otherTargetsList: RecyclerView = view.findViewById(R.id.learning_target_detail_other_targets_list)
+
+        if(targetId == null)
+            throw IllegalStateException("No targetId provided")
+
+        viewModel.allProgress.observe(viewLifecycleOwner, Observer { progressMap ->
+            val target = progressMap[targetId]
+
+            if(target == null){
+                // We couldn't find the task with the given taskId.
+                // It's possible our cache is just out of date, so pull new data from the backend.
+                // However, we don't want to get caught in an endless cycle of refreshing from the
+                // backend if it turns out the targetId actually doesn't exist.
+                // Solution: keep a count of how many times we've refreshed, and give up if we
+                // don't find the task after refreshing a couple of times
+                refreshCount += 1
+                if(refreshCount < 3) {
+                    viewModel.fetchAllTargetProgress()
+                } else {
+                    Log.e("LearningTargetDetailFragment", "Could not find learning target with id $targetId")
+                }
+                return@Observer
+            }
+
+            title.text = target.target.targetName
+            // TODO: propagate the data to the adapters for the objectivesList and otherTargetsList
+        })
 
         if(viewModel.allProgress.value == null)
             viewModel.fetchAllTargetProgress()
