@@ -64,6 +64,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/learning_target_detail_list_col_title_2"
 
+            android:layout_marginTop="5dp"
+
             app:layout_constraintHorizontal_weight="3"
 
             style="@style/ColumnTitleStyle"
@@ -78,6 +80,8 @@
             app:layout_constraintStart_toEndOf="@id/learning_target_detail_list_col_title_1"
             app:layout_constraintEnd_toEndOf="parent"
 
+            android:layout_marginTop="5dp"
+
             app:layout_constraintHorizontal_weight="4"
 
             style="@style/ColumnTitleStyle"
@@ -91,6 +95,8 @@
             app:layout_constraintTop_toBottomOf="@id/learning_target_detail_list_col_title_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+
+            android:layout_marginTop="1dp"
 
             android:background="@color/gray4"
             />
