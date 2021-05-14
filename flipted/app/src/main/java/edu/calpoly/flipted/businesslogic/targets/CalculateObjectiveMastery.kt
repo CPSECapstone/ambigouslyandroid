@@ -19,8 +19,10 @@ object CalculateObjectiveMastery {
 
     fun execute(objectiveProgress: ObjectiveProgress) : Mastery {
         val masteryScores = objectiveProgress.tasks.mapNotNull { task -> masteryToInt(task.mastery) }
+        if(masteryScores.isEmpty())
+            return Mastery.NOT_GRADED
         val avgScore = masteryScores.average()
         val roundedScore = round(avgScore).toInt()
-        return intToMastery(roundedScore) ?: throw RuntimeException()
+        return intToMastery(roundedScore) ?: throw RuntimeException("Expected roundedScore to be 0, 1, or 2")
     }
 }
