@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.UidToStableId
-import edu.calpoly.flipted.businesslogic.targets.CalculateObjectiveMastery
+import edu.calpoly.flipted.businesslogic.targets.CalculateMastery
 import edu.calpoly.flipted.businesslogic.targets.ObjectiveProgress
 import edu.calpoly.flipted.ui.MasteryResources
 
@@ -131,7 +131,7 @@ class LearningTargetExpandableListAdapter(private val context: Context) : BaseEx
 
         val objective = objectives[groupPosition]
 
-        val objectiveMastery = CalculateObjectiveMastery.execute(objective)
+        val objectiveMastery = CalculateMastery.calculate(objective)
         val colorResource = MasteryResources.colorResource(objectiveMastery)
         val color = ResourcesCompat.getColor(context.resources, colorResource, null)
         masteryIndicator.setColorFilter(color)

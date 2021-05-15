@@ -7,7 +7,7 @@ import org.junit.Test
 class CalculateObjectiveMasteryTest {
 
     private fun calculate(vararg inputs: Mastery)
-        = CalculateObjectiveMastery.execute(ObjectiveProgress(
+        = CalculateMastery.calculate(ObjectiveProgress(
             "",
             "",
             inputs.map {
@@ -51,5 +51,34 @@ class CalculateObjectiveMasteryTest {
         assertEquals(Mastery.NOT_GRADED, calculate())
         assertEquals(Mastery.NOT_GRADED, calculate(Mastery.NOT_GRADED))
         assertEquals(Mastery.NOT_GRADED, calculate(Mastery.NOT_GRADED, Mastery.NOT_GRADED))
+    }
+
+    @Test
+    fun `test calculate learning target mastery`() {
+        val target = TargetProgress(
+                LearningTarget("", ""),
+                listOf(
+                        ObjectiveProgress("", "",
+                            listOf(
+                                    TaskObjectiveProgress("", "", Mastery.NOT_GRADED),
+                                    TaskObjectiveProgress("", "", Mastery.NOT_GRADED),
+                            )
+                        ),
+                        ObjectiveProgress("", "",
+                                listOf(
+                                        TaskObjectiveProgress("", "", Mastery.NOT_MASTERED),
+                                        TaskObjectiveProgress("", "", Mastery.NEARLY_MASTERED),
+                                )
+                        ),
+                        ObjectiveProgress("", "",
+                                listOf(
+                                        TaskObjectiveProgress("", "", Mastery.NOT_GRADED),
+                                        TaskObjectiveProgress("", "", Mastery.MASTERED),
+                                )
+                        )
+                )
+        )
+
+        assertEquals(Mastery.NEARLY_MASTERED, CalculateMastery.calculate(target))
     }
 }
