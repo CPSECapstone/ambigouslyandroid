@@ -18,15 +18,33 @@ private const val TARGET_ID_ARG_PARAM = "targetId"
 
 class LearningTargetDetailFragment : Fragment() {
     private lateinit var viewModel: TargetsViewModel
-    private var targetId: String? = null
+    private lateinit var _targetId: String
+
+    private lateinit var title: TextView
+    private lateinit var objectivesList: ExpandableListView
+    private lateinit var otherTargetsList: RecyclerView
+
+    private lateinit var objectivesAdapter: LearningTargetExpandableListAdapter
+    private lateinit var targetsAdapter: LearningTargetCardsAdapter
 
     private var refreshCount = 0
+
+    var targetId: String
+        get() = _targetId
+        set(value) {
+            _targetId = value
+
+            if(viewModel.allProgress.value == null)
+                viewModel.fetchAllTargetProgress()
+            else
+                bindData()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            targetId = it.getString(TARGET_ID_ARG_PARAM)
-        }
+            _targetId = it.getString(TARGET_ID_ARG_PARAM) ?: throw IllegalArgumentException("Missing parameter")
+        } ?: throw IllegalArgumentException("Missing parameter")
     }
 
     override fun onCreateView(
@@ -39,22 +57,19 @@ class LearningTargetDetailFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[TargetsViewModel::class.java]
 
-        val title: TextView = view.findViewById(R.id.learning_target_detail_title)
-        val objectivesList: ExpandableListView = view.findViewById(R.id.learning_target_detail_list)
-        val otherTargetsList: RecyclerView = view.findViewById(R.id.learning_target_detail_other_targets_list)
+        title = view.findViewById(R.id.learning_target_detail_title)
+        objectivesList = view.findViewById(R.id.learning_target_detail_list)
+        otherTargetsList = view.findViewById(R.id.learning_target_detail_other_targets_list)
 
-        if(targetId == null)
-            throw IllegalStateException("No targetId provided")
-
-        val objectivesAdapter = LearningTargetExpandableListAdapter(requireActivity())
+        objectivesAdapter = LearningTargetExpandableListAdapter(requireActivity())
         objectivesList.setAdapter(objectivesAdapter)
 
-        val targetsAdapter = LearningTargetCardsAdapter(requireActivity())
+        targetsAdapter = LearningTargetCardsAdapter(this)
         otherTargetsList.adapter = targetsAdapter
         otherTargetsList.layoutManager = LinearLayoutManager(requireActivity())
 
         viewModel.allProgress.observe(viewLifecycleOwner, Observer { progressMap ->
-            val target = progressMap[targetId]
+            val target = progressMap[_targetId]
 
             if(target == null){
                 // We couldn't find the task with the given taskId.
@@ -67,20 +82,26 @@ class LearningTargetDetailFragment : Fragment() {
                 if(refreshCount < 3) {
                     viewModel.fetchAllTargetProgress()
                 } else {
-                    Log.e("LearningTargetDetailFragment", "Could not find learning target with id $targetId")
+                    Log.e("LearningTargetDetailFragment", "Could not find learning target with id $_targetId")
                 }
                 return@Observer
             }
 
-            title.text = target.target.targetName
-            objectivesAdapter.objectives = target.objectives
-
-            targetsAdapter.targets = progressMap.values.toList()
-            targetsAdapter.notifyDataSetChanged()
+            bindData()
         })
 
         if(viewModel.allProgress.value == null)
             viewModel.fetchAllTargetProgress()
+    }
+
+    private fun bindData() {
+        val progressMap = viewModel.allProgress.value ?: throw IllegalStateException("Attempt to bind missing data")
+        val target = progressMap[_targetId] ?: throw IllegalStateException("Attempt to bind missing data")
+        title.text = target.target.targetName
+        objectivesAdapter.objectives = target.objectives
+
+        targetsAdapter.targets = progressMap.values.toList()
+        targetsAdapter.notifyDataSetChanged()
     }
 
     companion object {

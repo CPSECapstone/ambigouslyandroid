@@ -1,11 +1,11 @@
 package edu.calpoly.flipted.ui.myProgress.targets
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
@@ -14,21 +14,31 @@ import edu.calpoly.flipted.businesslogic.targets.CalculateMastery
 import edu.calpoly.flipted.businesslogic.targets.TargetProgress
 import edu.calpoly.flipted.ui.MasteryResources
 
-class LearningTargetCardViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
+class LearningTargetCardViewHolder(view: View, private val fragment: LearningTargetDetailFragment) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    private val root: CardView = view as CardView
     private val title: TextView = view.findViewById(R.id.learning_target_card_title)
     private val masteryIndicator: ImageView = view.findViewById(R.id.learning_target_card_mastery_indicator)
+
+    private lateinit var targetId: String
 
     fun bind(target: TargetProgress) {
         title.text = target.target.targetName
 
         val mastery = CalculateMastery.calculate(target)
         val colorResource = MasteryResources.colorResource(mastery)
-        val color = ResourcesCompat.getColor(context.resources, colorResource, null)
+        val color = ResourcesCompat.getColor(fragment.resources, colorResource, null)
         masteryIndicator.setColorFilter(color)
+
+        targetId = target.target.uid
+        root.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        fragment.targetId = targetId
     }
 }
 
-class LearningTargetCardsAdapter(private val context: Context) : RecyclerView.Adapter<LearningTargetCardViewHolder>() {
+class LearningTargetCardsAdapter(private val fragment: LearningTargetDetailFragment) : RecyclerView.Adapter<LearningTargetCardViewHolder>() {
     var targets: List<TargetProgress> = listOf()
 
     private val idMap = UidToStableId<String>()
@@ -61,8 +71,8 @@ class LearningTargetCardsAdapter(private val context: Context) : RecyclerView.Ad
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LearningTargetCardViewHolder =
             LearningTargetCardViewHolder(
-                    LayoutInflater.from(context).inflate(R.layout.learning_target_card, parent, false),
-                    context
+                    LayoutInflater.from(fragment.requireActivity()).inflate(R.layout.learning_target_card, parent, false),
+                    fragment
             )
 
     /**
