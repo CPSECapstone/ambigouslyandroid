@@ -7,6 +7,7 @@ import edu.calpoly.flipted.businesslogic.quizzes.data.answers.MultipleChoiceAnsw
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQuestion
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceAnswerOption
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceQuestion
+import edu.calpoly.flipted.businesslogic.targets.TaskObjectiveProgress
 import edu.calpoly.flipted.businesslogic.tasks.TasksRepo
 import edu.calpoly.flipted.businesslogic.tasks.data.*
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.ImageBlock
@@ -211,6 +212,10 @@ class MockTasksRepo : TasksRepo {
         delay(3000)
         return TaskSubmissionResult(taskId, false, 5, 10,
         listOf())
+    }
+
+    override suspend fun getObjectiveProgress(taskId: String): List<TaskObjectiveProgress> {
+        TODO("Not yet implemented")
     }
 
 
