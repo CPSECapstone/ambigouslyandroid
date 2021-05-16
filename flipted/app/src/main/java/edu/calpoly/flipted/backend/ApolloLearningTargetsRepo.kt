@@ -30,7 +30,7 @@ class ApolloLearningTargetsRepo: ApolloRepo(), LearningTargetsRepo {
             TargetProgress(targetProgress.target.let { target ->
                 LearningTarget(target.targetId, target.targetName) },targetProgress.objectives.map { objective ->
                     ObjectiveProgress(objective.objectiveId,objective.objectiveName,objective.tasks.map {
-                        TaskObjectiveProgress(it.taskId,it.taskName, when(it.mastery) {
+                        TaskObjectiveProgress(it.task.id,it.task.name, when(it.mastery) {
                             ApolloMastery.NOT_GRADED -> Mastery.NOT_GRADED
                             ApolloMastery.NOT_MASTERED -> Mastery.NOT_MASTERED
                             ApolloMastery.NEARLY_MASTERED -> Mastery.NEARLY_MASTERED
