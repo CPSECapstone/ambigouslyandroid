@@ -100,7 +100,7 @@ class LearningTargetDetailFragment : Fragment() {
         title.text = target.target.targetName
         objectivesAdapter.objectives = target.objectives
 
-        targetsAdapter.targets = progressMap.values.toList()
+        targetsAdapter.targets = progressMap.values.filter{it.target.uid != _targetId}
         targetsAdapter.notifyDataSetChanged()
     }
 
