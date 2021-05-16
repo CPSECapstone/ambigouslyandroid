@@ -5,19 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.ExpandableListView
-import android.widget.ListView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.businesslogic.UidToStableId
-import edu.calpoly.flipted.businesslogic.targets.LearningTarget
 
 private const val TARGET_ID_ARG_PARAM = "targetId"
 
@@ -54,6 +49,10 @@ class LearningTargetDetailFragment : Fragment() {
         val objectivesAdapter = LearningTargetExpandableListAdapter(requireActivity())
         objectivesList.setAdapter(objectivesAdapter)
 
+        val targetsAdapter = LearningTargetCardsAdapter(requireActivity())
+        otherTargetsList.adapter = targetsAdapter
+        otherTargetsList.layoutManager = LinearLayoutManager(requireActivity())
+
         viewModel.allProgress.observe(viewLifecycleOwner, Observer { progressMap ->
             val target = progressMap[targetId]
 
@@ -75,7 +74,9 @@ class LearningTargetDetailFragment : Fragment() {
 
             title.text = target.target.targetName
             objectivesAdapter.objectives = target.objectives
-            // TODO: propagate the data to the adapters for the otherTargetsList
+
+            targetsAdapter.targets = progressMap.values.toList()
+            targetsAdapter.notifyDataSetChanged()
         })
 
         if(viewModel.allProgress.value == null)
