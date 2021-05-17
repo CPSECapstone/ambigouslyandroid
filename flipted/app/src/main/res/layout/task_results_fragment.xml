@@ -6,13 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.tasks.TaskResultsFragment"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:gravity="center_horizontal">
+    tools:context=".ui.tasks.TaskResultsFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -25,26 +26,26 @@
 
     <TextView
         android:id="@+id/total_awarded_points"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_gravity="center_horizontal"
-        tools:text="Total Awarded Points"
-        android:textSize="24dp"></TextView>
+        android:layout_marginTop="30dp"
+        android:textSize="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Total Awarded Points"></TextView>
 
     <TextView
         android:id="@+id/has_been_graded"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
         android:layout_gravity="center_horizontal"
-        tools:text="(Whether or not this task has been graded)"
+        android:layout_marginTop="60dp"
         android:textSize="18dp"
-        android:textStyle="italic"></TextView>
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="(Whether or not this task has been graded)"></TextView>
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,18 +54,24 @@
         android:layout_marginTop="100dp"
         android:text="Review Your Results:"
         android:textSize="26dp" />
-    <androidx.recyclerview.widget.RecyclerView
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/task_results_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
 
-        android:paddingLeft="150dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
+            android:layout_marginTop="50dp"
 
 
-        android:id="@+id/task_results_recyclerview"/>
-
+            android:layout_marginBottom="50dp" />
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
 </androidx.core.widget.NestedScrollView>
