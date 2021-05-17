@@ -126,7 +126,8 @@ class LearningTargetExpandableListAdapter(private val context: Context) : BaseEx
         val fillInView = convertView ?: LayoutInflater.from(context).inflate(R.layout.learning_objective_item, parent, false)
 
         val groupIndicator: ImageView = fillInView.findViewById(R.id.learning_objective_item_group_indicator)
-        val masteryIndicator: ImageView = fillInView.findViewById(R.id.learning_objective_item_mastery_indicator)
+        val masteryColor: ImageView = fillInView.findViewById(R.id.learning_objective_item_mastery_indicator_color)
+        val masteryText: TextView = fillInView.findViewById(R.id.learning_objective_item_mastery_indicator_text)
         val objectiveTitle: TextView = fillInView.findViewById(R.id.learning_objective_item_title)
 
         val objective = objectives[groupPosition]
@@ -134,7 +135,11 @@ class LearningTargetExpandableListAdapter(private val context: Context) : BaseEx
         val objectiveMastery = CalculateMastery.calculate(objective)
         val colorResource = MasteryResources.colorResource(objectiveMastery)
         val color = ResourcesCompat.getColor(context.resources, colorResource, null)
-        masteryIndicator.setColorFilter(color)
+        masteryColor.setColorFilter(color)
+
+
+        val stringResource = MasteryResources.stringResource(objectiveMastery)
+        masteryText.setText(stringResource)
 
         objectiveTitle.text = objective.objectiveName
 
@@ -167,10 +172,9 @@ class LearningTargetExpandableListAdapter(private val context: Context) : BaseEx
      */
     override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
         val fillInView = convertView ?: LayoutInflater.from(context).inflate(R.layout.learning_objective_task_item, parent, false)
-
+        val masteryIndicator: ImageView = fillInView.findViewById(R.id.learning_objective_task_item_mastery_indicator)
         val taskName: TextView = fillInView.findViewById(R.id.learning_objective_task_item_task_name)
-        val masteryColor: ImageView = fillInView.findViewById(R.id.learning_objective_task_item_mastery_indicator_color)
-        val masteryText: TextView = fillInView.findViewById(R.id.learning_objective_task_item_mastery_indicator_text)
+
 
         val taskProgress = objectives[groupPosition].tasks[childPosition]
 
@@ -178,10 +182,7 @@ class LearningTargetExpandableListAdapter(private val context: Context) : BaseEx
 
         val colorResource = MasteryResources.colorResource(taskProgress.mastery)
         val color = ResourcesCompat.getColor(context.resources, colorResource, null)
-        masteryColor.setColorFilter(color)
-
-        val stringResource = MasteryResources.stringResource(taskProgress.mastery)
-        masteryText.setText(stringResource)
+        masteryIndicator.setColorFilter(color)
 
         return fillInView
     }
