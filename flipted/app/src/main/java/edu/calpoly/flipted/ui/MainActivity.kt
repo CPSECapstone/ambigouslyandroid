@@ -24,8 +24,8 @@ import edu.calpoly.flipted.ui.leaderboard.LeaderboardFragment
 import edu.calpoly.flipted.ui.login.LoginFragment
 import edu.calpoly.flipted.ui.login.LoginViewModel
 import edu.calpoly.flipted.ui.marketplace.MarketplaceFragment
-import edu.calpoly.flipted.ui.myProgress.MissionTaskFragment
 import edu.calpoly.flipted.ui.myProgress.ProgressFragment
+import edu.calpoly.flipted.ui.myProgress.missionDetails.MissionTaskFragment
 import edu.calpoly.flipted.ui.myTeam.MyTeamFragment
 
 
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                     "Home" -> StudentHomeFragment.newInstance()
                     "Classes" -> ClassesFragment.newInstance()
                     //"My Team" -> MyTeamFragment.newInstance()
-                    "My Team" -> MissionTaskFragment.newInstance("m1")
+                    "My Team" -> MissionTaskFragment.newInstance("m2")
                     "Marketplace" -> MarketplaceFragment.newInstance()
                     "Leaderboard" -> LeaderboardFragment.newInstance()
                     "My Progress" -> ProgressFragment.newInstance()

@@ -1,5 +1,4 @@
-package edu.calpoly.flipted.ui.myProgress
-
+package edu.calpoly.flipted.ui.myProgress.missionDetails
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import edu.calpoly.flipted.backend.MockMissionsRepo
 import edu.calpoly.flipted.businesslogic.missions.GetAllMissionProgress
 import edu.calpoly.flipted.businesslogic.missions.MissionProgress
-
 
 
 import kotlinx.coroutines.launch

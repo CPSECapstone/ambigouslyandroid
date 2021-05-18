@@ -21,10 +21,10 @@ class MockMissionsRepo : MissionsRepo {
         MissionProgress(
             Mission("m1", "Mendelian Genetics"),
             listOf(
-                uids.let{TaskStats(it, "Pea pod phenotypes", TaskSubmissionResult(it, true, 15, 18, listOf()))},
+                uids.let{TaskStats(it, "Pea pod phenotypes", TaskSubmissionResult(it, true, 9, 18, listOf()))},
                 uids.let{TaskStats(it, "Dominant alleles", TaskSubmissionResult(it, true, 20, 20, listOf()))},
                 uids.let{TaskStats(it, "Recessive alleles", TaskSubmissionResult(it, true, 2, 14, listOf()))},
-                TaskStats(uids, "Gene expression", null),
+                uids.let{TaskStats(it, "Gene expression", TaskSubmissionResult(it, true, 57, 100, listOf()))},
                 TaskStats(uids, "Co-dominance", null)
             )
         ),

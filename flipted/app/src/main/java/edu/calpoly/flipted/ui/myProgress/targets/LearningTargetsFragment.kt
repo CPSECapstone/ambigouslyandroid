@@ -30,7 +30,7 @@ class LearningTargetsFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[TargetsViewModel::class.java]
 
-        val targetRecyclerView: RecyclerView = view.findViewById(R.id.learning_targets_container)
+        val targetRecyclerView: RecyclerView = view.findViewById(R.id.mission_task_name)
         val allTargets: TextView = view.findViewById(R.id.all_targets_text)
         val namesList: ListView = view.findViewById(R.id.learning_target_names_list)
 

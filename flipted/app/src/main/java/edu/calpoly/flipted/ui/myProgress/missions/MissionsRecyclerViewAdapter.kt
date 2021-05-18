@@ -10,7 +10,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.missions.MissionProgress
-import edu.calpoly.flipted.ui.myProgress.MissionTaskFragment
+import edu.calpoly.flipted.ui.myProgress.missionDetails.MissionTaskFragment
+
 
 class MissionsViewHolder(view: View): RecyclerView.ViewHolder(view) {
     private val progressBar:ProgressBar = view.findViewById(R.id.mission_progress)
