@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
@@ -23,12 +24,13 @@ import edu.calpoly.flipted.ui.leaderboard.LeaderboardFragment
 import edu.calpoly.flipted.ui.login.LoginFragment
 import edu.calpoly.flipted.ui.login.LoginViewModel
 import edu.calpoly.flipted.ui.marketplace.MarketplaceFragment
+import edu.calpoly.flipted.ui.myProgress.MissionTaskFragment
 import edu.calpoly.flipted.ui.myProgress.ProgressFragment
-import edu.calpoly.flipted.ui.myProgress.targets.LearningTargetsFragment
 import edu.calpoly.flipted.ui.myTeam.MyTeamFragment
 
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -48,7 +50,8 @@ class MainActivity : AppCompatActivity() {
                 val targetFragment = when (tab!!.text) {
                     "Home" -> StudentHomeFragment.newInstance()
                     "Classes" -> ClassesFragment.newInstance()
-                    "My Team" -> MyTeamFragment.newInstance()
+                    //"My Team" -> MyTeamFragment.newInstance()
+                    "My Team" -> MissionTaskFragment.newInstance("m1")
                     "Marketplace" -> MarketplaceFragment.newInstance()
                     "Leaderboard" -> LeaderboardFragment.newInstance()
                     "My Progress" -> ProgressFragment.newInstance()
@@ -111,6 +114,7 @@ class MainActivity : AppCompatActivity() {
         }
         return super.dispatchTouchEvent(event)
     }
+
 
 
 }
