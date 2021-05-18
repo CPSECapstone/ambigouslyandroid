@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.missions.MissionProgress
@@ -23,12 +24,11 @@ class MissionsViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val completedTaskCount = missionProgress.progress.count { it.submission != null }
         progressBar.max = missionProgress.progress.size
         progressBar.progress = completedTaskCount
+
     }
 }
 
-lateinit var f_manager: FragmentManager
-
-class MissionsRecyclerViewAdapter(private val context: Context): RecyclerView.Adapter<MissionsViewHolder>(){
+class MissionsRecyclerViewAdapter(private val context: Context, private val missionProgressFragment: Fragment): RecyclerView.Adapter<MissionsViewHolder>(){
     var missions:List<MissionProgress> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MissionsViewHolder {
@@ -43,13 +43,12 @@ class MissionsRecyclerViewAdapter(private val context: Context): RecyclerView.Ad
 
         val missionDetailButton = holder.itemView.findViewById<TextView>(R.id.mission_item_text)
 
-        missionDetailButton.setOnClickListener(View.OnClickListener() {
-            fun onClick(view: View) {
-                f_manager.beginTransaction()
-                        .replace(R.id.mission_progress, MissionTaskFragment.newInstance("10"))
-                        .commit();
-            }
-        })
+        missionDetailButton.setOnClickListener {
+            missionProgressFragment.parentFragment?.parentFragmentManager?.commit{
+                replace(R.id.main_view, MissionTaskFragment.newInstance(missions[position].mission.uid))}
+
+
+        }
     }
 
 
