@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.UidToStableId
 import edu.calpoly.flipted.businesslogic.tasks.data.RubricRequirement
+import edu.calpoly.flipted.ui.tasks.ReviewResultsFragment
 import edu.calpoly.flipted.ui.tasks.TaskResultsFragment
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
 
@@ -61,7 +62,7 @@ class TaskRubricFragment : Fragment() {
             if (err.isEmpty() || err.contains("submission").not()) {
                 parentFragment?.parentFragmentManager?.popBackStack("Start task", FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 parentFragment?.parentFragmentManager?.commit {
-                    replace(R.id.main_view, TaskResultsFragment.newInstance())
+                    replace(R.id.main_view, ReviewResultsFragment.newInstance())
                     addToBackStack(null)
                     setReorderingAllowed(true)
                 }

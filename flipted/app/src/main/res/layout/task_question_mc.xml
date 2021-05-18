@@ -6,10 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/results_mc_question_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Question 1:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="18sp"
+        android:visibility="gone"
+        />
+
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginLeft="15dp">
+
 
     <TextView
         android:id="@+id/mc_question"

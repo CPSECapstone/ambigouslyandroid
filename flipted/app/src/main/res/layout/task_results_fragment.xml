@@ -1,39 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".ui.tasks.TaskResultsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
-        android:text="Your Score:"
-        android:textSize="26dp"></TextView>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height= "90dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/results_grey_box">
 
     <TextView
         android:id="@+id/total_awarded_points"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:textSize="24dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="40dp"
+        android:textColor="@color/blue1"
+        android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Total Awarded Points"></TextView>
+        tools:text="Total Awarded Points"/>
+
+        <ProgressBar
+            android:id="@+id/results_review_progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="215dp"
+            android:layout_height="25dp"
+            android:progressDrawable="@drawable/green_progress_drawable"
+
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="-80dp"
+
+            tools:progress="50" />
+</LinearLayout>
 
     <TextView
         android:id="@+id/has_been_graded"
@@ -45,7 +53,8 @@
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="(Whether or not this task has been graded)"></TextView>
+
+        tools:text="(Whether or not this task has been graded)"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,25 +62,24 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
         android:text="Review Your Results:"
-        android:textSize="26dp" />
+        android:textSize="26dp"
+        android:visibility="gone"/>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_gravity="center"
-        >
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/task_results_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
+            android:scrollbars="vertical"
+            android:scrollbarThumbVertical="@android:color/darker_gray"
+            android:scrollbarSize="5dp"
+            android:layout_width="550dp"
+            android:layout_height="650dp"
+            android:background="@drawable/results_grey_box"
 
             android:layout_marginTop="50dp"
 
-
+            android:scrollbarFadeDuration="0"
             android:layout_marginBottom="50dp" />
-    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+

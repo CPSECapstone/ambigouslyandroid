@@ -37,8 +37,11 @@ class ResultBlockViewHolder(view: View, val inflater: LayoutInflater, private va
                     val questionLayout = inflater.inflate(R.layout.task_question_mc, rootLayout, false)
                     val questionText: TextView = questionLayout.findViewById(R.id.mc_question)
                     val answers: RadioGroup = questionLayout.findViewById(R.id.answers)
+                    val questionNum: TextView = questionLayout.findViewById(R.id.results_mc_question_num)
 
                     questionText.text = question.question
+                    questionNum.visibility = View.VISIBLE
+                    questionNum.text = "Question ${position + 1}:"
 
                     val currResult = viewModel.currResponse.value
                     if (currResult != null) {
@@ -75,7 +78,7 @@ class ResultBlockViewHolder(view: View, val inflater: LayoutInflater, private va
 
                             result.setEnabled(false)
                             answers.addView(answerLayout)
-                            score.setVisibility(View.VISIBLE)
+                            score.visibility = View.VISIBLE
 
                         }
 
@@ -87,8 +90,11 @@ class ResultBlockViewHolder(view: View, val inflater: LayoutInflater, private va
                     val questionLayout = inflater.inflate(R.layout.task_question_free_response, rootLayout, false)
                     val questionText: TextView = questionLayout.findViewById(R.id.task_question_free_response_prompt)
                     val answerBox: EditText = questionLayout.findViewById(R.id.task_question_free_response_answer)
+                    val questionNum: TextView = questionLayout.findViewById(R.id.results_fr_question_num)
 
                     questionText.text = question.question
+                    questionNum.visibility = View.VISIBLE
+                    questionNum.text = "Question ${position + 1}:"
 
 
                     val currResult = viewModel.currResponse.value
