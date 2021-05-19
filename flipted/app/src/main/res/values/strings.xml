@@ -17,6 +17,9 @@
     <string name="mastery_not_mastered">NOT MASTERED</string>
     <string name="mastery_nearly_mastered">NEARLY MASTERED</string>
     <string name="mastery_mastered">MASTERED</string>
+    <string name="learning_objectives">LEARNING OBJECTIVES</string>
+    <string name="points_gained">Points Gained:</string>
+    <string name="score">Score:</string>
 
 
 </resources>

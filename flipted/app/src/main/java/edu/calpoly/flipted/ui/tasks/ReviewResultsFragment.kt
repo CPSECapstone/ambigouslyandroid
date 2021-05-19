@@ -62,7 +62,7 @@ class ReviewResultsFragment : Fragment() {
 
             override fun createFragment(position: Int): Fragment = when(position) {
                 0 -> TaskResultsFragment.newInstance()
-                1 -> TaskResultsFragment.newInstance()
+                1 -> TaskResultsSummaryFragment.newInstance()
                 2 -> TaskResultsFragment.newInstance()
                 else -> throw IllegalArgumentException("Invalid ViewPager page")
             }
