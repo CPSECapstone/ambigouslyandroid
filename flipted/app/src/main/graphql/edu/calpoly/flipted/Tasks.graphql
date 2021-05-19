@@ -98,3 +98,17 @@ query GetTask($taskId:String!) {
     }
   }
 }
+
+query GetTaskObjectiveProgress($taskId:String!) {
+  getTaskObjectiveProgress(taskId:$taskId) {
+    task {
+      id,
+      name
+    }
+    objective {
+      objectiveId,
+      objectiveName
+    }
+    mastery
+  }
+}

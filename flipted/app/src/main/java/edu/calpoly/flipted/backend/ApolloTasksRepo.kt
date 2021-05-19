@@ -1,12 +1,10 @@
 package edu.calpoly.flipted.backend
 
 import android.util.Log
-import edu.calpoly.flipted.type.TaskProgressInput
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import edu.calpoly.flipted.*
 import edu.calpoly.flipted.businesslogic.quizzes.AnswerResult
-import edu.calpoly.flipted.businesslogic.quizzes.data.answers.AnswerType
 import edu.calpoly.flipted.businesslogic.quizzes.data.answers.FreeResponseAnswer
 import edu.calpoly.flipted.businesslogic.quizzes.data.answers.MultipleChoiceAnswer
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQuestion
@@ -21,6 +19,9 @@ import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TextBlock
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.VideoBlock
 import edu.calpoly.flipted.type.FreeResponseAnswerInput
 import edu.calpoly.flipted.type.MultipleChoiceAnswerInput
+import edu.calpoly.flipted.type.TaskProgressInput
+import edu.calpoly.flipted.businesslogic.targets.Mastery
+import edu.calpoly.flipted.type.Mastery as ApolloMastery
 
 class ApolloTasksRepo : ApolloRepo(), TasksRepo {
 
@@ -198,7 +199,33 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
     }
 
     override suspend fun getObjectiveProgress(taskId: String): List<TaskObjectiveProgress> {
-        TODO("Not yet implemented")
+        val response = try {
+            apolloClient().query(GetTaskObjectiveProgressQuery(taskId)).await()
+        } catch (e: ApolloException) {
+            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            throw e
+        }
+
+        val data = response.data
+
+        if (response.hasErrors() || data == null) {
+            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
+            throw IllegalStateException("Error when querying backend: bad response")
+        }
+
+        return data.getTaskObjectiveProgress.map { taskObjProg ->
+            TaskObjectiveProgress(
+                taskObjProg.task.id, taskObjProg.task.name,
+                taskObjProg.objective.objectiveId, taskObjProg.objective.objectiveName,
+                when(taskObjProg.mastery) {
+                    ApolloMastery.NOT_GRADED -> Mastery.NOT_GRADED
+                    ApolloMastery.NOT_MASTERED -> Mastery.NOT_MASTERED
+                    ApolloMastery.NEARLY_MASTERED -> Mastery.NEARLY_MASTERED
+                    ApolloMastery.MASTERED -> Mastery.MASTERED
+                    else -> throw IllegalArgumentException("Error when querying backend: bad response")
+                }
+            )
+        }
     }
 
 }
