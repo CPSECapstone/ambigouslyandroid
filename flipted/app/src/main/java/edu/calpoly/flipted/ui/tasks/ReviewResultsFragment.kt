@@ -51,10 +51,9 @@ class ReviewResultsFragment : Fragment() {
 
         val viewModel = ViewModelProvider(requireActivity())[TaskViewModel::class.java]
 
-        val currResponse = viewModel.currResponse.value
-                ?: throw IllegalStateException("No response found")
         val currTask = viewModel.currTask.value
                 ?: throw IllegalStateException("No task found")
+        pageTitle.text = "QUIZ REVIEW"
         taskTitle.text = currTask.name
 
         pager.adapter = object: FragmentStateAdapter(this) {
@@ -71,9 +70,15 @@ class ReviewResultsFragment : Fragment() {
 
         TabLayoutMediator(tabs, pager) { tab, position ->
             tab.text = when (position) {
-                0 -> "Task Review"
+                0 -> "Quiz Review"
                 1 -> "Task Results"
                 2 -> "Get Help"
+                else -> throw IllegalArgumentException("Invalid TabLayoutMediator page")
+            }
+            pageTitle.text = when (position) {
+                0 -> "QUIZ REVIEW"
+                1 -> "TASK RESULTS"
+                2 -> "GET HELP"
                 else -> throw IllegalArgumentException("Invalid TabLayoutMediator page")
             }
         }.attach()

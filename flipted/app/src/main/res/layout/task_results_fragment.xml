@@ -20,9 +20,9 @@
     <TextView
         android:id="@+id/total_awarded_points"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="45dp"
+        android:paddingTop="13dp"
         android:layout_marginLeft="40dp"
         android:textColor="@color/blue1"
         android:textSize="16dp"
@@ -38,7 +38,7 @@
             android:progressDrawable="@drawable/green_progress_drawable"
 
             android:layout_marginTop="40dp"
-            android:layout_marginLeft="-80dp"
+            android:layout_marginLeft="-90dp"
 
             tools:progress="50" />
 </LinearLayout>
