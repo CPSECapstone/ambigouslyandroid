@@ -1,15 +1,15 @@
-query GetAllMissionProgress($courseId:String!) {
+query GetAllMissionProgress($courseId: String!) {
   getAllMissionProgress(courseId: $courseId) {
     mission {
-      id,
+      id
       name
-    },
+    }
     progress {
-      taskId,
-      name,
+      taskId
+      name
       submission {
-        graded,
-        pointsAwarded,
+        graded
+        pointsAwarded
         pointsPossible
       }
     }
