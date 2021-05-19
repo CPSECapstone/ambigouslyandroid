@@ -10,6 +10,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -39,17 +40,19 @@ class MainActivity : AppCompatActivity() {
                 setReorderingAllowed(true)
             }
         }
-        val fragmentsStack: Map<String, List<Fragment>> = HashMap<String, List<Fragment>>()
-        val currentSelectedTabTag = ""
 
-        // Used in TabListener to keep currentSelectedTabTag actual.
-        fun setCurrentSelectedTabTag(currentSelectedTabTag: String) {
-            this.currentSelectedTabTag = currentSelectedTabTag
-        }
         val tabLayout = findViewById<TabLayout>(R.id.navbar)
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-
+            val BACK_STACK_ROOT_TAG = "root_fragment"
             override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (supportFragmentManager.getBackStackEntryCount() > 0) {
+                    val first: FragmentManager.BackStackEntry =
+                        supportFragmentManager.getBackStackEntryAt(0)
+                    supportFragmentManager.popBackStack(
+                        first.getId(),
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE
+                    )
+                }
                 // Handle tab select
                 val targetFragment = when (tab!!.text) {
                     "Home" -> StudentHomeFragment.newInstance()
@@ -62,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 supportFragmentManager.commit {
                     replace(R.id.main_view, targetFragment)
+                    addToBackStack(BACK_STACK_ROOT_TAG)
                     setReorderingAllowed(true)
                 }
             }
@@ -110,30 +114,13 @@ class MainActivity : AppCompatActivity() {
                 v.getGlobalVisibleRect(outRect)
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
                     v.clearFocus()
-                    val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    val imm: InputMethodManager =
+                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
                 }
             }
         }
         return super.dispatchTouchEvent(event)
     }
-
-    override fun onBackPressed() {
-        val currentTabFragments: List<Fragment> = fragmentsStack.get(currentSelectedTabTag)
-        if (currentTabFragments.size > 1) {
-            // if it is not first screen then
-            // current screen is closed and removed from Back Stack and shown the previous one
-            val size = currentTabFragments.size
-            val fragment: Fragment = currentTabFragments[size - 2]
-            currentTabFragments.removeAt(size - 1)
-            val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            fragmentTransaction.replace(android.R.id.content, fragment)
-            fragmentTransaction.commit()
-        } else {
-            // if it is the first screen then close application will be closed
-            finish()
-        }
-    }
-
 
 }
