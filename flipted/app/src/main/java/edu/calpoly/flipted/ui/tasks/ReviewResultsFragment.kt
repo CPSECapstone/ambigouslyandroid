@@ -1,22 +1,23 @@
 package edu.calpoly.flipted.ui.tasks
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.missions.MissionFragment
-import java.lang.IllegalStateException
 
 /**
  * A simple [Fragment] subclass.
@@ -29,8 +30,10 @@ class ReviewResultsFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.results_review_fragment, container, false)
     }
@@ -38,7 +41,7 @@ class ReviewResultsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val pageTitle : TextView = view.findViewById(R.id.review_results_page_name)
+        val pageTitle: TextView = view.findViewById(R.id.review_results_page_name)
         val taskTitle: TextView = view.findViewById(R.id.review_results_task_name)
         val tabs: TabLayout = view.findViewById(R.id.results_pager_tabs)
         val pager: ViewPager2 = view.findViewById(R.id.results_pager)
@@ -48,14 +51,14 @@ class ReviewResultsFragment : Fragment() {
         val viewModel = ViewModelProvider(requireActivity())[TaskViewModel::class.java]
 
         val currTask = viewModel.currTask.value
-                ?: throw IllegalStateException("No task found")
+            ?: throw IllegalStateException("No task found")
         pageTitle.text = "QUIZ REVIEW"
         taskTitle.text = currTask.name
 
-        pager.adapter = object: FragmentStateAdapter(this) {
+        pager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int = 3
 
-            override fun createFragment(position: Int): Fragment = when(position) {
+            override fun createFragment(position: Int): Fragment = when (position) {
                 0 -> TaskResultsFragment.newInstance()
                 1 -> TaskResultsFragment.newInstance()
                 2 -> TaskResultsHelpFragment.newInstance()
@@ -83,7 +86,13 @@ class ReviewResultsFragment : Fragment() {
                     "Get Help" -> "GET HELP"
                     else -> throw IllegalStateException()
                 }
-
+                val params = pager.layoutParams
+                params.height = when (tab!!.text) {
+                    "Quiz Review" -> FrameLayout.LayoutParams.MATCH_PARENT
+                    "Task Results" -> FrameLayout.LayoutParams.MATCH_PARENT
+                    "Get Help" -> 750
+                    else -> throw IllegalStateException()
+                }
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -94,7 +103,10 @@ class ReviewResultsFragment : Fragment() {
         })
 
         taskBtn.setOnClickListener {
-            parentFragmentManager.popBackStack("Task Results", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            parentFragmentManager.popBackStack(
+                "Task Results",
+                FragmentManager.POP_BACK_STACK_INCLUSIVE
+            )
             parentFragmentManager.commit {
                 replace(R.id.main_view, TaskFragment.newInstance(currTask.uid))
                 addToBackStack("Start task")
@@ -103,7 +115,10 @@ class ReviewResultsFragment : Fragment() {
         }
 
         continueBtn.setOnClickListener {
-            parentFragmentManager.popBackStack("Task Results", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            parentFragmentManager.popBackStack(
+                "Task Results",
+                FragmentManager.POP_BACK_STACK_INCLUSIVE
+            )
             parentFragmentManager.commit {
                 replace(R.id.main_view, MissionFragment.newInstance())
                 addToBackStack(null)
@@ -123,6 +138,6 @@ class ReviewResultsFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
-                ReviewResultsFragment()
+            ReviewResultsFragment()
     }
 }
