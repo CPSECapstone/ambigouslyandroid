@@ -94,8 +94,8 @@ class ReviewResultsFragment : Fragment() {
         })
 
         taskBtn.setOnClickListener {
-            parentFragment?.parentFragmentManager?.popBackStack("Task Results", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            parentFragment?.parentFragmentManager?.commit {
+            parentFragmentManager.popBackStack("Task Results", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            parentFragmentManager.commit {
                 replace(R.id.main_view, TaskFragment.newInstance(currTask.uid))
                 addToBackStack("Start task")
                 setReorderingAllowed(true)
@@ -103,8 +103,8 @@ class ReviewResultsFragment : Fragment() {
         }
 
         continueBtn.setOnClickListener {
-            parentFragment?.parentFragmentManager?.popBackStack("Task Results", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            parentFragment?.parentFragmentManager?.commit {
+            parentFragmentManager.popBackStack("Task Results", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            parentFragmentManager.commit {
                 replace(R.id.main_view, MissionFragment.newInstance())
                 addToBackStack(null)
                 setReorderingAllowed(true)

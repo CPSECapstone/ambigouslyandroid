@@ -69,9 +69,6 @@
 
         android:textAllCaps="false"
         android:text="Continue Learning"
-
-
-
         app:layout_constraintTop_toBottomOf="@+id/results_pager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -89,7 +86,8 @@
 
         app:layout_constraintTop_toBottomOf="@+id/results_pager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/results_review_btn"
@@ -122,7 +120,8 @@
 
         app:layout_constraintTop_toBottomOf="@+id/results_pager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
