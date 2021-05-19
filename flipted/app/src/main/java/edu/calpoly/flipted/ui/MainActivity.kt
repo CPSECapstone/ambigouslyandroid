@@ -24,8 +24,8 @@ import edu.calpoly.flipted.ui.login.LoginFragment
 import edu.calpoly.flipted.ui.login.LoginViewModel
 import edu.calpoly.flipted.ui.marketplace.MarketplaceFragment
 import edu.calpoly.flipted.ui.myProgress.ProgressFragment
-import edu.calpoly.flipted.ui.myProgress.targets.LearningTargetsFragment
 import edu.calpoly.flipted.ui.myTeam.MyTeamFragment
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,7 +39,13 @@ class MainActivity : AppCompatActivity() {
                 setReorderingAllowed(true)
             }
         }
+        val fragmentsStack: Map<String, List<Fragment>> = HashMap<String, List<Fragment>>()
+        val currentSelectedTabTag = ""
 
+        // Used in TabListener to keep currentSelectedTabTag actual.
+        fun setCurrentSelectedTabTag(currentSelectedTabTag: String) {
+            this.currentSelectedTabTag = currentSelectedTabTag
+        }
         val tabLayout = findViewById<TabLayout>(R.id.navbar)
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
@@ -110,6 +116,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.dispatchTouchEvent(event)
+    }
+
+    override fun onBackPressed() {
+        val currentTabFragments: List<Fragment> = fragmentsStack.get(currentSelectedTabTag)
+        if (currentTabFragments.size > 1) {
+            // if it is not first screen then
+            // current screen is closed and removed from Back Stack and shown the previous one
+            val size = currentTabFragments.size
+            val fragment: Fragment = currentTabFragments[size - 2]
+            currentTabFragments.removeAt(size - 1)
+            val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            fragmentTransaction.replace(android.R.id.content, fragment)
+            fragmentTransaction.commit()
+        } else {
+            // if it is the first screen then close application will be closed
+            finish()
+        }
     }
 
 
