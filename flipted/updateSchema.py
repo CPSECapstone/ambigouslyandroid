@@ -26,7 +26,7 @@ else:
     gradlew = './gradlew'
 
 print("Downloading {} schema ({})".format(args.env, url))
-subprocess.run([gradlew, "downloadApolloSchema", "--schema=app/src/main/graphql/edu/calpoly/flipted/schema.json", "--endpoint={}".format(url)], shell=True)
+subprocess.run('{} downloadApolloSchema --schema=app/src/main/graphql/edu/calpoly/flipted/schema.json --endpoint={}'.format(gradlew, url), shell=True)
 
 apolloRepo = Path('./app/src/main/java/edu/calpoly/flipted/backend/ApolloRepo.kt')
 tmpApolloRepo = apolloRepo.parent / (apolloRepo.name + '.tmp')
