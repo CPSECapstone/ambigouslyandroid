@@ -3,91 +3,91 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="100"
-        android:font="@font/poppins_100"
+        android:font="@font/montserrat_100"
         />
     <font
         android:fontStyle="italic"
         android:fontWeight="100"
-        android:font="@font/poppins_100_italic"
+        android:font="@font/montserrat_100_italic"
         />
     <font
         android:fontStyle="normal"
         android:fontWeight="200"
-        android:font="@font/poppins_200"
+        android:font="@font/montserrat_200"
         />
     <font
         android:fontStyle="italic"
         android:fontWeight="200"
-        android:font="@font/poppins_200_italic"
+        android:font="@font/montserrat_200_italic"
         />
     <font
         android:fontStyle="normal"
         android:fontWeight="300"
-        android:font="@font/poppins_300"
+        android:font="@font/montserrat_300"
         />
     <font
         android:fontStyle="italic"
         android:fontWeight="300"
-        android:font="@font/poppins_300_italic"
+        android:font="@font/montserrat_300_italic"
         />
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/poppins_400"
+        android:font="@font/montserrat_400"
         />
     <font
         android:fontStyle="italic"
         android:fontWeight="400"
-        android:font="@font/poppins_400_italic"
+        android:font="@font/montserrat_400_italic"
         />
     <font
         android:fontStyle="normal"
         android:fontWeight="500"
-        android:font="@font/poppins_500"
+        android:font="@font/montserrat_500"
         />
     <font
         android:fontStyle="italic"
         android:fontWeight="500"
-        android:font="@font/poppins_500_italic"
+        android:font="@font/montserrat_500_italic"
         />
     <font
         android:fontStyle="normal"
         android:fontWeight="600"
-        android:font="@font/poppins_600"
+        android:font="@font/montserrat_600"
         />
     <font
         android:fontStyle="italic"
         android:fontWeight="600"
-        android:font="@font/poppins_600_italic"
+        android:font="@font/montserrat_600_italic"
         />
     <font
         android:fontStyle="normal"
         android:fontWeight="700"
-        android:font="@font/poppins_700"
+        android:font="@font/montserrat_700"
         />
     <font
         android:fontStyle="italic"
         android:fontWeight="700"
-        android:font="@font/poppins_700_italic"
+        android:font="@font/montserrat_700_italic"
         />
     <font
         android:fontStyle="normal"
         android:fontWeight="800"
-        android:font="@font/poppins_800"
+        android:font="@font/montserrat_800"
         />
     <font
         android:fontStyle="italic"
         android:fontWeight="800"
-        android:font="@font/poppins_800_italic"
+        android:font="@font/montserrat_800_italic"
         />
     <font
         android:fontStyle="normal"
         android:fontWeight="900"
-        android:font="@font/poppins_900"
+        android:font="@font/montserrat_900"
         />
     <font
         android:fontStyle="italic"
         android:fontWeight="900"
-        android:font="@font/poppins_900_italic"
+        android:font="@font/montserrat_900_italic"
         />
 </font-family>

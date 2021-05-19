@@ -24,7 +24,6 @@ import edu.calpoly.flipted.ui.login.LoginFragment
 import edu.calpoly.flipted.ui.login.LoginViewModel
 import edu.calpoly.flipted.ui.marketplace.MarketplaceFragment
 import edu.calpoly.flipted.ui.myProgress.ProgressFragment
-import edu.calpoly.flipted.ui.myProgress.targets.LearningTargetsFragment
 import edu.calpoly.flipted.ui.myTeam.MyTeamFragment
 
 
