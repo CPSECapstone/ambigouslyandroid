@@ -113,7 +113,7 @@
         android:id="@+id/results_review_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="71dp"
+        android:layout_marginTop="31dp"
         android:layout_marginRight="855dp"
         android:elevation="2dp"
         android:minWidth="42dp"
