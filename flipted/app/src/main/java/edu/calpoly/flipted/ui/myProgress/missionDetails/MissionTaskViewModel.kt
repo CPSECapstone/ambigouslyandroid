@@ -1,4 +1,4 @@
-package edu.calpoly.flipted.ui.myProgress.missions
+package edu.calpoly.flipted.ui.myProgress.missionDetails
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,20 +8,27 @@ import edu.calpoly.flipted.backend.ApolloMissionsRepo
 import edu.calpoly.flipted.backend.MockMissionsRepo
 import edu.calpoly.flipted.businesslogic.missions.GetAllMissionProgress
 import edu.calpoly.flipted.businesslogic.missions.MissionProgress
+
+
 import kotlinx.coroutines.launch
 
-class MissionsViewModel : ViewModel() {
-    private val _missionsProgress: MutableLiveData<List<MissionProgress>> = MutableLiveData()
+open class MissionTaskViewModel : ViewModel() {
 
-    val missionsProgress: LiveData<List<MissionProgress>>
-        get() = _missionsProgress
+    private val _allMissions: MutableLiveData<Map<String, MissionProgress>> = MutableLiveData()
+
+    val allMissions: LiveData<Map<String, MissionProgress>>
+        get() = _allMissions
 
     private val repo = ApolloMissionsRepo()
     private val getProgress = GetAllMissionProgress(repo)
 
-    fun fetchMissionsProgress() {
+
+    fun fetchTaskStats() {
         viewModelScope.launch {
-            _missionsProgress.value = getProgress.execute("Integrated Science")
+            val target = getProgress.execute("Integrated Science")
+            _allMissions.value =  target.associateBy { it.mission.uid }
+
         }
     }
+
 }

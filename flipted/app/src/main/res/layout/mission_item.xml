@@ -26,6 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/mission_item_text"
+        android:clickable="true"
+        android:onClick="onClick"
         app:layout_constraintStart_toStartOf="@id/mission_progress"
         app:layout_constraintEnd_toEndOf="@id/mission_progress"
         app:layout_constraintTop_toTopOf="@id/mission_progress"
@@ -33,6 +35,7 @@
         tools:text="My Sample Mission"
         style="@style/Heading2Style"
         android:paddingHorizontal="30dp"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,14 +10,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
 
+
 class MissionProgressFragment : Fragment() {
 
     private lateinit var viewModel: MissionsViewModel
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val recyclerView : RecyclerView = view.findViewById(R.id.fragment_mission_recycler_view)
-        val adapter = MissionsRecyclerViewAdapter(requireActivity())
+        val adapter = MissionsRecyclerViewAdapter(requireActivity(),this)
         recyclerView.adapter = adapter
 
         viewModel = ViewModelProvider(requireActivity())[MissionsViewModel::class.java]
