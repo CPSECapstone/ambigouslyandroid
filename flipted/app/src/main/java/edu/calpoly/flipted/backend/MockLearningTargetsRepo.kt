@@ -16,7 +16,7 @@ class MockLearningTargetsRepo: LearningTargetsRepo
     }
     private val targets : List<TargetProgress> = listOf(
         TargetProgress(
-            LearningTarget(uids, "Learning target 1"),
+            LearningTarget("lt1", "Learning target 1"),
             listOf(
                 uids.let{
                     ObjectiveProgress(it, "Objective 1", listOf(
@@ -41,7 +41,7 @@ class MockLearningTargetsRepo: LearningTargetsRepo
             )
         ),
         TargetProgress(
-            LearningTarget(uids, "Learning target 2"),
+            LearningTarget("lt2", "Learning target 2"),
             listOf(
                 uids.let{
                     ObjectiveProgress(it, "Objective 1", listOf(
@@ -56,7 +56,7 @@ class MockLearningTargetsRepo: LearningTargetsRepo
             )
         ),
         TargetProgress(
-            LearningTarget(uids, "Learning target 3"),
+            LearningTarget("lt3", "Learning target 3"),
             listOf(
                 uids.let{
                     ObjectiveProgress(it, "Objective 1", listOf(
@@ -81,7 +81,7 @@ class MockLearningTargetsRepo: LearningTargetsRepo
             )
         ),
         TargetProgress(
-            LearningTarget(uids, "Learning target 4"),
+            LearningTarget("lt4", "Learning target 4"),
             listOf(
                 uids.let{
                     ObjectiveProgress(it, "Objective 1", listOf(

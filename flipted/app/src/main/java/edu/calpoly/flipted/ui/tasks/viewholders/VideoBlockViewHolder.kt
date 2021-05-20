@@ -14,7 +14,7 @@ import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TaskBlock
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.VideoBlock
 
 class VideoBlockViewHolder(view : View, private val lifecycle : Lifecycle) : TaskBlockViewHolder(view) {
-    private val videoPlayer : YouTubePlayerView = view.findViewById(R.id.youtubePlayerViewTask)
+    private val videoPlayer : YouTubePlayerView = view.findViewById(R.id.task_block_video)
     private val title : TextView = view.findViewById(R.id.task_block_video_title)
     private val colorOfBlock: LinearLayout = view.findViewById(R.id.task_block_video_root)
 

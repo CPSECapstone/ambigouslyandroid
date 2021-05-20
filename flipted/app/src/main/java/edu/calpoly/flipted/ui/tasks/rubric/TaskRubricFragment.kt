@@ -63,7 +63,7 @@ class TaskRubricFragment : Fragment() {
                 parentFragment?.parentFragmentManager?.popBackStack("Start task", FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 parentFragment?.parentFragmentManager?.commit {
                     replace(R.id.main_view, ReviewResultsFragment.newInstance())
-                    addToBackStack(null)
+                    addToBackStack("Task Results")
                     setReorderingAllowed(true)
                 }
             } else {

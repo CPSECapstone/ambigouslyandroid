@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import edu.calpoly.flipted.backend.ApolloMissionsRepo
 import edu.calpoly.flipted.backend.MockMissionsRepo
 import edu.calpoly.flipted.businesslogic.missions.GetAllMissionProgress
 import edu.calpoly.flipted.businesslogic.missions.MissionProgress
@@ -15,7 +16,7 @@ class MissionsViewModel : ViewModel() {
     val missionsProgress: LiveData<List<MissionProgress>>
         get() = _missionsProgress
 
-    private val repo = MockMissionsRepo()
+    private val repo = ApolloMissionsRepo()
     private val getProgress = GetAllMissionProgress(repo)
 
     fun fetchMissionsProgress() {

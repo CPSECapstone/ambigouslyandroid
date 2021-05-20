@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:textStyle="bold"
-        android:text="TASK REVIEW"
+        android:text="QUIZ REVIEW"
         android:textSize="28dp"
         android:textColor="@color/blue1"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/results_pager_tabs"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/results_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,16 +61,14 @@
     <Button
         android:id="@+id/results_continue_learning_btn"
         style="@style/ResultsContinueBtn"
-        android:layout_width="200dp"
+        android:layout_width="240dp"
         android:layout_height="70dp"
         android:layout_marginTop="50dp"
-        android:layout_marginRight="200dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="350dp"
 
         android:textAllCaps="false"
-        android:text="Individual Goals"
-
-
-
+        android:text="Continue Learning"
         app:layout_constraintTop_toBottomOf="@+id/results_pager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -79,8 +77,8 @@
         android:id="@+id/results_continue_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
-        android:layout_marginLeft="250dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginRight="345dp"
         android:elevation="2dp"
         android:minWidth="42dp"
         android:minHeight="42dp"
@@ -88,31 +86,33 @@
 
         app:layout_constraintTop_toBottomOf="@+id/results_pager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <Button
         android:id="@+id/results_review_btn"
-        style="@style/ResultsContinueBtn"
+        style="@style/ResultsReviewBtn"
+        android:background="@drawable/results_review_btn"
         android:layout_width="200dp"
         android:layout_height="70dp"
         android:layout_marginTop="50dp"
-        android:layout_marginLeft="0dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="700dp"
 
         android:textAllCaps="false"
-        android:text="Individual Goals"
-
-
+        android:text="Back to Task"
 
         app:layout_constraintTop_toBottomOf="@+id/results_pager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
     <ImageView
         android:id="@+id/results_review_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
-        android:layout_marginLeft="250dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginRight="855dp"
         android:elevation="2dp"
         android:minWidth="42dp"
         android:minHeight="42dp"
@@ -120,7 +120,8 @@
 
         app:layout_constraintTop_toBottomOf="@+id/results_pager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

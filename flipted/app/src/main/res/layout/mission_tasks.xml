@@ -12,12 +12,12 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-
-        style="@style/TitleStyle"
-
-
-        tools:text="Learning Target #1 - Cell Division"
+        tools:text="Mission #1 - The Plant Life Cycle"
+        android:fontFamily="@font/font_poppins"
+        android:textSize="36sp"
+        android:textColor="@color/blueText"
         />
+
     <TextView
         android:id="@+id/learning_target_item_col_title_1"
         android:layout_width="0dp"
@@ -25,13 +25,13 @@
         app:layout_constraintTop_toBottomOf="@id/learning_target_item_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/learning_target_item_col_title_2"
-
         app:layout_constraintHorizontal_weight="2"
-
-        style="@style/ColumnTitleStyle"
-
-        android:text="@string/learning_target_item_column_text_1"
+        android:text="@string/mission_task_item_column_text_1"
+        android:fontFamily="@font/font_poppins"
+        android:textSize="18sp"
+        android:textColor="@color/gray2"
         />
+
     <TextView
         android:id="@+id/learning_target_item_col_title_2"
         android:layout_width="0dp"
@@ -39,13 +39,13 @@
         app:layout_constraintTop_toBottomOf="@id/learning_target_item_title"
         app:layout_constraintStart_toEndOf="@id/learning_target_item_col_title_1"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintHorizontal_weight="4"
-
-        style="@style/ColumnTitleStyle"
-
-        android:text="@string/learning_target_item_column_text_2"
+        android:text="@string/mission_task_item_column_text_2"
+        android:fontFamily="@font/font_poppins"
+        android:textSize="18sp"
+        android:textColor="@color/gray2"
         />
+
     <View
         android:id="@+id/learning_target_item_row_divisor_1"
         android:layout_width="0dp"
@@ -53,8 +53,7 @@
         app:layout_constraintTop_toBottomOf="@id/learning_target_item_col_title_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
-        android:background="@color/gray4"
+        android:background="@color/gray2"
         />
 
     <LinearLayout
@@ -62,11 +61,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-
         app:layout_constraintTop_toBottomOf="@id/learning_target_item_row_divisor_1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
         android:paddingHorizontal="10dp"
 
         />
