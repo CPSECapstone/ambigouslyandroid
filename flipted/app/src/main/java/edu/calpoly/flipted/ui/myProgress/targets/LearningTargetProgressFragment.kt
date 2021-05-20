@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.ui.myProgress.missions.LearningTargetsRecyclerViewAdapter
 
 class LearningTargetProgressFragment : Fragment() {
 
@@ -18,7 +17,7 @@ class LearningTargetProgressFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView : RecyclerView = view.findViewById(R.id.fragment_learning_target_recycler_view)
-        val adapter = LearningTargetsRecyclerViewAdapter(requireActivity(), this)
+        val adapter = LearningTargetsRecyclerViewAdapter(this)
         recyclerView.adapter = adapter
 
         viewModel = ViewModelProvider(requireActivity())[TargetsViewModel::class.java]
