@@ -11,39 +11,19 @@ import edu.calpoly.flipted.businesslogic.targets.TargetProgress
 import kotlinx.coroutines.launch
 
 class TargetsViewModel : ViewModel() {
-    private val _allProgress : MutableLiveData<List<TargetProgress>> = MutableLiveData()
-    private val _selectedLearningTargets : MutableLiveData<Set<LearningTarget>> = MutableLiveData()
+    private val _allProgress : MutableLiveData<Map<String, TargetProgress>> = MutableLiveData()
 
     private val repo = MockLearningTargetsRepo()
     private val getAllTargetProgressUseCase = GetAllTargetProgress(repo)
 
-    val selectedLearningTargets: LiveData<Set<LearningTarget>>
-        get() = _selectedLearningTargets
-
-    val allProgress: LiveData<List<TargetProgress>>
+    val allProgress: LiveData<Map<String, TargetProgress>>
         get() = _allProgress
 
     fun fetchAllTargetProgress() {
         viewModelScope.launch {
             val progress = getAllTargetProgressUseCase.execute()
-            _allProgress.value = progress
-
-            val targets = mutableMapOf<LearningTarget, Boolean>()
-            _selectedLearningTargets.value = setOf()
+            _allProgress.value = progress.associateBy {it.target.uid}
         }
-    }
-
-    fun clearSelection() {
-        _selectedLearningTargets.value = setOf()
-    }
-
-
-    fun toggleSelectTarget(target: LearningTarget) {
-        val currSelectedTargets = _selectedLearningTargets.value ?: setOf()
-        _selectedLearningTargets.value = if(currSelectedTargets.contains(target))
-            currSelectedTargets - target
-        else
-            currSelectedTargets + target
     }
 
 }
