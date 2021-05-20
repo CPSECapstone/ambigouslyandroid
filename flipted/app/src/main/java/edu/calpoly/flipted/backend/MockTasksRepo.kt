@@ -158,13 +158,13 @@ class MockTasksRepo : TasksRepo {
             TaskObjectiveProgress(mockedTask.uid, mockedTask.name, uids, "Test Objective 1", Mastery.NOT_GRADED),
             TaskObjectiveProgress(mockedTask.uid, mockedTask.name, uids, "Test Objective 2", Mastery.NOT_MASTERED),
             TaskObjectiveProgress(mockedTask.uid, mockedTask.name, uids, "Test Objective 3", Mastery.NEARLY_MASTERED),
-            TaskObjectiveProgress(mockedTask.uid, mockedTask.name, uids, "Test Objective 4", Mastery.MASTERED),
+            TaskObjectiveProgress(mockedTask.uid, mockedTask.name, uids, "Test Objective 4", Mastery.MASTERED)
         ),
         mockedTask2.uid to listOf(
             TaskObjectiveProgress(mockedTask2.uid, mockedTask2.name, uids, "Test Objective 5", Mastery.NOT_GRADED),
             TaskObjectiveProgress(mockedTask2.uid, mockedTask2.name, uids, "Test Objective 6", Mastery.NOT_MASTERED),
             TaskObjectiveProgress(mockedTask2.uid, mockedTask2.name, uids, "Test Objective 7", Mastery.NEARLY_MASTERED),
-            TaskObjectiveProgress(mockedTask2.uid, mockedTask2.name, uids, "Test Objective 8", Mastery.MASTERED),
+            TaskObjectiveProgress(mockedTask2.uid, mockedTask2.name, uids, "Test Objective 8", Mastery.MASTERED)
         )
     )
 

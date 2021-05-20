@@ -23,6 +23,7 @@
     <color name="grayOut">#C4C4C4</color>
     <color name="black">#000000</color>
     <color name="yellow">#FFBD12</color>
+    <color name="pointPurple">#C8B2F6</color>
 
     <color name="notMastered">#EA6868</color>
     <color name="nearlyMastered">#F2C94C</color>
