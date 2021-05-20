@@ -89,7 +89,7 @@ class ReviewResultsFragment : Fragment() {
                 val params = pager.layoutParams
                 params.height = when (tab!!.text) {
                     "Quiz Review" -> FrameLayout.LayoutParams.MATCH_PARENT
-                    "Task Results" -> 1300
+                    "Task Results" -> 1400
                     "Get Help" -> 750
                     else -> throw IllegalStateException()
                 }
