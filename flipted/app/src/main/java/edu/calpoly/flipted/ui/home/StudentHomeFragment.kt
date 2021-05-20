@@ -54,7 +54,7 @@ class StudentHomeFragment : Fragment() {
         val welcomeMsg = view.findViewById<TextView>(R.id.student_home_welcome_msg)
         val logoutButton = view.findViewById<Button>(R.id.student_home_logout_button)
         loginViewModel.userAttributes.observe(viewLifecycleOwner, Observer { attributes ->
-            val email = attributes.find{it.key.equals(AuthUserAttributeKey.email())}?.value ?: "Student"
+            val email = attributes?.find{it.key.equals(AuthUserAttributeKey.email())}?.value ?: "Student"
             welcomeMsg.text = "Welcome $email!"
         })
         loginViewModel.fetchUserAttributes()
