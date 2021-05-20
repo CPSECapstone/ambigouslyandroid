@@ -12,7 +12,7 @@ import edu.calpoly.flipted.businesslogic.tasks.data.blocks.ImageBlock
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TaskBlock
 
 class ImageBlockViewHolder(view : View, val inflater: LayoutInflater) : TaskBlockViewHolder(view) {
-    private val title : TextView = view.findViewById(R.id.task_image_block_title)
+    private val title : TextView = view.findViewById(R.id.task_block_image_title)
     private val image : ImageView = view.findViewById(R.id.task_block_image)
     private val colorOfBlock: LinearLayout = view.findViewById(R.id.task_block_image_root)
     //private val rootLayout: LinearLayout = view.findViewById(R.id.task_block_image_root)

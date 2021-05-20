@@ -53,6 +53,7 @@
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:textColor">@color/blueText</item>
         <item name="android:fontFamily">@font/font_poppins</item>
+        <item name="android:textSize">15pt</item>
     </style>
 
     <style name="TaskBlockImageStyle">
