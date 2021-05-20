@@ -36,7 +36,7 @@ jobs:
 
       - name: Build project
         working-directory: ${{ env.APP_PATH }}
-        run: ./gradlew assembleDebug lintDebug --stacktrace
+        run: ./gradlew assembleDebug lintDebug testDebug --stacktrace
 
       - name: Upload build outputs (APKs)
         uses: actions/upload-artifact@v2
@@ -50,53 +50,15 @@ jobs:
         with:
           name: build-reports
           path: ${{ env.APP_PATH }}/app/build/reports
-
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      
-      - name: Copy CI gradle.properties
-        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-
-      - name: Generate cache key
-        run: ./checksum.sh $APP_PATH checksum.txt
-
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches/modules-*
-            ~/.gradle/caches/jars-*
-            ~/.gradle/caches/build-cache-*
-          key: gradle-${{ hashFiles('checksum.txt') }}
-
-      - name: Run non-instrumented tests
-        working-directory: ${{ env.APP_PATH }}
-        run: ./gradlew testDebug --stacktrace
-
-      - name: Upload test reports
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-reports
-          path: ${{ env.APP_PATH }}/app/build/reports
           
   instrumented-test:
-    needs: [build, test]
+    needs: build
     runs-on: macOS-latest
+    if: github.ref == 'refs/heads/develop'
     timeout-minutes: 15
     strategy:
       matrix:
-        api-level: [30]
+        api-level: [28, 30]
 
     steps:
       - name: Checkout
