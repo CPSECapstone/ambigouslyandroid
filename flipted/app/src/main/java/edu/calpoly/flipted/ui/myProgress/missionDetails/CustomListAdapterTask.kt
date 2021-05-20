@@ -58,7 +58,6 @@ class CustomListAdapterTask(
             taskProgressBar.progress = progressVal.toInt()
             val progressString = progressVal.toInt()
 
-            //val text = Resources.getSystem().getString(R.string.percent)
             taskProgressText.text = progressString.toString() + "%"
         }
         return fillInView

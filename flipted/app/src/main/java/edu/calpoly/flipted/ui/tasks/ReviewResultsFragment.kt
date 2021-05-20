@@ -60,7 +60,7 @@ class ReviewResultsFragment : Fragment() {
 
             override fun createFragment(position: Int): Fragment = when (position) {
                 0 -> TaskResultsFragment.newInstance()
-                1 -> TaskResultsFragment.newInstance()
+                1 -> TaskResultsSummaryFragment.newInstance()
                 2 -> TaskResultsHelpFragment.newInstance()
                 else -> throw IllegalArgumentException("Invalid ViewPager page")
             }
@@ -89,7 +89,7 @@ class ReviewResultsFragment : Fragment() {
                 val params = pager.layoutParams
                 params.height = when (tab!!.text) {
                     "Quiz Review" -> FrameLayout.LayoutParams.MATCH_PARENT
-                    "Task Results" -> FrameLayout.LayoutParams.MATCH_PARENT
+                    "Task Results" -> 1300
                     "Get Help" -> 750
                     else -> throw IllegalStateException()
                 }

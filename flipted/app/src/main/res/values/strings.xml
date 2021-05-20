@@ -19,9 +19,11 @@
     <string name="mastery_not_mastered">NOT MASTERED</string>
     <string name="mastery_nearly_mastered">NEARLY MASTERED</string>
     <string name="mastery_mastered">MASTERED</string>
+    <string name="learning_objectives">LEARNING OBJECTIVES</string>
+    <string name="points_gained">Points Gained:</string>
+    <string name="score">Score:</string>
     <string name="percent">%</string>
     <string name="task_item">TASK ITEM</string>
-    <string name="score">SCORE</string>
     <string name="all_missions">All Missions</string>
     <string name="percent_empty">--%</string>
 
