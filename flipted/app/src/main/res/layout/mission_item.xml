@@ -28,7 +28,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/mission_item_text"
         android:clickable="true"
-        android:onClick="onClick"
         app:layout_constraintStart_toStartOf="@id/mission_progress"
         app:layout_constraintEnd_toEndOf="@id/mission_progress"
         app:layout_constraintTop_toTopOf="@id/mission_progress"

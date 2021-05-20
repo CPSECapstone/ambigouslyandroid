@@ -17,11 +17,11 @@ class LoginViewModel : ViewModel() {
     val isLoggedIn : LiveData<Boolean>
         get() = _isLoggedIn
 
-    val userAttributes : LiveData<List<AuthUserAttribute>>
+    val userAttributes : LiveData<List<AuthUserAttribute>?>
         get() = _userAttributes
 
     private val _isLoggedIn = MutableLiveData<Boolean>(false)
-    private val _userAttributes = MutableLiveData<List<AuthUserAttribute>>()
+    private val _userAttributes = MutableLiveData<List<AuthUserAttribute>?>()
 
     fun logInFlow(callingActivity : Activity) {
         viewModelScope.launch {
