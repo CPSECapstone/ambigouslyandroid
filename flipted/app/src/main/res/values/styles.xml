@@ -158,4 +158,20 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="ResultsContinueBtn">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:radius">3dp</item>
+    </style>
+
+    <style name="ResultsReviewBtn">
+        <item name="android:background">@color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:radius">3dp</item>
+    </style>
+
 </resources>

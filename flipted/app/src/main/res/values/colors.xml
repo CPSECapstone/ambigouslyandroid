@@ -7,8 +7,8 @@
     <color name="white">#FFFFFF</color>
     <color name="main_grey">#DBD6D6</color>
     <color name="colorDarkGrey">#969292</color>
-    <color name="correctGreen">#77DD77</color>
-    <color name="incorrectRed">#D03128</color>
+    <color name="correctGreen">#27AE60</color>
+    <color name="incorrectRed">#EB5857</color>
 
     <!--New official Colors-->
     <color name="blue1">#4274F3</color>
@@ -21,6 +21,7 @@
     <color name="gray2">#4F4F4F</color>
     <color name="gray3">#828282</color>
     <color name="gray4">#E0E0E0</color>
+    <color name="gray7">#F2F2F2</color>
     <color name="grayOut">#C4C4C4</color>
     <color name="black">#000000</color>
     <color name="yellow">#FFBD12</color>

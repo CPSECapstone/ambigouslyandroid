@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,8 +29,10 @@ class TaskResultsFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.task_results_fragment, container, false)
     }
@@ -39,14 +42,17 @@ class TaskResultsFragment : Fragment() {
 
         val pointsAwarded: TextView = view.findViewById(R.id.total_awarded_points)
         val hasBeenGraded: TextView = view.findViewById(R.id.has_been_graded)
+        val taskScoreProgress: ProgressBar = view.findViewById(R.id.results_review_progress_bar)
 
         val viewModel = ViewModelProvider(requireActivity())[TaskViewModel::class.java]
 
         val currResponse = viewModel.currResponse.value
-                ?: throw IllegalStateException("No response found")
+            ?: throw IllegalStateException("No response found")
         val currTask = viewModel.currTask.value
-                ?: throw IllegalStateException("No task found")
-        pointsAwarded.text = "${currResponse.pointsAwarded} out of ${currResponse.pointsPossible} points"
+            ?: throw IllegalStateException("No task found")
+        pointsAwarded.text = "Score: ${currResponse.pointsAwarded}/${currResponse.pointsPossible}"
+        taskScoreProgress.progress =
+            ((currResponse.pointsAwarded.toDouble() / currResponse.pointsPossible) * 100).toInt()
 
         if (currResponse.graded) {
             hasBeenGraded.text = getString(R.string.graded)
@@ -59,6 +65,7 @@ class TaskResultsFragment : Fragment() {
         val adapter = TaskResultsRecyclerViewAdapter(this)
 
         val blocks = mutableListOf<QuizBlock>()
+        val singleBlocks = mutableListOf<QuizBlock>()
 
         recyclerView.adapter = adapter
 
@@ -68,13 +75,23 @@ class TaskResultsFragment : Fragment() {
         layoutManager.setAutoMeasureEnabled(true)
         recyclerView.layoutManager = layoutManager
 
-        recyclerView.setNestedScrollingEnabled(false)
 
         currTask.pages.filter { page ->
             blocks.addAll(page.blocks.filterIsInstance<QuizBlock>())
         }
 
-        adapter.taskBlocks = blocks
+        blocks.forEach { block ->
+            block.questions.filter { question ->
+                singleBlocks.add(
+                    QuizBlock(
+                        listOf(question), block.requiredQuestionsCorrect,
+                        block.uid, block.points, block.title
+                    )
+                )
+            }
+        }
+
+        adapter.taskBlocks = singleBlocks
 
     }
 
@@ -88,6 +105,6 @@ class TaskResultsFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
-                TaskResultsFragment()
+            TaskResultsFragment()
     }
 }
