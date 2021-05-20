@@ -2,11 +2,10 @@ package edu.calpoly.flipted.ui.tasks
 
 import androidx.lifecycle.*
 import edu.calpoly.flipted.backend.ApolloTasksRepo
-import edu.calpoly.flipted.backend.MockTasksRepo
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
-import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQuestion
-import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceQuestion
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.Question
+import edu.calpoly.flipted.businesslogic.targets.TaskObjectiveProgress
+import edu.calpoly.flipted.businesslogic.tasks.GetObjectiveProgress
 import edu.calpoly.flipted.businesslogic.tasks.GetTask
 import edu.calpoly.flipted.businesslogic.tasks.SaveTaskProgress
 import edu.calpoly.flipted.businesslogic.tasks.SubmitTask
@@ -19,13 +18,13 @@ class TaskViewModel : ViewModel() {
     private val _currTask: MutableLiveData<Task> = MutableLiveData()
     private val _currResponse: MutableLiveData<TaskSubmissionResult> = MutableLiveData()
     private val _errorMessage: MutableLiveData<String> = MutableLiveData()
-    val errorMessage: LiveData<String>
-        get() = _errorMessage
+    private val _taskObjectives: MutableLiveData<List<TaskObjectiveProgress>> = MutableLiveData()
 
     private val repo = ApolloTasksRepo()
     private val getTaskUseCase = GetTask(repo)
     private val submitTaskUseCase = SubmitTask(repo)
     private val saveTaskProgressUseCase = SaveTaskProgress(repo)
+    private val getObjectiveProgressUseCase = GetObjectiveProgress(repo)
 
 
     val currTask: LiveData<Task?>
@@ -33,6 +32,12 @@ class TaskViewModel : ViewModel() {
 
     val currResponse: LiveData<TaskSubmissionResult?>
         get() = _currResponse
+
+    val errorMessage: LiveData<String>
+        get() = _errorMessage
+
+    val taskObjectives: LiveData<List<TaskObjectiveProgress>>
+        get() = _taskObjectives
 
     fun clearTask() {
         _currTask.value = null
@@ -106,10 +111,12 @@ class TaskViewModel : ViewModel() {
             try {
                 _errorMessage.value = ""
                 _currResponse.value = submitTaskUseCase.execute(taskId)
+                _taskObjectives.value = getObjectiveProgressUseCase.execute(taskId)
             } catch (e: RuntimeException) {
                 _errorMessage.value = e.message
                 _currResponse.value = TaskSubmissionResult(taskId, false, 0, 0,
                         listOf())
+                _taskObjectives.value = listOf()
             }
         }
     }

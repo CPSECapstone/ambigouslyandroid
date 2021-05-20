@@ -7,6 +7,8 @@ import edu.calpoly.flipted.businesslogic.quizzes.data.answers.MultipleChoiceAnsw
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQuestion
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceAnswerOption
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceQuestion
+import edu.calpoly.flipted.businesslogic.targets.Mastery
+import edu.calpoly.flipted.businesslogic.targets.TaskObjectiveProgress
 import edu.calpoly.flipted.businesslogic.tasks.TasksRepo
 import edu.calpoly.flipted.businesslogic.tasks.data.*
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.ImageBlock
@@ -151,6 +153,21 @@ class MockTasksRepo : TasksRepo {
             mockedTask2.uid to mockedTask2
     )
 
+    private val taskObjectives: Map<String, List<TaskObjectiveProgress>> = mapOf(
+        mockedTask.uid to listOf(
+            TaskObjectiveProgress(mockedTask.uid, mockedTask.name, uids, "Test Objective 1", Mastery.NOT_GRADED),
+            TaskObjectiveProgress(mockedTask.uid, mockedTask.name, uids, "Test Objective 2", Mastery.NOT_MASTERED),
+            TaskObjectiveProgress(mockedTask.uid, mockedTask.name, uids, "Test Objective 3", Mastery.NEARLY_MASTERED),
+            TaskObjectiveProgress(mockedTask.uid, mockedTask.name, uids, "Test Objective 4", Mastery.MASTERED),
+        ),
+        mockedTask2.uid to listOf(
+            TaskObjectiveProgress(mockedTask2.uid, mockedTask2.name, uids, "Test Objective 5", Mastery.NOT_GRADED),
+            TaskObjectiveProgress(mockedTask2.uid, mockedTask2.name, uids, "Test Objective 6", Mastery.NOT_MASTERED),
+            TaskObjectiveProgress(mockedTask2.uid, mockedTask2.name, uids, "Test Objective 7", Mastery.NEARLY_MASTERED),
+            TaskObjectiveProgress(mockedTask2.uid, mockedTask2.name, uids, "Test Objective 8", Mastery.MASTERED),
+        )
+    )
+
     private var savedProgress: MutableSet<String> = mutableSetOf()
 
     private var savedQuestionAnswers: MutableMap<String, StudentAnswerInput> = mutableMapOf()
@@ -211,6 +228,11 @@ class MockTasksRepo : TasksRepo {
         delay(3000)
         return TaskSubmissionResult(taskId, false, 5, 10,
         listOf())
+    }
+
+    override suspend fun getObjectiveProgress(taskId: String): List<TaskObjectiveProgress> {
+        delay(1000)
+        return taskObjectives[taskId] ?: throw IllegalArgumentException("No mocked data for task with id $taskId")
     }
 
 
