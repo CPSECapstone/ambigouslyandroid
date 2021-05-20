@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
 import org.junit.runner.RunWith
+import org.junit.*
 
 @RunWith(AndroidJUnit4::class)
 class TaskViewModelTest {
