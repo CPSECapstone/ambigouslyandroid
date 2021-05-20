@@ -46,12 +46,8 @@ class TaskResultsSummaryFragment : Fragment() {
         val taskResults = viewModel.currResponse.value ?: throw IllegalArgumentException("Null task results")
 
         adapter.data = taskObjectives
-        taskPercentage.text = "${(((taskResults.pointsAwarded.toFloat() / taskResults.pointsPossible.toFloat()).toInt() * 100).toString())}%"
-        taskProgressbarScore.progress = ((taskResults.pointsAwarded.toFloat() / taskResults.pointsPossible.toFloat()).toInt() * 100)
-
-
-        viewModel.fetchTask("90e0c730e56")
-        viewModel.submitTask("90e0c730e56")
+        taskPercentage.text = "${(((taskResults.pointsAwarded.toFloat() / taskResults.pointsPossible.toFloat()) * 100).toInt().toString())}%"
+        taskProgressbarScore.progress = ((taskResults.pointsAwarded.toFloat() / taskResults.pointsPossible.toFloat()) * 100).toInt()
 
     }
 
