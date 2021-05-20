@@ -11,7 +11,7 @@ class CalculateObjectiveMasteryTest {
             "",
             "",
             inputs.map {
-                TaskObjectiveProgress("", "", it)
+                TaskObjectiveProgress("", "", "", "", it)
             }
     ))
 
@@ -60,20 +60,20 @@ class CalculateObjectiveMasteryTest {
                 listOf(
                         ObjectiveProgress("", "",
                             listOf(
-                                    TaskObjectiveProgress("", "", Mastery.NOT_GRADED),
-                                    TaskObjectiveProgress("", "", Mastery.NOT_GRADED),
+                                    TaskObjectiveProgress("", "", "", "", Mastery.NOT_GRADED),
+                                    TaskObjectiveProgress("", "", "", "", Mastery.NOT_GRADED),
                             )
                         ),
                         ObjectiveProgress("", "",
                                 listOf(
-                                        TaskObjectiveProgress("", "", Mastery.NOT_MASTERED),
-                                        TaskObjectiveProgress("", "", Mastery.NEARLY_MASTERED),
+                                        TaskObjectiveProgress("", "", "", "", Mastery.NOT_MASTERED),
+                                        TaskObjectiveProgress("", "", "", "", Mastery.NEARLY_MASTERED),
                                 )
                         ),
                         ObjectiveProgress("", "",
                                 listOf(
-                                        TaskObjectiveProgress("", "", Mastery.NOT_GRADED),
-                                        TaskObjectiveProgress("", "", Mastery.MASTERED),
+                                        TaskObjectiveProgress("", "", "", "", Mastery.NOT_GRADED),
+                                        TaskObjectiveProgress("", "", "", "", Mastery.MASTERED),
                                 )
                         )
                 )
