@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.myProgress.missions.MissionProgressFragment
 import edu.calpoly.flipted.ui.myProgress.targets.LearningTargetDetailFragment
+import edu.calpoly.flipted.ui.myProgress.targets.LearningTargetProgressFragment
 
 class ProgressFragment : Fragment() {
 
@@ -31,10 +32,9 @@ class ProgressFragment : Fragment() {
 
             override fun createFragment(position: Int): Fragment = when(position) {
                 0 -> MissionProgressFragment.newInstance()
-                1 -> LearningTargetDetailFragment.newInstance("lt1")
+                1 -> LearningTargetProgressFragment.newInstance()
                 else -> throw IllegalArgumentException("Invalid ViewPager page")
             }
-
         }
 
         TabLayoutMediator(tabs, pager) { tab, position ->
