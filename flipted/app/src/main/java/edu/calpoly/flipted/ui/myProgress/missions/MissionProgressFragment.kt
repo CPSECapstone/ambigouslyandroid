@@ -20,7 +20,7 @@ class MissionProgressFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView : RecyclerView = view.findViewById(R.id.fragment_mission_recycler_view)
-        val adapter = MissionsRecyclerViewAdapter(requireActivity(),this)
+        val adapter = MissionsRecyclerViewAdapter(this)
         recyclerView.adapter = adapter
 
         viewModel = ViewModelProvider(requireActivity())[MissionsViewModel::class.java]

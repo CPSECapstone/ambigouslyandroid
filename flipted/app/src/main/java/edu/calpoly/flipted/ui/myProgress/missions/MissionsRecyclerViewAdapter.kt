@@ -1,6 +1,5 @@
 package edu.calpoly.flipted.ui.myProgress.missions
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,41 +13,45 @@ import edu.calpoly.flipted.businesslogic.missions.MissionProgress
 import edu.calpoly.flipted.ui.myProgress.missionDetails.MissionTaskFragment
 
 
-class MissionsViewHolder(view: View): RecyclerView.ViewHolder(view) {
-    private val progressBar:ProgressBar = view.findViewById(R.id.mission_progress)
-    private val missionTitle:TextView = view.findViewById(R.id.mission_item_text)
+class MissionsViewHolder(private val fragment: Fragment, view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
+    private val progressBar: ProgressBar = view.findViewById(R.id.mission_progress)
+    private val missionTitle: TextView = view.findViewById(R.id.mission_item_text)
 
+    private lateinit var missionId: String
 
     fun bind(missionProgress: MissionProgress) {
+        itemView.setOnClickListener(this)
+        missionId = missionProgress.mission.uid
+
         missionTitle.text = missionProgress.mission.name
         val completedTaskCount = missionProgress.progress.count { it.submission != null }
         progressBar.max = missionProgress.progress.size
         progressBar.progress = completedTaskCount
 
     }
+
+    override fun onClick(v: View?) {
+        fragment.parentFragment?.parentFragmentManager?.commit {
+            replace(R.id.main_view, MissionTaskFragment.newInstance(missionId))
+            setReorderingAllowed(true)
+            addToBackStack(null)
+        }
+    }
 }
 
-class MissionsRecyclerViewAdapter(private val context: Context, private val missionProgressFragment: Fragment): RecyclerView.Adapter<MissionsViewHolder>(){
+
+class MissionsRecyclerViewAdapter(private val fragment: Fragment): RecyclerView.Adapter<MissionsViewHolder>(){
     var missions:List<MissionProgress> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MissionsViewHolder {
-        val itemView = LayoutInflater.from(context).inflate(R.layout.mission_item, parent, false)
-        return MissionsViewHolder(itemView)
+        val itemView = LayoutInflater.from(fragment.requireActivity()).inflate(R.layout.mission_item, parent, false)
+        return MissionsViewHolder(fragment, itemView)
     }
 
     override fun getItemCount(): Int = missions.size
 
     override fun onBindViewHolder(holder: MissionsViewHolder, position: Int) {
         holder.bind(missions[position])
-
-        val missionDetailButton = holder.itemView.findViewById<TextView>(R.id.mission_item_text)
-
-        missionDetailButton.setOnClickListener {
-            missionProgressFragment.parentFragment?.parentFragmentManager?.commit{
-                replace(R.id.main_view, MissionTaskFragment.newInstance(missions[position].mission.uid))}
-
-
-        }
     }
 
 
