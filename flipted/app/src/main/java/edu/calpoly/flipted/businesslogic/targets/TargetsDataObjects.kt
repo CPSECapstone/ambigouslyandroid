@@ -15,6 +15,8 @@ enum class Mastery {
 data class TaskObjectiveProgress(
         val taskId: String,
         val taskName: String,
+        val objectiveId: String,
+        val objectiveName: String,
         val mastery: Mastery
 )
 
