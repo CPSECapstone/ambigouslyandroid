@@ -4,10 +4,7 @@ import android.util.Log
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import edu.calpoly.flipted.GetAllMissionProgressQuery
-import edu.calpoly.flipted.businesslogic.missions.Mission
-import edu.calpoly.flipted.businesslogic.missions.MissionProgress
-import edu.calpoly.flipted.businesslogic.missions.MissionsRepo
-import edu.calpoly.flipted.businesslogic.missions.TaskStats
+import edu.calpoly.flipted.businesslogic.missions.*
 import edu.calpoly.flipted.businesslogic.tasks.data.TaskSubmissionResult
 
 class ApolloMissionsRepo : ApolloRepo(), MissionsRepo {
@@ -30,12 +27,14 @@ class ApolloMissionsRepo : ApolloRepo(), MissionsRepo {
         return missions.map { missionProgress ->
             MissionProgress(
                     missionProgress.mission.let{ mission ->
-                        Mission(mission.id, mission.name)
+                        Mission(mission.id, mission.name, mission.description, null)
                     },
                     missionProgress.progress.map{ taskStat ->
                         TaskStats(
-                                taskStat.taskId,
-                                taskStat.name,
+                                SparseTask(
+                                    taskStat.taskId,
+                                    taskStat.name
+                                ),
                                 taskStat.submission?.let{ submission ->
                                     TaskSubmissionResult(
                                             taskStat.taskId,

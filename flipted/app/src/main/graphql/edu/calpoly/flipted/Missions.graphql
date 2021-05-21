@@ -3,6 +3,7 @@ query GetAllMissionProgress($courseId: String!) {
     mission {
       id
       name
+      description
     }
     progress {
       taskId
