@@ -15,3 +15,20 @@ query GetAllMissionProgress($courseId: String!) {
     }
   }
 }
+
+query GetMission($missionId:String!) {
+  mission(missionId:$missionId) {
+    id,
+    name,
+    description,
+    missionContent {
+      ...on Task {
+        id,
+        name,
+        instructions,
+        points,
+        dueDate
+      }
+    }
+  }
+}
