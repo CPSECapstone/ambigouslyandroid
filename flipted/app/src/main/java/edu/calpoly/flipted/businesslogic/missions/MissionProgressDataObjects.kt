@@ -7,15 +7,15 @@ data class Mission(
     val uid: String,
     val name: String,
     val description: String,
-    val content: List<SparseTask>?
+    val content: List<SparseTask>
 )
 
 data class SparseTask(
     val id: String,
     val name: String,
-    val instructions: String? = null,
-    val points: Int? = null,
-    val dueDate: Date? = null
+    val instructions: String,
+    val points: Int,
+    val dueDate: Date?
 )
 
 data class TaskStats(

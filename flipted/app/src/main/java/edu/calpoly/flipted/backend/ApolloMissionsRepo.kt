@@ -24,17 +24,26 @@ class ApolloMissionsRepo : ApolloRepo(), MissionsRepo {
 
         val missions = response.data?.getAllMissionProgress ?: throw IllegalStateException("Error when querying backend: bad response")
 
+
         return missions.map { missionProgress ->
+            val tasks = missionProgress.mission.let{ mission ->
+                mission.missionContent?.mapNotNull { content ->
+                    content?.asTask?.let { task ->
+                        SparseTask(task.id, task.name, task.instructions, task.points, task.dueDate)
+                    }
+                }?.associateBy {
+                    it.id
+                } ?: throw IllegalStateException("Error when querying backend: bad response")
+            }
             MissionProgress(
                     missionProgress.mission.let{ mission ->
-                        Mission(mission.id, mission.name, mission.description, null)
+                        Mission(mission.id, mission.name, mission.description,
+                            tasks.values.toList()
+                        )
                     },
                     missionProgress.progress.map{ taskStat ->
                         TaskStats(
-                                SparseTask(
-                                    taskStat.taskId,
-                                    taskStat.name
-                                ),
+                                tasks[taskStat.taskId] ?: throw IllegalArgumentException("Error when querying backend: bad response"),
                                 taskStat.submission?.let{ submission ->
                                     TaskSubmissionResult(
                                             taskStat.taskId,
@@ -49,6 +58,7 @@ class ApolloMissionsRepo : ApolloRepo(), MissionsRepo {
             )
         }
     }
+
 
 
 }
