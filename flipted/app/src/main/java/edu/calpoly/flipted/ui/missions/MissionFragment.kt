@@ -1,6 +1,7 @@
 package edu.calpoly.flipted.ui.missions
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,12 +86,14 @@ class MissionFragment : Fragment() {
                 taskDesc.text = currTaskInfo.instructions
 
 
+
                 taskInfo.visibility = View.VISIBLE
             }
 
         })
 
         continueBtn.setOnClickListener {
+            Log.e("tag", "here")
             val currTaskInfo = viewModel.currTaskInfo.value ?: throw IllegalArgumentException("Null task objective")
             parentFragmentManager.commit {
                 replace(R.id.main_view, TaskFragment.newInstance(currTaskInfo.uid))
@@ -98,6 +101,7 @@ class MissionFragment : Fragment() {
                 addToBackStack("Start task")
             }
         }
+
 
     }
 

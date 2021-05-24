@@ -82,7 +82,7 @@
             android:layout_height="300dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/divider_grey_line"
-            android:paddingTop="5dp"
+            android:paddingTop="15dp"
             android:divider="@android:color/transparent"
             android:dividerHeight="19dp"
             android:paddingLeft="20dp"
@@ -92,13 +92,11 @@
 
         <Button
             android:id="@+id/task_start_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/ResultsContinueBtn"
 
             android:enabled="false"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
             android:text="Continue Task"
             android:textAllCaps="false"
             android:textStyle="bold"
