@@ -25,6 +25,10 @@ import edu.calpoly.flipted.type.Mastery as ApolloMastery
 
 class ApolloTasksRepo : ApolloRepo(), TasksRepo {
 
+    override suspend fun getTaskInfo(taskId: String): Task {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getTask(taskId: String): Task {
         val response = try {
             apolloClient().query(GetTaskQuery(taskId)).await()

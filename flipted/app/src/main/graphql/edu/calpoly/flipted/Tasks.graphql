@@ -99,6 +99,25 @@ query GetTask($taskId:String!) {
   }
 }
 
+query GetTask($taskId:String!) {
+  task(taskId:$taskId) {
+    id,
+    name,
+    instructions,
+    points,
+    startAt,
+    endAt,
+    dueDate,
+    missionId,
+    missionIndex,
+    pages {
+    requirements {
+     id,
+     description
+    }
+  }
+}
+
 query GetTaskObjectiveProgress($taskId:String!) {
   getTaskObjectiveProgress(taskId:$taskId) {
     task {
