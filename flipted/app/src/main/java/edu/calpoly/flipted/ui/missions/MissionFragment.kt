@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import edu.calpoly.flipted.R
@@ -23,6 +24,9 @@ class MissionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val taskInfo : View = view.findViewById(R.id.task_info_card)
+        val taskTitle : TextView = view.findViewById(R.id.task_name)
 
         // mock task id for task 1
         val taskOneButton = view.findViewById<Button>(R.id.taskOneButton)

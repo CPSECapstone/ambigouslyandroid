@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:elevation="5dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="10dp"
+    app:cardUseCompatPadding="true"
+    android:id="@+id/task_info_card"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+        <TextView
+            android:id="@+id/task_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/divider_grey_line"
+            android:paddingBottom="15dp"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/blue1"
+            android:textSize="30dp"
+            tools:text="Task 1" />
+
+        <TextView
+            android:id="@+id/task_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:text="Task Description:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/blue1"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/task_insts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:paddingLeft="10dp"
+            android:background="@drawable/divider_grey_line"
+            android:paddingTop="5dp"
+            android:paddingBottom="15dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/gray2"
+            android:textSize="16dp"
+            tools:text="Instructions" />
+
+        <TextView
+            android:id="@+id/task_objs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:text="Learning Objectives"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/blue1"
+            android:textSize="20dp" />
+
+        <ListView
+            android:id="@+id/learning_objectives_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/divider_grey_line"
+            android:paddingTop="5dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="19dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            tools:listitem="@layout/learning_objective_list_item" />
+
+
+        <Button
+            android:id="@+id/task_start_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ResultsContinueBtn"
+            android:background="@drawable/grey_out_button"
+            android:enabled="false"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Continue Task"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
