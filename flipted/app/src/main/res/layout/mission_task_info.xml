@@ -11,18 +11,8 @@
     app:cardElevation="10dp"
     app:cardUseCompatPadding="true"
     android:id="@+id/task_info_card"
+    android:visibility="gone"
     >
-
-    <ProgressBar
-        android:id="@+id/task_info_progressbar"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-
-
-        android:layout_marginStart="130dp"
-
-        android:indeterminateTint="@color/colorPrimaryDark"
-        />
 
 
     <LinearLayout
@@ -31,8 +21,7 @@
         android:background="@color/white1"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:visibility="gone">
+        android:padding="16dp">
 
 
         <TextView

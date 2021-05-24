@@ -4,10 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.Button
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -44,7 +41,8 @@ class MissionFragment : Fragment() {
         val taskTitle : TextView = view.findViewById(R.id.task_name)
         val taskDesc : TextView = view.findViewById(R.id.task_insts)
         val continueBtn : Button = view.findViewById(R.id.task_start_button)
-        val listViewTask: ListView = view.findViewById(R.id.learning_objectives_list)
+        val listViewTask : ListView = view.findViewById(R.id.learning_objectives_list)
+        val progressBar : ProgressBar = view.findViewById(R.id.task_info_progressbar)
 
         val adapter : CustomListAdapter = CustomListAdapter()
         listViewTask.adapter = adapter
@@ -53,31 +51,42 @@ class MissionFragment : Fragment() {
         val taskOneButton = view.findViewById<Button>(R.id.taskOneButton)
         taskOneButton.setOnClickListener {
             viewModel.fetchTaskInfo("4f681550ba9")
+            taskInfo.visibility = View.GONE
+            progressBar.visibility = View.VISIBLE
         }
 
         // mock task id for task 2
         val taskTwoButton = view.findViewById<Button>(R.id.taskTwoButton)
         taskTwoButton.setOnClickListener {
             viewModel.fetchTaskInfo("90e0c730e56")
+            taskInfo.visibility = View.GONE
+            progressBar.visibility = View.VISIBLE
         }
 
         viewModel.currTaskInfo.observe(viewLifecycleOwner, Observer {
-            val currTaskInfo = viewModel.currTaskInfo.value ?: return@Observer
+            if (it == null) {
+                progressBar.visibility = View.VISIBLE
+                taskInfo.visibility = View.GONE
+            } else {
+                progressBar.visibility = View.GONE
+                val currTaskInfo = viewModel.currTaskInfo.value ?: return@Observer
 
-            if (viewModel.currTaskInfo.value?.uid != currTaskInfo.uid)
-                return@Observer
+                if (viewModel.currTaskInfo.value?.uid != currTaskInfo.uid)
+                    return@Observer
 
-            viewModel.taskObjectives.observe(viewLifecycleOwner, Observer {
-                val taskObjectives = viewModel.taskObjectives.value ?: throw IllegalArgumentException("Null task objective")
-                adapter.data = taskObjectives
-            })
-
-
-            taskTitle.text = currTaskInfo.name
-            taskDesc.text = currTaskInfo.instructions
+                viewModel.taskObjectives.observe(viewLifecycleOwner, {
+                    val taskObjectives = viewModel.taskObjectives.value
+                        ?: throw IllegalArgumentException("Null task objective")
+                    adapter.data = taskObjectives
+                })
 
 
-            taskInfo.visibility = View.VISIBLE
+                taskTitle.text = currTaskInfo.name
+                taskDesc.text = currTaskInfo.instructions
+
+
+                taskInfo.visibility = View.VISIBLE
+            }
 
         })
 
