@@ -95,8 +95,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/ResultsContinueBtn"
-
-            android:enabled="false"
             android:text="Continue Task"
             android:textAllCaps="false"
             android:textStyle="bold"

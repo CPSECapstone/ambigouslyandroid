@@ -64,6 +64,8 @@ class MissionFragment : Fragment() {
             progressBar.visibility = View.VISIBLE
         }
 
+
+
         viewModel.currTaskInfo.observe(viewLifecycleOwner, Observer {
             if (it == null) {
                 progressBar.visibility = View.VISIBLE
@@ -88,19 +90,20 @@ class MissionFragment : Fragment() {
 
 
                 taskInfo.visibility = View.VISIBLE
+
+
+                continueBtn.setOnClickListener {
+                    val currTaskInfo = viewModel.currTaskInfo.value ?: throw IllegalArgumentException("Null task objective")
+                    parentFragmentManager.commit {
+                        replace(R.id.main_view, TaskFragment.newInstance(currTaskInfo.uid))
+                        setReorderingAllowed(true)
+                        addToBackStack("Start task")
+                    }
+                }
             }
 
         })
 
-        continueBtn.setOnClickListener {
-            Log.e("tag", "here")
-            val currTaskInfo = viewModel.currTaskInfo.value ?: throw IllegalArgumentException("Null task objective")
-            parentFragmentManager.commit {
-                replace(R.id.main_view, TaskFragment.newInstance(currTaskInfo.uid))
-                setReorderingAllowed(true)
-                addToBackStack("Start task")
-            }
-        }
 
 
     }
