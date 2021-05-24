@@ -4,11 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:weightSum="1"
     tools:context=".ui.missions.MissionFragment">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_weight="0.9">
     <!-- TODO: Update blank fragment layout -->
     <TextView
         style="@style/TextAppearance.AppCompat.Title"
@@ -48,11 +50,13 @@
         android:textColor="@android:color/white"
         android:paddingHorizontal="20dp"/>
 
+
 </LinearLayout>
 
     <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.1"
         layout="@layout/mission_task_info" />
 
 

@@ -42,6 +42,7 @@ class MissionFragment : Fragment() {
             ViewModelProvider(requireActivity())[MissionsViewModel::class.java]
         val taskInfo : View = view.findViewById(R.id.task_info_card)
         val taskTitle : TextView = view.findViewById(R.id.task_name)
+        val taskDesc : TextView = view.findViewById(R.id.task_insts)
         val continueBtn : Button = view.findViewById(R.id.task_start_button)
         val listViewTask: ListView = view.findViewById(R.id.learning_objectives_list)
 
@@ -66,9 +67,17 @@ class MissionFragment : Fragment() {
             if (viewModel.currTaskInfo.value?.uid != currTaskInfo.uid)
                 return@Observer
 
+            viewModel.taskObjectives.observe(viewLifecycleOwner, Observer {
+                val taskObjectives = viewModel.taskObjectives.value ?: throw IllegalArgumentException("Null task objective")
+                adapter.data = taskObjectives
+            })
 
-            val taskObjectives = viewModel.taskObjectives.value ?: throw IllegalArgumentException("Null task objective")
-            adapter.data = taskObjectives
+
+            taskTitle.text = currTaskInfo.name
+            taskDesc.text = currTaskInfo.instructions
+
+
+            taskInfo.visibility = View.VISIBLE
 
         })
 
@@ -80,6 +89,7 @@ class MissionFragment : Fragment() {
                 addToBackStack("Start task")
             }
         }
+
     }
 
     companion object {

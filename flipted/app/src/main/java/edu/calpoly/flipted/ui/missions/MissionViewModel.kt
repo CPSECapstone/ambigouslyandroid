@@ -27,9 +27,10 @@ class MissionsViewModel : ViewModel() {
     fun fetchTaskInfo(taskId: String) {
         viewModelScope.launch {
             val task = getTaskInfoUseCase.execute(taskId)
+            val objectives = getObjectiveProgressUseCase.execute(taskId)
 
             _currTaskInfo.value = task
-            _taskObjectives.value = getObjectiveProgressUseCase.execute(taskId)
+            _taskObjectives.value = objectives
         }
     }
 }

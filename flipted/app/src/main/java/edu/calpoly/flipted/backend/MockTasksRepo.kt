@@ -207,6 +207,10 @@ class MockTasksRepo : TasksRepo {
         } ?: throw IllegalArgumentException("No task with $taskId exists")
     }
 
+    override suspend fun getTaskInfo(taskId: String): Task {
+        TODO("Not yet implemented")
+    }
+
 
     override suspend fun saveRubricProgress(progress: TaskRubricProgress) {
         delay(2000)

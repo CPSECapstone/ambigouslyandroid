@@ -26,7 +26,33 @@ import edu.calpoly.flipted.type.Mastery as ApolloMastery
 class ApolloTasksRepo : ApolloRepo(), TasksRepo {
 
     override suspend fun getTaskInfo(taskId: String): Task {
-        TODO("Not yet implemented")
+        val response = try {
+            apolloClient().query(GetTaskQuery(taskId)).await()
+        } catch (e: ApolloException) {
+            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            throw e
+        }
+
+        if (response.hasErrors() || response.data == null) {
+            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
+            throw IllegalStateException("Error when querying backend: bad response")
+        }
+
+        val badResponseException = IllegalStateException("Error when querying backend: bad response")
+
+        val task = response.data?.task ?: throw badResponseException
+
+        return Task(listOf(), listOf(),
+            task.id,
+            task.name,
+            task.instructions,
+            task.points,
+            task.startAt,
+            task.endAt,
+            task.dueDate,
+            task.missionId,
+            task.missionIndex,
+            "")
     }
 
     override suspend fun getTask(taskId: String): Task {

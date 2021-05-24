@@ -99,7 +99,7 @@ query GetTask($taskId:String!) {
   }
 }
 
-query GetTask($taskId:String!) {
+query GetTaskInfo($taskId:String!) {
   task(taskId:$taskId) {
     id,
     name,
@@ -110,7 +110,6 @@ query GetTask($taskId:String!) {
     dueDate,
     missionId,
     missionIndex,
-    pages {
     requirements {
      id,
      description
