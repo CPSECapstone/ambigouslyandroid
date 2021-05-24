@@ -4,10 +4,7 @@ import android.util.Log
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import edu.calpoly.flipted.GetAllMissionProgressQuery
-import edu.calpoly.flipted.businesslogic.missions.Mission
-import edu.calpoly.flipted.businesslogic.missions.MissionProgress
-import edu.calpoly.flipted.businesslogic.missions.MissionsRepo
-import edu.calpoly.flipted.businesslogic.missions.TaskStats
+import edu.calpoly.flipted.businesslogic.missions.*
 import edu.calpoly.flipted.businesslogic.tasks.data.TaskSubmissionResult
 
 class ApolloMissionsRepo : ApolloRepo(), MissionsRepo {
@@ -27,15 +24,26 @@ class ApolloMissionsRepo : ApolloRepo(), MissionsRepo {
 
         val missions = response.data?.getAllMissionProgress ?: throw IllegalStateException("Error when querying backend: bad response")
 
+
         return missions.map { missionProgress ->
+            val tasks = missionProgress.mission.let{ mission ->
+                mission.missionContent?.mapNotNull { content ->
+                    content?.asTask?.let { task ->
+                        SparseTask(task.id, task.name, task.instructions, task.points, task.dueDate)
+                    }
+                }?.associateBy {
+                    it.id
+                } ?: throw IllegalStateException("Error when querying backend: bad response")
+            }
             MissionProgress(
                     missionProgress.mission.let{ mission ->
-                        Mission(mission.id, mission.name)
+                        Mission(mission.id, mission.name, mission.description,
+                            tasks.values.toList()
+                        )
                     },
                     missionProgress.progress.map{ taskStat ->
                         TaskStats(
-                                taskStat.taskId,
-                                taskStat.name,
+                                tasks[taskStat.taskId] ?: throw IllegalArgumentException("Error when querying backend: bad response"),
                                 taskStat.submission?.let{ submission ->
                                     TaskSubmissionResult(
                                             taskStat.taskId,
@@ -50,6 +58,7 @@ class ApolloMissionsRepo : ApolloRepo(), MissionsRepo {
             )
         }
     }
+
 
 
 }

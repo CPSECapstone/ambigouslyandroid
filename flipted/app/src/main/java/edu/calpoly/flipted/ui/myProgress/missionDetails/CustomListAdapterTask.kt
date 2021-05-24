@@ -35,7 +35,7 @@ class CustomListAdapterTask(
     }
 
     override fun getItemId(position: Int): Long {
-        return uidMap.getStableId(data[position].taskId)
+        return uidMap.getStableId(data[position].task.id)
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -46,7 +46,7 @@ class CustomListAdapterTask(
         val taskProgressText: TextView = fillInView.findViewById(R.id.mission_task_percent)
         val data = getItem(position)
 
-        taskName.text = data.name
+        taskName.text = data.task.name
         if(data.submission != null){
             val progressVal = (data.submission.pointsAwarded.toFloat() /data.submission.pointsPossible.toFloat())*100
             if (progressVal <= 50){
