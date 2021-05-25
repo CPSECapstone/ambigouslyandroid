@@ -13,4 +13,5 @@ interface TasksRepo {
     suspend fun saveQuizAnswer(answer: TaskQuizAnswer)
     suspend fun submitTask(taskId : String) : TaskSubmissionResult
     suspend fun getObjectiveProgress(taskId: String): List<TaskObjectiveProgress>
+    suspend fun retrieveTaskSubmission(taskId: String): TaskSubmissionResult
 }

@@ -79,7 +79,7 @@
         <ListView
             android:id="@+id/learning_objectives_list"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="200dp"
             android:background="@drawable/divider_grey_line"
             android:paddingTop="15dp"
             android:layout_marginBottom="20dp"
@@ -96,7 +96,6 @@
             android:layout_gravity="left"
             android:gravity="left"
             android:paddingLeft="10dp"
-            android:paddingTop="10dp"
             android:text="Feedback:"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/blue1"

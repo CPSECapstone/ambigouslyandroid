@@ -239,5 +239,10 @@ class MockTasksRepo : TasksRepo {
         return taskObjectives[taskId] ?: throw IllegalArgumentException("No mocked data for task with id $taskId")
     }
 
+    override suspend fun retrieveTaskSubmission(taskId: String): TaskSubmissionResult {
+        return TaskSubmissionResult(taskId, false, 5, 10,"Nice work!",
+            listOf())
+    }
+
 
 }

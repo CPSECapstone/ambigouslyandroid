@@ -130,3 +130,4 @@ query GetTaskObjectiveProgress($taskId:String!) {
     mastery
   }
 }
+

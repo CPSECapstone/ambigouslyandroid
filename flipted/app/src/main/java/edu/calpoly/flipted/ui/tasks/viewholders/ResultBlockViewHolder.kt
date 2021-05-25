@@ -91,6 +91,8 @@ class ResultBlockViewHolder(view: View, val inflater: LayoutInflater, private va
                     val questionText: TextView = questionLayout.findViewById(R.id.task_question_free_response_prompt)
                     val answerBox: EditText = questionLayout.findViewById(R.id.task_question_free_response_answer)
                     val questionNum: TextView = questionLayout.findViewById(R.id.results_fr_question_num)
+                    val feedbackTitle: TextView = questionLayout.findViewById(R.id.task_fr_feedback_title)
+                    val feedback: TextView = questionLayout.findViewById(R.id.task_fr_feedback)
 
                     questionText.text = question.question
                     questionNum.visibility = View.VISIBLE

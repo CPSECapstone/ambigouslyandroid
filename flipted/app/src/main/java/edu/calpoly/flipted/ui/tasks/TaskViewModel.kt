@@ -121,8 +121,9 @@ class TaskViewModel : ViewModel() {
         }
     }
 
-    fun setTaskSubmission(task: TaskSubmissionResult) {
-        _currResponse.value = task
+    fun setTaskSubmission(taskResult: TaskSubmissionResult) {
+        fetchTask(taskResult.taskId)
+        _currResponse.value = taskResult
     }
 
 

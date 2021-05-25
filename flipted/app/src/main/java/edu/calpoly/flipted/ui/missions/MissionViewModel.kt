@@ -3,6 +3,7 @@ package edu.calpoly.flipted.ui.missions
 import androidx.lifecycle.*
 import edu.calpoly.flipted.backend.ApolloMissionsRepo
 import edu.calpoly.flipted.backend.ApolloTasksRepo
+import edu.calpoly.flipted.backend.MockMissionsRepo
 import edu.calpoly.flipted.businesslogic.missions.GetAllMissionProgress
 import edu.calpoly.flipted.businesslogic.missions.TaskStats
 import edu.calpoly.flipted.businesslogic.targets.TaskObjectiveProgress
@@ -16,7 +17,7 @@ class MissionsViewModel : ViewModel() {
     private val _currTaskInfo: MutableLiveData<TaskStats> = MutableLiveData()
     private val _taskObjectives: MutableLiveData<List<TaskObjectiveProgress>> = MutableLiveData()
 
-    private val repo = ApolloMissionsRepo()
+    private val repo = MockMissionsRepo()
     private val tasksRepo = ApolloTasksRepo()
     private val getProgress = GetAllMissionProgress(repo)
     private val getTaskInfoUseCase = GetTaskInfo(tasksRepo)
@@ -32,12 +33,13 @@ class MissionsViewModel : ViewModel() {
     fun fetchTaskInfo(taskId: String) {
         viewModelScope.launch {
             val target = getProgress.execute("Integrated Science")
-            val currMission = target.filter{it.mission.uid == "da0719ba103"}.toList()[0]
-            val task = currMission.progress.filter {it.task.id == taskId}.toList()[0]
-            val objectives = getObjectiveProgressUseCase.execute(taskId)
+            //"da0719ba103"
+            val currMission = target.filter{it.mission.uid == "m1"}.toList()[0]
+            val task = currMission.progress.filter {it.task.id == "11"}.toList()[0]
+            //val objectives = getObjectiveProgressUseCase.execute(taskId)
 
             _currTaskInfo.value = task
-            _taskObjectives.value = objectives
+            _taskObjectives.value = listOf() //objectives
 
         }
     }
