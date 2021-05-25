@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.goals.Goal
 import edu.calpoly.flipted.ui.goals.edit.EditGoalFragment
+import edu.calpoly.flipted.ui.tasks.rubric.TaskRubricFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -31,6 +33,11 @@ class GoalsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //need to make it with edit goal
+        childFragmentManager.commit {
+            replace(R.id.edit_goal_container, EditGoalFragment.newInstanceCreateGoal())
+            setReorderingAllowed(true)
+        }
 
         viewModel = ViewModelProvider(requireActivity())[GoalsViewModel::class.java]
         goalsListFragmentContainer = view.findViewById(R.id.goals_list_fragment_container)
@@ -61,10 +68,11 @@ class GoalsFragment : Fragment() {
         }
 
 
+
         val newGoalButton = view.findViewById<Button>(R.id.newGoalButton)
         newGoalButton.setOnClickListener{
             parentFragmentManager.commit {
-                replace(R.id.main_view, EditGoalFragment.newInstanceCreateGoal())
+                replace(R.id.edit_goal_container, EditGoalFragment.newInstanceCreateGoal())
                 setReorderingAllowed(true)
                 addToBackStack("EditGoalFragment")
             }

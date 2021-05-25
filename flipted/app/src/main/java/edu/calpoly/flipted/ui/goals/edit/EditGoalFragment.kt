@@ -12,15 +12,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.businesslogic.goals.SubGoal
 import edu.calpoly.flipted.ui.goals.GoalRecyclerViewAdapter
 import java.text.SimpleDateFormat
 
 
 private const val GOALID_ARG_PARAM = "goalId"
+private const val GOAL_CONTAINER_TITLE = "goalContainerName"
 
 class EditGoalFragment : Fragment() {
     private var editGoalId: String? = null
+    private var goalContainerType: String? = null
 
     private lateinit var viewModel: EditGoalViewModel
 
@@ -37,18 +38,27 @@ class EditGoalFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             editGoalId = it.getString(GOALID_ARG_PARAM)
+            goalContainerType = it.getString(GOAL_CONTAINER_TITLE)
         }
     }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.goals_fragment_create, container, false)
+    ): View = inflater.inflate(R.layout.goal_fragment_new_goal, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity())[EditGoalViewModel::class.java]
+
+        val goalFragmentTitleText = view.findViewById<TextView>(R.id.goals_fragment_title)
+        if(goalContainerType.isNullOrBlank()){
+            goalFragmentTitleText.text = "Create New Goal"
+        }
+        else {
+            goalFragmentTitleText.text = goalContainerType
+        }
 
         goalTitleText = view.findViewById(R.id.goals_fragment_create_name_input)
         submitGoalButton = view.findViewById(R.id.goals_fragment_create_submit_button)
@@ -66,7 +76,8 @@ class EditGoalFragment : Fragment() {
             GoalDueDatePickerFragment().show(childFragmentManager, GoalDueDatePickerFragment.TAG)
         }
 
-        val categoryOptions = arrayOf("Emotional", "Social", "Completion", "Logical")
+
+        val categoryOptions = arrayOf("Add Category","Emotional", "Social", "Completion", "Logical")
         val spinnerAdapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, categoryOptions)
         goalCategorySelector.adapter = spinnerAdapter
         goalCategorySelector.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
@@ -129,10 +140,11 @@ class EditGoalFragment : Fragment() {
         fun newInstanceCreateGoal() =
             EditGoalFragment()
 
-        fun newInstanceEditGoal(goalId: String)
+        fun newInstanceEditGoal(goalId: String,goalContainerTitle: String)
             = EditGoalFragment().apply {
                 arguments = Bundle().apply {
                     putString(GOALID_ARG_PARAM, goalId)
+                    putString(GOAL_CONTAINER_TITLE, goalContainerTitle)
                 }
         }
     }

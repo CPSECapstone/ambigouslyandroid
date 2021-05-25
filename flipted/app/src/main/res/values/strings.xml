@@ -26,6 +26,9 @@
     <string name="task_item">TASK ITEM</string>
     <string name="all_missions">All Missions</string>
     <string name="percent_empty">--%</string>
+    <string name="edit_goal">Edit Goal</string>
+    <string name="new_goal">Create New Goal</string>
+    <string name="add_title">Add Title</string>
 
 
 </resources>
