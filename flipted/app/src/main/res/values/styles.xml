@@ -189,4 +189,18 @@
         <item name="android:fontWeight">500</item>
     </style>
 
+    <style name="MissionTaskTitle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/blueText</item>
+        <item name="android:fontFamily">@font/font_poppins</item>
+        <item name="android:fontWeight">500</item>
+    </style>
+
+    <style name="MissionTaskPoints">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/font_poppins</item>
+        <item name="android:fontWeight">500</item>
+    </style>
+
 </resources>

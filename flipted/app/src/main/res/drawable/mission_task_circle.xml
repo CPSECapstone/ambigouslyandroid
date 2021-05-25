@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:aapt="http://schemas.android.com/aapt">
+
+<item>
+    <aapt:attr name="android:drawable">
+        <shape
+            android:shape="oval"
+            >
+            <size
+                android:width="64dp"
+                android:height="64dp"
+                />
+            <stroke
+                android:width="4dp"
+                android:color="@color/blue1"/>
+            <solid
+                android:color="@color/white"/>
+        </shape>
+    </aapt:attr>
+</item>
+
+<item
+    android:id="@+id/mission_task_circle_contents"
+    tools:drawable="@drawable/mission_task_check"/>
+
+</layer-list>

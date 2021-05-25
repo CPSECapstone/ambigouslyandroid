@@ -1,0 +1,39 @@
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    >
+<item>
+<aapt:attr name="android:drawable">
+    <shape
+        android:shape="oval"
+        >
+        <size
+            android:width="80dp"
+            android:height="80dp"
+            />
+    </shape>
+</aapt:attr>
+</item>
+<item
+    android:top="24dp"
+    android:bottom="24dp"
+    android:left="22dp"
+    android:right="22dp">
+    <aapt:attr name="android:drawable">
+    <vector
+        android:width="36dp"
+        android:height="32dp"
+        android:viewportWidth="42"
+        android:viewportHeight="38">
+        <path
+            android:pathData="M39,3L14.25,35L3,20.4545"
+            android:strokeLineJoin="round"
+            android:strokeWidth="6"
+            android:fillColor="#00000000"
+            android:strokeColor="#27AE60"
+            android:strokeLineCap="round"/>
+    </vector>
+    </aapt:attr>
+</item>
+
+</layer-list>

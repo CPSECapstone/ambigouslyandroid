@@ -1,0 +1,38 @@
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    >
+  <item>
+    <aapt:attr name="android:drawable">
+      <shape
+          android:shape="oval"
+          >
+        <size
+            android:width="80dp"
+            android:height="80dp"
+            />
+      </shape>
+    </aapt:attr>
+  </item>
+<item
+    android:top="18dp"
+    android:bottom="17dp"
+    android:left="34dp"
+    android:right="34dp">
+  <aapt:attr name="android:drawable">
+  <vector
+      android:width="12dp"
+      android:height="45dp"
+      android:viewportWidth="12"
+      android:viewportHeight="45">
+    <path
+        android:pathData="M0.4393,3.5542C0.2423,1.67 1.7227,0.0416 3.5741,0.1062L8.329,0.2723C10.1043,0.3343 11.4481,1.9322 11.2434,3.7378L7.8404,33.7611C7.7122,34.8923 6.7561,35.7343 5.644,35.6954C4.5828,35.6584 3.7108,34.8288 3.5979,33.7488L0.4393,3.5542Z"
+        android:fillColor="#EA6868"/>
+    <path
+        android:pathData="M8.6681,41.409C8.6141,42.9557 7.2086,44.162 5.5289,44.1033C3.8492,44.0446 2.5313,42.7432 2.5853,41.1965C2.6393,39.6498 4.0448,38.4435 5.7245,38.5022C7.4042,38.5608 8.7221,39.8623 8.6681,41.409Z"
+        android:fillColor="#EA6868"/>
+  </vector>
+  </aapt:attr>
+</item>
+
+</layer-list>
