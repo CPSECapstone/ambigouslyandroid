@@ -4,14 +4,19 @@
     >
   <item>
     <aapt:attr name="android:drawable">
-      <shape
-          android:shape="oval"
-          >
-        <size
-            android:width="80dp"
-            android:height="80dp"
-            />
-      </shape>
+    <shape
+        android:shape="oval"
+        >
+      <size
+          android:width="64dp"
+          android:height="64dp"
+          />
+      <stroke
+          android:width="4dp"
+          android:color="@color/blue1"/>
+      <solid
+          android:color="@color/white"/>
+    </shape>
     </aapt:attr>
   </item>
 <item
