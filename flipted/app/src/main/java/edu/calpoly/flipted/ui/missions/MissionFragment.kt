@@ -43,6 +43,7 @@ class MissionFragment : Fragment() {
 
         taskList.adapter = adapter
         taskList.layoutManager = LinearLayoutManager(requireActivity())
+        taskList.addItemDecoration(MissionTasksItemDecoration(this))
 
         viewModel = ViewModelProvider(requireActivity())[MissionsViewModel::class.java]
 
