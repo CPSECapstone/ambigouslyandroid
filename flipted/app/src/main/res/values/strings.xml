@@ -29,6 +29,11 @@
     <string name="edit_goal">Edit Goal</string>
     <string name="new_goal">Create New Goal</string>
     <string name="add_title">Add Title</string>
+    <string name="add_due_date">Add Due Date</string>
+    <string name="save_edits">Save Edits</string>
+    <string name="add_subgoal_due_date">Add Subgoal Due Date</string>
+    <string name="add_subgoal_title">Add Subgoal Title</string>
+    <string name="goal_menu">Goal Menu</string>
 
 
 </resources>

@@ -111,6 +111,7 @@ class CustomExpandableListAdapter (
 
         val editButton: Button = fillInView.findViewById(R.id.goals_item_top_edit_button)
 
+
         if(currGoal.subGoals.isEmpty()) {
             progressContainer.visibility = View.GONE
             checkBox.visibility = View.VISIBLE

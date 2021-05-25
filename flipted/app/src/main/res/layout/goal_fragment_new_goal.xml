@@ -1,199 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="360dp"
-    android:layout_height="match_parent"
-    android:background="@color/grayGoal">
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="360dp"
+android:layout_height="match_parent"
+android:background="@color/grayGoal">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+    <TextView
+    style="@style/TitleGoalEditStyle"
+    android:id="@+id/goals_fragment_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/new_goal"
+    />
 
-        <TextView
-            android:id="@+id/goals_fragment_title"
-            android:layout_marginTop="55dp"
-            android:layout_marginEnd="98dp"
-            android:fontFamily="@font/font_poppins"
-            android:textColor="@color/blueMenu"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/new_goal"
-            />
-
-
-        <View
-            android:layout_width="330dp"
-            android:layout_height="2dp"
-            android:background="@color/grayDivider"
-            />
-
-        <LinearLayout
-            android:layout_width="325dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="start">
-
-            <ImageView
-                android:layout_gravity="center"
-                android:id="@+id/imageView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/edit_vector" />
-
-            <EditText
-                android:id="@+id/goals_fragment_create_name_input"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/add_title"
-                android:textSize="14sp"
-                android:inputType="text"
-                android:fontFamily="@font/font_poppins"
-                android:layout_marginStart="25dp" />
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="330dp"
-            android:layout_height="2dp"
-            android:background="@color/grayDivider"
-            />
-
-
-
-        <LinearLayout
-            android:layout_width="325dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="start">
-
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/calendar_vector" />
-
-            <Button
-                android:layout_marginStart="25dp"
-                android:id="@+id/goals_fragment_create_date_selector_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#00000000"
-                android:textSize="14sp"
-                android:textAllCaps="false"
-                android:textColor="@color/grayDivider"
-                android:fontFamily="@font/font_poppins"
-                android:text="Add Due Date" />
-
-            <TextView
-                android:id="@+id/goals_fragment_create_date_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/font_poppins"
-                android:layout_marginStart="25dp"
-                android:textSize="14sp"
-                />
-
-
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="330dp"
-            android:layout_height="2dp"
-            android:background="@color/grayDivider"
-            />
+    <View
+    style="@style/GoalEditLineStyle"
+    android:layout_width="330dp"
+    android:layout_height="2dp"
+    />
 
     <LinearLayout
-        android:layout_width="325dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="start">
+    android:layout_width="325dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="start">
 
+    <ImageView
+    android:layout_gravity="center"
+    android:id="@+id/imageView5"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:srcCompat="@drawable/edit_vector" />
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/heart_vector" />
-
-        <Spinner
-            android:id="@+id/goals_fragment_create_category_spinner"
-            android:layout_marginStart="20dp"
-            android:textSize="14sp"
-            android:fontFamily="@font/font_poppins"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <EditText
+    style="@style/GoalDateAddTitleStyle"
+    android:id="@+id/goals_fragment_create_name_input"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:hint="@string/add_title" />
 
     </LinearLayout>
 
-        <View
-            android:layout_width="330dp"
-            android:layout_height="2dp"
-            android:background="@color/grayDivider"
-            />
-
-
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/goals_fragment_create_subgoals_recyclerview"
-            android:layout_width="330dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            tools:listitem="@layout/goals_fragment_create_subgoal_list_item" >
-        </androidx.recyclerview.widget.RecyclerView>
+    <View
+    style="@style/GoalEditLineStyle"
+    android:layout_width="330dp"
+    android:layout_height="2dp"
+    />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="start">
+    android:layout_width="325dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="start">
 
+    <ImageView
+    android:id="@+id/imageView6"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:srcCompat="@drawable/calendar_vector" />
 
-        <ImageButton
-            android:id="@+id/hide_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="#00000000"
-            android:layout_marginLeft="10dp"
-            app:srcCompat="@drawable/left_arrow_vector" />
+    <Button
+    style="@style/GoalDateButtonStyle"
+    android:id="@+id/goals_fragment_create_date_selector_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/add_due_date" />
 
+    <TextView
+    style="@style/GoalDateTextStyle"
+    android:id="@+id/goals_fragment_create_date_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    />
 
-        <Button
-            android:layout_marginStart="45dp"
-            android:id="@+id/goals_fragment_create_submit_button"
-            android:layout_width="206dp"
-            android:layout_height="60dp"
-            android:background="@drawable/rounded_corner"
-            android:fontFamily="sans-serif-black"
-            android:text="Save Edits"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            />
+    </LinearLayout>
+
+    <View
+    style="@style/GoalEditLineStyle"
+    android:layout_width="330dp"
+    android:layout_height="2dp"
+    />
+
+    <LinearLayout
+    android:layout_width="325dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="start">
+
+    <ImageView
+    android:id="@+id/imageView4"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:srcCompat="@drawable/heart_vector" />
+
+    <Spinner
+    android:id="@+id/goals_fragment_create_category_spinner"
+    android:layout_marginStart="20dp"
+    android:textSize="14sp"
+    android:fontFamily="@font/font_poppins"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <View
+    style="@style/GoalEditLineStyle"
+    android:layout_width="330dp"
+    android:layout_height="2dp"
+    />
+
+    <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/goals_fragment_create_subgoals_recyclerview"
+    android:layout_width="330dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    tools:listitem="@layout/goals_fragment_create_subgoal_list_item" >
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="start">
+
+    <ImageButton
+    style="@style/GoalImageHideStyle"
+    android:id="@+id/hide_goal_edit_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:srcCompat="@drawable/left_arrow_vector" />
+
+    <Button
+    style="@style/GoalEditButtonSaveStyle"
+    android:id="@+id/goals_fragment_create_submit_button"
+    android:layout_width="206dp"
+    android:layout_height="60dp"
+    android:text="@string/save_edits"
+    />
     </LinearLayout>
 
     </LinearLayout>
+
 </androidx.core.widget.NestedScrollView>

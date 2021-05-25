@@ -27,6 +27,7 @@
     <color name="grayOut">#C4C4C4</color>
     <color name="grayDivider">#BDBDBD</color>
     <color name="black">#000000</color>
+    <color name="clear">#00000000</color>
     <color name="yellow">#FFBD12</color>
     <color name="pointPurple">#C8B2F6</color>
 

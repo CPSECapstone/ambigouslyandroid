@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -88,6 +89,12 @@ class EditGoalFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 viewModel.setGoalCategory("")
             }
+        }
+
+        val hideGoalEditButton = view.findViewById<ImageButton>(R.id.hide_goal_edit_button)
+        val editGoalContainer = view.findViewById<FragmentContainerView>(R.id.edit_goal_container)
+        hideGoalEditButton.setOnClickListener {
+            view.visibility = View.GONE
         }
 
         submitGoalButton.setOnClickListener {

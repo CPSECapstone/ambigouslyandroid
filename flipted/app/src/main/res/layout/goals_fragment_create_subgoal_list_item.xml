@@ -30,14 +30,11 @@
             app:srcCompat="@drawable/edit_vector" />
 
         <EditText
+            style="@style/GoalDateAddTitleStyle"
             android:id="@+id/goals_fragment_create_subgoal_list_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Add Subgoal Title"
-            android:textSize="14sp"
-            android:inputType="text"
-            android:fontFamily="@font/font_poppins"
-            android:layout_marginStart="25dp" />
+            android:hint="@string/add_subgoal_title" />
 
 
     </LinearLayout>
@@ -65,25 +62,17 @@
 
 
         <Button
+            style="@style/GoalDateButtonStyle"
             android:id="@+id/goals_fragment_create_subgoal_list_item_date_button"
-            android:layout_marginStart="25dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:textSize="14sp"
-            android:textAllCaps="false"
-            android:textColor="@color/grayDivider"
-            android:fontFamily="@font/font_poppins"
-            android:text="Add Subgoal Due Date" />
+            android:text="@string/add_subgoal_due_date" />
 
         <TextView
+            style="@style/GoalDateTextStyle"
             android:id="@+id/goals_fragment_create_subgoal_list_item_date_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/font_poppins"
-            android:layout_marginStart="25dp"
-            android:textSize="14sp"
             />
 
 
@@ -116,8 +105,6 @@
 
 
     </LinearLayout>
-
-
 
 
 </LinearLayout>
