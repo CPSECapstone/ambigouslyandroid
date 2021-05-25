@@ -11,9 +11,9 @@ import edu.calpoly.flipted.businesslogic.missions.MissionProgress
 import kotlinx.coroutines.launch
 
 class MissionsViewModel : ViewModel() {
-    private val _missionsProgress: MutableLiveData<List<MissionProgress>> = MutableLiveData()
+    private val _missionsProgress: MutableLiveData<Map<String, MissionProgress>> = MutableLiveData()
 
-    val missionsProgress: LiveData<List<MissionProgress>>
+    val missionsProgress: LiveData<Map<String, MissionProgress>>
         get() = _missionsProgress
 
     private val repo = ApolloMissionsRepo()
@@ -21,7 +21,9 @@ class MissionsViewModel : ViewModel() {
 
     fun fetchMissionsProgress() {
         viewModelScope.launch {
-            _missionsProgress.value = getProgress.execute("Integrated Science")
+            _missionsProgress.value = getProgress
+                .execute("Integrated Science")
+                .associateBy{ it.mission.uid }
         }
     }
 }

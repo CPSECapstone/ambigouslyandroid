@@ -120,7 +120,7 @@ class ReviewResultsFragment : Fragment() {
                 FragmentManager.POP_BACK_STACK_INCLUSIVE
             )
             parentFragmentManager.commit {
-                replace(R.id.main_view, MissionFragment.newInstance())
+                replace(R.id.main_view, MissionFragment.newInstance("m1"))
                 addToBackStack(null)
                 setReorderingAllowed(true)
             }

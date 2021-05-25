@@ -43,7 +43,7 @@ class StudentHomeFragment : Fragment() {
         val missionButton = view.findViewById<Button>(R.id.mission_button)
         missionButton.setOnClickListener{
             parentFragmentManager.commit {
-                replace(R.id.main_view, MissionFragment.newInstance())
+                replace(R.id.main_view, MissionFragment.newInstance("m1"))
                 setReorderingAllowed(true)
                 addToBackStack(null)
             }

@@ -26,7 +26,7 @@ class MissionProgressFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[MissionsViewModel::class.java]
 
         viewModel.missionsProgress.observe(viewLifecycleOwner, Observer {
-            adapter.missions = it
+            adapter.missions = it.values.toList()
             adapter.notifyDataSetChanged()
         })
 
