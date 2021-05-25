@@ -38,7 +38,7 @@ class MissionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val taskList = view as RecyclerView
+        val taskList: RecyclerView = view.findViewById(R.id.mission_tasks_recyclerview)
         val adapter = MissionTaskRecyclerAdapter(this)
 
         taskList.adapter = adapter

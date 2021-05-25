@@ -20,7 +20,6 @@ class MissionTasksItemDecoration(private val fragment: Fragment) : RecyclerView.
     }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-
         val left = parent.paddingLeft
         val right = parent.width - parent.paddingRight
 
@@ -29,11 +28,22 @@ class MissionTasksItemDecoration(private val fragment: Fragment) : RecyclerView.
         paint.color = color
         paint.strokeWidth = dpToPx(5F)
 
+        if(parent.childCount == 1)
+            return
+
+        if(parent.childCount > 0) {
+            val child = parent.getChildAt(0)
+            val params = child.layoutParams as RecyclerView.LayoutParams
+            if(child.top - params.topMargin > 0) {
+                c.drawLine(dpToPx(117.5F), 0F, dpToPx(117.5F), (child.top - params.topMargin).toFloat(), paint)
+            }
+        }
+
         parent.children.forEach { child ->
             val params = child.layoutParams as RecyclerView.LayoutParams
             val top = child.bottom + params.bottomMargin;
             val bottom = top + dpToPx(ITEM_SEPARATION).toInt()
-            c.drawLine(dpToPx(117.5F),  top.toFloat(), dpToPx(117.5F), bottom.toFloat(), paint)
+            c.drawLine(dpToPx(117.5F), top.toFloat(), dpToPx(117.5F), bottom.toFloat(), paint)
         }
 
     }
