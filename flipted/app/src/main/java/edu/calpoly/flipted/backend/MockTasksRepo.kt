@@ -230,8 +230,8 @@ class MockTasksRepo : TasksRepo {
 
     override suspend fun submitTask(taskId : String) : TaskSubmissionResult {
         delay(3000)
-        return TaskSubmissionResult(taskId, false, 5, 10,
-        listOf())
+        return TaskSubmissionResult(taskId, false, 5, 10,"Nice work!",
+            listOf())
     }
 
     override suspend fun getObjectiveProgress(taskId: String): List<TaskObjectiveProgress> {

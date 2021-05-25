@@ -16,10 +16,10 @@ class MockMissionsRepo : MissionsRepo {
     }
     private val data = listOf(
         listOf(
-            uids.let{TaskStats(SparseTask(it, "Pea pod phenotypes", "Do da task", 10, null), TaskSubmissionResult(it, true, 9, 18, listOf())) },
-            uids.let{TaskStats(SparseTask(it, "Dominant alleles", "Something", 300, null), TaskSubmissionResult(it, true, 20, 20, listOf()))},
-            uids.let{TaskStats(SparseTask(it, "Recessive alleles", "Bleh", 1, null), TaskSubmissionResult(it, true, 2, 14, listOf()))},
-            uids.let{TaskStats(SparseTask(it, "Gene expression", "none", 20, null), TaskSubmissionResult(it, true, 57, 100, listOf()))},
+            uids.let{TaskStats(SparseTask(it, "Pea pod phenotypes", "Do da task", 10, null), TaskSubmissionResult(it, true, 9, 18, "Nice work!",listOf())) },
+            uids.let{TaskStats(SparseTask(it, "Dominant alleles", "Something", 300, null), TaskSubmissionResult(it, true, 20, 20, "Nice work!", listOf()))},
+            uids.let{TaskStats(SparseTask(it, "Recessive alleles", "Bleh", 1, null), TaskSubmissionResult(it, true, 2, 14, "Nice work!", listOf()))},
+            uids.let{TaskStats(SparseTask(it, "Gene expression", "none", 20, null), TaskSubmissionResult(it, true, 57, 100, "Nice work!", listOf()))},
             TaskStats(SparseTask(uids, "Co-dominance", "", 4, null), null)
         ).let{ taskStats ->
             MissionProgress(
@@ -28,9 +28,9 @@ class MockMissionsRepo : MissionsRepo {
             )
         },
         listOf(
-            uids.let{TaskStats(SparseTask(it, "The Circulatory System", "abc", 2, null), TaskSubmissionResult(it, true, 8, 10, listOf()))},
-            uids.let{TaskStats(SparseTask(it, "The Structure of Hemoglobin", "def", 3, null), TaskSubmissionResult(it, true, 20, 75, listOf()))},
-            uids.let{TaskStats(SparseTask(it, "Genetic Testing", "ghi", 4, null), TaskSubmissionResult(it, true, 17, 18, listOf()))}
+            uids.let{TaskStats(SparseTask(it, "The Circulatory System", "abc", 2, null), TaskSubmissionResult(it, true, 8, 10, "Nice work!", listOf()))},
+            uids.let{TaskStats(SparseTask(it, "The Structure of Hemoglobin", "def", 3, null), TaskSubmissionResult(it, true, 20, 75, "Nice work!", listOf()))},
+            uids.let{TaskStats(SparseTask(it, "Genetic Testing", "ghi", 4, null), TaskSubmissionResult(it, true, 17, 18, "Nice work!", listOf()))}
         ).let{ taskStats ->
             MissionProgress(
                 Mission("m2", "Genetic Disease", "", taskStats.map{it.task}),

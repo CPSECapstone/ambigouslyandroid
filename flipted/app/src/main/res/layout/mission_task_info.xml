@@ -57,7 +57,7 @@
             android:paddingLeft="10dp"
             android:background="@drawable/divider_grey_line"
             android:paddingTop="5dp"
-            android:paddingBottom="15dp"
+            android:paddingBottom="20dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/gray2"
             android:textSize="16dp"
@@ -80,16 +80,56 @@
             android:id="@+id/learning_objectives_list"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_marginBottom="20dp"
             android:background="@drawable/divider_grey_line"
             android:paddingTop="15dp"
+            android:layout_marginBottom="20dp"
             android:divider="@android:color/transparent"
             android:dividerHeight="19dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             tools:listitem="@layout/learning_objective_list_item" />
 
+        <TextView
+            android:id="@+id/task_feedback_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:text="Feedback:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/blue1"
+            android:textSize="20dp"
+            android:visibility="gone"/>
 
+        <TextView
+            android:id="@+id/task_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:paddingLeft="10dp"
+            android:background="@drawable/divider_grey_line"
+            android:paddingTop="5dp"
+            android:paddingBottom="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/gray2"
+            android:textSize="16dp"
+            tools:text="Good job!"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/task_review_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ResultsContinueBtn"
+            android:text="Review Results"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            />
         <Button
             android:id="@+id/task_start_button"
             android:layout_width="match_parent"

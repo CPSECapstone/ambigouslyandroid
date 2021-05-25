@@ -21,6 +21,7 @@ query GetAllMissionProgress($courseId: String!) {
         graded
         pointsAwarded
         pointsPossible
+        teacherComment
       }
     }
   }

@@ -38,14 +38,17 @@ class MissionFragment : Fragment() {
 
         val viewModel: MissionsViewModel =
             ViewModelProvider(requireActivity())[MissionsViewModel::class.java]
-        val taskInfo : View = view.findViewById(R.id.task_info_card)
-        val taskTitle : TextView = view.findViewById(R.id.task_name)
-        val taskDesc : TextView = view.findViewById(R.id.task_insts)
-        val continueBtn : Button = view.findViewById(R.id.task_start_button)
-        val listViewTask : ListView = view.findViewById(R.id.learning_objectives_list)
-        val progressBar : ProgressBar = view.findViewById(R.id.task_info_progressbar)
+        val taskInfo: View = view.findViewById(R.id.task_info_card)
+        val taskTitle: TextView = view.findViewById(R.id.task_name)
+        val taskDesc: TextView = view.findViewById(R.id.task_insts)
+        val continueBtn: Button = view.findViewById(R.id.task_start_button)
+        val listViewTask: ListView = view.findViewById(R.id.learning_objectives_list)
+        val taskFeedback: TextView = view.findViewById(R.id.task_feedback)
+        val feedbackTitle: TextView = view.findViewById(R.id.task_feedback_title)
+        val reviewBtn: Button = view.findViewById(R.id.task_review_button)
+        val progressBar: ProgressBar = view.findViewById(R.id.task_info_progressbar)
 
-        val adapter : CustomListAdapter = CustomListAdapter()
+        val adapter: CustomListAdapter = CustomListAdapter()
         listViewTask.adapter = adapter
 
         // mock task id for task 1
@@ -74,9 +77,10 @@ class MissionFragment : Fragment() {
                 progressBar.visibility = View.GONE
                 val currTaskInfo = viewModel.currTaskInfo.value ?: return@Observer
 
-                if (viewModel.currTaskInfo.value?.uid != currTaskInfo.uid)
+                if (viewModel.currTaskInfo.value?.task?.id != currTaskInfo.task.id)
                     return@Observer
 
+                val currSparseTask = currTaskInfo.task
                 viewModel.taskObjectives.observe(viewLifecycleOwner, {
                     val taskObjectives = viewModel.taskObjectives.value
                         ?: throw IllegalArgumentException("Null task objective")
@@ -84,18 +88,46 @@ class MissionFragment : Fragment() {
                 })
 
 
-                taskTitle.text = currTaskInfo.name
-                taskDesc.text = currTaskInfo.instructions
+                taskTitle.text = currSparseTask.name
+                taskDesc.text = currSparseTask.instructions
+
+                val currTaskProgress = currTaskInfo.submission
+                if (currTaskProgress != null && currTaskProgress.graded) {
+                    continueBtn.text = "Redo Task"
+                    taskFeedback.text = if (currTaskProgress.teacherComment == null) {
+                        "No feedback given."
+                    } else {
+                        currTaskProgress.teacherComment
+                    }
 
 
+                    taskFeedback.visibility = View.VISIBLE
+                    feedbackTitle.visibility = View.VISIBLE
+                    reviewBtn.visibility = View.VISIBLE
+
+                    val taskViewModel =
+                        ViewModelProvider(requireActivity())[TaskViewModel::class.java]
+                    taskViewModel.setTaskSubmission(currTaskProgress)
+
+                    reviewBtn.setOnClickListener {
+                        parentFragmentManager.commit {
+                            replace(R.id.main_view, ReviewResultsFragment.newInstance())
+                            setReorderingAllowed(true)
+                            addToBackStack("Start task")
+                        }
+                    }
+                } else {
+                    taskFeedback.visibility = View.GONE
+                    feedbackTitle.visibility = View.GONE
+                    reviewBtn.visibility = View.GONE
+                }
 
                 taskInfo.visibility = View.VISIBLE
 
 
                 continueBtn.setOnClickListener {
-                    val currTaskInfo = viewModel.currTaskInfo.value ?: throw IllegalArgumentException("Null task objective")
                     parentFragmentManager.commit {
-                        replace(R.id.main_view, TaskFragment.newInstance(currTaskInfo.uid))
+                        replace(R.id.main_view, TaskFragment.newInstance(currTaskInfo.task.id))
                         setReorderingAllowed(true)
                         addToBackStack("Start task")
                     }
@@ -103,7 +135,6 @@ class MissionFragment : Fragment() {
             }
 
         })
-
 
 
     }
@@ -141,19 +172,35 @@ class MissionFragment : Fragment() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val fillInView = convertView
                 ?: layoutInflater.inflate(R.layout.learning_objective_list_item, parent, false)
-            val textBox: TextView = fillInView.findViewById(R.id.learning_objective_item_mastery_name)
+            val textBox: TextView =
+                fillInView.findViewById(R.id.learning_objective_item_mastery_name)
             val data = getItem(position)
 
             textBox.text = data.objectiveName
 
-            if(data.mastery == Mastery.NOT_MASTERED){
-                textBox.background = context.let { ContextCompat.getDrawable(it!!, R.drawable.learning_objective_color_box_not_mastered) }
+            if (data.mastery == Mastery.NOT_MASTERED) {
+                textBox.background = context.let {
+                    ContextCompat.getDrawable(
+                        it!!,
+                        R.drawable.learning_objective_color_box_not_mastered
+                    )
+                }
             }
-            if(data.mastery == Mastery.NEARLY_MASTERED){
-                textBox.background = context.let { ContextCompat.getDrawable(it!!, R.drawable.learning_objective_color_box_nearly_mastered) }
+            if (data.mastery == Mastery.NEARLY_MASTERED) {
+                textBox.background = context.let {
+                    ContextCompat.getDrawable(
+                        it!!,
+                        R.drawable.learning_objective_color_box_nearly_mastered
+                    )
+                }
             }
-            if(data.mastery == Mastery.MASTERED){
-                textBox.background = context.let { ContextCompat.getDrawable(it!!, R.drawable.learning_objective_color_box_mastered) }
+            if (data.mastery == Mastery.MASTERED) {
+                textBox.background = context.let {
+                    ContextCompat.getDrawable(
+                        it!!,
+                        R.drawable.learning_objective_color_box_mastered
+                    )
+                }
             }
 
             return fillInView

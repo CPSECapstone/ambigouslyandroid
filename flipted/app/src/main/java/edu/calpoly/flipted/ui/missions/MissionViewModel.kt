@@ -1,7 +1,10 @@
 package edu.calpoly.flipted.ui.missions
 
 import androidx.lifecycle.*
+import edu.calpoly.flipted.backend.ApolloMissionsRepo
 import edu.calpoly.flipted.backend.ApolloTasksRepo
+import edu.calpoly.flipted.businesslogic.missions.GetAllMissionProgress
+import edu.calpoly.flipted.businesslogic.missions.TaskStats
 import edu.calpoly.flipted.businesslogic.targets.TaskObjectiveProgress
 import edu.calpoly.flipted.businesslogic.tasks.GetObjectiveProgress
 import edu.calpoly.flipted.businesslogic.tasks.GetTaskInfo
@@ -10,15 +13,17 @@ import kotlinx.coroutines.launch
 
 
 class MissionsViewModel : ViewModel() {
-    private val _currTaskInfo: MutableLiveData<Task> = MutableLiveData()
+    private val _currTaskInfo: MutableLiveData<TaskStats> = MutableLiveData()
     private val _taskObjectives: MutableLiveData<List<TaskObjectiveProgress>> = MutableLiveData()
 
-    private val repo = ApolloTasksRepo()
-    private val getTaskInfoUseCase = GetTaskInfo(repo)
-    private val getObjectiveProgressUseCase = GetObjectiveProgress(repo)
+    private val repo = ApolloMissionsRepo()
+    private val tasksRepo = ApolloTasksRepo()
+    private val getProgress = GetAllMissionProgress(repo)
+    private val getTaskInfoUseCase = GetTaskInfo(tasksRepo)
+    private val getObjectiveProgressUseCase = GetObjectiveProgress(tasksRepo)
 
 
-    val currTaskInfo: LiveData<Task?>
+    val currTaskInfo: LiveData<TaskStats?>
         get() = _currTaskInfo
 
     val taskObjectives: LiveData<List<TaskObjectiveProgress>>
@@ -26,11 +31,14 @@ class MissionsViewModel : ViewModel() {
 
     fun fetchTaskInfo(taskId: String) {
         viewModelScope.launch {
-            val task = getTaskInfoUseCase.execute(taskId)
+            val target = getProgress.execute("Integrated Science")
+            val currMission = target.filter{it.mission.uid == "da0719ba103"}.toList()[0]
+            val task = currMission.progress.filter {it.task.id == taskId}.toList()[0]
             val objectives = getObjectiveProgressUseCase.execute(taskId)
 
             _currTaskInfo.value = task
             _taskObjectives.value = objectives
+
         }
     }
 }

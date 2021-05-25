@@ -209,7 +209,7 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
 
         val result = response.data?.submitTask ?: throw badResponseException
 
-        return TaskSubmissionResult(taskId, result.graded, result.pointsAwarded!!, result.pointsPossible!!,
+        return TaskSubmissionResult(taskId, result.graded, result.pointsAwarded!!, result.pointsPossible!!, result.teacherComment,
                 result.questionAndAnswers!!.map { qa ->
                     AnswerResult(when {
                         qa.question.asMcQuestion != null ->
