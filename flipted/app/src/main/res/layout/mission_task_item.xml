@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
 
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="117.5dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/mission_task_item_background_spacer"
@@ -40,7 +40,9 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
 
-        android:src="@drawable/mission_task_circle"
+        tools:src="@drawable/mission_task_check"
+
+        android:layout_marginStart="67.5dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
