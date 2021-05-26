@@ -19,14 +19,14 @@ import com.amplifyframework.core.Amplify
 import com.google.android.material.tabs.TabLayout
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.classes.ClassesFragment
-import edu.calpoly.flipted.ui.home.StudentHomeFragment
+import edu.calpoly.flipted.ui.goals.GoalsFragment
 import edu.calpoly.flipted.ui.leaderboard.LeaderboardFragment
 import edu.calpoly.flipted.ui.login.LoginFragment
 import edu.calpoly.flipted.ui.login.LoginViewModel
 import edu.calpoly.flipted.ui.marketplace.MarketplaceFragment
+import edu.calpoly.flipted.ui.missions.MissionFragment
 import edu.calpoly.flipted.ui.myProgress.ProgressFragment
 import edu.calpoly.flipted.ui.myTeam.MyTeamFragment
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -56,7 +56,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 // Handle tab select
                 val targetFragment = when (tab!!.text) {
-                    "Home" -> StudentHomeFragment.newInstance()
+                    "Home" -> MissionFragment.newInstance("da0719ba103")
+                    "Goals" -> GoalsFragment.newInstance()
                     "Classes" -> ClassesFragment.newInstance()
                     "My Team" -> MyTeamFragment.newInstance()
                     "Marketplace" -> MarketplaceFragment.newInstance()
@@ -74,7 +75,8 @@ class MainActivity : AppCompatActivity() {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // Handle tab reselect
                 val targetFragment = when (tab!!.text) {
-                    "Home" -> StudentHomeFragment.newInstance()
+                    "Home" -> MissionFragment.newInstance("da0719ba103")
+                    "Goals" -> GoalsFragment.newInstance()
                     "Classes" -> ClassesFragment.newInstance()
                     "My Team" -> MyTeamFragment.newInstance()
                     "Marketplace" -> MarketplaceFragment.newInstance()
@@ -96,6 +98,12 @@ class MainActivity : AppCompatActivity() {
         val loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         loginViewModel.isLoggedIn.observe(this, Observer {
             tabLayout.visibility = if (it) View.VISIBLE else View.GONE
+
+            if(!it)
+                supportFragmentManager.commit {
+                    replace(R.id.main_view, LoginFragment.newInstance())
+                    setReorderingAllowed(true)
+                }
         })
     }
 
