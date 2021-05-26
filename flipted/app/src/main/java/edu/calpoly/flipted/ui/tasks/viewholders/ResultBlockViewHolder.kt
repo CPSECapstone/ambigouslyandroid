@@ -112,9 +112,14 @@ class ResultBlockViewHolder(view: View, val inflater: LayoutInflater, private va
                         val studentAnswer = questionLayout.findViewById(R.id.task_question_free_response_student_answer) as TextView
                         score.text = "${questionResult.pointsAwarded} / ${question.pointValue} points"
                         studentAnswer.text = questionResult.studentAnswer
-                        resultText.setVisibility(View.VISIBLE)
-                        studentAnswer.setVisibility(View.VISIBLE)
-                        score.setVisibility(View.VISIBLE)
+
+                        feedback.text = questionResult.teacherComment ?: "No feedback is available."
+
+                        feedbackTitle.visibility = View.VISIBLE
+                        feedback.visibility = View.VISIBLE
+                        resultText.visibility = View.VISIBLE
+                        studentAnswer.visibility = View.VISIBLE
+                        score.visibility = View.VISIBLE
 
 
                         rootLayout.addView(questionLayout)

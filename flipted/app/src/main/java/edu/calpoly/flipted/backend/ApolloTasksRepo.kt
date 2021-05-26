@@ -225,14 +225,14 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
                                     listOf(qa.question.asFrQuestion.answer)
                                 else ->
                                     listOf("")
-                            }, qa.answer?.answer!!, qa.answer.pointsAwarded!!, "")
+                            }, qa.answer?.answer!!, qa.answer.pointsAwarded!!, qa.answer.teacherComment)
                 })
     }
 
     override suspend fun retrieveTaskSubmission(taskId: String): TaskSubmissionResult {
-        val mutation = SubmitTaskMutation(taskId)
+        val query = RetrieveTaskSubmissionQuery(taskId)
         val response = try {
-            apolloClient().mutate(mutation).await()
+            apolloClient().query(query).await()
         } catch (e: ApolloException) {
             val message = "Task submission unavailable right now. Please make sure you are not offline."
             Log.e("ApolloTasksRepo", "Error when querying backend", e)
@@ -250,7 +250,7 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         }
         val badResponseException = IllegalStateException("Error when querying backend: bad response")
 
-        val result = response.data?.submitTask ?: throw badResponseException
+        val result = response.data?.retrieveTaskSubmission ?: throw badResponseException
 
         return TaskSubmissionResult(taskId, result.graded, result.pointsAwarded!!, result.pointsPossible!!, result.teacherComment,
             result.questionAndAnswers!!.map { qa ->
@@ -267,7 +267,7 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
                             listOf(qa.question.asFrQuestion.answer)
                         else ->
                             listOf("")
-                    }, qa.answer?.answer!!, qa.answer.pointsAwarded!!, "")
+                    }, qa.answer?.answer!!, qa.answer.pointsAwarded!!, qa.answer.teacherComment)
             })
     }
 

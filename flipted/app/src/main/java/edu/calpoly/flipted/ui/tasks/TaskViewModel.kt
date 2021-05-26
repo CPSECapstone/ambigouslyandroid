@@ -5,10 +5,7 @@ import edu.calpoly.flipted.backend.ApolloTasksRepo
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.Question
 import edu.calpoly.flipted.businesslogic.targets.TaskObjectiveProgress
-import edu.calpoly.flipted.businesslogic.tasks.GetObjectiveProgress
-import edu.calpoly.flipted.businesslogic.tasks.GetTask
-import edu.calpoly.flipted.businesslogic.tasks.SaveTaskProgress
-import edu.calpoly.flipted.businesslogic.tasks.SubmitTask
+import edu.calpoly.flipted.businesslogic.tasks.*
 import edu.calpoly.flipted.businesslogic.tasks.data.*
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
 import kotlinx.coroutines.launch
@@ -25,6 +22,7 @@ class TaskViewModel : ViewModel() {
     private val submitTaskUseCase = SubmitTask(repo)
     private val saveTaskProgressUseCase = SaveTaskProgress(repo)
     private val getObjectiveProgressUseCase = GetObjectiveProgress(repo)
+    private val retrieveTaskSubmissionUseCase = RetrieveTaskSubmission(repo)
 
 
     val currTask: LiveData<Task?>
@@ -121,9 +119,11 @@ class TaskViewModel : ViewModel() {
         }
     }
 
-    fun setTaskSubmission(taskResult: TaskSubmissionResult) {
-        fetchTask(taskResult.taskId)
-        _currResponse.value = taskResult
+    fun retrieveTaskSubmission(taskId: String) {
+        viewModelScope.launch {
+            fetchTask(taskId)
+            _currResponse.value = retrieveTaskSubmissionUseCase.execute(taskId)
+        }
     }
 
 

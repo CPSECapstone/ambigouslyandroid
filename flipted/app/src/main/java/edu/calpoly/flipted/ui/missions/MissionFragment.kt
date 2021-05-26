@@ -1,6 +1,8 @@
 package edu.calpoly.flipted.ui.missions
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -89,25 +91,33 @@ class MissionFragment : Fragment() {
 
 
                 taskTitle.text = currSparseTask.name
+                taskTitle.movementMethod = ScrollingMovementMethod()
                 taskDesc.text = currSparseTask.instructions
+                taskDesc.movementMethod = ScrollingMovementMethod()
 
                 val currTaskProgress = currTaskInfo.submission
-                if (currTaskProgress != null && currTaskProgress.graded) {
+                if (currTaskProgress != null) {
                     continueBtn.text = "Redo Task"
-                    taskFeedback.text = if (currTaskProgress.teacherComment == null) {
-                        "No feedback given."
+                    taskFeedback.text = if (!currTaskProgress.graded) {
+                        "No feedback is available; Task is not fully graded."
+                    } else if (currTaskProgress.teacherComment == null) {
+                        "No feedback is available."
                     } else {
                         currTaskProgress.teacherComment
                     }
 
+                    if (!currTaskProgress.graded) {
+                        taskFeedback.setTypeface(null, Typeface.ITALIC)
+                    }
 
+                    taskFeedback.movementMethod = ScrollingMovementMethod()
                     taskFeedback.visibility = View.VISIBLE
                     feedbackTitle.visibility = View.VISIBLE
                     reviewBtn.visibility = View.VISIBLE
 
                     val taskViewModel =
                         ViewModelProvider(requireActivity())[TaskViewModel::class.java]
-                    taskViewModel.setTaskSubmission(currTaskProgress)
+                    taskViewModel.retrieveTaskSubmission(currTaskProgress.taskId)
 
                     reviewBtn.setOnClickListener {
                         parentFragmentManager.commit {

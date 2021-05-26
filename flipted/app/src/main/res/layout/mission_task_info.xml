@@ -3,6 +3,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/task_info_card"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="5dp"
@@ -10,8 +11,7 @@
     app:cardCornerRadius="5dp"
     app:cardElevation="10dp"
     app:cardUseCompatPadding="true"
-    android:id="@+id/task_info_card"
-    android:visibility="gone"
+
     >
 
 
@@ -27,9 +27,14 @@
         <TextView
             android:id="@+id/task_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="90dp"
             android:background="@drawable/divider_grey_line"
             android:paddingBottom="15dp"
+            android:scrollbarFadeDuration="0"
+            android:scrollbarThumbVertical="@color/grayOut"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/blue1"
@@ -52,12 +57,16 @@
         <TextView
             android:id="@+id/task_insts"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="65dp"
             android:layout_gravity="left"
-            android:paddingLeft="10dp"
             android:background="@drawable/divider_grey_line"
+            android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingBottom="20dp"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarFadeDuration="0"
+            android:scrollbarThumbVertical="@color/grayOut"
+            android:scrollbars="vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/gray2"
             android:textSize="16dp"
@@ -79,14 +88,20 @@
         <ListView
             android:id="@+id/learning_objectives_list"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/divider_grey_line"
-            android:paddingTop="15dp"
-            android:layout_marginBottom="20dp"
             android:divider="@android:color/transparent"
             android:dividerHeight="19dp"
             android:paddingLeft="20dp"
+            android:paddingTop="15dp"
             android:paddingRight="20dp"
+            android:scrollbarFadeDuration="0"
+            android:fadeScrollbars="false"
+            android:scrollbarSize="5dp"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarThumbVertical="@color/grayOut"
+            android:scrollbars="vertical"
             tools:listitem="@layout/learning_objective_list_item" />
 
         <TextView
@@ -100,44 +115,47 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/blue1"
             android:textSize="20dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/task_feedback"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="65dp"
             android:layout_gravity="left"
-            android:paddingLeft="10dp"
             android:background="@drawable/divider_grey_line"
+            android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingBottom="20dp"
+            android:scrollbarFadeDuration="0"
+            android:scrollbarThumbVertical="@color/grayOut"
+            android:scrollbars="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/gray2"
             android:textSize="16dp"
-            tools:text="Good job!"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            tools:text="Good job!" />
 
         <Button
             android:id="@+id/task_review_button"
+            style="@style/ResultsContinueBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ResultsContinueBtn"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:text="Review Results"
             android:textAllCaps="false"
             android:textStyle="bold"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
+
         <Button
             android:id="@+id/task_start_button"
+            style="@style/ResultsContinueBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ResultsContinueBtn"
             android:text="Continue Task"
             android:textAllCaps="false"
             android:textStyle="bold"
-
             />
 
     </LinearLayout>
