@@ -91,11 +91,6 @@ class EditGoalFragment : Fragment() {
             }
         }
 
-        val hideGoalEditButton = view.findViewById<ImageButton>(R.id.hide_goal_edit_button)
-        val editGoalContainer = view.findViewById<FragmentContainerView>(R.id.edit_goal_container)
-        hideGoalEditButton.setOnClickListener {
-            view.visibility = View.GONE
-        }
 
         submitGoalButton.setOnClickListener {
             val errors = viewModel.validateGoal()

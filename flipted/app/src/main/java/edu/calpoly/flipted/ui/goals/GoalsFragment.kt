@@ -69,6 +69,19 @@ class GoalsFragment : Fragment() {
             showGoalsList()
         }
 
+        val hideGoalEditButton = view.findViewById<Button>(R.id.goal_view_button)
+        val editGoalContainer = view.findViewById<FragmentContainerView>(R.id.edit_goal_container)
+        var clicked = true
+        hideGoalEditButton.setOnClickListener {
+            if (!clicked) {
+                editGoalContainer.visibility = View.VISIBLE
+                clicked = true
+            } else if (clicked) {
+                editGoalContainer.visibility = View.GONE
+                clicked = false
+            }
+        }
+
         val newGoalButton = view.findViewById<Button>(R.id.newGoalButton)
         newGoalButton.setOnClickListener{
             parentFragmentManager.commit {
