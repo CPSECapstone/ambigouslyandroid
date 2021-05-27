@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -56,22 +57,13 @@ class CustomExpandableListAdapter (
         val fillInView = convertView ?: layoutInflater.inflate(R.layout.goals_item_sub, parent, false)
 
         val titleText: TextView = fillInView.findViewById(R.id.Comp_Title)
-        val subtitle: TextView = fillInView.findViewById(R.id.Comp_Subtitle)
         val checkBox: CheckBox = fillInView.findViewById(R.id.goals_item_sub_complete_checkbox)
 
         val currSubGoal = goal.subGoals[expandedListPosition]
 
         titleText.text = currSubGoal.title
 
-        if(currSubGoal.completed) {
-            checkBox.isChecked = true
-            subtitle.text = currSubGoal.completedDate?.let {
-                "Completed on ${dateFormat.format(it)}"
-            } ?: "Completed"
-        } else {
-            checkBox.isChecked = false
-            subtitle.text = currSubGoal.dueDate.let { "Complete by ${dateFormat.format(it)}" }
-        }
+        checkBox.isChecked = currSubGoal.completed
 
         checkBox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setSubgoalCompleted(goal, currSubGoal, isChecked)
@@ -99,7 +91,6 @@ class CustomExpandableListAdapter (
         val fillInView = convertView ?: LayoutInflater.from(context).inflate(R.layout.goals_item_top, parent, false)
 
         val titleText : TextView = fillInView.findViewById(R.id.Goal_Title_Text)
-        val subtitle : TextView = fillInView.findViewById(R.id.Goal_Subtitle)
 
         val progressContainer: ViewGroup = fillInView.findViewById(R.id.goals_item_top_progress_bar_container)
         val countText : TextView = fillInView.findViewById(R.id.Goal_Count)
@@ -109,7 +100,7 @@ class CustomExpandableListAdapter (
 
         val groupIndicator: ImageView = fillInView.findViewById(R.id.goals_item_top_group_indicator)
 
-        val editButton: Button = fillInView.findViewById(R.id.goals_item_top_edit_button)
+        val editButton: ConstraintLayout = fillInView.findViewById(R.id.goal_block)
 
 
         if(currGoal.subGoals.isEmpty()) {
@@ -159,14 +150,6 @@ class CustomExpandableListAdapter (
 
                 }
             }
-        }
-
-        if(currGoal.completed) {
-            subtitle.text = currGoal.completedDate?.let {
-                "Completed on ${dateFormat.format(it)}"
-            } ?: "Completed"
-        } else {
-            subtitle.text = currGoal.dueDate.let { "Complete by ${dateFormat.format(it)}" }
         }
         return fillInView
 
