@@ -52,15 +52,16 @@ class ReviewResultsFragment : Fragment() {
 
         val currTask = viewModel.currTask.value
             ?: throw IllegalStateException("No task found")
-        pageTitle.text = "TASK RESULTS"
+
+        pageTitle.text = "QUIZ REVIEW"
         taskTitle.text = currTask.name
 
         pager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int = 3
 
             override fun createFragment(position: Int): Fragment = when (position) {
-                0 -> TaskResultsSummaryFragment.newInstance()
-                1 -> TaskResultsFragment.newInstance()
+                0 -> TaskResultsFragment.newInstance()
+                1 -> TaskResultsSummaryFragment.newInstance()
                 2 -> TaskResultsHelpFragment.newInstance()
                 else -> throw IllegalArgumentException("Invalid ViewPager page")
             }
@@ -69,8 +70,8 @@ class ReviewResultsFragment : Fragment() {
 
         TabLayoutMediator(tabs, pager) { tab, position ->
             tab.text = when (position) {
-                0 -> "Task Results"
-                1 -> "Quiz Review"
+                0 -> "Quiz Review"
+                1 -> "Task Results"
                 2 -> "Get Help"
                 else -> throw IllegalArgumentException("Invalid TabLayoutMediator page")
             }
@@ -87,9 +88,9 @@ class ReviewResultsFragment : Fragment() {
                     else -> throw IllegalStateException()
                 }
                 val params = pager.layoutParams
-                params.height = when (tab!!.text) {
-                    "Quiz Review" -> FrameLayout.LayoutParams.MATCH_PARENT
+                params.height = when (tab.text) {
                     "Task Results" -> 1400
+                    "Quiz Review" -> FrameLayout.LayoutParams.MATCH_PARENT
                     "Get Help" -> 750
                     else -> throw IllegalStateException()
                 }
@@ -101,6 +102,7 @@ class ReviewResultsFragment : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
         })
+
 
         taskBtn.setOnClickListener {
             parentFragmentManager.popBackStack(
@@ -120,7 +122,7 @@ class ReviewResultsFragment : Fragment() {
                 FragmentManager.POP_BACK_STACK_INCLUSIVE
             )
             parentFragmentManager.commit {
-                replace(R.id.main_view, MissionFragment.newInstance())
+                replace(R.id.main_view, MissionFragment.newInstance("da0719ba103"))
                 addToBackStack(null)
                 setReorderingAllowed(true)
             }

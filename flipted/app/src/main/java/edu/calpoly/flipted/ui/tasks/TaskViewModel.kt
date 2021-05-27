@@ -16,6 +16,7 @@ class TaskViewModel : ViewModel() {
     private val _currResponse: MutableLiveData<TaskSubmissionResult> = MutableLiveData()
     private val _errorMessage: MutableLiveData<String> = MutableLiveData()
     private val _taskObjectives: MutableLiveData<List<TaskObjectiveProgress>> = MutableLiveData()
+    val taskAndResponseValid: MediatorLiveData<Boolean> = MediatorLiveData()
 
     private val repo = ApolloTasksRepo()
     private val getTaskUseCase = GetTask(repo)
@@ -121,9 +122,42 @@ class TaskViewModel : ViewModel() {
 
     fun retrieveTaskSubmission(taskId: String) {
         viewModelScope.launch {
-            fetchTask(taskId)
+            _currTask.value = getTaskUseCase.execute(taskId)
             _currResponse.value = retrieveTaskSubmissionUseCase.execute(taskId)
+
+            taskAndResponseValid.removeSource(_currResponse)
+            taskAndResponseValid.removeSource(_currTask)
+            taskAndResponseValid.addSource(_currResponse) {
+                val currResponse = _currResponse.value
+                val currTask = _currTask.value
+                taskAndResponseValid.value = if (currResponse != null && currTask != null) {
+                    (currResponse.taskId == currTask.uid) && (currResponse.taskId == taskId) && (currTask.uid == taskId)
+                }
+                else {
+                    false
+                }
+
+            }
+
+            taskAndResponseValid.addSource(_currTask) {
+                val currResponse = _currResponse.value
+                val currTask = _currTask.value
+                taskAndResponseValid.value = if (currResponse != null && currTask != null) {
+                    (currResponse.taskId == currTask.uid) && (currResponse.taskId == taskId) && (currTask.uid == taskId)
+                }
+                else {
+                    false
+                }
+            }
         }
+    }
+
+    fun setTaskObjectives(objectives: List<TaskObjectiveProgress>) {
+        _taskObjectives.value = objectives
+    }
+
+    fun addTaskSources() {
+
     }
 
 

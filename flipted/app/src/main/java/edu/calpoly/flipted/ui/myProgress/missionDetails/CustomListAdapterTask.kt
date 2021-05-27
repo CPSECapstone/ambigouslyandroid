@@ -40,7 +40,7 @@ class CustomListAdapterTask(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val fillInView = convertView
-                ?: layoutInflater.inflate(R.layout.mission_task_item, parent, false)
+                ?: layoutInflater.inflate(R.layout.mission_progress_task_item, parent, false)
         val taskName: TextView = fillInView.findViewById(R.id.mission_task_name)
         val taskProgressBar: ProgressBar = fillInView.findViewById(R.id.mission_task_progress)
         val taskProgressText: TextView = fillInView.findViewById(R.id.mission_task_percent)

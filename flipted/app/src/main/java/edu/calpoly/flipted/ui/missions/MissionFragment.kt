@@ -21,6 +21,11 @@ import edu.calpoly.flipted.businesslogic.targets.TaskObjectiveProgress
 import edu.calpoly.flipted.ui.tasks.ReviewResultsFragment
 import edu.calpoly.flipted.ui.tasks.TaskFragment
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import edu.calpoly.flipted.ui.myProgress.missions.MissionsViewModel
+
+private const val MISSION_ID_ARG_PARAM = "missionId"
 
 /**
  * A simple [Fragment] subclass.
@@ -28,18 +33,26 @@ import edu.calpoly.flipted.ui.tasks.TaskViewModel
  * create an instance of this fragment.
  */
 class MissionFragment : Fragment() {
+    private lateinit var missionId: String
+    private lateinit var viewModel: MissionsViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            missionId = it.getString(MISSION_ID_ARG_PARAM)
+                ?: throw IllegalArgumentException("Missing parameter")
+        } ?: throw IllegalArgumentException("Missing parameter")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? =
-        inflater.inflate(R.layout.fragment_mission, container, false)
+        inflater.inflate(R.layout.mission_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel: MissionsViewModel =
-            ViewModelProvider(requireActivity())[MissionsViewModel::class.java]
         val taskInfo: View = view.findViewById(R.id.task_info_card)
         val taskTitle: TextView = view.findViewById(R.id.task_name)
         val taskDesc: TextView = view.findViewById(R.id.task_insts)
@@ -48,45 +61,39 @@ class MissionFragment : Fragment() {
         val taskFeedback: TextView = view.findViewById(R.id.task_feedback)
         val feedbackTitle: TextView = view.findViewById(R.id.task_feedback_title)
         val reviewBtn: Button = view.findViewById(R.id.task_review_button)
-        val progressBar: ProgressBar = view.findViewById(R.id.task_info_progressbar)
+        val taskList: RecyclerView = view.findViewById(R.id.mission_tasks_recyclerview)
 
-        val adapter: CustomListAdapter = CustomListAdapter()
-        listViewTask.adapter = adapter
+        viewModel = ViewModelProvider(requireActivity())[MissionsViewModel::class.java]
+        //addTaskSources()
 
-        // mock task id for task 1
-        val taskOneButton = view.findViewById<Button>(R.id.taskOneButton)
-        taskOneButton.setOnClickListener {
-            viewModel.fetchTaskInfo("4f681550ba9")
-            taskInfo.visibility = View.GONE
-            progressBar.visibility = View.VISIBLE
-        }
+        val adapter = MissionTaskRecyclerAdapter(this, viewModel)
 
-        // mock task id for task 2
-        val taskTwoButton = view.findViewById<Button>(R.id.taskTwoButton)
-        taskTwoButton.setOnClickListener {
-            viewModel.fetchTaskInfo("90e0c730e56")
-            taskInfo.visibility = View.GONE
-            progressBar.visibility = View.VISIBLE
-        }
+        val infoAdapter: CustomListAdapter = CustomListAdapter()
+        listViewTask.adapter = infoAdapter
 
 
+        taskList.adapter = adapter
+        taskList.layoutManager = LinearLayoutManager(requireActivity())
+        taskList.addItemDecoration(MissionTasksItemDecoration(this))
+        taskInfo.visibility = View.GONE
 
         viewModel.currTaskInfo.observe(viewLifecycleOwner, Observer {
             if (it == null) {
-                progressBar.visibility = View.VISIBLE
                 taskInfo.visibility = View.GONE
             } else {
-                progressBar.visibility = View.GONE
                 val currTaskInfo = viewModel.currTaskInfo.value ?: return@Observer
 
                 if (viewModel.currTaskInfo.value?.task?.id != currTaskInfo.task.id)
                     return@Observer
 
                 val currSparseTask = currTaskInfo.task
+                val taskViewModel =
+                    ViewModelProvider(requireActivity())[TaskViewModel::class.java]
                 viewModel.taskObjectives.observe(viewLifecycleOwner, {
                     val taskObjectives = viewModel.taskObjectives.value
                         ?: throw IllegalArgumentException("Null task objective")
-                    adapter.data = taskObjectives
+                    infoAdapter.data = taskObjectives
+                    taskViewModel.setTaskObjectives(viewModel.taskObjectives.value!!)
                 })
 
 
@@ -95,8 +102,11 @@ class MissionFragment : Fragment() {
                 taskDesc.text = currSparseTask.instructions
                 taskDesc.movementMethod = ScrollingMovementMethod()
 
+
                 val currTaskProgress = currTaskInfo.submission
                 if (currTaskProgress != null) {
+                    Log.e("tag", currTaskProgress.taskId)
+                    taskViewModel.retrieveTaskSubmission(currTaskProgress.taskId)
                     continueBtn.text = "Redo Task"
                     taskFeedback.text = if (!currTaskProgress.graded) {
                         "No feedback is available; Task is not fully graded."
@@ -115,18 +125,22 @@ class MissionFragment : Fragment() {
                     feedbackTitle.visibility = View.VISIBLE
                     reviewBtn.visibility = View.VISIBLE
 
-                    val taskViewModel =
-                        ViewModelProvider(requireActivity())[TaskViewModel::class.java]
-                    taskViewModel.retrieveTaskSubmission(currTaskProgress.taskId)
-
                     reviewBtn.setOnClickListener {
-                        parentFragmentManager.commit {
-                            replace(R.id.main_view, ReviewResultsFragment.newInstance())
-                            setReorderingAllowed(true)
-                            addToBackStack("Start task")
-                        }
+                        taskViewModel.taskAndResponseValid.observe(viewLifecycleOwner, { valid ->
+                            if (valid) {
+                                parentFragmentManager.commit {
+                                    replace(
+                                        R.id.main_view,
+                                        ReviewResultsFragment.newInstance()
+                                    )
+                                    setReorderingAllowed(true)
+                                    addToBackStack("Start task")
+                                }
+                            }
+                        })
                     }
                 } else {
+                    continueBtn.text = "Continue Task"
                     taskFeedback.visibility = View.GONE
                     feedbackTitle.visibility = View.GONE
                     reviewBtn.visibility = View.GONE
@@ -147,11 +161,23 @@ class MissionFragment : Fragment() {
         })
 
 
+
+        viewModel.missionsProgress.observe(viewLifecycleOwner, Observer {
+            viewModel.setCurrMissionId(missionId)
+            adapter.data = it[missionId]
+            adapter.notifyDataSetChanged()
+        })
+
+        viewModel.fetchMissionsProgress()
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = MissionFragment()
+        fun newInstance(missionId: String) = MissionFragment().apply {
+            arguments = Bundle().apply {
+                putString(MISSION_ID_ARG_PARAM, missionId)
+            }
+        }
     }
 
     inner class CustomListAdapter(
@@ -214,8 +240,6 @@ class MissionFragment : Fragment() {
             }
 
             return fillInView
-
-
         }
 
 

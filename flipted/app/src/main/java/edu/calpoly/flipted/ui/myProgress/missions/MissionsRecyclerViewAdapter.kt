@@ -44,7 +44,7 @@ class MissionsRecyclerViewAdapter(private val fragment: Fragment): RecyclerView.
     var missions:List<MissionProgress> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MissionsViewHolder {
-        val itemView = LayoutInflater.from(fragment.requireActivity()).inflate(R.layout.mission_item, parent, false)
+        val itemView = LayoutInflater.from(fragment.requireActivity()).inflate(R.layout.mission_progress_item, parent, false)
         return MissionsViewHolder(fragment, itemView)
     }
 

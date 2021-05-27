@@ -32,7 +32,7 @@
         app:layout_constraintRight_toLeftOf="@id/missions_container"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        tools:listitem="@layout/mission_task_item" />
+        tools:listitem="@layout/mission_progress_task_item" />
 
     <TextView
         style="@style/ColumnTitleStyle"
@@ -131,7 +131,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/mission_item"
+            tools:listitem="@layout/mission_progress_item"
             tools:ignore="RtlSymmetry" />
 
 
