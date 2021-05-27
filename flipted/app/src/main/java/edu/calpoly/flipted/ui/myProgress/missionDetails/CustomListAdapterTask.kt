@@ -1,5 +1,6 @@
 package edu.calpoly.flipted.ui.myProgress.missionDetails
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.UidToStableId
+import edu.calpoly.flipted.businesslogic.missions.GetPercent
 import edu.calpoly.flipted.businesslogic.missions.TaskStats
 
 class CustomListAdapterTask(
@@ -38,6 +40,7 @@ class CustomListAdapterTask(
         return uidMap.getStableId(data[position].task.id)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val fillInView = convertView
                 ?: layoutInflater.inflate(R.layout.mission_task_item, parent, false)
@@ -48,11 +51,7 @@ class CustomListAdapterTask(
 
         taskName.text = data.task.name
         if(data.submission != null){
-            val progressVal: Float = if(data.submission.pointsPossible == 0) {
-                100F
-            } else {
-                    (data.submission.pointsAwarded.toFloat() / data.submission.pointsPossible.toFloat())*100
-            }
+            val progressVal: Float = GetPercent.getTaskPercent(data.submission.pointsPossible,data.submission.pointsAwarded)
             if (progressVal <= 50){
                 taskProgressBar.progressDrawable = context.let { ContextCompat.getDrawable(it, R.drawable.progress_bar_failed) }
             }
@@ -62,7 +61,7 @@ class CustomListAdapterTask(
             taskProgressBar.progress = progressVal.toInt()
             val progressString = progressVal.toInt()
 
-            taskProgressText.text = progressString.toString() + "%"
+            taskProgressText.text = "$progressString%"
         }
         return fillInView
 
