@@ -9,7 +9,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import edu.calpoly.flipted.ui.MainActivity
 import edu.calpoly.flipted.ui.goals.GoalsFragment
-import edu.calpoly.flipted.ui.home.StudentHomeFragment
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Assert.*
 import org.junit.Rule
@@ -44,12 +43,6 @@ class ActivityInputOutputTest {
         //onView(withText( R.id.video_button)).perform(click())
 
         //assertEquals(StudentHomeFragment,)
-    }
-
-    @Test fun testStudentHomeFragment() {
-        val scenario = launchFragmentInContainer<StudentHomeFragment>()
-        onView(allOf(withId(R.id.goals_button), withText("Goals")))
-        onView(allOf(withId(R.id.task_button), withText("Take Quiz")))
     }
 
     @Test fun testGoalsFragment() {

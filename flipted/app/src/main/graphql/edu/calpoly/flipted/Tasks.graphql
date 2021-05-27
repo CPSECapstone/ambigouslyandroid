@@ -22,6 +22,7 @@ mutation SubmitTask($taskId: String!) {
         questionId
         pointsAwarded
         answer
+        teacherComment
       }
     }
     teacherComment
@@ -99,6 +100,24 @@ query GetTask($taskId:String!) {
   }
 }
 
+query GetTaskInfo($taskId:String!) {
+  task(taskId:$taskId) {
+    id,
+    name,
+    instructions,
+    points,
+    startAt,
+    endAt,
+    dueDate,
+    missionId,
+    missionIndex,
+    requirements {
+     id,
+     description
+    }
+  }
+}
+
 query GetTaskObjectiveProgress($taskId:String!) {
   getTaskObjectiveProgress(taskId:$taskId) {
     task {
@@ -112,3 +131,35 @@ query GetTaskObjectiveProgress($taskId:String!) {
     mastery
   }
 }
+
+query RetrieveTaskSubmission($taskId: String!){
+  retrieveTaskSubmission(taskId: $taskId) {
+    graded
+    pointsAwarded
+    pointsPossible
+    questionAndAnswers {
+      question {
+        ... on FrQuestion {
+          id
+          description
+          points
+          answer
+        }
+        ... on McQuestion {
+          id
+          description
+          points
+          answers
+        }
+      }
+      answer {
+        questionId
+        pointsAwarded
+        answer
+        teacherComment
+      }
+    }
+    teacherComment
+  }
+  }
+
