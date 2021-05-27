@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
@@ -164,7 +165,10 @@ class MissionFragment : Fragment() {
 
         viewModel.missionsProgress.observe(viewLifecycleOwner, Observer {
             viewModel.setCurrMissionId(missionId)
-            adapter.data = it[missionId]
+            val mission = it[missionId]
+            if(mission == null)
+                Toast.makeText(requireActivity(), "Failed to retrieve mission!", Toast.LENGTH_LONG).show()
+            adapter.data = mission
             adapter.notifyDataSetChanged()
         })
 
