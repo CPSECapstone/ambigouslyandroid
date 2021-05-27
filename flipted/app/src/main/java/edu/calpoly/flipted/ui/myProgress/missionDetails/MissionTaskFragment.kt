@@ -32,7 +32,7 @@ class MissionTaskFragment() : Fragment() {
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.mission_task_fragment, container, false)
+    ): View = inflater.inflate(R.layout.mission_progress_detail_fragment, container, false)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

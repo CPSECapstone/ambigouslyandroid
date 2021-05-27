@@ -52,6 +52,7 @@ class ReviewResultsFragment : Fragment() {
 
         val currTask = viewModel.currTask.value
             ?: throw IllegalStateException("No task found")
+
         pageTitle.text = "QUIZ REVIEW"
         taskTitle.text = currTask.name
 
@@ -87,9 +88,9 @@ class ReviewResultsFragment : Fragment() {
                     else -> throw IllegalStateException()
                 }
                 val params = pager.layoutParams
-                params.height = when (tab!!.text) {
-                    "Quiz Review" -> FrameLayout.LayoutParams.MATCH_PARENT
+                params.height = when (tab.text) {
                     "Task Results" -> 1400
+                    "Quiz Review" -> FrameLayout.LayoutParams.MATCH_PARENT
                     "Get Help" -> 750
                     else -> throw IllegalStateException()
                 }
@@ -101,6 +102,7 @@ class ReviewResultsFragment : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
         })
+
 
         taskBtn.setOnClickListener {
             parentFragmentManager.popBackStack(
@@ -120,7 +122,7 @@ class ReviewResultsFragment : Fragment() {
                 FragmentManager.POP_BACK_STACK_INCLUSIVE
             )
             parentFragmentManager.commit {
-                replace(R.id.main_view, MissionFragment.newInstance())
+                replace(R.id.main_view, MissionFragment.newInstance("da0719ba103"))
                 addToBackStack(null)
                 setReorderingAllowed(true)
             }

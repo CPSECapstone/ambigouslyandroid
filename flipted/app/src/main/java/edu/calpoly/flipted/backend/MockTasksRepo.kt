@@ -207,6 +207,10 @@ class MockTasksRepo : TasksRepo {
         } ?: throw IllegalArgumentException("No task with $taskId exists")
     }
 
+    override suspend fun getTaskInfo(taskId: String): Task {
+        TODO("Not yet implemented")
+    }
+
 
     override suspend fun saveRubricProgress(progress: TaskRubricProgress) {
         delay(2000)
@@ -226,13 +230,18 @@ class MockTasksRepo : TasksRepo {
 
     override suspend fun submitTask(taskId : String) : TaskSubmissionResult {
         delay(3000)
-        return TaskSubmissionResult(taskId, false, 5, 10,
-        listOf())
+        return TaskSubmissionResult(taskId, false, 5, 10,"Nice work!",
+            listOf())
     }
 
     override suspend fun getObjectiveProgress(taskId: String): List<TaskObjectiveProgress> {
         delay(1000)
         return taskObjectives[taskId] ?: throw IllegalArgumentException("No mocked data for task with id $taskId")
+    }
+
+    override suspend fun retrieveTaskSubmission(taskId: String): TaskSubmissionResult {
+        return TaskSubmissionResult(taskId, false, 5, 10,"Nice work!",
+            listOf())
     }
 
 

@@ -4,57 +4,86 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="100dp">
 
-    <TextView
-        style="@style/MissionTaskTitleStyle"
-        android:id="@+id/mission_task_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Task 1.1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/progress_bar_container"
+    <View
+        android:id="@+id/mission_task_item_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/mission_task_name"
-        app:layout_constraintRight_toRightOf="parent"
+
+        android:layout_marginStart="117.5dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/mission_task_item_background_spacer"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_weight="4">
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:background="@drawable/one_side_rounded"
+        android:backgroundTint="@color/gray7"
+        />
+
+    <View
+        android:id="@+id/mission_task_item_background_spacer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:background="@null"
+
+        app:layout_constraintStart_toEndOf="@id/mission_task_item_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/mission_task_item_indicator"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+
+        tools:src="@drawable/mission_task_check"
+
+        android:layout_marginStart="67.5dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        />
+
+    <TextView
+        android:id="@+id/mission_task_item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        style="@style/MissionTaskTitle"
+
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="12dp"
+
+        app:layout_constraintStart_toEndOf="@id/mission_task_item_indicator"
+        app:layout_constraintEnd_toEndOf="@id/mission_task_item_background"
+        app:layout_constraintTop_toTopOf="@id/mission_task_item_background"
+
+        tools:text="Task 1.1.4"
+        />
+
+    <TextView
+        android:id="@+id/mission_task_item_points"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        style="@style/MissionTaskPoints"
+
+        android:layout_marginStart="15dp"
+
+        app:layout_constraintStart_toEndOf="@id/mission_task_item_indicator"
+        app:layout_constraintEnd_toEndOf="@id/mission_task_item_background"
+        app:layout_constraintTop_toBottomOf="@id/mission_task_item_title"
+
+        tools:text="500 points"
+        />
 
 
-        <ProgressBar
-            android:id="@+id/mission_task_progress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_height="24dp"
-            android:layout_width="550dp"
-            android:layout_marginTop="13dp"
-            android:progressDrawable="@drawable/progress_bar_passed"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="100dp"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:progress="57" />
-
-
-        <TextView
-            style="@style/MissionTaskPercentStyle"
-            android:id="@+id/mission_task_percent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/percent_empty"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
