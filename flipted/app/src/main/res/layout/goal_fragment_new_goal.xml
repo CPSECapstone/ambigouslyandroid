@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="360dp"
+android:layout_height="match_parent"
+android:background="@color/grayGoal">
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <TextView
+    style="@style/TitleGoalEditStyle"
+    android:id="@+id/goals_fragment_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/new_goal"
+    />
+
+    <View
+    style="@style/GoalEditLineStyle"
+    android:layout_width="330dp"
+    android:layout_height="2dp"
+    />
+
+    <LinearLayout
+    android:layout_width="325dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="start">
+
+    <ImageView
+    android:layout_gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:srcCompat="@drawable/edit_vector" />
+
+    <EditText
+    style="@style/GoalDateAddTitleStyle"
+    android:id="@+id/goals_fragment_create_name_input"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:hint="@string/add_title" />
+    </LinearLayout>
+
+    <View
+    style="@style/GoalEditLineStyle"
+    android:layout_width="330dp"
+    android:layout_height="2dp"
+    />
+
+    <LinearLayout
+    android:layout_width="325dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="start">
+
+    <ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:srcCompat="@drawable/calendar_vector" />
+
+    <Button
+    style="@style/GoalDateButtonStyle"
+    android:id="@+id/goals_fragment_create_date_selector_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/add_due_date" />
+
+    <TextView
+    style="@style/GoalDateTextStyle"
+    android:id="@+id/goals_fragment_create_date_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    />
+
+    </LinearLayout>
+
+    <View
+    style="@style/GoalEditLineStyle"
+    android:layout_width="330dp"
+    android:layout_height="2dp"
+    />
+
+    <LinearLayout
+    android:layout_width="325dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="start">
+
+    <ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:srcCompat="@drawable/heart_vector" />
+
+    <Spinner
+    android:id="@+id/goals_fragment_create_category_spinner"
+    android:layout_marginStart="20dp"
+    android:textSize="14sp"
+    android:fontFamily="@font/font_poppins"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <View
+    style="@style/GoalEditLineStyle"
+    android:layout_width="330dp"
+    android:layout_height="2dp"
+    />
+
+    <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/goals_fragment_create_subgoals_recyclerview"
+    android:layout_width="330dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    tools:listitem="@layout/goals_fragment_create_subgoal_list_item" >
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+
+    <Button
+    style="@style/GoalEditButtonSaveStyle"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:id="@+id/goals_fragment_create_submit_button"
+    android:layout_width="206dp"
+    android:layout_height="60dp"
+    android:text="@string/save_edits"
+    />
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

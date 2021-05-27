@@ -5,6 +5,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.goals.GoalRecyclerViewAdapter
@@ -14,7 +15,7 @@ import java.util.*
 
 class SubGoalViewHolder(view: View, private val adapter: GoalRecyclerViewAdapter) : GoalBlockViewHolder(view)  {
     private val subGoalName : EditText = view.findViewById(R.id.goals_fragment_create_subgoal_list_item_title)
-    private val deleteSubGoalButton : Button = view.findViewById(R.id.goals_fragment_create_subgoal_list_item_delete_button)
+    private val deleteSubGoalButton : ImageButton = view.findViewById(R.id.goals_fragment_create_subgoal_list_item_delete_button)
     private val subGoalDateText : TextView = view.findViewById(R.id.goals_fragment_create_subgoal_list_item_date_text)
     private var subGoalButtonDate: Button = view.findViewById(R.id.goals_fragment_create_subgoal_list_item_date_button)
     private var subGoalButtonDateText: TextView = view.findViewById(R.id.goals_fragment_create_subgoal_list_item_date_text)
