@@ -33,15 +33,15 @@ class GoalRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: GoalBlockViewHolder, position: Int) {
-        if (position != 0){
-            (holder as SubGoalViewHolder).bind(subGoalBlocks[position-1])
+        if (position != subGoalBlocks.size){
+            (holder as SubGoalViewHolder).bind(subGoalBlocks[position])
         }
     }
 
     override fun getItemCount(): Int = subGoalBlocks.size + 1
 
     override fun getItemViewType(position: Int): Int =
-        if(position == 0)
+        if(position == subGoalBlocks.size)
             R.layout.goals_fragment_create_subgoal_list_item_add
         else
             R.layout.goals_fragment_create_subgoal_list_item
