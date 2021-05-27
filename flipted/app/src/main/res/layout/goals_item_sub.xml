@@ -5,65 +5,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#EEDE8A">
-
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="88dp"
-        android:scaleType="fitCenter"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/baseline_menu_book_black_24dp" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-
-        android:orientation="vertical"
-
-        app:layout_constraintStart_toEndOf="@id/imageView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-
-        android:id="@+id/goals_item_sub_text_container">
-
-        <TextView
-            android:id="@+id/Comp_Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            tools:text="To Kill a Mockingbird" />
-
-        <TextView
-            android:id="@+id/Comp_Subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            tools:text="Read on March 4, 2021" />
-    </LinearLayout>
+    android:background="@drawable/blue_goal_box"
+    android:paddingLeft="50dp"
+    android:layout_marginLeft="50dp">
 
     <CheckBox
         android:id="@+id/goals_item_sub_complete_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginEnd="20dp" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@id/goals_item_sub_complete_checkbox"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/goals_item_sub_text_container">
+
+        <TextView
+            android:id="@+id/Comp_Title"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="13dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            style="@style/GoalTitleStyle"
+            tools:text="To Kill a Mockingbird" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

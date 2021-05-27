@@ -97,6 +97,20 @@
         <item name="android:textColor">@color/blueText</item>
     </style>
 
+    <style name="BoldTitleStyle">
+        <item name="android:fontFamily">@font/font_poppins</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">@color/blueText</item>
+    </style>
+
+    <style name="SmallerHeaderStyle">
+        <item name="android:fontFamily">@font/font_poppins</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/blueText</item>
+    </style>
+
     <style name="ColumnTitleStyle">
         <item name="android:fontFamily">@font/font_poppins</item>
         <item name="android:textFontWeight">600</item>
@@ -173,6 +187,13 @@
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:fontFamily">sans-serif-black</item>
         <item name="android:radius">3dp</item>
+    </style>
+
+    <style name="GoalTitleStyle">
+        <item name="android:fontFamily">@font/font_poppins</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/almost_black</item>
     </style>
 
 </resources>

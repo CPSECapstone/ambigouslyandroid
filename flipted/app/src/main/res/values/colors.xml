@@ -15,6 +15,7 @@
     <color name="blue2">#B2C5F6</color>
     <color name="dividerBlue">#9BC9FF</color>
     <color name="blue3">#9BC9FF</color>
+    <color name="blue4">#E3F2FD</color>
     <color name="blueText">#2F80ED</color>
     <color name="white1">#FFFFFF</color>
     <color name="gray6">#F2F2F2</color>
@@ -23,6 +24,7 @@
     <color name="gray4">#E0E0E0</color>
     <color name="gray7">#F2F2F2</color>
     <color name="grayOut">#C4C4C4</color>
+    <color name="almost_black">#333333</color>
     <color name="black">#000000</color>
     <color name="yellow">#FFBD12</color>
     <color name="pointPurple">#C8B2F6</color>
@@ -31,6 +33,9 @@
     <color name="nearlyMastered">#F2C94C</color>
     <color name="mastered">#30CC30</color>
 
+    <color name="salmon">#FF9692</color>
+    <color name="mint">#61E4C5</color>
+    <color name="purple">#8094FF</color>
 
 
 </resources>
