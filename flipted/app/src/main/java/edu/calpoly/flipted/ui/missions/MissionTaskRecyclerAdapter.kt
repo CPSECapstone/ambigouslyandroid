@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.missions.MissionProgress
 import edu.calpoly.flipted.businesslogic.missions.TaskStats
+import edu.calpoly.flipted.ui.myProgress.missions.MissionsViewModel
 
 sealed class MissionTaskViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
@@ -25,7 +26,7 @@ class MissionTitleViewHolder(view: View) : MissionTaskViewHolder(view) {
     }
 }
 
-class TaskViewHolder(view: View, private val fragment: Fragment, private val adapter: MissionTaskRecyclerAdapter)
+class TaskViewHolder(view: View, private val fragment: Fragment, private val adapter: MissionTaskRecyclerAdapter, private val viewModel: MissionsViewModel)
     : MissionTaskViewHolder(view), View.OnClickListener {
     private val indicator: ImageView = view.findViewById(R.id.mission_task_item_indicator)
     private val title: TextView = view.findViewById(R.id.mission_task_item_title)
@@ -40,13 +41,7 @@ class TaskViewHolder(view: View, private val fragment: Fragment, private val ada
 
     override fun onClick(v: View?) {
         adapter.selectedIdx = pos
-        //TODO: Load the sidebar with the selected item
-        /*
-            fragment.childFragmentManager.commit {
-                replace(R.id.<sidebar_container_id>, <sidebar fragment>.newInstance(taskId))
-                setReorderingAllowed(true)
-            }
-         */
+        viewModel.fetchTaskInfo(taskId)
     }
 
     fun bind(task: TaskStats, pos: Int) {
@@ -83,7 +78,7 @@ class SelectedTaskViewHolder(view: View) : MissionTaskViewHolder(view) {
 
 }
 
-class MissionTaskRecyclerAdapter(private val fragment: Fragment) : RecyclerView.Adapter<MissionTaskViewHolder>() {
+class MissionTaskRecyclerAdapter(private val fragment: Fragment, private val viewModel: MissionsViewModel) : RecyclerView.Adapter<MissionTaskViewHolder>() {
     var data : MissionProgress? = null
     var selectedIdx: Int? = null
         set(value) {
@@ -99,7 +94,7 @@ class MissionTaskRecyclerAdapter(private val fragment: Fragment) : RecyclerView.
         val view = LayoutInflater.from(fragment.requireActivity()).inflate(viewType, parent, false)
         return when(viewType) {
             R.layout.mission_title_item -> MissionTitleViewHolder(view)
-            R.layout.mission_task_item -> TaskViewHolder(view, fragment, this)
+            R.layout.mission_task_item -> TaskViewHolder(view, fragment, this, viewModel)
             R.layout.mission_selected_item -> SelectedTaskViewHolder(view)
             else -> throw IllegalArgumentException("Unknown viewType")
         }

@@ -44,15 +44,20 @@ class ApolloMissionsRepo : ApolloRepo(), MissionsRepo {
                     missionProgress.progress.map{ taskStat ->
                         TaskStats(
                                 tasks[taskStat.taskId] ?: throw IllegalArgumentException("Error when querying backend: bad response"),
-                                taskStat.submission?.let{ submission ->
-                                    TaskSubmissionResult(
+                            when {
+                                taskStat.submission == null -> null
+                                else ->
+                                    taskStat.submission.let{ submission ->
+                                        TaskSubmissionResult(
                                             taskStat.taskId,
                                             submission.graded,
                                             submission.pointsAwarded ?: throw IllegalArgumentException("Error when querying backend: bad response"),
                                             submission.pointsPossible ?: throw IllegalArgumentException("Error when querying backend: bad response"),
+                                            submission.teacherComment,
                                             listOf()
-                                    )
-                                }
+                                        )
+                                    }
+                            }
                         )
                     }
             )
