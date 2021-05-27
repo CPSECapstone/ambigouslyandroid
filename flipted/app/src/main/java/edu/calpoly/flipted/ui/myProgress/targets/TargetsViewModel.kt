@@ -4,17 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import edu.calpoly.flipted.backend.ApolloLearningTargetsRepo
-import edu.calpoly.flipted.backend.MockLearningTargetsRepo
 import edu.calpoly.flipted.businesslogic.targets.GetAllTargetProgress
-import edu.calpoly.flipted.businesslogic.targets.LearningTarget
+import edu.calpoly.flipted.businesslogic.targets.LearningTargetsRepo
 import edu.calpoly.flipted.businesslogic.targets.TargetProgress
 import kotlinx.coroutines.launch
 
-class TargetsViewModel : ViewModel() {
+class TargetsViewModel(repo: LearningTargetsRepo) : ViewModel() {
     private val _allProgress : MutableLiveData<Map<String, TargetProgress>> = MutableLiveData()
 
-    private val repo = ApolloLearningTargetsRepo()
     private val getAllTargetProgressUseCase = GetAllTargetProgress(repo)
 
     val allProgress: LiveData<Map<String, TargetProgress>>

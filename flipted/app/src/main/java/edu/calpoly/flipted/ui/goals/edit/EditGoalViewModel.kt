@@ -4,16 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import edu.calpoly.flipted.backend.ApolloGoalsRepo
-import edu.calpoly.flipted.backend.MockGoalsRepo
 import edu.calpoly.flipted.businesslogic.goals.*
 import kotlinx.coroutines.launch
 import java.util.*
 
-class EditGoalViewModel : ViewModel() {
+class EditGoalViewModel(repo: GoalsRepo) : ViewModel() {
     private val _goal = MutableLiveData<Goal>()
 
-    private val repo = ApolloGoalsRepo()
     private val getGoal = GetGoalById(repo)
     private val editGoal = EditGoal(repo)
 
