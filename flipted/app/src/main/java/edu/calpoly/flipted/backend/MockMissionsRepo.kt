@@ -23,7 +23,7 @@ class MockMissionsRepo : MissionsRepo {
             TaskStats(SparseTask(uids, "Co-dominance", "", 4, null), null)
         ).let{ taskStats ->
             MissionProgress(
-                Mission("m1", "Mendelian Genetics", "", taskStats.map{it.task}),
+                Mission("m1", "Mendelian Genetics", "This is a sample task. It is mocked, and comes from hard-coded data.", taskStats.map{it.task}),
                 taskStats
             )
         },

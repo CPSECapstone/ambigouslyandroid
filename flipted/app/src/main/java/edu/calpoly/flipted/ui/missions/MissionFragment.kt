@@ -4,11 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.ui.tasks.TaskFragment
+import edu.calpoly.flipted.ui.myProgress.missions.MissionsViewModel
+
+private const val MISSION_ID_ARG_PARAM = "missionId"
 
 /**
  * A simple [Fragment] subclass.
@@ -17,36 +22,52 @@ import edu.calpoly.flipted.ui.tasks.TaskFragment
  */
 class MissionFragment : Fragment() {
 
+    private lateinit var missionId : String
+    private lateinit var viewModel : MissionsViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            missionId = it.getString(MISSION_ID_ARG_PARAM) ?: throw IllegalArgumentException("Missing parameter")
+        } ?: throw IllegalArgumentException("Missing parameter")
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_mission, container, false)
+            inflater.inflate(R.layout.mission_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // mock task id for task 1
-        val taskOneButton = view.findViewById<Button>(R.id.taskOneButton)
-        taskOneButton.setOnClickListener{
-            parentFragmentManager.commit {
-                replace(R.id.main_view, TaskFragment.newInstance("4f681550ba9"))
-                setReorderingAllowed(true)
-                addToBackStack("Start task")
-            }
-        }
+        val taskList: RecyclerView = view.findViewById(R.id.mission_tasks_recyclerview)
+        val adapter = MissionTaskRecyclerAdapter(this)
 
-        // mock task id for task 2
-        val taskTwoButton = view.findViewById<Button>(R.id.taskTwoButton)
-        taskTwoButton.setOnClickListener{
-            parentFragmentManager.commit {
-                replace(R.id.main_view, TaskFragment.newInstance("90e0c730e56"))
-                setReorderingAllowed(true)
-                addToBackStack("Start task")
-            }
-        }
+        taskList.adapter = adapter
+        taskList.layoutManager = LinearLayoutManager(requireActivity())
+        taskList.addItemDecoration(MissionTasksItemDecoration(this))
+
+        viewModel = ViewModelProvider(requireActivity())[MissionsViewModel::class.java]
+
+        viewModel.missionsProgress.observe(viewLifecycleOwner, Observer {
+            val mission = it[missionId]
+            if(mission == null)
+                Toast.makeText(requireActivity(), "Failed to retrieve mission!", Toast.LENGTH_LONG).show()
+            adapter.data = mission
+            adapter.notifyDataSetChanged()
+        })
+
+        viewModel.fetchMissionsProgress()
+
+
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = MissionFragment()
+        fun newInstance(missionId: String)
+            = MissionFragment().apply {
+                arguments = Bundle().apply {
+                    putString(MISSION_ID_ARG_PARAM, missionId)
+                }
+            }
         }
 }
