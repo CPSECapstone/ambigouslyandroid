@@ -1,9 +1,5 @@
 package edu.calpoly.flipted.backend
 
-import android.util.Log
-import com.amplifyframework.auth.cognito.AWSCognitoAuthSession
-import com.amplifyframework.auth.result.AuthSessionResult
-import com.amplifyframework.kotlin.core.Amplify
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.CustomTypeAdapter
 import com.apollographql.apollo.api.CustomTypeValue
@@ -14,7 +10,7 @@ import okhttp3.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-abstract class ApolloRepo {
+abstract class ApolloRepo(private val authProvider: AuthProvider) {
     companion object {
         const val BACKEND_URL = "https://5orf8nzr57.execute-api.us-east-1.amazonaws.com/production/graphql"
     }
@@ -40,29 +36,13 @@ abstract class ApolloRepo {
         }
     }
 
-    suspend fun apolloClient(): ApolloClient {
-
-        val session = Amplify.Auth.fetchAuthSession() as AWSCognitoAuthSession
-
-        val id = session.userPoolTokens
-
-        if (id.type == AuthSessionResult.Type.SUCCESS) {
-            Log.i("AuthQuickStart", "IdentityId: ${id.value}")
-        } else if (id.type == AuthSessionResult.Type.FAILURE) {
-            Log.i("AuthQuickStart", "IdentityId not present: ${id.error}")
-            throw IllegalStateException();
-        }
-
-        val key = id.value!!.accessToken
-        Log.e("tag", key)
-
-        return ApolloClient.builder()
+    suspend fun apolloClient(): ApolloClient
+        = ApolloClient.builder()
                 .serverUrl(BACKEND_URL)
                 .addCustomTypeAdapter(CustomType.DATE, dateCustomTypeAdapter)
                 .okHttpClient(OkHttpClient.Builder()
-                        .addInterceptor(AuthorizationInterceptor(key))
+                        .addInterceptor(AuthorizationInterceptor(authProvider.getToken()))
                         .build()
                 )
                 .build()
-    }
 }

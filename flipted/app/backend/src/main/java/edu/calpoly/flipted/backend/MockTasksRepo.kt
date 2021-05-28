@@ -1,6 +1,5 @@
 package edu.calpoly.flipted.backend
 
-import android.util.Log
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.quizzes.data.answers.FreeResponseAnswer
 import edu.calpoly.flipted.businesslogic.quizzes.data.answers.MultipleChoiceAnswer

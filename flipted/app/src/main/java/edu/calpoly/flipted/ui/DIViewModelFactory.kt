@@ -1,11 +1,12 @@
 package edu.calpoly.flipted.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import edu.calpoly.flipted.backend.ApolloGoalsRepo
-import edu.calpoly.flipted.backend.ApolloLearningTargetsRepo
-import edu.calpoly.flipted.backend.ApolloMissionsRepo
-import edu.calpoly.flipted.backend.ApolloTasksRepo
+import com.amplifyframework.auth.cognito.AWSCognitoAuthSession
+import com.amplifyframework.auth.result.AuthSessionResult
+import com.amplifyframework.kotlin.core.Amplify
+import edu.calpoly.flipted.backend.*
 import edu.calpoly.flipted.ui.goals.GoalsViewModel
 import edu.calpoly.flipted.ui.goals.edit.EditGoalViewModel
 import edu.calpoly.flipted.ui.login.LoginViewModel
@@ -15,11 +16,31 @@ import edu.calpoly.flipted.ui.myProgress.targets.TargetsViewModel
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
 
 class DIViewModelFactory : ViewModelProvider.Factory {
+    class AmplifyAuthProvider : AuthProvider {
+        override suspend fun getToken(): String {
+            val session = Amplify.Auth.fetchAuthSession() as AWSCognitoAuthSession
+
+            val id = session.userPoolTokens
+
+            if (id.type == AuthSessionResult.Type.FAILURE) {
+                Log.i("AuthQuickStart", "IdentityId not present: ${id.error}")
+                throw IllegalStateException();
+            }
+
+            val key = id.value!!.accessToken
+            Log.i("tag", key)
+
+            return key
+        }
+
+    }
+
     companion object {
-        private val goalsRepo by lazy { ApolloGoalsRepo() }
-        private val missionsRepo by lazy { ApolloMissionsRepo() }
-        private val learningTargetsRepo by lazy { ApolloLearningTargetsRepo() }
-        private val tasksRepo by lazy { ApolloTasksRepo() }
+        private val authProvider by lazy { AmplifyAuthProvider() }
+        private val goalsRepo by lazy { ApolloGoalsRepo(authProvider) }
+        private val missionsRepo by lazy { ApolloMissionsRepo(authProvider) }
+        private val learningTargetsRepo by lazy { ApolloLearningTargetsRepo(authProvider) }
+        private val tasksRepo by lazy { ApolloTasksRepo(authProvider) }
     }
 
     /**

@@ -1,6 +1,5 @@
 package edu.calpoly.flipted.backend
 
-import android.util.Log
 import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
@@ -12,19 +11,18 @@ import edu.calpoly.flipted.businesslogic.goals.SubGoal
 import edu.calpoly.flipted.type.GoalInput
 import edu.calpoly.flipted.type.SubGoalInput
 
-class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
+class ApolloGoalsRepo(authProvider: AuthProvider) : ApolloRepo(authProvider), GoalsRepo {
 
     override suspend fun getAllGoals(): List<Goal> {
-        Log.e("tag", "get goals")
         val response = try {
             apolloClient().query(GetAllGoalsQuery()).await()
         } catch(e: ApolloException) {
-            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            //Log.e("ApolloTasksRepo", "Error when querying backend", e)
             throw e
         }
 
         if(response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
+            //Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
             throw IllegalStateException("Error when querying backend: bad response")
         }
 
@@ -53,12 +51,12 @@ class ApolloGoalsRepo : ApolloRepo(), GoalsRepo {
         val response = try {
             apolloClient().mutate(mutation).await()
         } catch(e: ApolloException) {
-            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            //Log.e("ApolloTasksRepo", "Error when querying backend", e)
             throw e
         }
 
         if(response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
+            //Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map {it.message} ?: "bad response"}")
             throw IllegalStateException("Error when querying backend: bad response")
         }
 

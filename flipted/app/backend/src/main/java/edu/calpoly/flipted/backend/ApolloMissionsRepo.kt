@@ -1,24 +1,23 @@
 package edu.calpoly.flipted.backend
 
-import android.util.Log
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import edu.calpoly.flipted.GetAllMissionProgressQuery
 import edu.calpoly.flipted.businesslogic.missions.*
 import edu.calpoly.flipted.businesslogic.tasks.data.TaskSubmissionResult
 
-class ApolloMissionsRepo : ApolloRepo(), MissionsRepo {
+class ApolloMissionsRepo(authProvider: AuthProvider) : ApolloRepo(authProvider), MissionsRepo {
 
     override suspend fun getAllMissionProgress(courseId: String): List<MissionProgress> {
         val response = try {
             apolloClient().query(GetAllMissionProgressQuery(courseId)).await()
         } catch (e: ApolloException) {
-            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            //Log.e("ApolloTasksRepo", "Error when querying backend", e)
             throw e
         }
 
         if (response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
+            //Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
             throw IllegalStateException("Error when querying backend: bad response")
         }
 

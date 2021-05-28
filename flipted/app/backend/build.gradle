@@ -1,0 +1,37 @@
+plugins {
+    id 'java-library'
+    id 'kotlin'
+    id("com.apollographql.apollo").version("2.5.4")
+}
+
+apply plugin: 'com.apollographql.apollo'
+
+apollo {
+    // instruct the compiler to generate Kotlin models
+    generateKotlinModels.set(true)
+    customTypeMapping = [
+            "Date" : "java.util.Date"
+    ]
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    // The core runtime dependencies
+    implementation("com.apollographql.apollo:apollo-runtime:2.5.4")
+    // Coroutines extensions for easier asynchronicity handling
+    implementation("com.apollographql.apollo:apollo-coroutines-support:2.5.4")
+
+    implementation project(':app:businesslogic')
+}

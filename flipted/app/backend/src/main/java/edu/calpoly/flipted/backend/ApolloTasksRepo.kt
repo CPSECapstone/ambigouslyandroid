@@ -1,6 +1,5 @@
 package edu.calpoly.flipted.backend
 
-import android.util.Log
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import edu.calpoly.flipted.*
@@ -24,18 +23,18 @@ import edu.calpoly.flipted.type.MultipleChoiceAnswerInput
 import edu.calpoly.flipted.type.TaskProgressInput
 import edu.calpoly.flipted.type.Mastery as ApolloMastery
 
-class ApolloTasksRepo : ApolloRepo(), TasksRepo {
+class ApolloTasksRepo(authProvider: AuthProvider) : ApolloRepo(authProvider), TasksRepo {
 
     override suspend fun getTaskInfo(taskId: String): Task {
         val response = try {
             apolloClient().query(GetTaskQuery(taskId)).await()
         } catch (e: ApolloException) {
-            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            //Log.e("ApolloTasksRepo", "Error when querying backend", e)
             throw e
         }
 
         if (response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
+            //Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
             throw IllegalStateException("Error when querying backend: bad response")
         }
 
@@ -60,12 +59,12 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         val response = try {
             apolloClient().query(GetTaskQuery(taskId)).await()
         } catch (e: ApolloException) {
-            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            //Log.e("ApolloTasksRepo", "Error when querying backend", e)
             throw e
         }
 
         if (response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
+            //Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
             throw IllegalStateException("Error when querying backend: bad response")
         }
 
@@ -157,12 +156,12 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
             apolloClient().mutate(progressMutation).await()
         } catch (e: ApolloException) {
             e.printStackTrace()
-            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            //Log.e("ApolloTasksRepo", "Error when querying backend", e)
             return
         }
 
         if (response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
+            //Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
             return
         }
     }
@@ -177,12 +176,12 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         val response = try {
             apolloClient().mutate(mutation).await()
         } catch (e: ApolloException) {
-            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            //Log.e("ApolloTasksRepo", "Error when querying backend", e)
             return
         }
 
         if (response.hasErrors() || response.data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
+            //Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
             return
         }
     }
@@ -193,7 +192,7 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
             apolloClient().mutate(mutation).await()
         } catch (e: ApolloException) {
             val message = "Task submission unavailable right now. Please make sure you are not offline."
-            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            //Log.e("ApolloTasksRepo", "Error when querying backend", e)
             throw IllegalStateException(message)
         }
 
@@ -202,7 +201,7 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
             if (message != null) {
                 throw IllegalStateException(message)
             } else {
-                Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
+                //Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
                 throw IllegalStateException("Task submission unavailable right now.")
             }
         }
@@ -235,7 +234,7 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
             apolloClient().query(query).await()
         } catch (e: ApolloException) {
             val message = "Task submission unavailable right now. Please make sure you are not offline."
-            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            //Log.e("ApolloTasksRepo", "Error when querying backend", e)
             throw IllegalStateException(message)
         }
 
@@ -244,7 +243,7 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
             if (message != null) {
                 throw IllegalStateException(message)
             } else {
-                Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
+                //Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
                 throw IllegalStateException("Task submission unavailable right now.")
             }
         }
@@ -275,14 +274,14 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
         val response = try {
             apolloClient().query(GetTaskObjectiveProgressQuery(taskId)).await()
         } catch (e: ApolloException) {
-            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            //Log.e("ApolloTasksRepo", "Error when querying backend", e)
             throw e
         }
 
         val data = response.data
 
         if (response.hasErrors() || data == null) {
-            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
+            //Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
             throw IllegalStateException("Error when querying backend: bad response")
         }
 
