@@ -41,14 +41,15 @@ class MockGoalsRepo : GoalsRepo {
 
     override suspend fun editGoal(goal: Goal): Goal {
         delay(1000)
-        return if(goal.uid == null) {
+        val uid = goal.uid
+        return if(uid == null) {
             Goal(uids, goal.title, goal.dueDate, goal.completed, goal.completedDate, goal.subGoals, goal.category, goal.favorited, goal.isOwnedByStudent, goal.pointValue).also {
                 goalsMap[it.uid!!] = it
             }
         } else {
             if (!goalsMap.containsKey(goal.uid))
                 throw IllegalArgumentException("No goal with uid ${goal.uid} exists")
-            goalsMap[goal.uid] = goal
+            goalsMap[uid] = goal
             goal
         }
     }

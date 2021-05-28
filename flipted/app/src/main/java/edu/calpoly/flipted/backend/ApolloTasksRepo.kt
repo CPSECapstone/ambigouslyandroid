@@ -168,9 +168,9 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
     }
 
     override suspend fun saveQuizAnswer(answer: TaskQuizAnswer) {
-        val mutation = when (answer.answer.chosenAnswerValue) {
-            is MultipleChoiceAnswer -> SaveMcProgressMutation(MultipleChoiceAnswerInput(answer.task.uid, answer.block.uid, answer.answer.questionId, answer.answer.chosenAnswerValue.chosenAnswer.id))
-            is FreeResponseAnswer -> SaveFreeResponseProgressMutation(FreeResponseAnswerInput(answer.task.uid, answer.block.uid, answer.answer.questionId, answer.answer.chosenAnswerValue.response))
+        val mutation = when (val chosenAnswerValue = answer.answer.chosenAnswerValue) {
+            is MultipleChoiceAnswer -> SaveMcProgressMutation(MultipleChoiceAnswerInput(answer.task.uid, answer.block.uid, answer.answer.questionId, chosenAnswerValue.chosenAnswer.id))
+            is FreeResponseAnswer -> SaveFreeResponseProgressMutation(FreeResponseAnswerInput(answer.task.uid, answer.block.uid, answer.answer.questionId, chosenAnswerValue.response))
             else -> throw IllegalArgumentException("Unknown answer type")
         }
 

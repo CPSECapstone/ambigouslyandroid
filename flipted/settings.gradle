@@ -1,2 +1,3 @@
 rootProject.name='Flipted(ed)'
 include ':app'
+include ':app:businesslogic'

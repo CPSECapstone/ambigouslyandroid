@@ -47,11 +47,12 @@ class CustomListAdapterTask(
         val data = getItem(position)
 
         taskName.text = data.task.name
-        if(data.submission != null){
-            val progressVal: Float = if(data.submission.pointsPossible == 0) {
+        val submission = data.submission
+        if(submission != null){
+            val progressVal: Float = if(submission.pointsPossible == 0) {
                 100F
             } else {
-                    (data.submission.pointsAwarded.toFloat() / data.submission.pointsPossible.toFloat())*100
+                    (submission.pointsAwarded.toFloat() / submission.pointsPossible.toFloat())*100
             }
             if (progressVal <= 50){
                 taskProgressBar.progressDrawable = context.let { ContextCompat.getDrawable(it, R.drawable.progress_bar_failed) }
