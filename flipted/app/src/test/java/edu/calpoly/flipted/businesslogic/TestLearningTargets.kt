@@ -20,8 +20,8 @@ class TestLearningTargets {
 
         val learningTarget = LearningTarget("abc123", "test")
 
-        val taskObjectiveProgress1 = TaskObjectiveProgress("test","task 1.0", Mastery.NOT_GRADED)
-        val taskObjectiveProgress2 = TaskObjectiveProgress("test","task 2.0", Mastery.NOT_MASTERED)
+        val taskObjectiveProgress1 = TaskObjectiveProgress("test","task 1.0", "test", "Learning Objective 1", Mastery.NOT_GRADED)
+        val taskObjectiveProgress2 = TaskObjectiveProgress("test","task 2.0", "test", "Learning Objective 1", Mastery.NOT_MASTERED)
 
         val objectiveProgress1 = ObjectiveProgress("test","Learning Objective 1", listOf(taskObjectiveProgress1,taskObjectiveProgress2))
 

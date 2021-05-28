@@ -8,8 +8,10 @@ query GetAllTargetProgress($courseId: String!){
       objectiveId,
       objectiveName
       tasks {
-        taskId,
-        taskName,
+        task {
+          id,
+          name
+        }
         mastery
       }
     }

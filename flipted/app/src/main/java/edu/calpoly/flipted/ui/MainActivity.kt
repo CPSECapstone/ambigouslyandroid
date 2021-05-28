@@ -10,6 +10,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,17 +19,18 @@ import com.amplifyframework.core.Amplify
 import com.google.android.material.tabs.TabLayout
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.classes.ClassesFragment
-import edu.calpoly.flipted.ui.home.StudentHomeFragment
+import edu.calpoly.flipted.ui.goals.GoalsFragment
 import edu.calpoly.flipted.ui.leaderboard.LeaderboardFragment
 import edu.calpoly.flipted.ui.login.LoginFragment
 import edu.calpoly.flipted.ui.login.LoginViewModel
 import edu.calpoly.flipted.ui.marketplace.MarketplaceFragment
+import edu.calpoly.flipted.ui.missions.MissionFragment
 import edu.calpoly.flipted.ui.myProgress.ProgressFragment
-import edu.calpoly.flipted.ui.myProgress.targets.LearningTargetsFragment
 import edu.calpoly.flipted.ui.myTeam.MyTeamFragment
 
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -42,11 +44,20 @@ class MainActivity : AppCompatActivity() {
 
         val tabLayout = findViewById<TabLayout>(R.id.navbar)
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-
+            val BACK_STACK_ROOT_TAG = "root_fragment"
             override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (supportFragmentManager.getBackStackEntryCount() > 0) {
+                    val first: FragmentManager.BackStackEntry =
+                        supportFragmentManager.getBackStackEntryAt(0)
+                    supportFragmentManager.popBackStack(
+                        first.getId(),
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE
+                    )
+                }
                 // Handle tab select
                 val targetFragment = when (tab!!.text) {
-                    "Home" -> StudentHomeFragment.newInstance()
+                    "Home" -> MissionFragment.newInstance("da0719ba103")
+                    "Goals" -> GoalsFragment.newInstance()
                     "Classes" -> ClassesFragment.newInstance()
                     "My Team" -> MyTeamFragment.newInstance()
                     "Marketplace" -> MarketplaceFragment.newInstance()
@@ -56,6 +67,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 supportFragmentManager.commit {
                     replace(R.id.main_view, targetFragment)
+                    addToBackStack(BACK_STACK_ROOT_TAG)
                     setReorderingAllowed(true)
                 }
             }
@@ -63,7 +75,8 @@ class MainActivity : AppCompatActivity() {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // Handle tab reselect
                 val targetFragment = when (tab!!.text) {
-                    "Home" -> StudentHomeFragment.newInstance()
+                    "Home" -> MissionFragment.newInstance("da0719ba103")
+                    "Goals" -> GoalsFragment.newInstance()
                     "Classes" -> ClassesFragment.newInstance()
                     "My Team" -> MyTeamFragment.newInstance()
                     "Marketplace" -> MarketplaceFragment.newInstance()
@@ -85,6 +98,12 @@ class MainActivity : AppCompatActivity() {
         val loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         loginViewModel.isLoggedIn.observe(this, Observer {
             tabLayout.visibility = if (it) View.VISIBLE else View.GONE
+
+            if(!it)
+                supportFragmentManager.commit {
+                    replace(R.id.main_view, LoginFragment.newInstance())
+                    setReorderingAllowed(true)
+                }
         })
     }
 
@@ -104,13 +123,13 @@ class MainActivity : AppCompatActivity() {
                 v.getGlobalVisibleRect(outRect)
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
                     v.clearFocus()
-                    val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    val imm: InputMethodManager =
+                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
                 }
             }
         }
         return super.dispatchTouchEvent(event)
     }
-
 
 }

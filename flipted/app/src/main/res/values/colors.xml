@@ -7,26 +7,39 @@
     <color name="white">#FFFFFF</color>
     <color name="main_grey">#DBD6D6</color>
     <color name="colorDarkGrey">#969292</color>
-    <color name="correctGreen">#77DD77</color>
-    <color name="incorrectRed">#D03128</color>
+    <color name="correctGreen">#27AE60</color>
+    <color name="incorrectRed">#EB5857</color>
 
     <!--New official Colors-->
     <color name="blue1">#4274F3</color>
+    <color name="blueMenu">#3267EF</color>
     <color name="blue2">#B2C5F6</color>
+    <color name="dividerBlue">#9BC9FF</color>
+    <color name="blue3">#9BC9FF</color>
+    <color name="blue4">#E3F2FD</color>
     <color name="blueText">#2F80ED</color>
     <color name="white1">#FFFFFF</color>
     <color name="gray6">#F2F2F2</color>
     <color name="gray2">#4F4F4F</color>
     <color name="gray3">#828282</color>
     <color name="gray4">#E0E0E0</color>
+    <color name="gray7">#F2F2F2</color>
+    <color name="grayGoal">#F0F0F0</color>
     <color name="grayOut">#C4C4C4</color>
+    <color name="almost_black">#333333</color>
+    <color name="grayDivider">#BDBDBD</color>
     <color name="black">#000000</color>
+    <color name="clear">#00000000</color>
     <color name="yellow">#FFBD12</color>
+    <color name="pointPurple">#C8B2F6</color>
 
     <color name="notMastered">#EA6868</color>
     <color name="nearlyMastered">#F2C94C</color>
     <color name="mastered">#30CC30</color>
 
+    <color name="salmon">#FF9692</color>
+    <color name="mint">#61E4C5</color>
+    <color name="purple">#8094FF</color>
 
 
 </resources>

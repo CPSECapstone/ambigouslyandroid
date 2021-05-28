@@ -1,27 +1,60 @@
 package edu.calpoly.flipted.backend
 
 import android.util.Log
-import edu.calpoly.flipted.type.TaskProgressInput
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import edu.calpoly.flipted.*
 import edu.calpoly.flipted.businesslogic.quizzes.AnswerResult
-import edu.calpoly.flipted.businesslogic.quizzes.data.answers.AnswerType
 import edu.calpoly.flipted.businesslogic.quizzes.data.answers.FreeResponseAnswer
 import edu.calpoly.flipted.businesslogic.quizzes.data.answers.MultipleChoiceAnswer
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.FreeResponseQuestion
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceAnswerOption
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.MultipleChoiceQuestion
+import edu.calpoly.flipted.businesslogic.targets.TaskObjectiveProgress
 import edu.calpoly.flipted.businesslogic.tasks.TasksRepo
 import edu.calpoly.flipted.businesslogic.tasks.data.*
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.ImageBlock
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.TextBlock
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.VideoBlock
+
+import edu.calpoly.flipted.businesslogic.targets.Mastery
 import edu.calpoly.flipted.type.FreeResponseAnswerInput
 import edu.calpoly.flipted.type.MultipleChoiceAnswerInput
+import edu.calpoly.flipted.type.TaskProgressInput
+import edu.calpoly.flipted.type.Mastery as ApolloMastery
 
 class ApolloTasksRepo : ApolloRepo(), TasksRepo {
+
+    override suspend fun getTaskInfo(taskId: String): Task {
+        val response = try {
+            apolloClient().query(GetTaskQuery(taskId)).await()
+        } catch (e: ApolloException) {
+            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            throw e
+        }
+
+        if (response.hasErrors() || response.data == null) {
+            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
+            throw IllegalStateException("Error when querying backend: bad response")
+        }
+
+        val badResponseException = IllegalStateException("Error when querying backend: bad response")
+
+        val task = response.data?.task ?: throw badResponseException
+
+        return Task(listOf(), listOf(),
+            task.id,
+            task.name,
+            task.instructions,
+            task.points,
+            task.startAt,
+            task.endAt,
+            task.dueDate,
+            task.missionId,
+            task.missionIndex,
+            "")
+    }
 
     override suspend fun getTask(taskId: String): Task {
         val response = try {
@@ -177,7 +210,7 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
 
         val result = response.data?.submitTask ?: throw badResponseException
 
-        return TaskSubmissionResult(taskId, result.graded, result.pointsAwarded!!, result.pointsPossible!!,
+        return TaskSubmissionResult(taskId, result.graded, result.pointsAwarded!!, result.pointsPossible!!, result.teacherComment,
                 result.questionAndAnswers!!.map { qa ->
                     AnswerResult(when {
                         qa.question.asMcQuestion != null ->
@@ -192,8 +225,80 @@ class ApolloTasksRepo : ApolloRepo(), TasksRepo {
                                     listOf(qa.question.asFrQuestion.answer)
                                 else ->
                                     listOf("")
-                            }, qa.answer?.answer!!, qa.answer.pointsAwarded!!)
+                            }, qa.answer?.answer!!, qa.answer.pointsAwarded!!, qa.answer.teacherComment)
                 })
+    }
+
+    override suspend fun retrieveTaskSubmission(taskId: String): TaskSubmissionResult {
+        val query = RetrieveTaskSubmissionQuery(taskId)
+        val response = try {
+            apolloClient().query(query).await()
+        } catch (e: ApolloException) {
+            val message = "Task submission unavailable right now. Please make sure you are not offline."
+            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            throw IllegalStateException(message)
+        }
+
+        if (response.hasErrors() || response.data == null) {
+            val message = response.errors?.get(0)?.message
+            if (message != null) {
+                throw IllegalStateException(message)
+            } else {
+                Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
+                throw IllegalStateException("Task submission unavailable right now.")
+            }
+        }
+        val badResponseException = IllegalStateException("Error when querying backend: bad response")
+
+        val result = response.data?.retrieveTaskSubmission ?: throw badResponseException
+
+        return TaskSubmissionResult(taskId, result.graded, result.pointsAwarded!!, result.pointsPossible!!, result.teacherComment,
+            result.questionAndAnswers!!.map { qa ->
+                AnswerResult(when {
+                    qa.question.asMcQuestion != null ->
+                        qa.question.asMcQuestion.id
+                    else ->
+                        qa.question.asFrQuestion?.id!!
+                },
+                    when {
+                        qa.question.asMcQuestion != null ->
+                            qa.question.asMcQuestion.answers!!.map { it.toString() }
+                        qa.question.asFrQuestion?.answer != null ->
+                            listOf(qa.question.asFrQuestion.answer)
+                        else ->
+                            listOf("")
+                    }, qa.answer?.answer!!, qa.answer.pointsAwarded!!, qa.answer.teacherComment)
+            })
+    }
+
+    override suspend fun getObjectiveProgress(taskId: String): List<TaskObjectiveProgress> {
+        val response = try {
+            apolloClient().query(GetTaskObjectiveProgressQuery(taskId)).await()
+        } catch (e: ApolloException) {
+            Log.e("ApolloTasksRepo", "Error when querying backend", e)
+            throw e
+        }
+
+        val data = response.data
+
+        if (response.hasErrors() || data == null) {
+            Log.e("ApolloTasksRepo", "Error when querying backend: ${response.errors?.map { it.message } ?: "bad response"}")
+            throw IllegalStateException("Error when querying backend: bad response")
+        }
+
+        return data.getTaskObjectiveProgress.map { taskObjProg ->
+            TaskObjectiveProgress(
+                taskObjProg.task.id, taskObjProg.task.name,
+                taskObjProg.objective.objectiveId, taskObjProg.objective.objectiveName,
+                when(taskObjProg.mastery) {
+                    ApolloMastery.NOT_GRADED -> Mastery.NOT_GRADED
+                    ApolloMastery.NOT_MASTERED -> Mastery.NOT_MASTERED
+                    ApolloMastery.NEARLY_MASTERED -> Mastery.NEARLY_MASTERED
+                    ApolloMastery.MASTERED -> Mastery.MASTERED
+                    else -> throw IllegalArgumentException("Error when querying backend: bad response")
+                }
+            )
+        }
     }
 
 }

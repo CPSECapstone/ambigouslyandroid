@@ -1,40 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:id="@+id/learning_objective_item_title_group"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/learning_objective_item_mastery_indicator_group"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintHorizontal_weight="3"
+        >
 
         <ImageView
             android:id="@+id/learning_objective_item_group_indicator"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
 
-            android:src="@drawable/goals_group_indicator"
+            android:src="@drawable/left_group_indicator_anim_fwd"
             />
 
-        <ImageView
-            android:id="@+id/learning_objective_item_mastery_indicator"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/learning_objective_item_group_indicator"
-
-            android:src="@drawable/mastery_indicator_small"
-
-            tools:tint="@color/nearlyMastered"
-
-            android:layout_marginStart="10dp"
-            />
 
         <TextView
             android:id="@+id/learning_objective_item_title"
@@ -42,7 +37,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/learning_objective_item_mastery_indicator"
+            app:layout_constraintStart_toEndOf="@id/learning_objective_item_group_indicator"
 
             android:layout_marginStart="10dp"
 
@@ -52,17 +47,53 @@
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <View
-        android:id="@+id/learning_objective_task_item_row_divisor"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
 
-        android:background="@color/gray4"
-        />
-    <LinearLayout
-        android:id="@+id/learning_objective_item_task_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        />
-</LinearLayout>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/learning_objective_item_mastery_indicator_group"
+        android:layout_width="0dp"
+        android:layout_height="34dp"
+
+        app:layout_constraintStart_toEndOf="@id/learning_objective_item_title_group"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintHorizontal_weight="4"
+        >
+        <ImageView
+            android:id="@+id/learning_objective_item_mastery_indicator_color"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            android:layout_marginEnd="50dp"
+
+            android:src="@drawable/mastery_indicator_large"
+
+            tools:tint="@color/mastered"
+            />
+        <TextView
+            android:id="@+id/learning_objective_item_mastery_indicator_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintStart_toStartOf="@id/learning_objective_item_mastery_indicator_color"
+            app:layout_constraintEnd_toEndOf="@id/learning_objective_item_mastery_indicator_color"
+            app:layout_constraintTop_toTopOf="@id/learning_objective_item_mastery_indicator_color"
+            app:layout_constraintBottom_toBottomOf="@id/learning_objective_item_mastery_indicator_color"
+
+            style="@style/MasteryTextStyle"
+
+            tools:text="MASTERED"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

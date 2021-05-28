@@ -3,8 +3,9 @@
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="360dp"
+    android:layout_height="match_parent"
+    android:background="@color/grayGoal">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -14,13 +15,23 @@
     android:gravity="center_horizontal">
 
     <TextView
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="130dp"
+        android:fontFamily="@font/font_poppins"
+        android:textColor="@color/blueMenu"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit Goal"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="40dp"
-        android:textSize="25sp" />
+        android:text="@string/edit_goal"
+         />
+
+    <View
+        android:layout_width="330dp"
+        android:layout_height="2dp"
+        android:background="@color/grayDivider"
+     />
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,7 +41,7 @@
 
     <EditText
         android:id="@+id/goals_fragment_create_name_input"
-        android:layout_width="410dp"
+        android:layout_width="300dp"
         android:layout_height="35dp"
         android:background="@drawable/grey_goal_box"
         android:hint="Input title here"
@@ -63,11 +74,11 @@
         android:text="Goal Date" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/goals_fragment_create_subgoals_recyclerview"
-        tools:listitem="@layout/goals_fragment_create_subgoal_list_item"/>
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        tools:listitem="@layout/goals_fragment_create_subgoal_list_item" />
 
     <Button
         android:layout_marginTop="20dp"

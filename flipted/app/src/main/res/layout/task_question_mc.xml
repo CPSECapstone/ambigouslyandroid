@@ -6,32 +6,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/results_mc_question_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Question 1:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="18sp"
+        android:visibility="gone"
+        />
+
 <LinearLayout
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="15dp">
+    android:layout_marginLeft="15dp"
+    android:orientation="horizontal"
+    android:weightSum="1.0">
+
 
     <TextView
         android:id="@+id/mc_question"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         tools:text="1. Some question here"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
+        android:layout_weight="0.3"
         android:paddingTop="5dp"
-        android:layout_weight="0.8"/>
+        android:gravity="left"
+        />
     <TextView
         android:id="@+id/question_score"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.2"
+        android:layout_weight="0.7"
         tools:text="0/4 points"
-        android:paddingLeft="100dp"
         android:gravity="right"
         android:textAlignment="gravity"
         android:textSize="16sp"
-        android:layout_marginStart="20dp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        />
 
     </LinearLayout>
     <TextView

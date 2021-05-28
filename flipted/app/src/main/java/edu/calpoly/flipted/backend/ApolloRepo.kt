@@ -16,7 +16,7 @@ import java.util.*
 
 abstract class ApolloRepo {
     companion object {
-        const val BACKEND_URL = "https://knyio2nl7d.execute-api.us-east-1.amazonaws.com/dev/graphql"
+        const val BACKEND_URL = "https://5orf8nzr57.execute-api.us-east-1.amazonaws.com/production/graphql"
     }
 
     private val dateCustomTypeAdapter = object: CustomTypeAdapter<Date> {

@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
@@ -36,8 +37,11 @@ class ResultBlockViewHolder(view: View, val inflater: LayoutInflater, private va
                     val questionLayout = inflater.inflate(R.layout.task_question_mc, rootLayout, false)
                     val questionText: TextView = questionLayout.findViewById(R.id.mc_question)
                     val answers: RadioGroup = questionLayout.findViewById(R.id.answers)
+                    val questionNum: TextView = questionLayout.findViewById(R.id.results_mc_question_num)
 
                     questionText.text = question.question
+                    questionNum.visibility = View.VISIBLE
+                    questionNum.text = "Question ${position + 1}:"
 
                     val currResult = viewModel.currResponse.value
                     if (currResult != null) {
@@ -55,34 +59,26 @@ class ResultBlockViewHolder(view: View, val inflater: LayoutInflater, private va
 
                             score.text = "${questionResult.pointsAwarded} / ${question.pointValue} points"
                             result.text = answerOption.displayPrompt
-                            val resultText = answerLayout.findViewById(R.id.result_text) as TextView
 
                             // Check if the current answerOption is a correct answer
                             if (questionResult.correctAnswer.contains(answerOption.id.toString())) {
-                                result.setChecked(true)
+                                result.setBackgroundResource(R.drawable.quiz_box_correct)
                                 if (questionResult.correctAnswer.contains(questionResult.studentAnswer)) {
-                                    resultText.text = "Correct!"
-                                    resultText.setTextColor(ContextCompat.getColor(context, R.color.blue2))
-                                    resultText.setVisibility(View.VISIBLE)
-                                } else {
-                                    resultText.text = "Correct Response"
-                                    resultText.setTextColor(ContextCompat.getColor(context, R.color.correctGreen))
-                                    resultText.setVisibility(View.VISIBLE)
+                                    result.isChecked = true
+
                                 }
 
 
                             }
                             // Check if the current answerOption is what the student selected
                             else if (answerOption.id == questionResult.studentAnswer.toInt()) {
-                                result.setChecked(true)
-                                resultText.text = "Your Response"
-                                resultText.setTextColor(ContextCompat.getColor(context, R.color.incorrectRed))
-                                resultText.setVisibility(View.VISIBLE)
+                                result.isChecked = true
+                                result.setBackgroundResource(R.drawable.quiz_box_incorrect)
                             }
 
                             result.setEnabled(false)
                             answers.addView(answerLayout)
-                            score.setVisibility(View.VISIBLE)
+                            score.visibility = View.VISIBLE
 
                         }
 
@@ -94,8 +90,13 @@ class ResultBlockViewHolder(view: View, val inflater: LayoutInflater, private va
                     val questionLayout = inflater.inflate(R.layout.task_question_free_response, rootLayout, false)
                     val questionText: TextView = questionLayout.findViewById(R.id.task_question_free_response_prompt)
                     val answerBox: EditText = questionLayout.findViewById(R.id.task_question_free_response_answer)
+                    val questionNum: TextView = questionLayout.findViewById(R.id.results_fr_question_num)
+                    val feedbackTitle: TextView = questionLayout.findViewById(R.id.task_fr_feedback_title)
+                    val feedback: TextView = questionLayout.findViewById(R.id.task_fr_feedback)
 
                     questionText.text = question.question
+                    questionNum.visibility = View.VISIBLE
+                    questionNum.text = "Question ${position + 1}:"
 
 
                     val currResult = viewModel.currResponse.value
@@ -111,9 +112,14 @@ class ResultBlockViewHolder(view: View, val inflater: LayoutInflater, private va
                         val studentAnswer = questionLayout.findViewById(R.id.task_question_free_response_student_answer) as TextView
                         score.text = "${questionResult.pointsAwarded} / ${question.pointValue} points"
                         studentAnswer.text = questionResult.studentAnswer
-                        resultText.setVisibility(View.VISIBLE)
-                        studentAnswer.setVisibility(View.VISIBLE)
-                        score.setVisibility(View.VISIBLE)
+
+                        feedback.text = questionResult.teacherComment ?: "No feedback is available."
+
+                        feedbackTitle.visibility = View.VISIBLE
+                        feedback.visibility = View.VISIBLE
+                        resultText.visibility = View.VISIBLE
+                        studentAnswer.visibility = View.VISIBLE
+                        score.visibility = View.VISIBLE
 
 
                         rootLayout.addView(questionLayout)
