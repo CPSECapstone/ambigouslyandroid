@@ -14,7 +14,6 @@ import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.tasks.data.Page
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
 import edu.calpoly.flipted.ui.tasks.viewholders.TaskRecyclerViewAdapter
-import edu.calpoly.flipted.ui.tasks.viewholders.TaskResultsRecyclerViewAdapter
 import java.lang.IllegalStateException
 
 /**
@@ -33,11 +32,7 @@ class TaskResultsFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.task_results_fragment, container, false)
     }
-/*
-    override fun isAutoMeasureEnabled(): Boolean {
-        return true
-    }
-*/
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -61,7 +56,7 @@ class TaskResultsFragment : Fragment() {
 
         val recyclerView : RecyclerView = view.findViewById(R.id.task_results_recyclerview)
 
-        val adapter = TaskResultsRecyclerViewAdapter(this)
+        val adapter = TaskRecyclerViewAdapter(this)
 
         val blocks = mutableListOf<QuizBlock>()
 

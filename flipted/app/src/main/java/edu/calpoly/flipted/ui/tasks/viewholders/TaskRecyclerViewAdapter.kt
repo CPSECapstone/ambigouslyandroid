@@ -26,7 +26,12 @@ class TaskRecyclerViewAdapter(
         val inflatedView = inflater.inflate(viewType, parent, false)
         return when (viewType) {
             R.layout.task_block_image -> ImageBlockViewHolder(inflatedView)
-            R.layout.task_block_quiz -> QuizBlockViewHolder(inflatedView, inflater, viewModel)
+            R.layout.task_block_quiz -> if (viewModel.currResponse == null) {
+                QuizBlockViewHolder(inflatedView, inflater, viewModel)
+            }
+            else {
+                ResultBlockViewHolder(inflatedView, inflater, viewModel)
+            }
             R.layout.task_block_text -> TextBlockViewHolder(inflatedView)
             R.layout.task_block_video -> VideoBlockViewHolder(inflatedView, fragment.viewLifecycleOwner.lifecycle)
             else -> throw IllegalArgumentException("Unknown viewType")

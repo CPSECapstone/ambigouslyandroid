@@ -31,7 +31,7 @@ class TaskViewModel : ViewModel(){
     val currTask : LiveData<Task>
         get() = _currTask
 
-    val currResponse : LiveData<TaskSubmissionResult>
+    val currResponse : MutableLiveData<TaskSubmissionResult>
         get() = _currResponse
 
     fun fetchTask(taskId : String) {
