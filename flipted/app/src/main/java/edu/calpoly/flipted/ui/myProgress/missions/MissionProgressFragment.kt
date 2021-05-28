@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import edu.calpoly.flipted.R
+import edu.calpoly.flipted.viewmodels.MissionsViewModel
 
 
 class MissionProgressFragment : Fragment() {

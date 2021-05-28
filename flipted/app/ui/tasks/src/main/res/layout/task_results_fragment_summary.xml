@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="600dp"
+        android:layout_height= "300dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="-100dp"
+        android:layout_marginEnd="150dp"
+        android:layout_marginStart="150dp"
+        android:orientation="vertical"
+        android:background="@drawable/results_grey_box">
+
+
+        <LinearLayout
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="40dp"
+            android:layout_height= "wrap_content">
+
+        <TextView
+            android:id="@+id/score_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/blue1"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/score"/>
+
+        <TextView
+            android:id="@+id/total_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/blue1"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="47%"/>
+
+        </LinearLayout>
+
+
+        <ProgressBar
+            android:id="@+id/results_review_progress_bars_percent"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="489dp"
+            android:layout_height="25dp"
+            android:progressDrawable="@drawable/green_progress_drawable"
+            android:layout_gravity="center"
+            tools:progress="47" />
+
+        <LinearLayout
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="40dp"
+            android:layout_height= "wrap_content">
+
+            <TextView
+                android:id="@+id/points_gained_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/blue1"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/points_gained"/>
+
+            <TextView
+                android:id="@+id/total_task_awarded_points"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="300/650 +"
+                android:textColor="@color/blue1"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+
+
+        <ProgressBar
+            android:id="@+id/results_review_progress_bars_points"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="489dp"
+            android:layout_height="25dp"
+            android:progressDrawable="@drawable/progress_bar_points_gained"
+            android:layout_gravity="center"
+            android:progress="47" />
+
+    </LinearLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="1dp"
+        android:elevation="10dp"
+        app:cardCornerRadius="0dp"
+        android:layout_margin="5dp"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray7"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/task_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="@string/learning_objectives"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/blue1"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <ListView
+                android:id="@+id/learning_objectives_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="19dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                tools:listitem="@layout/learning_objective_list_item" />
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</LinearLayout>
+

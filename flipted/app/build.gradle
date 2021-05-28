@@ -66,9 +66,6 @@ dependencies {
     implementation 'com.amplifyframework:core-kotlin:0.1.2'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
-    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
-
-    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.sdsmdg.harjot:materialshadows:1.2.5'
 
@@ -77,4 +74,8 @@ dependencies {
 
     implementation project(':app:businesslogic')
     implementation project(':app:backend')
+    implementation project(':app:viewmodels')
+    implementation project(':app:ui:common')
+    implementation project(':app:ui:missions')
+    implementation project(':app:ui:tasks')
 }

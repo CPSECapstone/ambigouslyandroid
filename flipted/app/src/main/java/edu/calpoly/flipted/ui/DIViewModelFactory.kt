@@ -1,19 +1,26 @@
 package edu.calpoly.flipted.ui
 
 import android.util.Log
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.amplifyframework.auth.cognito.AWSCognitoAuthSession
 import com.amplifyframework.auth.result.AuthSessionResult
 import com.amplifyframework.kotlin.core.Amplify
+import edu.calpoly.flipted.R
 import edu.calpoly.flipted.backend.*
 import edu.calpoly.flipted.ui.goals.GoalsViewModel
 import edu.calpoly.flipted.ui.goals.edit.EditGoalViewModel
 import edu.calpoly.flipted.ui.login.LoginViewModel
+import edu.calpoly.flipted.ui.missions.MissionFragment
 import edu.calpoly.flipted.ui.myProgress.missionDetails.MissionTaskViewModel
-import edu.calpoly.flipted.ui.myProgress.missions.MissionsViewModel
 import edu.calpoly.flipted.ui.myProgress.targets.TargetsViewModel
-import edu.calpoly.flipted.ui.tasks.TaskViewModel
+import edu.calpoly.flipted.ui.tasks.ReviewResultsFragment
+import edu.calpoly.flipted.ui.tasks.TaskFragment
+import edu.calpoly.flipted.viewmodels.MissionsViewModel
+import edu.calpoly.flipted.viewmodels.NavViewModel
+import edu.calpoly.flipted.viewmodels.TaskViewModel
 
 class DIViewModelFactory : ViewModelProvider.Factory {
     class AmplifyAuthProvider : AuthProvider {
@@ -31,6 +38,33 @@ class DIViewModelFactory : ViewModelProvider.Factory {
             Log.i("tag", key)
 
             return key
+        }
+
+    }
+
+    class MainNavigator : NavViewModel.Navigator {
+        override fun openTaskFragment(fragmentManager: FragmentManager, taskUid: String) {
+            fragmentManager.commit {
+                replace(R.id.main_view, TaskFragment.newInstance(taskUid))
+                addToBackStack("Start task")
+                setReorderingAllowed(true)
+            }
+        }
+
+        override fun openTaskResultsFragment(fragmentManager: FragmentManager) {
+            fragmentManager.commit {
+                replace(R.id.main_view, ReviewResultsFragment.newInstance())
+                addToBackStack("Start task")
+                setReorderingAllowed(true)
+            }
+        }
+
+        override fun openMissionFragment(fragmentManager: FragmentManager, missionId: String) {
+            fragmentManager.commit {
+                replace(R.id.main_view, MissionFragment.newInstance(missionId))
+                addToBackStack(null)
+                setReorderingAllowed(true)
+            }
         }
 
     }
@@ -61,6 +95,7 @@ class DIViewModelFactory : ViewModelProvider.Factory {
             MissionsViewModel::class.java -> MissionsViewModel(missionsRepo, tasksRepo)
             TargetsViewModel::class.java -> TargetsViewModel(learningTargetsRepo)
             TaskViewModel::class.java -> TaskViewModel(tasksRepo)
+            NavViewModel::class.java -> NavViewModel(MainNavigator())
             else -> modelClass.newInstance()
         } as T
 }
