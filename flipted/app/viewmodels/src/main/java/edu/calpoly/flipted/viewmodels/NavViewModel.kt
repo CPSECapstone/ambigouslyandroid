@@ -8,5 +8,7 @@ class NavViewModel(val navigator: Navigator) : ViewModel() {
         fun openTaskFragment(fragmentManager: FragmentManager, taskUid: String)
         fun openTaskResultsFragment(fragmentManager: FragmentManager)
         fun openMissionFragment(fragmentManager: FragmentManager, missionId: String)
+        fun openMissionProgressDetailsFragment(fragmentManager: FragmentManager, missionId: String)
+        fun openLearningTargetProgressDetailsFragment(fragmentManager: FragmentManager, targetId: String)
     }
 }

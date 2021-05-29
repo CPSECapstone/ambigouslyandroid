@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="learning_target_item_column_text_1">TARGET ITEM</string>
+    <string name="learning_target_item_column_text_2">MASTERY</string>
+	<string name="task_item">TASK ITEM</string>
+	<string name="all_missions">All Missions</string>
+	<string name="percent_empty">--%</string>
+</resources>

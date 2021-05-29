@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="score">Score:</string>
+	
+	<string name="mastery_not_graded">NOT GRADED</string>
+    <string name="mastery_not_mastered">NOT MASTERED</string>
+    <string name="mastery_nearly_mastered">NEARLY MASTERED</string>
+    <string name="mastery_mastered">MASTERED</string>
 </resources>

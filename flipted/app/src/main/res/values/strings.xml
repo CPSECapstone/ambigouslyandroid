@@ -10,17 +10,8 @@
 
     <string name="selected_item">Selected item:</string>
 
-    <string name="learning_target_item_column_text_1">TARGET ITEM</string>
-    <string name="learning_target_item_column_text_2">MASTERY</string>
-
-    <string name="mastery_not_graded">NOT GRADED</string>
-    <string name="mastery_not_mastered">NOT MASTERED</string>
-    <string name="mastery_nearly_mastered">NEARLY MASTERED</string>
-    <string name="mastery_mastered">MASTERED</string>
     <string name="percent">%</string>
-    <string name="task_item">TASK ITEM</string>
-    <string name="all_missions">All Missions</string>
-    <string name="percent_empty">--%</string>
+	
     <string name="edit_goal">Edit Goal</string>
     <string name="new_goal">Create New Goal</string>
     <string name="add_title">Add Title</string>

@@ -25,8 +25,8 @@ import edu.calpoly.flipted.ui.login.LoginFragment
 import edu.calpoly.flipted.ui.login.LoginViewModel
 import edu.calpoly.flipted.ui.marketplace.MarketplaceFragment
 import edu.calpoly.flipted.ui.missions.MissionFragment
-import edu.calpoly.flipted.ui.myProgress.ProgressFragment
 import edu.calpoly.flipted.ui.myTeam.MyTeamFragment
+import edu.calpoly.flipted.ui.progress.ProgressFragment
 
 
 class MainActivity : AppCompatActivity() {

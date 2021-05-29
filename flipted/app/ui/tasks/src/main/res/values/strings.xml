@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="score">Score:</string>
     <string name="points_gained">Points Gained:</string>
     <string name="learning_objectives">LEARNING OBJECTIVES</string>
     <string name="graded">This is your final score.</string>

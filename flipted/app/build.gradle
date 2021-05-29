@@ -78,4 +78,5 @@ dependencies {
     implementation project(':app:ui:common')
     implementation project(':app:ui:missions')
     implementation project(':app:ui:tasks')
+    implementation project(':app:ui:progress')
 }

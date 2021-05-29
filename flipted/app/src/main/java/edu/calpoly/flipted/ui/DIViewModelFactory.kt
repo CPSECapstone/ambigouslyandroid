@@ -14,13 +14,11 @@ import edu.calpoly.flipted.ui.goals.GoalsViewModel
 import edu.calpoly.flipted.ui.goals.edit.EditGoalViewModel
 import edu.calpoly.flipted.ui.login.LoginViewModel
 import edu.calpoly.flipted.ui.missions.MissionFragment
-import edu.calpoly.flipted.ui.myProgress.missionDetails.MissionTaskViewModel
-import edu.calpoly.flipted.ui.myProgress.targets.TargetsViewModel
+import edu.calpoly.flipted.ui.progress.missionDetails.MissionTaskFragment
+import edu.calpoly.flipted.ui.progress.targets.LearningTargetDetailFragment
 import edu.calpoly.flipted.ui.tasks.ReviewResultsFragment
 import edu.calpoly.flipted.ui.tasks.TaskFragment
-import edu.calpoly.flipted.viewmodels.MissionsViewModel
-import edu.calpoly.flipted.viewmodels.NavViewModel
-import edu.calpoly.flipted.viewmodels.TaskViewModel
+import edu.calpoly.flipted.viewmodels.*
 
 class DIViewModelFactory : ViewModelProvider.Factory {
     class AmplifyAuthProvider : AuthProvider {
@@ -62,6 +60,28 @@ class DIViewModelFactory : ViewModelProvider.Factory {
         override fun openMissionFragment(fragmentManager: FragmentManager, missionId: String) {
             fragmentManager.commit {
                 replace(R.id.main_view, MissionFragment.newInstance(missionId))
+                addToBackStack(null)
+                setReorderingAllowed(true)
+            }
+        }
+
+        override fun openMissionProgressDetailsFragment(
+            fragmentManager: FragmentManager,
+            missionId: String
+        ) {
+            fragmentManager.commit {
+                replace(R.id.main_view, MissionTaskFragment.newInstance(missionId))
+                addToBackStack(null)
+                setReorderingAllowed(true)
+            }
+        }
+
+        override fun openLearningTargetProgressDetailsFragment(
+            fragmentManager: FragmentManager,
+            targetId: String
+        ) {
+            fragmentManager.commit {
+                replace(R.id.main_view, LearningTargetDetailFragment.newInstance(targetId))
                 addToBackStack(null)
                 setReorderingAllowed(true)
             }
