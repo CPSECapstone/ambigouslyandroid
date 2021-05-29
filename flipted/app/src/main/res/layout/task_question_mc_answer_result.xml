@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:weightSum="1"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
 >
 <RadioButton
         android:id="@+id/result_radio"
@@ -25,7 +27,7 @@
         tools:text="Correct!"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
-        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
         android:visibility="gone"
         />
 </LinearLayout>
