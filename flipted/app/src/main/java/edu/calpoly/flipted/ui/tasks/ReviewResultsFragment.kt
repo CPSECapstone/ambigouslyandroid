@@ -18,6 +18,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.ui.missions.MissionFragment
+import edu.calpoly.flipted.ui.myProgress.missions.MissionsViewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -117,6 +118,9 @@ class ReviewResultsFragment : Fragment() {
         }
 
         continueBtn.setOnClickListener {
+            val missionViewModel = ViewModelProvider(requireActivity())[MissionsViewModel::class.java]
+            missionViewModel.fetchMissionsProgress()
+            missionViewModel.fetchTaskInfo(currTask.uid)
             parentFragmentManager.popBackStack(
                 "Task Results",
                 FragmentManager.POP_BACK_STACK_INCLUSIVE
