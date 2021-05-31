@@ -65,7 +65,6 @@ class MissionFragment : Fragment() {
         val taskList: RecyclerView = view.findViewById(R.id.mission_tasks_recyclerview)
 
         viewModel = ViewModelProvider(requireActivity())[MissionsViewModel::class.java]
-        //addTaskSources()
 
         val adapter = MissionTaskRecyclerAdapter(this, viewModel)
 
