@@ -64,6 +64,9 @@ class MissionFragment : Fragment() {
         val reviewBtn: Button = view.findViewById(R.id.task_review_button)
         val taskList: RecyclerView = view.findViewById(R.id.mission_tasks_recyclerview)
 
+        val missionTitle: TextView = view.findViewById(R.id.mission_title_item_title)
+        val missionDescription: TextView = view.findViewById(R.id.mission_title_item_description)
+
         viewModel = ViewModelProvider(requireActivity())[MissionsViewModel::class.java]
         //addTaskSources()
 
@@ -166,10 +169,16 @@ class MissionFragment : Fragment() {
         viewModel.missionsProgress.observe(viewLifecycleOwner, Observer {
             viewModel.setCurrMissionId(missionId)
             val mission = it[missionId]
-            if(mission == null)
-                Toast.makeText(requireActivity(), "Failed to retrieve mission!", Toast.LENGTH_LONG).show()
+            if(mission == null) {
+                Toast.makeText(requireActivity(), "Failed to retrieve mission!", Toast.LENGTH_LONG)
+                    .show()
+                return@Observer
+            }
             adapter.data = mission
             adapter.notifyDataSetChanged()
+
+            missionTitle.text = mission.mission.name
+            missionDescription.text = mission.mission.description
         })
 
         viewModel.fetchMissionsProgress()
