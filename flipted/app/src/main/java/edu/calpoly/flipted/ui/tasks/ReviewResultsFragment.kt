@@ -53,15 +53,15 @@ class ReviewResultsFragment : Fragment() {
         val currTask = viewModel.currTask.value
             ?: throw IllegalStateException("No task found")
 
-        pageTitle.text = "QUIZ REVIEW"
+        pageTitle.text = "TASK RESULTS"
         taskTitle.text = currTask.name
 
         pager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int = 3
 
             override fun createFragment(position: Int): Fragment = when (position) {
-                0 -> TaskResultsFragment.newInstance()
-                1 -> TaskResultsSummaryFragment.newInstance()
+                0 -> TaskResultsSummaryFragment.newInstance()
+                1 -> TaskResultsFragment.newInstance()
                 2 -> TaskResultsHelpFragment.newInstance()
                 else -> throw IllegalArgumentException("Invalid ViewPager page")
             }
@@ -70,8 +70,8 @@ class ReviewResultsFragment : Fragment() {
 
         TabLayoutMediator(tabs, pager) { tab, position ->
             tab.text = when (position) {
-                0 -> "Quiz Review"
-                1 -> "Task Results"
+                0 -> "Task Results"
+                1 -> "Quiz Review"
                 2 -> "Get Help"
                 else -> throw IllegalArgumentException("Invalid TabLayoutMediator page")
             }
@@ -89,8 +89,8 @@ class ReviewResultsFragment : Fragment() {
                 }
                 val params = pager.layoutParams
                 params.height = when (tab.text) {
-                    "Task Results" -> 1400
-                    "Quiz Review" -> FrameLayout.LayoutParams.MATCH_PARENT
+                    "Task Results" -> 750
+                    "Quiz Review" -> 2000
                     "Get Help" -> 750
                     else -> throw IllegalStateException()
                 }
