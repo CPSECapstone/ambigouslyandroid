@@ -68,7 +68,6 @@ class MissionFragment : Fragment() {
         val missionDescription: TextView = view.findViewById(R.id.mission_title_item_description)
 
         viewModel = ViewModelProvider(requireActivity())[MissionsViewModel::class.java]
-        //addTaskSources()
 
         val adapter = MissionTaskRecyclerAdapter(this, viewModel)
 

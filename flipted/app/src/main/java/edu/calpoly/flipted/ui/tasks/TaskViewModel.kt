@@ -154,11 +154,6 @@ class TaskViewModel(repo: TasksRepo) : ViewModel() {
         _taskObjectives.value = objectives
     }
 
-    fun addTaskSources() {
-
-    }
-
-
     private val allRequirementsComplete = Transformations.map(requirements) { requirements ->
         requirements.values.fold(true) { acc, requirement ->
             acc && requirement.isComplete
