@@ -4,23 +4,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import edu.calpoly.flipted.backend.ApolloMissionsRepo
-import edu.calpoly.flipted.backend.ApolloTasksRepo
-import edu.calpoly.flipted.backend.MockMissionsRepo
 import edu.calpoly.flipted.businesslogic.missions.GetAllMissionProgress
 import edu.calpoly.flipted.businesslogic.missions.MissionProgress
+import edu.calpoly.flipted.businesslogic.missions.MissionsRepo
 import edu.calpoly.flipted.businesslogic.missions.TaskStats
 import edu.calpoly.flipted.businesslogic.targets.TaskObjectiveProgress
 import edu.calpoly.flipted.businesslogic.tasks.GetObjectiveProgress
+import edu.calpoly.flipted.businesslogic.tasks.TasksRepo
 import kotlinx.coroutines.launch
 
-class MissionsViewModel : ViewModel() {
+
+class MissionsViewModel(missionsRepo: MissionsRepo, tasksRepo: TasksRepo) : ViewModel() {
     private val _missionsProgress: MutableLiveData<Map<String, MissionProgress>> = MutableLiveData()
     private val _currMissionId: MutableLiveData<String> = MutableLiveData()
     private val _currTaskInfo: MutableLiveData<TaskStats> = MutableLiveData()
     private val _taskObjectives: MutableLiveData<List<TaskObjectiveProgress>> = MutableLiveData()
 
-    private val tasksRepo = ApolloTasksRepo()
     private val getObjectiveProgressUseCase = GetObjectiveProgress(tasksRepo)
 
     val missionsProgress: LiveData<Map<String, MissionProgress>>
@@ -32,8 +31,7 @@ class MissionsViewModel : ViewModel() {
     val taskObjectives: LiveData<List<TaskObjectiveProgress>>
         get() = _taskObjectives
 
-    private val repo = ApolloMissionsRepo()
-    private val getProgress = GetAllMissionProgress(repo)
+    private val getProgress = GetAllMissionProgress(missionsRepo)
 
     fun fetchMissionsProgress() {
         viewModelScope.launch {
