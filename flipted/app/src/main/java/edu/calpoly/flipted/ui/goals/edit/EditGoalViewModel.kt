@@ -21,7 +21,9 @@ class EditGoalViewModel(repo: GoalsRepo) : ViewModel() {
 
     fun fetchGoal(goalId: String) {
         viewModelScope.launch {
-            _goal.value = getGoal.execute(goalId)
+            val goal = getGoal.execute(goalId)
+            currSubgoalList = goal.subGoals.map { MutableSubGoal(it) }
+            _goal.value = goal
         }
     }
 
