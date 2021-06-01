@@ -63,6 +63,7 @@ class ResultBlockViewHolder(view: View, val inflater: LayoutInflater, private va
                             // Check if the current answerOption is a correct answer
                             if (questionResult.correctAnswer.contains(answerOption.id.toString())) {
                                 result.setBackgroundResource(R.drawable.quiz_box_correct)
+                                result.setTextColor(context.getColor(R.color.white1))
                                 if (questionResult.correctAnswer.contains(questionResult.studentAnswer)) {
                                     result.isChecked = true
 
