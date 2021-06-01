@@ -117,9 +117,6 @@ class EditGoalFragment : Fragment() {
             }
 
             if(savedInstanceState == null) {
-                subgoalAdapter.subGoalBlocks = it.subGoals.map { subgoal ->
-                    MutableSubGoal(subgoal)
-                }
                 subgoalAdapter.notifyDataSetChanged()
             }
         })
