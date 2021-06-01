@@ -38,27 +38,31 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
 
-        android:layout_marginStart="160dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="10dp"
+        app:layout_goneMarginEnd="80dp"
 
         app:layout_constraintTop_toBottomOf="@id/mission_fragment_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/task_info_card"
+
+        app:layout_constraintHorizontal_weight="2"
 
         tools:listitem="@layout/mission_task_item"
         />
 
     <include
+        android:id="@+id/task_info_card"
         android:layout_width="0dp"
         android:layout_height="0dp"
         layout="@layout/mission_task_info"
-        app:layout_constraintWidth_min="260dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/mission_tasks_recyclerview"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/mission_tasks_recyclerview"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="1050dp" />
+
+        app:layout_constraintHorizontal_weight="1"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
