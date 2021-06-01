@@ -36,15 +36,24 @@ class TaskViewHolder(view: View, private val fragment: Fragment, private val ada
 
     fun bind(task: TaskStats, pos: Int) {
         title.text = task.task.name
+        val submission = task.submission
 
-        val indicatorDrawable = ResourcesCompat.getDrawable(fragment.resources,
-            if(task.submission == null) {
-                R.drawable.mission_task_exclaim
-            } else {
-                R.drawable.mission_task_check
-            }, null
-        )
-        indicator.setImageDrawable(indicatorDrawable)
+        if(submission != null) {
+            val score = (submission.pointsAwarded.toDouble() / submission.pointsPossible) * 100
+            val indicatorDrawable = ResourcesCompat.getDrawable(
+                fragment.resources,
+                if (score < 85) {
+                    R.drawable.mission_task_exclaim
+                } else {
+                    R.drawable.mission_task_check
+                }, null
+            )
+            indicator.setImageDrawable(indicatorDrawable)
+        }
+        else {
+            indicator.setImageDrawable(ResourcesCompat.getDrawable(
+                fragment.resources, R.drawable.mission_task_blank_circle, null))
+        }
 
         points.text = "${task.task.points} points"
 
