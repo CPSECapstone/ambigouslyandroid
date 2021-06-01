@@ -16,16 +16,6 @@ import edu.calpoly.flipted.ui.myProgress.missions.MissionsViewModel
 
 sealed class MissionTaskViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-class MissionTitleViewHolder(view: View) : MissionTaskViewHolder(view) {
-    private val title: TextView = view.findViewById(R.id.mission_title_item_title)
-    private val description: TextView = view.findViewById(R.id.mission_title_item_description)
-
-    fun bind(mission: MissionProgress) {
-        title.text = mission.mission.name
-        description.text = mission.mission.description
-    }
-}
-
 class TaskViewHolder(view: View, private val fragment: Fragment, private val adapter: MissionTaskRecyclerAdapter, private val viewModel: MissionsViewModel)
     : MissionTaskViewHolder(view), View.OnClickListener {
     private val indicator: ImageView = view.findViewById(R.id.mission_task_item_indicator)
@@ -93,7 +83,6 @@ class MissionTaskRecyclerAdapter(private val fragment: Fragment, private val vie
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MissionTaskViewHolder {
         val view = LayoutInflater.from(fragment.requireActivity()).inflate(viewType, parent, false)
         return when(viewType) {
-            R.layout.mission_title_item -> MissionTitleViewHolder(view)
             R.layout.mission_task_item -> TaskViewHolder(view, fragment, this, viewModel)
             R.layout.mission_selected_item -> SelectedTaskViewHolder(view)
             else -> throw IllegalArgumentException("Unknown viewType")
@@ -103,16 +92,14 @@ class MissionTaskRecyclerAdapter(private val fragment: Fragment, private val vie
     override fun onBindViewHolder(holder: MissionTaskViewHolder, position: Int) {
         val mission = data ?: return
         when(holder) {
-            is MissionTitleViewHolder -> holder.bind(mission)
-            is TaskViewHolder -> holder.bind(mission.progress[position - 1], position)
-            is SelectedTaskViewHolder -> holder.bind(mission.progress[position - 1])
+            is TaskViewHolder -> holder.bind(mission.progress[position], position)
+            is SelectedTaskViewHolder -> holder.bind(mission.progress[position])
         }
     }
 
-    override fun getItemCount(): Int = ((data?.mission?.content?.size) ?: 0) + 1
+    override fun getItemCount(): Int = ((data?.mission?.content?.size) ?: 0)
 
     override fun getItemViewType(position: Int): Int = when(position) {
-        0 -> R.layout.mission_title_item
         selectedIdx -> R.layout.mission_selected_item
         else -> R.layout.mission_task_item
     }
