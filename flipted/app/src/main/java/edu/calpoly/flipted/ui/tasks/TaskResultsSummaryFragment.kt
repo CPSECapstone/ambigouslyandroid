@@ -10,6 +10,7 @@ import android.widget.ListView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +18,7 @@ import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.UidToStableId
 import edu.calpoly.flipted.businesslogic.targets.Mastery
 import edu.calpoly.flipted.businesslogic.targets.TaskObjectiveProgress
+import edu.calpoly.flipted.ui.MasteryResources
 
 
 class TaskResultsSummaryFragment : Fragment() {
@@ -97,15 +99,9 @@ inner class CustomListAdapter(
 
             textBox.text = data.objectiveName
 
-            if(data.mastery == Mastery.NOT_MASTERED){
-                textBox.background = context.let { ContextCompat.getDrawable(it!!, R.drawable.learning_objective_color_box_not_mastered) }
-            }
-            if(data.mastery == Mastery.NEARLY_MASTERED){
-                textBox.background = context.let { ContextCompat.getDrawable(it!!, R.drawable.learning_objective_color_box_nearly_mastered) }
-            }
-            if(data.mastery == Mastery.MASTERED){
-                textBox.background = context.let { ContextCompat.getDrawable(it!!, R.drawable.learning_objective_color_box_mastered) }
-            }
+            val colorResource = MasteryResources.colorResource(data.mastery)
+            val color = ResourcesCompat.getColor(requireActivity().resources, colorResource, null)
+            textBox.background.setTint(color)
 
             return fillInView
 

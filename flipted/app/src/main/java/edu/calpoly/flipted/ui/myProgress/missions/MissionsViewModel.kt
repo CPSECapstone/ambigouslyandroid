@@ -45,7 +45,7 @@ class MissionsViewModel(missionsRepo: MissionsRepo, tasksRepo: TasksRepo) : View
         viewModelScope.launch {
             val missions = _missionsProgress.value ?: throw IllegalStateException("No missionsProgress value")
             val currMission = missions[_currMissionId.value] ?: throw IllegalStateException("No mission found")
-            val task = currMission.progress.filter{it.task.id == taskId}.toList()[0]
+            val task = currMission.progress.first{it.task.id == taskId}
             val objectives = getObjectiveProgressUseCase.execute(taskId)
 
             _currTaskInfo.value = task
