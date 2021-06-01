@@ -47,7 +47,14 @@ class TaskResultsSummaryFragment : Fragment() {
 
         adapter.data = taskObjectives
         taskPercentage.text = "${(((taskResults.pointsAwarded.toFloat() / taskResults.pointsPossible.toFloat()) * 100).toInt().toString())}%"
-        taskProgressbarScore.progress = ((taskResults.pointsAwarded.toFloat() / taskResults.pointsPossible.toFloat()) * 100).toInt()
+        val progressVal = ((taskResults.pointsAwarded.toFloat() / taskResults.pointsPossible.toFloat()) * 100).toInt()
+        taskProgressbarScore.progress = progressVal
+        if (progressVal <= 50){
+            taskProgressbarScore.progressDrawable = context.let { ContextCompat.getDrawable(it!!, R.drawable.progress_bar_failed) }
+        }
+        if (progressVal < 80 && progressVal >= 50){
+            taskProgressbarScore.progressDrawable = context.let { ContextCompat.getDrawable(it!!, R.drawable.progress_bar_almost_pass) }
+        }
 
     }
 
