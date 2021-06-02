@@ -117,7 +117,7 @@
 
         <View
             android:id="@+id/mission_task_horizontal_divider"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="@color/dividerBlue"
             app:layout_constraintStart_toStartOf="parent"
