@@ -28,12 +28,17 @@ class GoalsFragment : Fragment() {
     private lateinit var goalsListFragmentContainer : ViewGroup
     private lateinit var viewModel : GoalsViewModel
 
-
+    private lateinit var overallProgressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.goals_fragment_main, container, false)
+
+    fun setOverallGoalProgress(goalsComplete: Int, goalCount: Int) {
+        overallProgressBar.max = goalCount
+        overallProgressBar.progress = goalsComplete
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,6 +52,8 @@ class GoalsFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[GoalsViewModel::class.java]
         goalsListFragmentContainer = view.findViewById(R.id.goals_list_fragment_container)
+
+        overallProgressBar = view.findViewById(R.id.main_goal_progress_bar)
 
         val showGoalsList : () -> Unit = {
             goalsListFragmentContainer.removeAllViews()
