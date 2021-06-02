@@ -65,14 +65,10 @@ class TaskViewHolder(view: View, private val fragment: Fragment, private val ada
 class SelectedTaskViewHolder(view: View) : MissionTaskViewHolder(view) {
     private val title: TextView = view.findViewById(R.id.mission_selected_item_title)
     private val points: TextView = view.findViewById(R.id.mission_selected_item_points)
-    private val progress: ProgressBar = view.findViewById(R.id.mission_selected_item_progress)
 
     fun bind(task: TaskStats) {
         title.text = task.task.name
         points.text = "${task.task.points} points"
-
-        progress.max = task.task.points
-        progress.progress = task.submission?.pointsAwarded ?: 0
     }
 
 }
