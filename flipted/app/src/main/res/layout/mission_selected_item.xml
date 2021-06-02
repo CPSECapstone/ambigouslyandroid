@@ -53,23 +53,4 @@
         tools:text="500 points"
         />
 
-    <ProgressBar
-        android:id="@+id/mission_selected_item_progress"
-        android:layout_width="0dp"
-        android:layout_height="32dp"
-
-        style="?android:attr/progressBarStyleHorizontal"
-
-        android:layout_marginHorizontal="50dp"
-
-        app:layout_constraintStart_toEndOf="@id/mission_selected_item_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-
-        tools:progress="50"
-
-        android:progressDrawable="@drawable/green_progress_drawable"
-        />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
