@@ -104,6 +104,7 @@ class CustomExpandableListAdapter (
 
         if(currGoal.subGoals.isEmpty()) {
             progressContainer.visibility = View.GONE
+            groupIndicator.visibility = View.GONE
             checkBox.visibility = View.VISIBLE
 
             checkBox.isChecked = currGoal.completed
