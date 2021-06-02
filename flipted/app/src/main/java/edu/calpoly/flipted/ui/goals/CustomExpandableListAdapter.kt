@@ -102,6 +102,7 @@ class CustomExpandableListAdapter (
 
         val editButton: ConstraintLayout = fillInView.findViewById(R.id.goal_block)
 
+
         if(currGoal.subGoals.isEmpty()) {
             progressContainer.visibility = View.GONE
             groupIndicator.visibility = View.GONE
@@ -144,9 +145,10 @@ class CustomExpandableListAdapter (
         editButton.setOnClickListener {
             currGoal.uid?.let {
                 fragmentManager.commit {
-                    replace(R.id.main_view, EditGoalFragment.newInstanceEditGoal(it))
+                    replace(R.id.edit_goal_container, EditGoalFragment.newInstanceEditGoal(it,"Edit Goal"))
                     setReorderingAllowed(true)
                     addToBackStack("EditGoalFragment")
+
                 }
             }
         }

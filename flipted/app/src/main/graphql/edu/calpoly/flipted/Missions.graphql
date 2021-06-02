@@ -3,6 +3,16 @@ query GetAllMissionProgress($courseId: String!) {
     mission {
       id
       name
+      description
+      missionContent {
+        ...on Task {
+          id
+          name
+          instructions
+          points
+          dueDate
+        }
+      }
     }
     progress {
       taskId
@@ -11,6 +21,7 @@ query GetAllMissionProgress($courseId: String!) {
         graded
         pointsAwarded
         pointsPossible
+        teacherComment
       }
     }
   }

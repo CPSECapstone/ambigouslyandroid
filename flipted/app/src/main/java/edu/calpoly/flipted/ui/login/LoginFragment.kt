@@ -1,7 +1,6 @@
 package edu.calpoly.flipted.ui.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.amplifyframework.auth.AuthProvider
-import com.amplifyframework.core.Amplify
 import edu.calpoly.flipted.R
-import edu.calpoly.flipted.ui.home.StudentHomeFragment
+import edu.calpoly.flipted.ui.missions.MissionFragment
 
 
 class LoginFragment : Fragment() {
@@ -33,7 +30,7 @@ class LoginFragment : Fragment() {
         viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
             if(it)
                 parentFragmentManager.commit {
-                    replace(R.id.main_view, StudentHomeFragment.newInstance())
+                    replace(R.id.main_view, MissionFragment.newInstance("da0719ba103"))
                     setReorderingAllowed(true)
                 }
         })

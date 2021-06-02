@@ -5,10 +5,7 @@ import edu.calpoly.flipted.backend.ApolloTasksRepo
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.Question
 import edu.calpoly.flipted.businesslogic.targets.TaskObjectiveProgress
-import edu.calpoly.flipted.businesslogic.tasks.GetObjectiveProgress
-import edu.calpoly.flipted.businesslogic.tasks.GetTask
-import edu.calpoly.flipted.businesslogic.tasks.SaveTaskProgress
-import edu.calpoly.flipted.businesslogic.tasks.SubmitTask
+import edu.calpoly.flipted.businesslogic.tasks.*
 import edu.calpoly.flipted.businesslogic.tasks.data.*
 import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
 import kotlinx.coroutines.launch
@@ -19,12 +16,14 @@ class TaskViewModel : ViewModel() {
     private val _currResponse: MutableLiveData<TaskSubmissionResult> = MutableLiveData()
     private val _errorMessage: MutableLiveData<String> = MutableLiveData()
     private val _taskObjectives: MutableLiveData<List<TaskObjectiveProgress>> = MutableLiveData()
+    val taskAndResponseValid: MediatorLiveData<Boolean> = MediatorLiveData()
 
     private val repo = ApolloTasksRepo()
     private val getTaskUseCase = GetTask(repo)
     private val submitTaskUseCase = SubmitTask(repo)
     private val saveTaskProgressUseCase = SaveTaskProgress(repo)
     private val getObjectiveProgressUseCase = GetObjectiveProgress(repo)
+    private val retrieveTaskSubmissionUseCase = RetrieveTaskSubmission(repo)
 
 
     val currTask: LiveData<Task?>
@@ -114,11 +113,51 @@ class TaskViewModel : ViewModel() {
                 _taskObjectives.value = getObjectiveProgressUseCase.execute(taskId)
             } catch (e: RuntimeException) {
                 _errorMessage.value = e.message
-                _currResponse.value = TaskSubmissionResult(taskId, false, 0, 0,
+                _currResponse.value = TaskSubmissionResult(taskId, false, 0, 0, "",
                         listOf())
                 _taskObjectives.value = listOf()
             }
         }
+    }
+
+    fun retrieveTaskSubmission(taskId: String) {
+        viewModelScope.launch {
+            _currTask.value = getTaskUseCase.execute(taskId)
+            _currResponse.value = retrieveTaskSubmissionUseCase.execute(taskId)
+
+            taskAndResponseValid.removeSource(_currResponse)
+            taskAndResponseValid.removeSource(_currTask)
+            taskAndResponseValid.addSource(_currResponse) {
+                val currResponse = _currResponse.value
+                val currTask = _currTask.value
+                taskAndResponseValid.value = if (currResponse != null && currTask != null) {
+                    (currResponse.taskId == currTask.uid) && (currResponse.taskId == taskId) && (currTask.uid == taskId)
+                }
+                else {
+                    false
+                }
+
+            }
+
+            taskAndResponseValid.addSource(_currTask) {
+                val currResponse = _currResponse.value
+                val currTask = _currTask.value
+                taskAndResponseValid.value = if (currResponse != null && currTask != null) {
+                    (currResponse.taskId == currTask.uid) && (currResponse.taskId == taskId) && (currTask.uid == taskId)
+                }
+                else {
+                    false
+                }
+            }
+        }
+    }
+
+    fun setTaskObjectives(objectives: List<TaskObjectiveProgress>) {
+        _taskObjectives.value = objectives
+    }
+
+    fun addTaskSources() {
+
     }
 
 

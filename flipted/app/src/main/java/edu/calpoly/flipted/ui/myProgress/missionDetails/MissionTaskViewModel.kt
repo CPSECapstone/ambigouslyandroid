@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import edu.calpoly.flipted.backend.ApolloMissionsRepo
-import edu.calpoly.flipted.backend.MockMissionsRepo
 import edu.calpoly.flipted.businesslogic.missions.GetAllMissionProgress
 import edu.calpoly.flipted.businesslogic.missions.MissionProgress
 
