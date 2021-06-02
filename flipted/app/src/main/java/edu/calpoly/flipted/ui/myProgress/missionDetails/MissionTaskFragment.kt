@@ -76,9 +76,7 @@ class MissionTaskFragment() : Fragment() {
 
         })
 
-
-        if(viewModel.allMissions.value == null)
-            viewModel.fetchTaskStats()
+        viewModel.fetchTaskStats()
 
     }
 
