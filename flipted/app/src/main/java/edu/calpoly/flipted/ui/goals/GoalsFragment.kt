@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.map
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.goals.Goal
 import edu.calpoly.flipted.ui.goals.edit.EditGoalFragment
@@ -25,6 +27,8 @@ import edu.calpoly.flipted.ui.tasks.rubric.TaskRubricFragment
 class GoalsFragment : Fragment() {
     private lateinit var goalsListFragmentContainer : ViewGroup
     private lateinit var viewModel : GoalsViewModel
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,6 +94,7 @@ class GoalsFragment : Fragment() {
                 addToBackStack("EditGoalFragment")
             }
         }
+
     }
 
     companion object {
