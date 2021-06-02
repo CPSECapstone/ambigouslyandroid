@@ -25,12 +25,13 @@
         android:layout_width="0dp"
         android:layout_height="235dp"
 
-        android:layout_marginStart="160dp"
+        android:layout_marginStart="80dp"
         android:layout_marginEnd="10dp"
+        app:layout_goneMarginEnd="80dp"
 
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/task_info_card"
         app:layout_constraintTop_toTopOf="parent"
         />
     <androidx.recyclerview.widget.RecyclerView
