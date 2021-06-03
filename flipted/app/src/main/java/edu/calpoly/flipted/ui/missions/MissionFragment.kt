@@ -82,6 +82,12 @@ class MissionFragment : Fragment() {
         taskList.addItemDecoration(MissionTasksItemDecoration(this))
         taskInfo.visibility = View.GONE
 
+        viewModel.lastError.observe(viewLifecycleOwner, Observer {
+            if(it != null) {
+                Toast.makeText(requireActivity(), "Error: ${it.message}", Toast.LENGTH_LONG).show()
+            }
+        })
+
         viewModel.currTaskInfo.observe(viewLifecycleOwner, Observer {
             if (it == null) {
                 taskInfo.visibility = View.GONE
