@@ -35,6 +35,7 @@
     <string name="add_subgoal_title">Add Subgoal Title</string>
     <string name="goal_menu">Goal Menu</string>
     <string name="add_subgoal">Add Subgoal</string>
+    <string name="add_a_goal">Add A Goal</string>
 
 
 </resources>

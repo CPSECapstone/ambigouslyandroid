@@ -12,6 +12,7 @@
 
     <!--New official Colors-->
     <color name="blue1">#4274F3</color>
+    <color name="blueLine">#4879D2</color>
     <color name="blueMenu">#3267EF</color>
     <color name="blue2">#B2C5F6</color>
     <color name="dividerBlue">#9BC9FF</color>
@@ -22,6 +23,7 @@
     <color name="gray6">#F2F2F2</color>
     <color name="gray2">#4F4F4F</color>
     <color name="gray3">#828282</color>
+    <color name="goalBarGrey">#E0E0E0</color>
     <color name="gray4">#E0E0E0</color>
     <color name="gray7">#F2F2F2</color>
     <color name="grayGoal">#F0F0F0</color>
@@ -32,6 +34,7 @@
     <color name="clear">#00000000</color>
     <color name="yellow">#FFBD12</color>
     <color name="pointPurple">#C8B2F6</color>
+    <color name="goalProgressGreen">#6FCF97</color>
 
     <color name="notMastered">#EA6868</color>
     <color name="nearlyMastered">#F2C94C</color>

@@ -11,13 +11,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/edit_goal_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/fragment_missions_top"
         android:orientation="vertical"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:paddingTop="30dp">
+        >
 
         <TextView
             android:id="@+id/my_goals_title"
@@ -25,155 +26,74 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:text="MY GOALS"
             style="@style/BoldTitleStyle"/>
 
-        <LinearLayout
-            android:id="@+id/all_goals_progress_bar"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/goals_fragment_main_goals_completed_header"
+            style="@style/SmallerHeaderStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            android:text="Goals Completed:"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="100dp"
+
             app:layout_constraintEnd_toEndOf="parent"
-            android:paddingBottom="20dp"
-            android:orientation="vertical">
+            app:layout_constraintStart_toEndOf="@+id/my_goals_title"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
-            <TextView
-                android:layout_width="500dp"
-                android:layout_height="wrap_content"
-                android:text="Goals Completed:"
-                style="@style/SmallerHeaderStyle"/>
+        <ProgressBar
+            android:id="@+id/main_goal_progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:progressDrawable="@drawable/goal_progress_bar"
+            tools:progress="50"
 
-            <ProgressBar
-                android:id="@+id/mf_progress_bar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="500dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
-                android:progressDrawable="@drawable/green_progress_drawable"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:progress="50" />
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="20dp"
 
-            </LinearLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/my_goals_title"
+            app:layout_constraintTop_toBottomOf="@id/goals_fragment_main_goals_completed_header"
+            />
 
     <View
         android:layout_width="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_height="2dp"
-        android:background="@color/blue1"/>
+        android:layout_marginEnd="50dp"
+        android:background="@color/blueLine"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-
-        android:id="@+id/goals_buttons_container">
-
-        <Button
-            android:id="@+id/newGoalButton"
-            android:layout_width="200dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginBottom="56dp"
-            android:background="@drawable/rounded_corner"
-            android:fontFamily="sans-serif-black"
-            android:text="Add New Goal"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-
-            android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/button2"
-            android:background="@drawable/one_side_rounded"
-            android:layout_width="250dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="150dp"
-            android:textAllCaps="false"
-            android:text="Individual Goals"
-            android:fontFamily="sans-serif-black"
-            android:textColor="@color/blue1"
-            android:textSize="20dp"
-
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-
-        <Button
-            android:id="@+id/button3"
-            android:background="@drawable/one_side_rounded"
-            android:layout_width="250dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="240dp"
-            android:textAllCaps="false"
-            android:text="Team Goals"
-            android:fontFamily="sans-serif-black"
-            android:textColor="@color/blue1"
-            android:textSize="20dp"
-
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="165dp"
-            android:layout_marginLeft="200dp"
-            android:elevation="2dp"
-            android:minWidth="42dp"
-            android:minHeight="42dp"
-            android:src="@drawable/baseline_keyboard_arrow_blue_turned"
-
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="255dp"
-            android:layout_marginLeft="200dp"
-            android:elevation="2dp"
-            android:minWidth="42dp"
-            android:minHeight="42dp"
-            android:src="@drawable/baseline_keyboard_arrow_blue_turned"
-
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toEndOf="@id/goals_buttons_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="115dp"
+
+        android:background="@drawable/white_goal_box"
         app:layout_constraintBottom_toBottomOf="parent"
 
-        android:layout_marginBottom="60dp"
-        android:layout_marginTop="115dp"
-        android:background="@drawable/white_goal_box"
-        android:layout_marginRight="50dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/edit_goal_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <FrameLayout
             android:id="@+id/goals_list_fragment_container"
             android:layout_width="0dp"
-
+            android:layout_marginEnd="80dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="40dp"
             android:layout_height="0dp"
-            android:layout_margin="40dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintBottom_toTopOf="@id/newGoalButton"
             app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintStart_toStartOf="parent"
@@ -193,17 +113,38 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>
 
+        <Button
+            android:paddingStart="30dp"
+            android:drawableStart="@drawable/plus_vector"
+            android:drawablePadding="15dp"
+            android:textAlignment="textStart"
+            android:layout_marginBottom="60dp"
+            android:id="@+id/newGoalButton"
+            android:layout_width="match_parent"
+            android:layout_marginEnd="80dp"
+            android:layout_marginStart="50dp"
+            android:layout_height="70dp"
+            android:background="@drawable/add_goal_stroke_version"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/add_a_goal"
+            android:textAllCaps="false"
+            android:textColor="@color/blue1"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/goals_list_fragment_container" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/edit_goal_container"
         android:layout_width="360dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="visible"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <edu.calpoly.flipted.ui.tasks.rubric.VerticalButton
         android:id="@+id/goal_view_button"
