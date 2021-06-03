@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.map
 import edu.calpoly.flipted.R
 import edu.calpoly.flipted.businesslogic.goals.Goal
 import edu.calpoly.flipted.ui.goals.edit.EditGoalFragment
@@ -26,10 +28,17 @@ class GoalsFragment : Fragment() {
     private lateinit var goalsListFragmentContainer : ViewGroup
     private lateinit var viewModel : GoalsViewModel
 
+    private lateinit var overallProgressBar: ProgressBar
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.goals_fragment_main, container, false)
+
+    fun setOverallGoalProgress(goalsComplete: Int, goalCount: Int) {
+        overallProgressBar.max = goalCount
+        overallProgressBar.progress = goalsComplete
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,6 +52,8 @@ class GoalsFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[GoalsViewModel::class.java]
         goalsListFragmentContainer = view.findViewById(R.id.goals_list_fragment_container)
+
+        overallProgressBar = view.findViewById(R.id.main_goal_progress_bar)
 
         val showGoalsList : () -> Unit = {
             goalsListFragmentContainer.removeAllViews()
@@ -90,6 +101,7 @@ class GoalsFragment : Fragment() {
                 addToBackStack("EditGoalFragment")
             }
         }
+
     }
 
     companion object {

@@ -115,6 +115,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory
+        = DIViewModelFactory()
+
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
             val v = currentFocus

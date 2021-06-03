@@ -44,6 +44,9 @@ class MissionTaskFragment() : Fragment() {
         val listViewTask: ListView = view.findViewById(R.id.mission_task_list_view)
         val missionTitle: TextView = view.findViewById(R.id.mission_task_item_title)
         val listViewMission: ListView = view.findViewById(R.id.missions_container_list)
+        val currentMission: ViewGroup = view.findViewById(R.id.current_mission)
+        val currentMissionProgress: ProgressBar = currentMission.findViewById(R.id.mission_progress)
+        val currentMissionTitle: TextView = currentMission.findViewById(R.id.mission_item_text)
 
         adapter = CustomListAdapterTask(layoutInflater, requireContext())
         listViewTask.adapter = adapter
@@ -62,15 +65,18 @@ class MissionTaskFragment() : Fragment() {
                 }
                 return@Observer
             }
-
             adapter.data = mission.progress
             missionTitle.text = mission.mission.name
+
+            currentMissionProgress.progress = mission.progress.count { it.submission != null }
+            currentMissionProgress.max = mission.progress.size
+            currentMissionTitle.text = mission.mission.name
+
             adapterMissions.data = progressMap.values.toList()
+
         })
 
-
-        if(viewModel.allMissions.value == null)
-            viewModel.fetchTaskStats()
+        viewModel.fetchTaskStats()
 
     }
 

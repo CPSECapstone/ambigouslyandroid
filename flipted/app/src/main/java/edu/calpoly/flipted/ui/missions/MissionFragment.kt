@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
@@ -24,6 +25,7 @@ import edu.calpoly.flipted.ui.tasks.TaskFragment
 import edu.calpoly.flipted.ui.tasks.TaskViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import edu.calpoly.flipted.ui.MasteryResources
 import edu.calpoly.flipted.ui.myProgress.missions.MissionsViewModel
 
 private const val MISSION_ID_ARG_PARAM = "missionId"
@@ -64,8 +66,10 @@ class MissionFragment : Fragment() {
         val reviewBtn: Button = view.findViewById(R.id.task_review_button)
         val taskList: RecyclerView = view.findViewById(R.id.mission_tasks_recyclerview)
 
+        val missionTitle: TextView = view.findViewById(R.id.mission_title_item_title)
+        val missionDescription: TextView = view.findViewById(R.id.mission_title_item_description)
+
         viewModel = ViewModelProvider(requireActivity())[MissionsViewModel::class.java]
-        //addTaskSources()
 
         val adapter = MissionTaskRecyclerAdapter(this, viewModel)
 
@@ -77,6 +81,12 @@ class MissionFragment : Fragment() {
         taskList.layoutManager = LinearLayoutManager(requireActivity())
         taskList.addItemDecoration(MissionTasksItemDecoration(this))
         taskInfo.visibility = View.GONE
+
+        viewModel.lastError.observe(viewLifecycleOwner, Observer {
+            if(it != null) {
+                Toast.makeText(requireActivity(), "Error: ${it.message}", Toast.LENGTH_LONG).show()
+            }
+        })
 
         viewModel.currTaskInfo.observe(viewLifecycleOwner, Observer {
             if (it == null) {
@@ -166,10 +176,16 @@ class MissionFragment : Fragment() {
         viewModel.missionsProgress.observe(viewLifecycleOwner, Observer {
             viewModel.setCurrMissionId(missionId)
             val mission = it[missionId]
-            if(mission == null)
-                Toast.makeText(requireActivity(), "Failed to retrieve mission!", Toast.LENGTH_LONG).show()
+            if(mission == null) {
+                Toast.makeText(requireActivity(), "Failed to retrieve mission!", Toast.LENGTH_LONG)
+                    .show()
+                return@Observer
+            }
             adapter.data = mission
             adapter.notifyDataSetChanged()
+
+            missionTitle.text = mission.mission.name
+            missionDescription.text = mission.mission.description
         })
 
         viewModel.fetchMissionsProgress()
@@ -184,18 +200,14 @@ class MissionFragment : Fragment() {
         }
     }
 
-    inner class CustomListAdapter(
-
-
-    ) : BaseAdapter() {
-
+    inner class CustomListAdapter() : BaseAdapter() {
         var data: List<TaskObjectiveProgress> = listOf()
             set(value) {
                 field = value
                 notifyDataSetChanged()
             }
 
-        private val uidMap = UidToStableId<String>()
+        private val uidMap = UidToStableId<TaskObjectiveProgress>()
 
         override fun getCount(): Int {
             return data.size
@@ -206,7 +218,7 @@ class MissionFragment : Fragment() {
         }
 
         override fun getItemId(position: Int): Long {
-            return uidMap.getStableId(data[position].taskId)
+            return uidMap.getStableId(data[position])
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -218,30 +230,9 @@ class MissionFragment : Fragment() {
 
             textBox.text = data.objectiveName
 
-            if (data.mastery == Mastery.NOT_MASTERED) {
-                textBox.background = context.let {
-                    ContextCompat.getDrawable(
-                        it!!,
-                        R.drawable.learning_objective_color_box_not_mastered
-                    )
-                }
-            }
-            if (data.mastery == Mastery.NEARLY_MASTERED) {
-                textBox.background = context.let {
-                    ContextCompat.getDrawable(
-                        it!!,
-                        R.drawable.learning_objective_color_box_nearly_mastered
-                    )
-                }
-            }
-            if (data.mastery == Mastery.MASTERED) {
-                textBox.background = context.let {
-                    ContextCompat.getDrawable(
-                        it!!,
-                        R.drawable.learning_objective_color_box_mastered
-                    )
-                }
-            }
+            val colorResource = MasteryResources.colorResource(data.mastery)
+            val color = ResourcesCompat.getColor(requireActivity().resources, colorResource, null)
+            textBox.background.setTint(color)
 
             return fillInView
         }

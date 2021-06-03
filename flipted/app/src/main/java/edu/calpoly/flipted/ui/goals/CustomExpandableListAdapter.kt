@@ -91,6 +91,7 @@ class CustomExpandableListAdapter (
         val fillInView = convertView ?: LayoutInflater.from(context).inflate(R.layout.goals_item_top, parent, false)
 
         val titleText : TextView = fillInView.findViewById(R.id.Goal_Title_Text)
+        val dateText: TextView = fillInView.findViewById(R.id.Goal_Date_Text)
 
         val progressContainer: ViewGroup = fillInView.findViewById(R.id.goals_item_top_progress_bar_container)
         val countText : TextView = fillInView.findViewById(R.id.Goal_Count)
@@ -140,6 +141,7 @@ class CustomExpandableListAdapter (
             }
         }
         titleText.text = currGoal.title
+        dateText.text = "by " +  dateFormat.format(currGoal.dueDate)
 
         editButton.setOnClickListener {
             currGoal.uid?.let {

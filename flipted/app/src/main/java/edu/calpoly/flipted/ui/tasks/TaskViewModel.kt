@@ -1,7 +1,6 @@
 package edu.calpoly.flipted.ui.tasks
 
 import androidx.lifecycle.*
-import edu.calpoly.flipted.backend.ApolloTasksRepo
 import edu.calpoly.flipted.businesslogic.quizzes.data.StudentAnswerInput
 import edu.calpoly.flipted.businesslogic.quizzes.data.questions.Question
 import edu.calpoly.flipted.businesslogic.targets.TaskObjectiveProgress
@@ -11,14 +10,13 @@ import edu.calpoly.flipted.businesslogic.tasks.data.blocks.QuizBlock
 import kotlinx.coroutines.launch
 
 
-class TaskViewModel : ViewModel() {
+class TaskViewModel(repo: TasksRepo) : ViewModel() {
     private val _currTask: MutableLiveData<Task> = MutableLiveData()
     private val _currResponse: MutableLiveData<TaskSubmissionResult> = MutableLiveData()
     private val _errorMessage: MutableLiveData<String> = MutableLiveData()
     private val _taskObjectives: MutableLiveData<List<TaskObjectiveProgress>> = MutableLiveData()
     val taskAndResponseValid: MediatorLiveData<Boolean> = MediatorLiveData()
 
-    private val repo = ApolloTasksRepo()
     private val getTaskUseCase = GetTask(repo)
     private val submitTaskUseCase = SubmitTask(repo)
     private val saveTaskProgressUseCase = SaveTaskProgress(repo)
@@ -155,11 +153,6 @@ class TaskViewModel : ViewModel() {
     fun setTaskObjectives(objectives: List<TaskObjectiveProgress>) {
         _taskObjectives.value = objectives
     }
-
-    fun addTaskSources() {
-
-    }
-
 
     private val allRequirementsComplete = Transformations.map(requirements) { requirements ->
         requirements.values.fold(true) { acc, requirement ->

@@ -4,24 +4,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import edu.calpoly.flipted.backend.ApolloMissionsRepo
-import edu.calpoly.flipted.backend.ApolloTasksRepo
-import edu.calpoly.flipted.backend.MockMissionsRepo
 import edu.calpoly.flipted.businesslogic.missions.GetAllMissionProgress
 import edu.calpoly.flipted.businesslogic.missions.MissionProgress
+import edu.calpoly.flipted.businesslogic.missions.MissionsRepo
 import edu.calpoly.flipted.businesslogic.missions.TaskStats
 import edu.calpoly.flipted.businesslogic.targets.TaskObjectiveProgress
 import edu.calpoly.flipted.businesslogic.tasks.GetObjectiveProgress
+import edu.calpoly.flipted.businesslogic.tasks.TasksRepo
 import kotlinx.coroutines.launch
+import java.lang.RuntimeException
 
-class MissionsViewModel : ViewModel() {
+
+class MissionsViewModel(missionsRepo: MissionsRepo, tasksRepo: TasksRepo) : ViewModel() {
     private val _missionsProgress: MutableLiveData<Map<String, MissionProgress>> = MutableLiveData()
     private val _currMissionId: MutableLiveData<String> = MutableLiveData()
     private val _currTaskInfo: MutableLiveData<TaskStats> = MutableLiveData()
     private val _taskObjectives: MutableLiveData<List<TaskObjectiveProgress>> = MutableLiveData()
+    private val _lastError: MutableLiveData<RuntimeException?> = MutableLiveData()
 
-    private val tasksRepo = ApolloTasksRepo()
     private val getObjectiveProgressUseCase = GetObjectiveProgress(tasksRepo)
+
 
     val missionsProgress: LiveData<Map<String, MissionProgress>>
         get() = _missionsProgress
@@ -32,14 +34,20 @@ class MissionsViewModel : ViewModel() {
     val taskObjectives: LiveData<List<TaskObjectiveProgress>>
         get() = _taskObjectives
 
-    private val repo = ApolloMissionsRepo()
-    private val getProgress = GetAllMissionProgress(repo)
+    val lastError: LiveData<RuntimeException?>
+        get() = _lastError
+
+    private val getProgress = GetAllMissionProgress(missionsRepo)
 
     fun fetchMissionsProgress() {
         viewModelScope.launch {
-            _missionsProgress.value = getProgress
-                .execute("Integrated Science")
-                .associateBy{ it.mission.uid }
+            try {
+                _missionsProgress.value = getProgress
+                    .execute("Integrated Science")
+                    .associateBy { it.mission.uid }
+            } catch(e: RuntimeException) {
+                _lastError.value = e
+            }
         }
     }
 
@@ -47,9 +55,13 @@ class MissionsViewModel : ViewModel() {
         viewModelScope.launch {
             val missions = _missionsProgress.value ?: throw IllegalStateException("No missionsProgress value")
             val currMission = missions[_currMissionId.value] ?: throw IllegalStateException("No mission found")
-            val task = currMission.progress.filter{it.task.id == taskId}.toList()[0]
-            val objectives = getObjectiveProgressUseCase.execute(taskId)
-
+            val task = currMission.progress.first{it.task.id == taskId}
+            val objectives = try {
+                 getObjectiveProgressUseCase.execute(taskId)
+            } catch(e: RuntimeException) {
+                _lastError.value = e
+                return@launch
+            }
             _currTaskInfo.value = task
             _taskObjectives.value = objectives
 

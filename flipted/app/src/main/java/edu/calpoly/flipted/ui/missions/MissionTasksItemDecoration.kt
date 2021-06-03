@@ -55,7 +55,6 @@ class MissionTasksItemDecoration(private val fragment: Fragment) : RecyclerView.
         state: RecyclerView.State
     ) {
         val position = parent.getChildAdapterPosition(view)
-        if(position != 0)
-            outRect.top = dpToPx(ITEM_SEPARATION).toInt()
+        outRect.top = dpToPx(ITEM_SEPARATION).toInt()
     }
 }

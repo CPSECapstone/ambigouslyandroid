@@ -5,39 +5,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/blue_goal_box"
-    android:paddingLeft="50dp"
-    android:layout_marginLeft="50dp">
-
-    <CheckBox
-        android:id="@+id/goals_item_sub_complete_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginEnd="20dp" />
+    android:background="@drawable/rounded_subgoal"
+  >
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toEndOf="@id/goals_item_sub_complete_checkbox"
-        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/front_whitespace"
+        android:orientation="horizontal"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/goals_item_sub_text_container">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"
+        />
 
-        <TextView
-            android:id="@+id/Comp_Title"
-            android:layout_marginTop="13dp"
-            android:layout_marginBottom="13dp"
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/front_whitespace"
+        app:layout_constraintTop_toTopOf="parent"
+       >
+
+        <CheckBox
+            style="@style/GoalCheckAnswerStyle"
+            android:id="@+id/goals_item_sub_complete_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            style="@style/GoalTitleStyle"
-            tools:text="To Kill a Mockingbird" />
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/front_whitespace"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@id/goals_item_sub_complete_checkbox"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/goals_item_sub_text_container">
+
+            <TextView
+                android:id="@+id/Comp_Title"
+                android:layout_marginTop="13dp"
+                android:layout_marginBottom="13dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                style="@style/GoalTitleStyle"
+                tools:text="To Kill a Mockingbird" />
+        </LinearLayout>
 
     </LinearLayout>
 
